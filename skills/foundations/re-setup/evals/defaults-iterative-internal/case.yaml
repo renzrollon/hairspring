@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: defaults-iterative-internal
+expected_outcome: |
+  requirements/README.md and requirements/schema.json are written without a long interview. The
+  facets are iterative, explorative and customer-specific (evidence: sprints and a product owner in
+  README.md), criticality is none, and the change authority is the product owner Mei Tan. The
+  default ID scheme and the seven required attributes are kept, the Definition of Ready in the
+  README matches schema.json, and trace matrix and baselines are deferred rather than kept.
+context:
+  scaffold_script: place-files.sh

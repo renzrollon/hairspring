@@ -1,0 +1,39 @@
+{
+  "attributes": {
+    "optional": [
+      "Title",
+      "Owner",
+      "Version",
+      "Stability",
+      "Risk",
+      "Verification",
+      "Kano",
+      "Links",
+      "Tags",
+      "Component"
+    ],
+    "enums": {
+      "Component": [
+        "earn",
+        "balance",
+        "redeem",
+        "expiry",
+        "admin",
+        "platform"
+      ]
+    }
+  },
+  "views": {
+    "architect": {
+      "title": "Architect: agreed quality requirements and constraints by component",
+      "audience": "SH-05 Lena Koh, SH-08 Wei Jie Chua",
+      "filter": {
+        "Type": ["Q", "C"],
+        "Status": ["agreed", "implemented", "verified"]
+      },
+      "columns": ["ID", "Type", "Component", "Text", "Source", "Status", "Risk", "Rationale"],
+      "group_by": ["Component"],
+      "sort": ["Component", "ID"]
+    }
+  }
+}

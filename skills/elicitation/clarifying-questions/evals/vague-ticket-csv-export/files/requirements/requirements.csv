@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-020,F,The support console shall display the points history of a member for the last 24 months.,S-06,must,agreed,Support answers balance disputes from the history.
+R-021,F,"The support console shall show, for each points transaction in the history, the date, the store, the transaction type, the points and the balance after the transaction.",S-06,must,agreed,Agents explain each balance change to the member.

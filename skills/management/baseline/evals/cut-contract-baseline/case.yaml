@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: cut-contract-baseline
+expected_outcome: |
+  requirements/baselines/v1.0-contract.json is written in the manifest format (name, created,
+  git_commit, message, requirements) with one entry per register row, eight in total, each with ID,
+  Version, Status, Type, Priority and text_sha256 (SHA-256 of the trimmed Text). The message names
+  the TillPoint contract and Mei Tan. The summary reports that R-004 is proposed. No git tag is
+  created, and requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

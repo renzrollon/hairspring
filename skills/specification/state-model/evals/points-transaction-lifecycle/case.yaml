@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: points-transaction-lifecycle
+expected_outcome: |
+  requirements/models/state-points-transaction.md holds a Mermaid stateDiagram-v2 with Pending,
+  Posted, Redeemed, Expired and Reversed, a state x event matrix with no blank cells, and a
+  completeness check result. The return on a Redeemed transaction stays TBD with an open question
+  instead of an invented rule, and the expiry period is not given a number. New rows starting
+  with WHILE are appended to requirements.csv after R-002, as draft, citing S-01.
+context:
+  scaffold_script: place-files.sh

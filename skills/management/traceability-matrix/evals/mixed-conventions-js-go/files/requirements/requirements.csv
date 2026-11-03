@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Verification
+R-020,F,"WHEN a member requests the balance, the loyalty service shall return the posted points and the pending points separately.",S-06,must,agreed,Members ask why new points are not usable yet (S-03).,test
+R-021,F,"WHEN a member opens the points history, the customer mobile app shall list the member's points transactions with the newest first.",S-06,should,agreed,Support tickets ask for a history view (S-03).,test
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.,test
+R-042,F,"WHEN the cashier scans a voucher, the POS shall request voucher validation from the loyalty service.",S-02,must,agreed,Vouchers are redeemed at checkout (S-02).,test

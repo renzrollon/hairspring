@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-003,F,"WHEN 24 hours have passed since the purchase, the loyalty service shall post the pending points to the member's balance.",S-01,must,agreed,Return window before points become usable.
+R-060,F,"WHEN 12 months have passed since points were posted, the loyalty service shall expire those points.",S-01,must,agreed,Programme terms; Finance (SH-03 Grace Lim) requires 12 months to keep the points liability bounded.
+R-061,F,"WHEN posted points are within TBD days of expiry, the loyalty service shall send the member an expiry reminder through the notification provider.",SH-07,should,proposed,Reminders reduce complaints about lost points (S-03).
+R-100,C,The loyalty service shall retain points transaction records for 7 years.,S-05,must,agreed,Audit retention under DRP-2024.

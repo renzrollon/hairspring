@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: wiegers-voucher-items
+expected_outcome: |
+  requirements/priorities.csv has the Wiegers header ID,Title,Benefit,Penalty,Cost,Risk,Score,Rank,Tie
+  with the five items. With the agreed weights, R-045 ranks first (about 1.41) and R-040 second
+  (about 1.10). R-047 (about 0.38) and R-044 (about 0.37) are flagged "tie, do not over-interpret".
+  requirements/priorities.md records the goal, the scorers, and the weights with Mei Tan and
+  2026-11-01. The message reads the result in bands and warns against over-interpreting small
+  differences. Priority values in requirements.csv are not changed without the decision-maker.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: plan-then-push-jira
+expected_outcome: |
+  The skill runs a dry-run plan first and shows it: one action per selected requirement, titles of
+  the form "R-040: Issue voucher on redemption request", the draft R-043 skipped and the withdrawn
+  R-044 flagged for a comment or a board move rather than a new issue. Nothing is written to Jira or
+  to requirements/requirements.csv without an explicit go-ahead. Missing Jira credentials are
+  reported by variable name only, with a pointer to how to set them.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: prd-with-expired-constraint
+expected_outcome: |
+  Existing rows R-001 and R-100 stay; R-100 is flagged as expired or review overdue and the owner
+  is asked before anything is withdrawn. New constraints for 7-year retention, data minimization
+  under PDPA and the delivery deadline get IDs above R-100, each with a mandator and a mandate
+  reference. Retention and data minimization are routed to conflict-detector. "Must be fast" goes
+  to quality-requirements and PostgreSQL is reported as a design decision; neither becomes a
+  Type C row.
+context:
+  scaffold_script: place-files.sh

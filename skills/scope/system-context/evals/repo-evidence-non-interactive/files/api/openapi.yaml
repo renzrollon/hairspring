@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: loyalty-points API
+  version: 0.3.0
+paths:
+  /members/{memberId}/balance:
+    get:
+      summary: Points balance for the customer mobile app
+  /members/{memberId}/history:
+    get:
+      summary: Points history for the customer mobile app
+  /vouchers/validate:
+    post:
+      summary: Voucher validation called by the TillPoint POS
+  /admin/adjustments:
+    post:
+      summary: Points adjustment by a support agent in the admin console

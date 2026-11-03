@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: pull-from-board-export
+expected_outcome: |
+  The skill uses the board export as the manual pull path and applies the guard rules. Only R-041
+  and R-042 may move from agreed to implemented (Done). The withdrawn R-044 with an active card, the
+  draft R-043 whose hand-made card is Done, the unmapped "In Review" status of R-085 and the orphan
+  card for R-099 are reported, not written. No row is added or deleted and no Text changes.
+context:
+  scaffold_script: place-files.sh

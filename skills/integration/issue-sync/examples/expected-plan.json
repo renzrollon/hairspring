@@ -1,0 +1,17 @@
+{
+  "command": "plan",
+  "tracker": "jira",
+  "target": "LOY",
+  "network": false,
+  "generated": "2026-11-03T09:12:00Z",
+  "actions": [
+    {"id": "R-040", "action": "create-or-match", "issue": null, "title": "R-040: Issue voucher on redemption request", "status": "agreed", "tracker_status": "To Do", "reason": "no tracker reference in Links; push matches a title starting with 'R-040: ' before creating"},
+    {"id": "R-041", "action": "update", "issue": "jira:LOY-77", "title": "R-041: Validate voucher at checkout", "status": "agreed", "tracker_status": null, "reason": "refresh title and managed block; tracker owns status"},
+    {"id": "R-042", "action": "create-or-match", "issue": null, "title": "R-042: Reject redemption below minimum", "status": "agreed", "tracker_status": "To Do", "reason": "no tracker reference in Links; push matches a title starting with 'R-042: ' before creating"},
+    {"id": "R-043", "action": "skip", "issue": null, "title": "R-043: Print remaining balance on receipt", "status": "draft", "tracker_status": null, "reason": "Status=draft; name it in --ids to push it"},
+    {"id": "R-044", "action": "move-on-board", "issue": "jira:LOY-78", "title": "R-044: Send voucher code by SMS", "status": "withdrawn", "tracker_status": null, "reason": "withdrawn in the register; push adds a comment with the reason; move the card by hand"},
+    {"id": "R-085", "action": "create-or-match", "issue": null, "title": "R-085: Voucher validation response time at peak", "status": "agreed", "tracker_status": "To Do", "reason": "no tracker reference in Links; push matches a title starting with 'R-085: ' before creating"},
+    {"id": "R-100", "action": "create-or-match", "issue": null, "title": "R-100: Use TillPoint voucher validation interface v2.1", "status": "agreed", "tracker_status": "To Do", "reason": "no tracker reference in Links; push matches a title starting with 'R-100: ' before creating"}
+  ],
+  "summary": {"create-or-match": 4, "update": 1, "close": 0, "move-on-board": 1, "skip": 1}
+}

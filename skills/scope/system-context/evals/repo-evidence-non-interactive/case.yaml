@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: repo-evidence-non-interactive
+expected_outcome: |
+  The skill drafts requirements/context.md from repository evidence without asking. External
+  elements come from the configuration, the API spec and the job schedule, each row citing its
+  file and line. Because no person confirmed anything, rows are assumed, not confirmed. Owners and
+  interfaces nobody stated are TBD, and the open questions or decisions are listed in the file and
+  in the final message.
+context:
+  scaffold_script: place-files.sh

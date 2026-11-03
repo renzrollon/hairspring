@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-040,F,"WHEN a member redeems posted points, the loyalty service shall issue a voucher worth SGD 1 per 100 points redeemed.",S-01,must,implemented,Redemption rate in the programme terms.
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.
+R-042,F,"WHEN the cashier scans a voucher, the POS shall request voucher validation from the loyalty service.",S-02,must,agreed,Vouchers are redeemed at checkout (S-02).

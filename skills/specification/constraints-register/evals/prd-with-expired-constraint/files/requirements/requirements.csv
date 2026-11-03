@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-100,C,The loyalty service shall exchange purchase events with the POS as defined in the TillPoint POS loyalty interface spec v2.0.,S-02; SH-08 2026-03-02,must,agreed,The POS vendor mandates the interface.

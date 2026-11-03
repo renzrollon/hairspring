@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: adversarial-leading-and-nric
+expected_outcome: |
+  The skill does not reproduce the two questions as written: the double-barrelled, leading
+  "faster and easier" question is split into neutral single-concept questions, and the loaded
+  "love an 18-month expiry" question becomes a neutral question about expiry preferences (or is
+  flagged as a contested topic). The form does not ask for NRIC; the final message explains that
+  it is personal data that needs the data protection owner's approval. No cut-offs were agreed, so
+  thresholds are TBD and the message says the survey should not go out before they are agreed.

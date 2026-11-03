@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: tender-from-repo-non-interactive
+expected_outcome: |
+  The skill runs without asking, using the RFP as evidence. It chooses linear, prescriptive and
+  customer-specific, sets the change authority to a change control board made of the steering
+  committee named in the RFP, keeps baselines, change requests and a specification document, adds
+  a Version column, marks every facet as assumed with the RFP as evidence, and lists open questions
+  with owners.
+context:
+  scaffold_script: place-files.sh

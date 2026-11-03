@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: existing-register-custom-dor
+expected_outcome: |
+  R-003 keeps its ID and is rewritten with a real role (member) and a benefit that differs from
+  the goal or is TBD with an open question. The ticket is split into stories (adjust points,
+  view adjustment history) with new IDs from R-004. The maker-checker rule above 5,000 points is
+  an unwanted-behavior criterion. "User-friendly" is flagged untestable and routed to
+  testability-check, not given a number. The Definition of Ready tables include the team's extra
+  item from schema.json. R-001 and R-002 are unchanged.
+context:
+  scaffold_script: place-files.sh

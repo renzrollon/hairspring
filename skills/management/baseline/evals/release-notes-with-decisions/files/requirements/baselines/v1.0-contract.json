@@ -1,0 +1,72 @@
+{
+  "name": "v1.0-contract",
+  "created": "2026-10-15T08:30:00Z",
+  "git_commit": "13a30be2771ab1cfa153a770deb141a64209e037",
+  "message": "Requirements agreed for the TillPoint integration contract, signed by Mei Tan (SH-01) 2026-10-15",
+  "requirements": [
+    {
+      "ID": "R-001",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "de6db66eba5ef61f8f2f8aa486910d6c1c80994d77c1f7bcb2ba6dca455183ce"
+    },
+    {
+      "ID": "R-003",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "964227f6caf64773414384bc1c8c9131282afe6ac739a97f6fc15ec804b0ec8c"
+    },
+    {
+      "ID": "R-004",
+      "Version": "1",
+      "Status": "proposed",
+      "Type": "F",
+      "Priority": "should",
+      "text_sha256": "a43f1b9300e5ec17492867946c2570ed07514f55dcb613480a661b94aa7d468a"
+    },
+    {
+      "ID": "R-020",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "82774f4574e2239b8c5c715afe5b9d3d552e7871ae0a6dc27c7a21fd67627f44"
+    },
+    {
+      "ID": "R-041",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "535cf27eddd653979af07df218ff54cc8c56218a74a029e2fabb67c33df59341"
+    },
+    {
+      "ID": "R-060",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "c75a85c4552d0f5d55236b0c5ceae32bc5d1366382c05bac454eacb3ed192ec0"
+    },
+    {
+      "ID": "R-063",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "7654375bdef747baffb7937058faf403bb104207d86661488a30d57a244e6e63"
+    },
+    {
+      "ID": "R-100",
+      "Version": "1",
+      "Status": "agreed",
+      "Type": "C",
+      "Priority": "must",
+      "text_sha256": "6439360df696cf84d61f39e2b57bfdaff96aa3397651adcc5b3c4e1a9c3f4f60"
+    }
+  ]
+}

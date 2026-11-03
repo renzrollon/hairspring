@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: kickoff-notes-to-constraints
+expected_outcome: |
+  Three constraints are written as Type C rows in requirements/requirements.csv and as detail rows
+  with the same IDs in requirements/constraints.csv: Kubernetes (technical, platform team),
+  data residency (legal, data protection officer, S-05) and the contract end (organizational,
+  Finance, expires 2027-03-31). Unknown review dates and other values are TBD with an open
+  question. Kafka is not a constraint: it is reported as a design decision or unconfirmed until a
+  mandator is named.

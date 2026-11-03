@@ -14,6 +14,8 @@ import re
 from pathlib import Path
 from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Union
 
+__version__ = "0.1.0"
+
 __all__ = [
     "DEFAULT_SCHEMA",
     "ID_IN_TEXT",
@@ -152,10 +154,11 @@ class Row(dict):
 class Table:
     """Rows plus the column order they were read with."""
 
-    def __init__(self, columns: Sequence[str], rows: List[Row], file: str = ""):
+    def __init__(self, columns: Sequence[str], rows: List[Row], file: str = "", header_line: int = 1):
         self.columns = list(columns)
         self.rows = rows
         self.file = file
+        self.header_line = header_line  # 1-based line of the header row in ``file``
 
     def __iter__(self) -> Iterator[Row]:
         return iter(self.rows)
@@ -334,7 +337,7 @@ def _markdown_tables(path: Path, text: str) -> List[Table]:
                 cells += [""] * (len(header) - len(cells))
                 rows.append(Row(dict(zip(header, cells[: len(header)])), file=str(path), line=j + 1))
                 j += 1
-            tables.append(Table(header, rows, file=str(path)))
+            tables.append(Table(header, rows, file=str(path), header_line=i + 1))
             i = j
             continue
         i += 1

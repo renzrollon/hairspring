@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd" xmlns:xhtml="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="_5b1e7c2a-0d3f-4e8b-9a61-2f4c8d7e1a90">
+      <COMMENT>Reviewed by the POS vendor (SH-09), sample file.</COMMENT>
+      <CREATION-TIME>2026-11-12T14:05:31+08:00</CREATION-TIME>
+      <REQ-IF-TOOL-ID>Vendor ReqIF export (sample)</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>Vendor RM tool (sample)</SOURCE-TOOL-ID>
+      <TITLE>Voucher redemption</TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-STRING IDENTIFIER="rs-dt-string" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="String" MAX-LENGTH="100000"/>
+        <DATATYPE-DEFINITION-XHTML IDENTIFIER="vendor-dt-rich-text" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Rich Text"/>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="rs-sot-requirement" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Requirement">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-id" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="ID">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-type" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Type">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="rs-ad-text" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Text">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>vendor-dt-rich-text</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-source" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Source">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-priority" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Priority">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-status" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Status">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-rationale" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Rationale">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-title" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Title">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="vendor-ad-comment" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Vendor comment">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPECIFICATION-TYPE IDENTIFIER="rs-st-specification" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Requirements specification"/>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="R-041" LAST-CHANGE="2026-11-12T13:58:02+08:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="R-041">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-id</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="F">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>WHEN the POS sends a voucher validation request for a voucher in state Issued, the loyalty service shall return the voucher value <xhtml:b>and the voucher expiry date</xhtml:b> to the POS.</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="S-02 (TillPoint interface spec v2.1)">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-source</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="must">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-priority</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="agreed">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-status</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Cashiers apply a voucher only after the loyalty service has confirmed it.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-rationale</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Validate voucher at checkout">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="TillPoint v2.2 shows the voucher expiry on the till screen, so we need it in the response.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>vendor-ad-comment</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>rs-sot-requirement</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="R-085" LAST-CHANGE="2026-11-12T14:01:47+08:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="R-085">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-id</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Q">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>WHILE the POS load is at most 9000 purchases per minute across stores, the loyalty service shall answer 95% of voucher validation requests within 300 ms.</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="I-02 (Arjun Pillai SH-02); peak load SH-08">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-source</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="must">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-priority</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Accepted">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-status</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Checkout must not get slower (SH-02); 9000 purchases per minute is last year's year-end peak (SH-08).">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-rationale</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Voucher validation response time at peak">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>rs-sot-requirement</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_9c4f2e1d-7a3b-4c5e-8f60-1b2d3e4f5a6b" LAST-CHANGE="2026-11-12T14:03:10+08:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="F">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The loyalty service shall log each voucher validation request with the store ID and the result.</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Log voucher validation requests">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="Needed for our store reconciliation report.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>vendor-ad-comment</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>rs-sot-requirement</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="rs-spec-voucher-redemption" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Voucher redemption">
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>rs-st-specification</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY IDENTIFIER="rs-sh-R-041" LAST-CHANGE="2026-11-03T09:12:00Z">
+              <OBJECT>
+                <SPEC-OBJECT-REF>R-041</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="rs-sh-R-085" LAST-CHANGE="2026-11-03T09:12:00Z">
+              <OBJECT>
+                <SPEC-OBJECT-REF>R-085</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_2a7d9b3c-5e1f-4a6b-8c0d-9e8f7a6b5c4d" LAST-CHANGE="2026-11-12T14:03:10+08:00">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_9c4f2e1d-7a3b-4c5e-8f60-1b2d3e4f5a6b</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: spec-kit-with-draft-in-selection
+expected_outcome: |
+  A new spec-kit feature spec is written at specs/002-<short-name>/spec.md (the next number after
+  the existing 001-earn-points, which is left unchanged). It has the mandatory spec-kit sections,
+  keeps R-040, R-041 and R-042 as requirement keys with Given/When/Then scenarios from the
+  acceptance criteria, and puts the quality requirement R-085 under Success Criteria. R-043 is a
+  draft, so it is not written as a requirement without approval and the final message says why. No
+  openspec/ folder is created.
+context:
+  scaffold_script: place-files.sh

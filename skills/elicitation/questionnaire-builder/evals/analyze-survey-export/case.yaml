@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: analyze-survey-export
+expected_outcome: |
+  The skill matches the Microsoft Forms columns to the items (one title has a trailing space) and
+  fills analysis.csv: Q01 33.3% supported, Q02 70.2% supported, Q03 54.2% not supported against the
+  agreed 60%, Q04 20.8% not supported, Q05 inconclusive because no threshold was agreed, Q06
+  manual themes. The Results section of questionnaire.md reports each hypothesis with value, N and
+  cut-off, does not reinterpret H3 as supported because it is close to a majority, and claims no
+  statistical significance.
+context:
+  scaffold_script: place-files.sh

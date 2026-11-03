@@ -1,0 +1,2 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-022,F,"WHEN a member opens the balance screen in the customer mobile app, the app shall display the member's posted points balance and pending points.",S-06,must,agreed,Members check their balance before and after shopping.

@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Title
+R-004,F,"WHERE a bonus campaign is active for the store, the loyalty service shall apply the campaign multiplier to earned points.",SH-07,should,proposed,Campaigns drive store visits (I-01).,Bonus campaign multiplier
+R-021,F,"WHEN a member opens the points history, the customer mobile app shall list the member's points transactions with the newest first.",S-06,should,agreed,Support tickets ask for a history view (S-03).,Points history in the app
+R-026,F,"WHEN the loyalty service posts points for a purchase, the loyalty service shall send a push notification to the member with the points earned.",S-06,could,proposed,Reinforces the earning moment.,Push notification when points are posted
+R-061,F,"WHEN posted points are within TBD days of expiry, the loyalty service shall send the member an expiry reminder through the notification provider.",SH-07,should,proposed,Reminders reduce complaints about lost points (S-03).,Expiry reminder before points expire

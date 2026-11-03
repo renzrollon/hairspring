@@ -1,0 +1,19 @@
+ticket_id,created,channel,member_name,member_email,member_phone,subject,body,resolution
+48801,2026-01-04,email,Tan Wei Ling,weiling.tan@example.com,+65 9123 4567,Points missing,I shopped at Tampines yesterday and my points are not in the app.,Explained 24 h pending period
+48812,2026-01-09,phone,Rajesh Kumar,rajesh.k@example.com,+65 9234 5678,Where are my points,Bought groceries for $86 on Saturday and the app still shows 0 new points. Is it broken?,Explained pending; posted next day
+48830,2026-01-15,chat,Siti Aminah,siti.aminah@example.com,+65 9345 6789,Voucher rejected,The cashier said my $5 voucher was invalid but the app shows it as active.,Voucher re-issued manually
+48851,2026-01-22,email,Lim Jun Hao,junhao.lim@example.com,+65 9456 7890,Points expired,500 points expired last week and nobody told me. I would have used them.,Goodwill 500 points
+48867,2026-02-02,phone,Chen Mei,chen.mei@example.com,+65 9567 8901,Pending forever,My points have said pending for three days now.,Posting job had failed; fixed by ops
+48874,2026-02-05,chat,Nur Hidayah,nur.h@example.com,+65 9678 9012,Voucher not accepted,Till at Jurong Point rejected my voucher twice. Very embarrassing in the queue.,Voucher re-issued manually
+48890,2026-02-14,email,David Ong,david.ong@example.com,+65 9789 0123,Expired without warning,I lost 1200 points because they expired. Please send a reminder before this happens.,Goodwill 1200 points
+48902,2026-02-20,chat,Aisha Rahman,aisha.r@example.com,+65 9890 1234,Points not showing,Shopped twice this week and none of the points are showing. When do they come?,Explained pending period
+48915,2026-03-01,phone,Kelvin Goh,kelvin.goh@example.com,+65 9901 2345,Return and points,I returned a TV and now my balance is minus 300. How can it be negative?,Explained return rule
+48933,2026-03-08,email,Priya Nair,priya.nair@example.com,+65 9012 3456,Someone used my points,My balance dropped by 4000 points and I never redeemed anything. Did someone use my account?,Escalated to fraud; account locked
+48940,2026-03-12,chat,Tan Wei Ling,weiling.tan@example.com,+65 9123 4567,Missing points again,Again my points from Tampines are missing after two days.,Posting job had failed; fixed by ops
+48956,2026-03-20,email,Marcus Lee,marcus.lee@example.com,+65 9123 9876,Dark mode,Please add dark mode to the app.,Passed to app team
+48961,2026-03-25,chat,Farah Ismail,farah.i@example.com,+65 9234 8765,Voucher invalid,Voucher scanned but till says invalid code. The app shows it fine.,Voucher re-issued manually
+48977,2026-04-03,phone,Wong Kai Xin,kaixin.wong@example.com,+65 9345 7654,Points expiry,Why did my points expire? I did not get any email or notification.,Goodwill 300 points
+48990,2026-04-11,email,Ahmad Zulkifli,ahmad.z@example.com,+65 9456 6543,No points for purchase,No points for my purchase on 9 April. Receipt attached.,Manual adjustment 64 points
+49004,2026-04-19,chat,Grace Teo,grace.teo@example.com,+65 9567 5432,Negative balance,After returning shoes my balance went negative. I did not know that could happen.,Explained return rule
+49018,2026-05-02,email,Ravi Shankar,ravi.s@example.com,+65 9678 4321,Expiry reminder,Please warn members before points expire. I lost 800 points.,Goodwill 800 points
+49025,2026-05-09,phone,Lee Hui Min,huimin.lee@example.com,+65 9789 3210,Pending points,It says pending. What does pending mean and when will they be added?,Explained pending period

@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: epic-to-vertical-slices
+expected_outcome: |
+  The epic is split into vertical stories in requirements/stories/<epic-slug>.md, each in the
+  Cohn template with a real role (member, cashier, support agent). Every story has Given/When/Then
+  acceptance criteria labelled R-nnn.ACn, at least one of them unwanted behavior, plus an INVEST
+  pass/fail table and a Definition of Ready table. requirements/requirements.csv gets one Type F
+  draft row per story citing S-06. "Make it fast" becomes an open question or a recommendation to
+  run quality-requirements, never an invented number.

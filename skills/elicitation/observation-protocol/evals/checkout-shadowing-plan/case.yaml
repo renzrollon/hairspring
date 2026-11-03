@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: checkout-shadowing-plan
+expected_outcome: |
+  A plan is written to requirements/elicitation/observation-*.md with at most three focus
+  questions, a method choice with a reason, the site and time window with why it was chosen and
+  what it will not show, the cashiers referred to by role, a consent note (purpose, notes only,
+  nothing about customers, right to stop, retention, contact), a capture template with task,
+  trigger, workaround, dissatisfier and observed and reported frequency, and a same-day debrief
+  script. Arjun Pillai is the process owner. Status is planned.
+context:
+  scaffold_script: place-files.sh

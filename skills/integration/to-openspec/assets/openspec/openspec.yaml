@@ -1,0 +1,5 @@
+# Written as openspec/changes/<change>/.openspec.yaml
+schema: spec-driven
+created: <YYYY-MM-DD>
+x-re-skills-source: <workspace>/requirements.csv
+x-re-skills-ids: [<R-ID>, <R-ID>]

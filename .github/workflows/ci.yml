@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install re-lint
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "packages/re-lint[dev]"
+
+      - name: Unit tests
+        run: pytest packages/re-lint/tests tests/
+
+      - name: Vendored scripts are in sync
+        run: python tools/vendor_scripts.py --check --strict
+
+      - name: Catalogue follows the authoring guide
+        run: python tools/validate_catalogue.py
+
+      - name: Generated catalogue docs are current
+        run: python tools/validate_catalogue.py --check-docs
+
+      - name: Lint the sample project
+        run: |
+          if [ -f examples/loyalty-points/requirements/requirements.csv ]; then
+            re-lint check examples/loyalty-points/requirements/requirements.csv --fail-on error --format github
+          else
+            echo "examples/loyalty-points/requirements/requirements.csv not present; skipped"
+          fi

@@ -1,0 +1,8 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Risk,Verification
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.,,test
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.,,test
+R-080,Q,"WHEN the POS requests voucher validation, the loyalty service shall respond within TBD ms at the 95th percentile under year-end peak load.",SH-02,must,proposed,Checkout must not get slower (I-02).,high,
+R-081,Q,The loyalty service shall accept purchase events at TBD events per minute without loss during the year-end sale.,SH-08,must,agreed,"Last year's peak was about 9,000 purchases per minute (SH-08).",high,TBD
+R-082,Q,The admin console shall require multi-factor authentication when a support agent logs in.,SH-05,must,agreed,Adjustments move member value (SH-05).,medium,inspection
+R-100,C,The loyalty service shall retain points transaction records for 7 years.,S-05,must,agreed,Audit retention under DRP-2024.,low,inspection
+R-101,C,The loyalty service shall run on the platform team's Kubernetes platform.,SH-08,must,agreed,Platform mandate (SH-08).,low,

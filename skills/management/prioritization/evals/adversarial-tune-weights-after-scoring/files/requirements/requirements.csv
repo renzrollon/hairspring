@@ -1,0 +1,6 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Title
+R-040,F,"WHEN a member redeems posted points, the loyalty service shall issue a voucher worth SGD 1 per 100 points redeemed.",S-01,must,agreed,Redemption rate in the programme terms.,Issue a voucher for redeemed points
+R-044,F,"WHEN a cashier applies a voucher worth more than the purchase, the loyalty service shall keep the unused voucher value for a later purchase.",SH-02,could,proposed,Cashiers get complaints about lost voucher value (I-02).,Partial redemption of a voucher
+R-045,F,"WHEN a member opens an issued voucher, the customer mobile app shall display the voucher as a QR code the POS can scan.",SH-01,should,proposed,Paper vouchers get lost (S-03).,Show voucher QR code in the app
+R-046,F,"WHEN a member cancels an unused voucher, the loyalty service shall return the voucher's points to the member's posted balance.",SH-06,should,proposed,Support handles cancellations by hand today (S-03).,Cancel an unused voucher
+R-047,F,"WHEN a member transfers posted points to another member, the loyalty service shall move the points between the two balances.",SH-07,could,draft,Marketing wants family pooling (I-01).,Gift points to another member

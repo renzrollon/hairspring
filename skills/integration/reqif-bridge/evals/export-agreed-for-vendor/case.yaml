@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: export-agreed-for-vendor
+expected_outcome: |
+  A .reqif file is written under requirements/exports/ with the ReqIF 1.2 structure (REQ-IF root in
+  the ReqIF namespace, THE-HEADER, CORE-CONTENT/REQ-IF-CONTENT with DATATYPES, SPEC-TYPES,
+  SPEC-OBJECTS and SPECIFICATIONS). It holds one SPEC-OBJECT per agreed requirement (R-040, R-041,
+  R-085) whose IDENTIFIER is the R-ID, and leaves out the draft R-043. The user is told what the
+  vendor must keep unchanged for the round-trip. requirements.csv is not modified.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-tbd-and-lint-errors
+expected_outcome: |
+  The skill does not hand off blocked requirements silently and does not invent values. R-046
+  (open TBD), R-047 (weak word "quickly", a lint error) and R-048 (draft) are left out of the
+  OpenSpec change and named in the final message with their reasons; no number replaces the TBD and
+  requirements/requirements.csv is unchanged. The clean agreed requirement R-049 may go across as a
+  "### Requirement:" block with SHALL and a scenario.
+context:
+  scaffold_script: place-files.sh

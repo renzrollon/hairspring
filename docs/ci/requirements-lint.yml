@@ -1,0 +1,40 @@
+# Copy this file to .github/workflows/requirements-lint.yml in your repository.
+#
+# It runs re-lint on every pull request that touches requirements/ and annotates the diff with
+# findings. Errors fail the check; warnings and info show as annotations only.
+# Docs: https://github.com/renzrollon/hairspring/tree/main/packages/re-lint
+
+name: requirements-lint
+
+on:
+  pull_request:
+    paths:
+      - "requirements/**"
+
+permissions:
+  contents: read
+
+jobs:
+  re-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history, so changed-only can diff against the base branch
+
+      - uses: renzrollon/hairspring@v0.1.0
+        with:
+          fail-on: error       # error | warning | info (info also blocks on open TBDs)
+          format: github       # annotations on the PR diff
+          # paths: ""          # default: requirements/requirements.csv plus Markdown tables with requirement IDs
+          # schema: ""         # default: requirements/schema.json
+          # changed-only: origin/${{ github.base_ref }}   # lint only the rows this PR adds or changes
+          # trace-gaps: "true" # also build the trace matrix and fail on coverage gaps
+
+      # Alternative without the action (same checks, installs re-lint with pip):
+      #
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: "3.12"
+      # - run: pip install "git+https://github.com/renzrollon/hairspring@v0.1.0#subdirectory=packages/re-lint"
+      # - run: re-lint check --format github --fail-on error

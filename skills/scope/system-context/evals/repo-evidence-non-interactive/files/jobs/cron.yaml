@@ -1,0 +1,5 @@
+jobs:
+  - name: crm-nightly-summary
+    schedule: "0 1 * * *"
+  - name: warehouse-daily-extract
+    schedule: "30 2 * * *"

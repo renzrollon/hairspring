@@ -1,0 +1,9 @@
+Issue key,Summary,Status,Updated
+LOY-81,R-040: Issue voucher on redemption request,In Progress,2026-11-09
+LOY-77,R-041: Validate voucher at checkout,Done,2026-11-07
+LOY-82,R-042: Reject redemption below minimum,Done,2026-11-08
+LOY-78,R-044: Send voucher code by SMS,In Progress,2026-11-06
+LOY-83,R-085: Voucher validation response time at peak,In Review,2026-11-09
+LOY-84,R-100: Use TillPoint voucher validation interface v2.1,To Do,2026-11-03
+LOY-85,R-043: Print remaining balance on receipt,Done,2026-11-08
+LOY-90,R-099: Show tier badge in app,To Do,2026-11-05

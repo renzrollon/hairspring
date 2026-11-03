@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: release-notes-with-decisions
+expected_outcome: |
+  requirements/baselines/v1.1.json is cut with nine entries. requirements/baselines/v1.1-notes.md
+  follows the release-notes template: R-064 added (RDR-003), R-041 changed (CR-001), R-063
+  withdrawn (RDR-003), and R-060 changed from 12 to 18 months with no CR or decision record, so it
+  is listed as an uncontrolled change. v1.0-contract.json is not modified.
+context:
+  scaffold_script: place-files.sh

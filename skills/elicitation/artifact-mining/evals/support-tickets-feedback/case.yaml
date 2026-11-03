@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: support-tickets-feedback
+expected_outcome: |
+  The skill runs feedback analysis: tickets are grouped by the need behind them (pending or missing
+  points, vouchers rejected at the till, expiry without a reminder, negative balance after a
+  return, a possible account takeover), one candidate per group with the ticket count in Reason
+  and a representative quote whose personal data is masked. Rows cite S-03 and a file:line
+  location, use Technique feedback-analysis, and are confirm with the product owner, not keep.
+  The single dark-mode wish is not a candidate.
+context:
+  scaffold_script: place-files.sh

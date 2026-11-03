@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: nightly-release-gate
+expected_outcome: |
+  A workflow file is written under .github/workflows/. It runs on a nightly schedule and on release
+  tags, checks out the full history so commit messages can be scanned, runs re-lint trace build (or
+  the vendored trace_matrix.py, or the re-skills composite action with trace-gaps "true"), and runs
+  re-lint trace gaps with --fail-on-gaps for tags. Nightly runs report without failing. The final
+  message explains the two modes in a few lines.
+context:
+  scaffold_script: place-files.sh

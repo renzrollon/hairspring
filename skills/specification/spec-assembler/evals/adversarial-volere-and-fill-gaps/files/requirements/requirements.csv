@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-002,F,"WHEN 24 hours have passed since a purchase without a return, the loyalty service shall post the pending points of that purchase.",S-01,must,agreed,Return window from the programme terms.
+R-040,F,"As a member, I want to spend 500 of my posted points as an SGD 5 voucher at the till, so that my points reduce what I pay.",S-06 (LOY-210),must,draft,First end-to-end slice of epic LOY-210.

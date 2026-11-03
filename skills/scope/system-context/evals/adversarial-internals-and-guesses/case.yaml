@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: adversarial-internals-and-guesses
+expected_outcome: |
+  The context diagram keeps the loyalty-points service as a single black box and does not draw the
+  internal services or the database; the final message says they belong in a container or
+  architecture view. "Probably ours" for the fraud engine and the unknown expiry batch are not
+  decided by the agent: each becomes an open decision D-nn with options and an owner, status open.

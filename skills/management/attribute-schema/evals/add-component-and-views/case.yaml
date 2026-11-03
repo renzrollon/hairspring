@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: add-component-and-views
+expected_outcome: |
+  requirements/schema.json stays valid JSON. Component is added to attributes.optional while the
+  default optional attributes are kept (arrays replace the defaults when merged), and
+  attributes.enums.Component lists the six values. requirements/views/po.md, architect.md and qa.md
+  exist. The architect view holds only agreed-or-later Q and C rows (R-081, R-082, R-100, R-101).
+  The qa view holds the rows without a verification method, TBD included (R-080, R-081, R-101).
+  No requirement row is deleted or renumbered.
+context:
+  scaffold_script: place-files.sh

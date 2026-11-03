@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "workspace": "requirements",
+  "process": {
+    "lifecycle": "iterative",
+    "approach": "explorative",
+    "target": "customer-specific",
+    "change_authority": "product-owner"
+  }
+}

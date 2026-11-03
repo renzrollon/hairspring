@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-technical-states-and-contradiction
+expected_outcome: |
+  The skill models business states with names (not the numeric codes) and does not turn
+  RETRYING, KAFKA_LAG or is_deleted into business states; it says why. It reports the
+  contradiction between "Expired is final" and "support can reactivate expired vouchers" as an
+  open question or a conflict for conflict-detector, and does not write a requirement that
+  settles it either way.

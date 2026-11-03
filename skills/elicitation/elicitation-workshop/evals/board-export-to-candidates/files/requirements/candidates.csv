@@ -1,0 +1,3 @@
+ID,Statement,Type,Technique,Source,Location,Quote,Disposition,Reason,Owner,Kano,Requirement
+CAN-013,Support agents do not see full NRIC or card numbers of members.,C,interview,I-03,S-07 interview I-03 C9,Agents should not see full NRIC or card numbers.,confirm,Data protection rule relayed by support.,Farid Osman (SH-04),,
+CAN-014,"The support console is available during support hours, 08:00 to 22:00 every day.",Q,interview,I-03,S-07 interview I-03 C10,"Support hours are 08:00 to 22:00, seven days a week.",confirm,Derived from a stated fact about support hours.,Wei Jie Chua (SH-08),,

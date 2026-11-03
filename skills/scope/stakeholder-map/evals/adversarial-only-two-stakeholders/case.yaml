@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-only-two-stakeholders
+expected_outcome: |
+  The skill maps Wei Jie Chua and Mei Tan as asked, but it does not invent people: every other
+  representative is TBD. The gap check, driven by context.md (PDPA, points convertible to
+  vouchers, a finance extract, support agents, external systems), still flags the missing roles
+  such as data protection, fraud and finance, each with an open question. The final message says
+  that no names were invented and why the missing roles matter.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,49 @@
+ID,Start time,Completion time,Email,Name,"In a typical shift, how often does scanning a member's QR code fail at the first try?","When a scan fails, typing the member number by hand would help me finish the sale.","When a member asks when today's points will appear in the app, I know what to answer. ","In a typical week, how often is a member's voucher rejected at your till?","When a QR scan fails, what do you usually do?",What else slows you down at the till when a member uses the loyalty programme?
+1,11/17/26 09:03:00,11/17/26 09:05:00,anonymous,,4,3,2,3,Look up the member by phone number,QR code too small on some phones
+2,11/17/26 09:06:00,11/17/26 09:08:00,anonymous,,4,4,2,3,Finish the sale without points,Vouchers from the email do not scan
+3,11/17/26 09:09:00,11/17/26 09:11:00,anonymous,,2,5,1,1,Ask the member to raise screen brightness,
+4,11/17/26 09:12:00,11/17/26 09:14:00,anonymous,,2,3,3,5,Look up the member by phone number,Members ask why points are pending
+5,11/17/26 09:15:00,11/17/26 09:17:00,anonymous,,2,4,2,1,Ask the member to raise screen brightness,Cracked phone screens do not scan
+6,11/17/26 09:18:00,11/17/26 09:20:00,anonymous,,5,5,2,4,Ask for the plastic card,Members ask why points are pending
+7,11/17/26 09:21:00,11/17/26 09:23:00,anonymous,,2,5,3,3,Finish the sale without points,
+8,11/17/26 09:24:00,11/17/26 09:26:00,anonymous,,2,1,2,3,Other,I cannot see the member's balance when they ask
+9,11/17/26 09:27:00,11/17/26 09:29:00,anonymous,,3,1,4,2,Ask for the plastic card,
+10,11/17/26 09:30:00,11/17/26 09:32:00,anonymous,,4,5,5,3,Ask the member to raise screen brightness,Vouchers from the email do not scan
+11,11/17/26 09:33:00,11/17/26 09:35:00,anonymous,,4,4,2,2,Ask for the plastic card,
+12,11/17/26 09:36:00,11/17/26 09:38:00,anonymous,,4,4,1,3,Ask the member to raise screen brightness,Scanner is slow after a reboot
+13,11/17/26 09:39:00,11/17/26 09:41:00,anonymous,,3,5,3,1,Finish the sale without points,Cracked phone screens do not scan
+14,11/17/26 09:42:00,11/17/26 09:44:00,anonymous,,2,3,3,2,Ask the member to raise screen brightness,Vouchers from the email do not scan
+15,11/17/26 09:45:00,11/17/26 09:47:00,anonymous,,1,4,2,1,Ask for the plastic card,Scanner is slow after a reboot
+16,11/17/26 09:48:00,11/17/26 09:50:00,anonymous,,3,5,1,1,Other,I cannot see the member's balance when they ask
+17,11/18/26 09:51:00,11/18/26 09:53:00,anonymous,,3,5,3,2,Ask the member to raise screen brightness,I cannot see the member's balance when they ask
+18,11/18/26 09:54:00,11/18/26 09:56:00,anonymous,,2,4,3,3,,The app takes long to open while the queue waits
+19,11/18/26 09:57:00,11/18/26 09:59:00,anonymous,,5,4,2,3,Ask the member to raise screen brightness,Vouchers from the email do not scan
+20,11/18/26 09:00:00,11/18/26 09:02:00,anonymous,,3,4,1,2,Ask for the plastic card,Scanner is slow after a reboot
+21,11/18/26 09:03:00,11/18/26 09:05:00,anonymous,,3,3,4,2,Ask the member to raise screen brightness,I cannot see the member's balance when they ask
+22,11/18/26 09:06:00,11/18/26 09:08:00,anonymous,,5,5,2,4,Ask the member to raise screen brightness,
+23,11/18/26 09:09:00,11/18/26 09:11:00,anonymous,,3,4,1,1,Ask the member to raise screen brightness,Members ask why points are pending
+24,11/18/26 09:12:00,11/18/26 09:14:00,anonymous,,4,3,5,2,Finish the sale without points,Cracked phone screens do not scan
+25,11/18/26 09:15:00,11/18/26 09:17:00,anonymous,,3,4,2,4,Ask the member to raise screen brightness,
+26,11/18/26 09:18:00,11/18/26 09:20:00,anonymous,,1,2,5,2,Finish the sale without points,Scanner is slow after a reboot
+27,11/18/26 09:21:00,11/18/26 09:23:00,anonymous,,4,3,5,4,Look up the member by phone number,The app takes long to open while the queue waits
+28,11/18/26 09:24:00,11/18/26 09:26:00,anonymous,,2,4,4,3,Look up the member by phone number,
+29,11/18/26 09:27:00,11/18/26 09:29:00,anonymous,,3,4,2,2,Ask the member to raise screen brightness,QR code too small on some phones
+30,11/18/26 09:30:00,11/18/26 09:32:00,anonymous,,2,2,2,1,Ask the member to raise screen brightness,
+31,11/18/26 09:33:00,11/18/26 09:35:00,anonymous,,5,4,4,3,Ask for the plastic card,The app takes long to open while the queue waits
+32,11/18/26 09:36:00,11/18/26 09:38:00,anonymous,,3,4,1,2,Look up the member by phone number,QR code too small on some phones
+33,11/19/26 09:39:00,11/19/26 09:41:00,anonymous,,3,4,2,2,Ask the member to raise screen brightness,QR code too small on some phones
+34,11/19/26 09:42:00,11/19/26 09:44:00,anonymous,,1,,2,3,Look up the member by phone number,
+35,11/19/26 09:45:00,11/19/26 09:47:00,anonymous,,1,5,2,5,Finish the sale without points,
+36,11/19/26 09:48:00,11/19/26 09:50:00,anonymous,,2,4,3,4,Ask for the plastic card,
+37,11/19/26 09:51:00,11/19/26 09:53:00,anonymous,,4,4,4,2,Ask the member to raise screen brightness,
+38,11/19/26 09:54:00,11/19/26 09:56:00,anonymous,,5,4,2,2,Other,Members ask why points are pending
+39,11/19/26 09:57:00,11/19/26 09:59:00,anonymous,,4,5,1,5,Ask for the plastic card,QR code too small on some phones
+40,11/19/26 09:00:00,11/19/26 09:02:00,anonymous,,3,4,4,3,Ask the member to raise screen brightness,Cracked phone screens do not scan
+41,11/19/26 09:03:00,11/19/26 09:05:00,anonymous,,2,3,3,3,Ask the member to raise screen brightness,
+42,11/19/26 09:06:00,11/19/26 09:08:00,anonymous,,4,5,2,1,Ask the member to raise screen brightness,
+43,11/19/26 09:09:00,11/19/26 09:11:00,anonymous,,1,2,1,4,Finish the sale without points,
+44,11/19/26 09:12:00,11/19/26 09:14:00,anonymous,,1,5,1,4,Ask for the plastic card,The app takes long to open while the queue waits
+45,11/19/26 09:15:00,11/19/26 09:17:00,anonymous,,4,2,3,2,Ask the member to raise screen brightness,
+46,11/19/26 09:18:00,11/19/26 09:20:00,anonymous,,3,5,4,1,Look up the member by phone number,
+47,11/19/26 09:21:00,11/19/26 09:23:00,anonymous,,2,3,3,2,Ask the member to raise screen brightness,
+48,11/19/26 09:24:00,11/19/26 09:26:00,anonymous,,3,4,4,1,Look up the member by phone number,The app takes long to open while the queue waits

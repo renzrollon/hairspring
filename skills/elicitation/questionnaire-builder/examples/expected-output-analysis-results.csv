@@ -1,0 +1,7 @@
+Item,Hypothesis,Metric,Threshold,MinN,N,Missing,Distribution,Value,Result,Notes
+Q01,H1,top2,>=30%,40,48,0,1=6; 2=12; 3=14; 4=11; 5=5,33.3%,supported,
+Q02,H2,top2,>=60%,40,47,1,1=2; 2=4; 3=8; 4=20; 5=13,70.2%,supported,
+Q05,H2,share:Finish the sale without points,TBD,40,47,1,Ask the member to raise screen brightness=20; Ask for the plastic card=9; Look up the member by phone number=8; Finish the sale without points=7; Other=3,14.9%,inconclusive,threshold not agreed
+Q03,H3,bottom2,>=60%,40,48,0,1=9; 2=17; 3=10; 4=8; 5=4,54.2%,not supported,
+Q04,H4,top2,>=30%,40,48,0,1=10; 2=15; 3=13; 4=7; 5=3,20.8%,not supported,
+Q06,H5,themes,,,30,18,,,manual,code themes by hand

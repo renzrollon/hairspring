@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-design-decisions-as-constraints
+expected_outcome: |
+  None of the five statements names a mandator outside the team, so none becomes a Type C row.
+  Kafka, microservices, React Native and PostgreSQL 16 are reported as design decisions (ADR
+  candidates) or as unconfirmed until someone names who mandates them, with that question logged.
+  The 200 ms response time is a quality target routed to quality-requirements. The final message
+  explains the mandate test.

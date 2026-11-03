@@ -1,0 +1,31 @@
+{
+  "views": {
+    "po": {
+      "title": "Product owner: scope by status and priority",
+      "audience": "",
+      "filter": { "Status": { "not": ["withdrawn", "rejected"] } },
+      "columns": ["ID", "Title", "Text", "Priority", "Status", "Owner"],
+      "group_by": ["Status"],
+      "sort": ["Priority", "ID"]
+    },
+    "architect": {
+      "title": "Architect: agreed quality requirements and constraints",
+      "audience": "",
+      "filter": { "Type": ["Q", "C"], "Status": ["agreed", "implemented", "verified"] },
+      "columns": ["ID", "Type", "Title", "Text", "Source", "Status", "Risk", "Rationale"],
+      "group_by": ["Type"],
+      "sort": ["Type", "ID"]
+    },
+    "qa": {
+      "title": "QA: requirements without a verification method",
+      "audience": "",
+      "filter": {
+        "Status": { "not": ["withdrawn", "rejected"] },
+        "Verification": { "not": ["test", "inspection", "analysis", "demonstration"] }
+      },
+      "columns": ["ID", "Type", "Text", "Status", "Priority", "Verification"],
+      "group_by": ["Type"],
+      "sort": ["Priority", "ID"]
+    }
+  }
+}

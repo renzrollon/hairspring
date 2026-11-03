@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fixed shape of a reqif-bridge export. {{...}} are placeholders; blocks marked "repeat" occur once per column or per requirement. -->
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd" xml:lang="en">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="rs-header-{{title-slug}}-{{YYYYMMDDTHHMMSSZ}}">
+      <COMMENT>Exported by re-skills reqif-bridge from {{workspace}}/requirements.csv. IDENTIFIER of each SPEC-OBJECT is the requirement ID: keep it unchanged so edits can be merged back.</COMMENT>
+      <CREATION-TIME>{{export time, xsd:dateTime UTC}}</CREATION-TIME>
+      <REPOSITORY-ID>{{workspace}}/requirements.csv</REPOSITORY-ID>
+      <REQ-IF-TOOL-ID>re-lint reqif {{re-lint version}}</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>re-skills</SOURCE-TOOL-ID>
+      <TITLE>{{title}}</TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-STRING IDENTIFIER="rs-dt-string" LAST-CHANGE="{{export time}}" LONG-NAME="String" MAX-LENGTH="{{max-length, at least the longest exported value}}"/>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="rs-sot-requirement" LAST-CHANGE="{{export time}}" LONG-NAME="Requirement">
+          <SPEC-ATTRIBUTES>
+            <!-- repeat: one per exported CSV column, in schema column order -->
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-{{column, lower case}}" LAST-CHANGE="{{export time}}" LONG-NAME="{{column}}">
+              <TYPE>
+                <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-STRING>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPECIFICATION-TYPE IDENTIFIER="rs-st-specification" LAST-CHANGE="{{export time}}" LONG-NAME="Requirements specification"/>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <!-- repeat: one per exported requirement, register order -->
+        <SPEC-OBJECT IDENTIFIER="{{R-ID}}" LAST-CHANGE="{{export time}}">
+          <VALUES>
+            <!-- repeat: one per non-empty cell -->
+            <ATTRIBUTE-VALUE-STRING THE-VALUE="{{cell value, XML-escaped}}">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-{{column, lower case}}</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>rs-sot-requirement</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPEC-RELATIONS/>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="rs-spec-{{title-slug}}" LAST-CHANGE="{{export time}}" LONG-NAME="{{title}}">
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>rs-st-specification</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <!-- repeat: one per exported requirement, same order as SPEC-OBJECTS -->
+            <SPEC-HIERARCHY IDENTIFIER="rs-sh-{{R-ID}}" LAST-CHANGE="{{export time}}">
+              <OBJECT>
+                <SPEC-OBJECT-REF>{{R-ID}}</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+      <SPEC-RELATION-GROUPS/>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

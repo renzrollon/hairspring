@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: prd-paste-mixed
+expected_outcome: |
+  requirements/classification.md holds one batch with the fixed ten columns and seven rows. The
+  redemption line is F, the 300 ms line is Q, the DRP-2024 retention line is C, gRPC is a
+  solution routed to an architect, the TillPoint release and the paper vouchers are facts, and
+  the mystery voucher is an F requirement with a delighter guess. No rows are added to
+  requirements/requirements.csv.

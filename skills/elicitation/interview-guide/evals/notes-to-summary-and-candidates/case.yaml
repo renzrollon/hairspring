@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: notes-to-summary-and-candidates
+expected_outcome: |
+  The capture sheet holds the statements from the notes in the speaker's words, and the summary
+  classifies them (F, Q, C, fact, solution, term). "Instant" stays without a number and gets an
+  open question. Candidates are appended to requirements/candidates.csv from CAN-009 on, with
+  Technique interview, Source I-03 and a #C<n> location into the interview file. The "fix missing
+  points" button is not a candidate; the need behind it (find a purchase by receipt number) is.
+  The NRIC masking rule is confirm with Farid Osman as owner, the 300 adjustments a week stay a
+  fact, and "goodwill points" is routed to the glossary.
+context:
+  scaffold_script: place-files.sh
