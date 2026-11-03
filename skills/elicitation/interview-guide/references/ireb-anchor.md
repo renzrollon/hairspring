@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (interviews) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Interview; Elicitation technique; Stakeholder; Quality requirement; Constraint; Requirements source |
 | Quality criteria touched | adequate, complete, unambiguous (single requirement); complete (set) |
 | Other standards | ISO/IEC 25010:2023, product quality model (characteristic names only), used as a checklist |

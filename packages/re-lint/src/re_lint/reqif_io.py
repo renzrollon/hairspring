@@ -528,7 +528,7 @@ def classify(parsed: Dict, columns: Sequence[str], register: Sequence[reqio.Row]
             "unmapped": sorted({n for n in parsed["attributes"] if n not in mapping})}
 
 
-def _recommendation(item: Dict, register: Dict[str, reqio.Row], next_id: str) -> str:
+def _recommendation(item: Dict, register: Dict[str, reqio.Row], next_id: str, source_name: str = "<file>") -> str:
     cls = item["class"]
     if cls == "changed-text":
         status = register[item["id"]].get_str("Status").lower() if item["id"] in register else ""
@@ -542,7 +542,7 @@ def _recommendation(item: Dict, register: Dict[str, reqio.Row], next_id: str) ->
         return f"Not written: {item['new']!r} is not a {item['column']} value; ask the sender what it means"
     if cls == "new-object":
         rid = item["rid"] or next_id
-        return f"Candidate requirement. If accepted: new row {rid}, Status=draft, Source reqif:<file>#{item['identifier']}"
+        return f"Candidate requirement. If accepted: new row {rid}, Status=draft, Source reqif:{source_name}#{item['identifier']}"
     if cls == "missing-object":
         return "Never deleted. Ask the sender whether they left it out on purpose"
     return ""
@@ -567,10 +567,10 @@ def render_import_md(result: Dict, source: Path, header: Dict[str, str], compare
                 value = "; ".join(f'"{_norm_ws(v)}"' if " " in v else _norm_ws(v) for v in item["values"].values())
                 ident = item["id"] if item["rid"] else f"`{item['id']}`"
                 out.append(f"| {n} | {ident} | new-object | {cols} | - | {_md_cell(value)} | "
-                           f"{_md_cell(_recommendation(item, register, next_id))} | open |")
+                           f"{_md_cell(_recommendation(item, register, next_id, source.name))} | open |")
             else:
                 out.append(f"| {n} | {item['id']} | {item['class']} | {item['column']} | {_md_cell(item['old'])} | "
-                           f"{_md_cell(item['new'])} | {_md_cell(_recommendation(item, register, next_id))} | open |")
+                           f"{_md_cell(item['new'])} | {_md_cell(_recommendation(item, register, next_id, source.name))} | open |")
     else:
         out.append("None.")
     out += ["", "## Read only (not imported)", ""]

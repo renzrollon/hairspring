@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §1.3 Stakeholders; §4.1 Requirements sources |
-| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Stakeholder; Requirements source; Role; Goal; User |
 | Quality criteria touched | complete (set); adequate (single requirement) |
 | Other standards | Mendelow's power/interest grid (title only) |

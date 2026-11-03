@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (observation techniques) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Field observation; Apprenticing; Elicitation technique; Stakeholder; Kano model |
 | Quality criteria touched | adequate, complete (single requirement); complete (set) |
 | Other standards | none |

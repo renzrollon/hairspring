@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §1.2 Kinds of requirements; §4.2.1 Kano model |
-| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Requirement; Functional requirement; Quality requirement; Constraint; Kano model; Dissatisfier; Satisfier; Delighter |
 | Quality criteria touched | adequate, necessary, unambiguous (single requirement) |
 | Other standards | ISO/IEC 25010:2023, product quality model (characteristic names only); Kano et al. (1984), attractive quality model |

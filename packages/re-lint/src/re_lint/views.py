@@ -99,6 +99,14 @@ class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
 
+def _rel(path) -> str:
+    """Show paths relative to the current directory when possible, like the other commands."""
+    try:
+        return str(Path(path).resolve().relative_to(Path.cwd().resolve()))
+    except ValueError:
+        return str(path)
+
+
 def _workspace(args: argparse.Namespace) -> Tuple[Path, Dict]:
     schema_path = getattr(args, "schema", None)
     if schema_path and not Path(schema_path).is_file():
@@ -353,7 +361,7 @@ def cmd_views(args: argparse.Namespace) -> int:
             else:
                 path = out_dir / f"{name}.csv"
                 reqio.write_csv(path, records, headers)
-                print(f"wrote {path} ({len(records)} requirements)")
+                print(f"wrote {_rel(path)} ({len(records)} requirements)")
         else:
             text = render_md(result, register)
             if args.stdout:
@@ -361,7 +369,7 @@ def cmd_views(args: argparse.Namespace) -> int:
             else:
                 path = out_dir / f"{name}.md"
                 _write_text(path, text)
-                print(f"wrote {path} ({len(result['rows'])} requirements)")
+                print(f"wrote {_rel(path)} ({len(result['rows'])} requirements)")
     return 0
 
 

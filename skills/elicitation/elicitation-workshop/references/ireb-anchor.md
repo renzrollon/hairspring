@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (workshops); §4.2.3 Design and idea-generating techniques (creativity techniques) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Workshop; Creativity technique; Brainstorming; Elicitation technique; Stakeholder; Kano model |
 | Quality criteria touched | adequate, necessary (single requirement); complete (set) |
 | Other standards | none; techniques cited by originator: 6-3-5 method (Rohrbach), six thinking hats (de Bono), morphological analysis (Zwicky), user story mapping (Patton) |

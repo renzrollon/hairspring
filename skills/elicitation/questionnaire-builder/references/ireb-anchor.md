@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (questionnaires) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Questionnaire; Elicitation technique; Stakeholder; Validation |
 | Quality criteria touched | adequate, verifiable (single requirement); complete (set) |
 | Other standards | none |

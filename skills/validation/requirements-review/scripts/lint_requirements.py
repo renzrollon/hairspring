@@ -894,9 +894,14 @@ class Checker:
             except ValueError as exc:
                 _warn(f"skipping {_display(path)}: {exc}")
                 continue
+            found = False
             for table in tables:
                 if "ID" in table.columns:
-                    echoes.extend(r for r in table.rows if self.is_requirement_id(r.get_str("ID")))
+                    rows = [r for r in table.rows if self.is_requirement_id(r.get_str("ID"))]
+                    echoes.extend(rows)
+                    found = found or bool(rows)
+            if found:
+                self.files_checked.append(_display(path))
         for row, columns, full in definitions:
             self._check_row(row, columns, full)
         self._check_drift(canonical, echoes)

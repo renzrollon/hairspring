@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (questioning techniques); Principle 3 (shared understanding) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Elicitation; Interview; Stakeholder; Requirements source |
 | Quality criteria touched | adequate, complete, unambiguous (single requirement) |
 | Other standards | none |

@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.2.2 Gathering techniques (artifact-based techniques) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Elicitation; Elicitation technique; Requirements source; Document; Legacy system; Traceability |
 | Quality criteria touched | adequate, necessary (single requirement); traceable, consistent (set) |
 | Other standards | none |

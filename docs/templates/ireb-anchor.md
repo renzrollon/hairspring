@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §x.y Section title (as listed for this skill in docs/epics.md) |
-| CPRE FL Syllabus 3.2 | Chapter n (title) |
+| CPRE FL Syllabus 3.2 | Chapter n (title, e.g. "Practices for requirements elaboration") |
 | IREB Glossary 2.2 terms | Term A; Term B; Term C |
 | Quality criteria touched | e.g. adequate, unambiguous, verifiable (single requirement); consistent, complete (set) |
 | Other standards | e.g. EARS (Mavin et al., 2009); ISO/IEC/IEEE 29148:2018, clause "Requirement construct" (title only) |

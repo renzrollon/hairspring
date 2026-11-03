@@ -1,5 +1,7 @@
 # Integration formats: what the vendored bridge scripts must emit and read
 
+> **Status: design notes, superseded.** These notes guided the first implementation of `to_openspec.py`, `issue_sync.py` and `reqif_bridge.py`. The package (`re-lint <command> --help`) and [`tooling-contract.md`](tooling-contract.md) are now the source of truth; where these notes differ, they are out of date.
+
 For the author of `packages/re-lint` (`openspec.py` → `to_openspec.py`, `reqif_io.py` → `reqif_bridge.py`, `issues.py` → `issue_sync.py`). The CLIs are fixed by `docs/tooling-contract.md`; this note fixes the file formats and the behaviors the three skills in `skills/integration/` rely on. Checked 2026-11-03 against OpenSpec 1.16.0, spec-kit 1.2.6, the OMG ReqIF 1.2 XSD (via strictdoc `reqif` 0.1.0), and the package draft of the same date. Section 4 lists where that draft still differs.
 
 ## Golden files

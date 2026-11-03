@@ -86,6 +86,14 @@ class _Parser(argparse.ArgumentParser):
 # --------------------------------------------------------------------------- helpers
 
 
+def _rel(path) -> str:
+    """Show paths relative to the current directory when possible, like the other commands."""
+    try:
+        return str(Path(path).resolve().relative_to(Path.cwd().resolve()))
+    except ValueError:
+        return str(path)
+
+
 def _workspace(args: argparse.Namespace) -> Tuple[Path, Dict]:
     schema_path = getattr(args, "schema", None)
     if schema_path and not Path(schema_path).is_file():
@@ -368,7 +376,7 @@ def cmd_create(args: argparse.Namespace) -> int:
             print("warning: the workspace has uncommitted changes; git_commit does not include them",
                   file=sys.stderr)
     _write_text(path, json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
-    print(f"wrote {path} ({len(manifest['requirements'])} requirements, git commit {commit[:12] if commit else 'none'})")
+    print(f"wrote {_rel(path)} ({len(manifest['requirements'])} requirements, git commit {commit[:12] if commit else 'none'})")
     if args.tag:
         if _git(ws, "tag", tag, commit) is None:
             print(f"error: could not create git tag {tag}", file=sys.stderr)

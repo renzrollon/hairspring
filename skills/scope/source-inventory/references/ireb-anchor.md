@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §4.1 Requirements sources; §6.6 Traceability (backward traceability to sources before the requirements specification) |
-| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for elaborating requirements); Chapter 6 (Practices for requirements management) |
+| CPRE FL Syllabus 3.2 | Chapter 4 (Practices for requirements elaboration); Chapter 6 (Practices for requirements management) |
 | IREB Glossary 2.2 terms | Requirements source; Stakeholder; Elicitation; Elicitation technique; Traceability |
 | Quality criteria touched | traceable, complete (set) |
 | Other standards | none |
