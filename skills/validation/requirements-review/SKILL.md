@@ -82,7 +82,7 @@ A review finds the defects that make a requirement useless or a set misleading, 
 6. **Check the set.** For the six set criteria (consistent, non-redundant, complete, modifiable, traceable, conformant), apply the checks in `references/quality-criteria.md`, comparing scoped rows with the whole register, `context.md` (every interface and actor covered) and `conflicts.md`. A contradiction between stakeholders' positions is a finding whose proposed fix is "register with `conflict-detector`"; do not resolve it here.
 
 7. **Merge, grade and number.**
-   - Merge candidates about the same location and the same underlying problem into one finding; list every source in "Found by".
+   - Merge candidates about the same location and the same underlying problem into one finding; list every source in "Found by". Lint findings of one rule with one fix across many rows (27 rows with `Priority=TBD`) become one finding whose location lists every row.
    - Give each finding exactly one criterion (the one whose failure causes the most harm) and a severity by the rules in `references/quality-criteria.md`.
    - Order by severity (blocker, major, minor), then by location. Number `F-01`, `F-02`, ... (unique within this file; `re-ids` kind `finding`).
    - Proposed fix: a concrete rewrite (EARS or story form) or a concrete action ("ask SH-08 whether ..."). Unknown values are `TBD`, with the question in "Open questions" and an owner. Never invent a value.
@@ -101,7 +101,7 @@ A review finds the defects that make a requirement useless or a set misleading, 
 
 ## Quality checks
 
-- [ ] The linter ran before any judgment; its command, exit code and summary line are in the header; each lint finding appears in exactly one F-nn.
+- [ ] The linter ran before any judgment; its command, exit code and summary line are in the header; each lint finding is covered by exactly one F-nn (one F-nn may cover many rows of the same rule and fix).
 - [ ] Every scoped requirement has a row in "Requirement grades", with adequacy and understandability graded for all of them.
 - [ ] Three perspectives ran independently (parallel, or sequential with fresh passes), and the header says which.
 - [ ] Every finding has an F-ID, one criterion from the twelve, a severity of blocker, major or minor, a location (ID, and file:line where known) and a proposed fix with no invented value.

@@ -140,6 +140,37 @@ _TEST_DECLS = (
 )
 
 
+
+_DECIDES_LINE = re.compile(r"^[-*]\s*(affected requirements|requirements affected)\s*:", re.I)
+_DECIDES_HEADING = re.compile(r"^(requirement updates|affected requirements|decision outcome)\b", re.I)
+
+
+def _decision_scope(lines: List[str]) -> Optional[set]:
+    """Indexes of the lines whose requirement IDs a decision record actually decides.
+
+    Requirements Decision Records name them in an "Affected requirements:" line and in the
+    "Requirement Updates" / "Decision Outcome" sections; IDs elsewhere (constraints, options)
+    are context. Returns ``None`` when the file has none of these markers (a plain ADR), so every
+    ID in it counts as decided-by, as before.
+    """
+    scoped: set = set()
+    found = False
+    in_section = False
+    for index, line in enumerate(lines):
+        text = line.strip()
+        if _DECIDES_LINE.match(text):
+            scoped.add(index)
+            found = True
+            continue
+        heading = re.match(r"^#{1,6}\s+(.*)$", text)
+        if heading:
+            in_section = bool(_DECIDES_HEADING.match(heading.group(1).strip()))
+            found = found or in_section
+            continue
+        if in_section:
+            scoped.add(index)
+    return scoped if found else None
+
 class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
@@ -574,10 +605,12 @@ class TraceBuilder:
                 continue
             self.stats["files_scanned"] += 1
             target = rel
+            scope: Optional[set] = None
             if kind == "decision":
                 name_ids = self.matcher.ids_of_kind("decision", Path(rel).name)
                 if name_ids and Path(rel).name.startswith(name_ids[0]):
                     target = name_ids[0]
+                scope = _decision_scope(lines)
             for index, line in enumerate(lines):
                 refs = self.matcher.test_refs(line) if kind == "test" else self.matcher.canonical_refs(line)
                 if not refs:
@@ -589,6 +622,9 @@ class TraceBuilder:
                 for ref in refs:
                     if kind == "openspec":
                         self.add(ref, to, "code", f"{rel}:{index + 1}", relation="mentioned-in")
+                    elif kind == "decision" and scope is not None and index not in scope:
+                        # cited as context (constraints, options), not decided by this record
+                        self.add(ref, to, "decision", f"{rel}:{index + 1}", relation="mentioned-in")
                     else:
                         self.add(ref, to, kind, f"{rel}:{index + 1}")
 
@@ -715,7 +751,7 @@ def compute_gaps(edges: Sequence[Dict[str, str]], reqs: "OrderedDict[str, reqio.
     gaps: List[Dict] = []
     counts = OrderedDict(
         (k, 0) for k in ("requirements", "in_scope", "retired", "with_source", "with_decision",
-                         "with_code_or_commit", "with_test")
+                         "with_code_or_commit", "with_test", "uncommitted_without_test")
     )
     counts["requirements"] = len(reqs)
     for rid, row in reqs.items():
@@ -736,6 +772,8 @@ def compute_gaps(edges: Sequence[Dict[str, str]], reqs: "OrderedDict[str, reqio.
                          "status": status, "text": row.get_str("Title") or row.get_str("Text")})
 
         verification = row.get_str("Verification").lower()
+        if status not in committed and "test" not in types:
+            counts["uncommitted_without_test"] += 1  # not a gap yet: nobody has agreed to build it
         if status in committed and "test" not in types and verification not in NON_TEST_VERIFICATION:
             gap("requirement-without-test",
                 f"status {status}, verification {verification or 'empty'}, no verified-by link")
@@ -879,6 +917,8 @@ def render_trace_md(edges: Sequence[Dict[str, str]], reqs: Dict, report: Dict, c
         f"| Gaps: code citing unknown or retired IDs | {s['code_citing_unknown_or_retired']} |",
         f"| Gaps: agreed or later requirements without an implementation reference | "
         f"{s['agreed_without_implementation']} |",
+        f"| Not yet agreed (draft, proposed, deferred) and without a test: not counted as gaps | "
+        f"{s.get('uncommitted_without_test', 0)} |",
         f"| Requirements in the register (all statuses) | {s['requirements']} |",
         f"| Trace links | {s['links']} |",
         "",

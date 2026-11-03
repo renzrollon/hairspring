@@ -42,9 +42,10 @@ R-016,requirement,openspec/changes/add-voucher-redemption/proposal.md,code,menti
 R-017,requirement,BRIEF.md:63,source,derives-from,requirements/requirements.csv:18
 R-018,requirement,BRIEF.md:63,source,derives-from,requirements/requirements.csv:19
 R-019,requirement,RDR-001,decision,decided-by,requirements/decisions/RDR-001-points-expiry-period.md:10
+R-019,requirement,RDR-001,decision,mentioned-in,requirements/decisions/RDR-001-points-expiry-period.md:15
 R-019,requirement,S-01,source,derives-from,requirements/requirements.csv:20
 R-020,requirement,BRIEF.md:23,source,derives-from,requirements/requirements.csv:21
-R-020,requirement,RDR-001,decision,decided-by,requirements/decisions/RDR-001-points-expiry-period.md:69
+R-020,requirement,RDR-001,decision,mentioned-in,requirements/decisions/RDR-001-points-expiry-period.md:69
 R-021,requirement,BRIEF.md:25,source,derives-from,requirements/requirements.csv:22
 R-022,requirement,BRIEF.md:21,source,derives-from,requirements/requirements.csv:23
 R-023,requirement,BRIEF.md:24,source,derives-from,requirements/requirements.csv:24
@@ -74,7 +75,7 @@ R-033,requirement,SH-03,source,derives-from,requirements/requirements.csv:34
 R-034,requirement,SH-03,source,derives-from,requirements/requirements.csv:35
 R-035,requirement,S-02,source,derives-from,requirements/requirements.csv:36
 R-035,requirement,openspec/changes/add-voucher-redemption/proposal.md,code,mentioned-in,openspec/changes/add-voucher-redemption/proposal.md:47
-R-036,requirement,RDR-001,decision,decided-by,requirements/decisions/RDR-001-points-expiry-period.md:24
+R-036,requirement,RDR-001,decision,mentioned-in,requirements/decisions/RDR-001-points-expiry-period.md:24
 R-036,requirement,S-05,source,derives-from,requirements/requirements.csv:37
 R-037,requirement,S-05,source,derives-from,requirements/requirements.csv:38
 R-038,requirement,S-14,source,derives-from,requirements/requirements.csv:39

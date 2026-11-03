@@ -52,7 +52,8 @@ openspec/changes/<change>/     to-openspec          OpenSpec change folder (outs
 3. **Never delete a requirement row.** Set `Status` to `withdrawn` or `rejected` and give the reason in `Rationale` or a decision record.
 4. **Dates are ISO 8601** (`2026-11-03`). File slugs are kebab-case.
 5. **Diagrams sit next to the text they illustrate**, as fenced `mermaid` blocks inside the Markdown work product.
-6. **Missing workspace is not a blocker.** If `requirements/` does not exist, create only the files the current skill emits, use the default schema, and recommend `/re-setup` in the final message.
+6. **Optional columns on demand.** A skill that needs an optional column (`Owner`, `Version`, `Links`, `Verification`, `Title`, ...) adds it to `requirements.csv` after the required columns, in the schema's `attributes.optional` order, and leaves it empty on other rows. Never reorder or drop existing columns.
+7. **Missing workspace is not a blocker.** If `requirements/` does not exist, create only the files the current skill emits, use the default schema, and recommend `/re-setup` in the final message.
 
 ## Register columns
 

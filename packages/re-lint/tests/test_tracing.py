@@ -222,6 +222,25 @@ def test_build_without_git_walks_the_tree_and_skips_virtualenvs(workspace, capsy
     assert not any("huge" in k[1] or "env" in k[1] for k in edges)
 
 
+def test_rdr_sections_decide_only_affected_requirements(workspace, capsys):
+    workspace.register([make_row("R-001", Status="agreed"), make_row("R-002"), make_row("R-003")])
+    workspace.write("requirements/decisions/RDR-001-expiry.md", (
+        "# RDR-001: Points expiry period\n\n- Status: proposed\n- Affected requirements: R-001\n\n"
+        "## Decision Drivers\n\n### Constraints\n\n- Retention rule R-002 applies.\n\n"
+        "## Requirement Updates\n\n| Requirement | Change |\n| --- | --- |\n| R-003 | rewrite |\n"
+    ))
+    workspace.write("docs/adr/0001-plain.md", "# ADR 1\n\nApplies to R-002.\n")
+    result = run_cli(tracing, ["build", "--no-git"], capsys)
+    assert result.code == 0
+    edges = _edges(workspace)
+    assert ("R-001", "RDR-001", "decided-by") in edges
+    assert ("R-003", "RDR-001", "decided-by") in edges
+    assert ("R-002", "RDR-001", "mentioned-in") in edges
+    assert ("R-002", "RDR-001", "decided-by") not in edges
+    # a plain ADR without RDR markers keeps the old behavior
+    assert ("R-002", "docs/adr/0001-plain.md", "decided-by") in edges
+
+
 def test_build_options_and_errors(traced, capsys):
     out_dir = traced.root / "out"
     result = run_cli(tracing, ["build", "--out", str(out_dir), "--code-glob", "lib/**", "--test-glob", "tests/**"], capsys)

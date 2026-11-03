@@ -65,8 +65,9 @@ Read `requirements/schema.json` → `process.change_authority` and the process s
 | `change_authority` | Route | Section 7 of the CR is drafted as |
 | --- | --- | --- |
 | `product-owner` (default) | The product owner decides and orders the backlog | A backlog item: title `CR-nnn: <title>`, the problem, the change, acceptance criteria, the impacted IDs, the size, and links |
-| `ccb` | A Change Control Board decides (typical for linear, customer-specific or contract-bound work) | A board request: summary, reason, impact, options, recommendation, the decision needed, and by when |
-| `customer` | The customer or contract owner decides | As for `ccb`, plus the contract reference and who signs |
+| `change-control-board` (also `ccb`) | A Change Control Board decides (typical for linear, customer-specific or contract-bound work) | A board request: summary, reason, impact, options, recommendation, the decision needed, and by when |
+| `product-manager` | The product manager decides (market-oriented products) | As for `product-owner` |
+| `customer` | The customer or contract owner decides | As for `change-control-board`, plus the contract reference and who signs |
 | any other value | Ask who decides and how they want to receive it | Ask |
 | missing | Use `product-owner`, and say so in the CR | As for `product-owner` |
 

@@ -37,9 +37,9 @@ Set up with `re-setup` on {YYYY-MM-DD} by {name or role}. Edit this file freely;
 
 IDs are opaque: never encode type, component or priority in them, never reuse one (withdrawn and rejected included), never renumber. Allocate with `re-ids` or `re-lint ids next --kind <kind>`.
 
-| Kind | Prefix | Digits | Example | Lives in |
+| Kind | Prefix | Digits | Pattern | Lives in |
 | --- | --- | --- | --- | --- |
-| {kind} | {prefix} | {n} | {example} | {file} |
+| {kind} | {prefix} | {n} | {pattern such as R-nnn; never a real ID, or `ids next` counts it as used} | {file} |
 
 ## Attribute schema
 

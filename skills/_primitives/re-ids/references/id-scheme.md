@@ -75,7 +75,7 @@ stateDiagram-v2
   withdrawn --> [*]
 ```
 
-- `agreed` needs a named person in `Source`, `Owner` or a decision record. An agent never sets it on its own.
+- `agreed` needs a named person: record them in `Owner` (add the optional column if the register lacks it), or link the decision record (`RDR-nnn`) in `Links`. An agent never sets `agreed` on its own; it records the agreement a named person gave.
 - `verified` needs evidence: a passing test, an inspection record or a demonstration note referenced in `Links` or `trace/trace.csv`.
 - A text change on an `agreed` requirement increments `Version` and moves it back to `proposed`, unless a change request (`CR-nnn`) approved it. An empty `Version` counts as 1.
 - An approved change request moves affected `implemented` or `verified` requirements back to `agreed` (the new text still has to be built and verified).

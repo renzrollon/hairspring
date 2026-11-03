@@ -57,19 +57,19 @@ Set up with `re-setup` on 2026-11-03 by Wei Jie Chua (SH-08). Edit this file fre
 
 IDs are opaque: never encode type, component or priority in them, never reuse one (withdrawn and rejected included), never renumber. Allocate with `re-ids` or `re-lint ids next --kind <kind>`.
 
-| Kind | Prefix | Digits | Example | Lives in |
+| Kind | Prefix | Digits | Pattern | Lives in |
 | --- | --- | --- | --- | --- |
-| requirement | `R-` | 3 | `R-012` | `requirements.csv` |
-| acceptance criterion | `<R-ID>.AC` | n | `R-031.AC2` | `stories/*.md` |
-| source | `S-` | 2 | `S-04` | `sources.csv` |
-| stakeholder | `SH-` | 2 | `SH-07` | `stakeholders.md` |
-| interview | `I-` | 2 | `I-03` | `elicitation/` |
-| candidate | `CAN-` | 3 | `CAN-041` | `candidates.csv` |
-| conflict | `CF-` | 2 | `CF-02` | `conflicts.md` |
-| decision | `RDR-` | 3 | `RDR-007` | `decisions/` |
-| open-decision | `D-` | 2 | `D-01` | `context.md`, then a decision record |
-| change | `CR-` | 3 | `CR-014` | `changes/` |
-| finding | `F-` | 2 | `F-05` | `reviews/` |
+| requirement | `R-` | 3 | `R-nnn` | `requirements.csv` |
+| acceptance criterion | `<R-ID>.AC` | n | `R-nnn.ACn` | `stories/*.md` |
+| source | `S-` | 2 | `S-nn` | `sources.csv` |
+| stakeholder | `SH-` | 2 | `SH-nn` | `stakeholders.md` |
+| interview | `I-` | 2 | `I-nn` | `elicitation/` |
+| candidate | `CAN-` | 3 | `CAN-nnn` | `candidates.csv` |
+| conflict | `CF-` | 2 | `CF-nn` | `conflicts.md` |
+| decision | `RDR-` | 3 | `RDR-nnn` | `decisions/` |
+| open-decision | `D-` | 2 | `D-nn` | `context.md`, then a decision record |
+| change | `CR-` | 3 | `CR-nnn` | `changes/` |
+| finding | `F-` | 2 | `F-nn` | `reviews/` |
 
 ## Attribute schema
 

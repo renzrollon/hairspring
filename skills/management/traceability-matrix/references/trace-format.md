@@ -9,7 +9,7 @@ Header: `From,FromType,To,ToType,Relation,Evidence`. Every row starts at a requi
 | `ToType` | `Relation` | `To` | Found in |
 | --- | --- | --- | --- |
 | `source` | `derives-from` | A source, stakeholder or interview ID (`S-01`, `SH-02`, `I-03`), or the `Source` text when it holds no ID | The `Source` cell of the requirement row; `sources.csv` rows that cite the requirement |
-| `decision` | `decided-by` | `RDR-nnn` for files named `RDR-nnn-*.md` and for decision IDs in `Links`; the repo-relative path for other ADR files | `requirements/decisions/`, the ADR folders in `schema.json` → `trace.adr_dirs`, and the `Links` cell |
+| `decision` | `decided-by` | `RDR-nnn` for files named `RDR-nnn-*.md` and for decision IDs in `Links`; the repo-relative path for other ADR files | `requirements/decisions/`, the ADR folders in `schema.json` → `trace.adr_dirs`, and the `Links` cell. In a Requirements Decision Record, only IDs on its `- Affected requirements:` line and in its `Requirement Updates` / `Decision Outcome` sections are `decided-by`; IDs cited elsewhere (constraints, options) become `mentioned-in`. Plain ADRs without those markers: every cited ID is `decided-by` |
 | `code` | `implemented-by` | Repo-relative file path | Files under the code globs, and code paths in `Links` |
 | `test` | `verified-by` | `path::test name`, or the path when no test name is found nearby | Files under the test globs, and test paths in `Links` |
 | `commit` | `mentioned-in` | Short commit hash | `git log` subjects and bodies (when `trace.scan_git_log` is true) |
