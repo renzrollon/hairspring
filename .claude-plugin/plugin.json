@@ -1,0 +1,38 @@
+{
+  "name": "re-skills",
+  "displayName": "RE Skills",
+  "version": "0.1.0",
+  "description": "Requirements engineering for engineering teams, aligned with the IREB CPRE Foundation Level: 35 skills that scope, elicit, specify, validate, trace and manage requirements as reviewable files (EARS requirements, context diagrams, review findings, trace matrices), plus deterministic linters for CI.",
+  "author": {
+    "name": "Carl Rollon",
+    "url": "https://github.com/renzrollon"
+  },
+  "homepage": "https://github.com/renzrollon/hairspring",
+  "repository": "https://github.com/renzrollon/hairspring",
+  "license": "MIT",
+  "keywords": [
+    "requirements",
+    "requirements-engineering",
+    "ireb",
+    "cpre",
+    "ears",
+    "user-stories",
+    "traceability",
+    "nfr",
+    "quality-requirements",
+    "spec-driven-development",
+    "openspec"
+  ],
+  "skills": [
+    "./skills/_primitives",
+    "./skills/foundations",
+    "./skills/scope",
+    "./skills/elicitation",
+    "./skills/specification",
+    "./skills/negotiation",
+    "./skills/validation",
+    "./skills/management",
+    "./skills/integration"
+  ],
+  "icon": ".claude-plugin/icon.png"
+}
