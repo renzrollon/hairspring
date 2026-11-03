@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: kickoff-list-to-register
+expected_outcome: |
+  requirements/sources.csv exists with the fixed eleven-column header. The five documents and
+  systems and the three stakeholders with named representatives each get an S-nn row. The PDPA
+  and DRP-2024 row is planned as document analysis, the legacy module as system archaeology, and
+  the ticket export as feedback analysis. The fraud analyst, whose representative is TBD, gets no
+  row yet. Every row is planned, and unknown versions or contacts are TBD.
+context:
+  scaffold_script: place-files.sh

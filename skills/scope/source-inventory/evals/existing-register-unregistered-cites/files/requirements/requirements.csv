@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-002,F,"WHEN the POS sends a voucher validation request, the loyalty service shall return whether the voucher can be applied.",S-02,must,draft,Redemption at checkout.
+R-060,F,"WHEN a member returns a purchase within the return window, the loyalty service shall reverse the points of that purchase.",S-05,must,draft,Returns must not leave points behind.
+R-061,Q,"The loyalty service shall deliver the daily points-liability extract to the data warehouse by TBD local time.",Grace Lim 2026-10-20,must,draft,Month-end close depends on it.

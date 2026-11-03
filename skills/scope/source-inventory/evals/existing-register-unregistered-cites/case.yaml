@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: existing-register-unregistered-cites
+expected_outcome: |
+  S-01 to S-03 are unchanged. Grace Lim, cited as "Grace Lim 2026-10-20", is registered as a
+  stakeholder source with Contact SH-03 under an ID above S-05, because S-05 is already cited.
+  S-05 is cited but nobody says what it is, so it is reported as an open question and not filled
+  with invented content. requirements.csv is not modified.
+context:
+  scaffold_script: place-files.sh

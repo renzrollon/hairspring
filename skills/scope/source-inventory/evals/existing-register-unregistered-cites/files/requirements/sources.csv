@@ -1,0 +1,4 @@
+ID,Source,Kind,Category,Version,Location,Contact,Technique,Relevance,Status,Notes
+S-01,Harbourline Rewards programme terms and conditions,document,terms,draft v3,SharePoint: Loyalty/Terms/draft-v3,SH-01,document analysis,high,planned,Binding for members once published.
+S-02,TillPoint POS loyalty interface spec,document,specification,v2.1,docs/vendor/tillpoint-loyalty-interface-v2.1.pdf,TBD,document analysis,high,elicited,Rows R-001 and R-002 cite it.
+S-03,Support ticket export (loyalty category),document,ticket export,2026-05 to 2026-10,data/support/loyalty-tickets.csv,SH-02,feedback analysis,medium,planned,1240 tickets.

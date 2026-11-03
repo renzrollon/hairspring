@@ -37,6 +37,7 @@ Rules:
 - Draw this file's use case, all its actors, and only those other use cases it includes or that extend it. The system-wide picture belongs in `context.md`.
 - Channels (the customer mobile app, the POS) are not actors when they only carry the actor's request; name them in the actor field ("via the customer mobile app"). An external system that decides something (the fraud engine) is a supporting actor.
 - No `classDef`, `style` or colors. Quote labels that contain punctuation. Never use `end` as a node ID.
+- Some Mermaid 11.4 releases draw an arrowhead on `---`; it still means a plain association. Current releases draw a plain line.
 
 ### PlantUML alternative
 

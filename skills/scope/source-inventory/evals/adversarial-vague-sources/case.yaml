@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: adversarial-vague-sources
+expected_outcome: |
+  The skill does not register "the internet", "best practice", "common sense" or the ChatGPT
+  answer as sources and explains that they cannot be found again or checked. The CEO's remark
+  makes the CEO a stakeholder source with an interview planned to confirm it, status planned, not
+  elicited. No version or owner is invented: unknown values are TBD or "-".
