@@ -5,41 +5,48 @@ Usage::
 
     re-lint issues plan --tracker github|jira|ado [--ids ...] [--status S ...] [--format text|json] [--out FILE]
     re-lint issues push --tracker github|jira|ado [--ids ...] [--status S ...] [--apply] [--label L ...]
-    re-lint issues pull --tracker github|jira|ado [--ids ...] [--apply] [--ignore-lifecycle]
+    re-lint issues pull --tracker github|jira|ado [--ids ...] [--status S ...] [--apply]
 
-``plan`` shows what ``push`` would send, without any network call. ``push`` and ``pull`` are dry
-runs unless ``--apply`` is given: they read the tracker and report what they would change.
+The rules follow ``skills/integration/issue-sync/references/sync-rules.md``.
 
-* Issue title: ``<ID>: <Title, or the first 80 characters of Text>``. Issues are matched by the ID
-  in the title (a title that starts with the ID wins), so re-running ``push`` updates instead of
-  duplicating; two candidate issues for one ID are reported as ambiguous and left alone.
-* Issue body: a block between ``<!-- re-skills:begin -->`` and ``<!-- re-skills:end -->`` with the
-  text, attributes and trace links (from ``<workspace>/trace/trace.csv`` when present). A re-sync
-  replaces only that block; the rest of the body is kept. Jira descriptions are Atlassian Document
-  Format, so the markers are paragraphs there; Azure DevOps descriptions are HTML.
-* Selection: ``--ids``, else ``--status`` (default ``agreed`` for plan and push; every status except
-  withdrawn and rejected for pull).
-* ``pull`` maps the tracker status through ``schema.json`` -> ``issues.status_map.<tracker>`` (keys
-  are case-insensitive; for GitHub, ``closed:not_planned`` is looked up for issues closed as not
-  planned and such issues are skipped when the key is missing) and sets ``Status`` in
-  ``requirements.csv`` only where it differs. A change must be allowed by
-  ``schema.lifecycle.transitions`` or move forward along draft -> proposed -> agreed ->
-  implemented -> verified (so a closed issue never moves ``verified`` back to ``implemented``);
-  ``--ignore-lifecycle`` skips that check. Withdrawn and rejected rows never change.
+* ``plan`` never calls the tracker. Every row gets an action: ``create-or-match`` (selected, no
+  tracker reference in ``Links``), ``update`` (selected, reference present), ``skip`` (not
+  selected) or ``move-on-board`` (withdrawn, rejected or deferred with a reference: a person
+  closes it). Selection: ``--ids``, else ``--status`` (default ``agreed``).
+* ``push`` (dry run unless ``--apply``) matches issues by the title prefix ``<ID>: `` (two
+  candidates: ``ambiguous``, untouched; a reference in ``Links`` with no matching issue:
+  ``missing-issue``, never a duplicate). Title: ``<ID>: <Title, or the first 80 characters of
+  Text>``. The body block between ``<!-- re-skills:begin -->`` and ``<!-- re-skills:end -->``
+  follows the skill's ``assets/issue-body.md``; only that span is replaced, and an issue whose
+  markers are missing or doubled is left alone (``markers-missing``). Jira descriptions are ADF
+  (the markers are visible paragraphs); Azure DevOps descriptions are HTML. Withdrawn, rejected
+  and deferred rows are never pushed. ``--apply`` records the tracker reference
+  (``github:<owner>/<repo>#<n>``, ``jira:<KEY>``, ``ado:<id>``) in ``Links``.
+* ``pull`` (dry run unless ``--apply``) maps each linked issue's status through
+  ``schema.json`` -> ``issues.status_map.<tracker>`` (case-insensitive; GitHub issues closed as
+  not planned use ``closed:not_planned``, default ``rejected``, never ``closed``) and writes
+  ``Status`` only for class ``update``: an allowed move in ``schema.lifecycle.transitions``.
+  ``needs-person`` (draft/proposed -> agreed needs a named person), ``needs-evidence`` (verified
+  without a test, inspection or demonstration in ``Links`` or ``trace/trace.csv``),
+  ``skip-coarse-map``, ``conflict``, ``conflict-lifecycle`` (withdrawn/rejected/deferred rows are
+  never overwritten), ``unmapped`` and ``missing-issue`` are reported and never written.
 
-Credentials (never printed):
+Credentials (never printed, never on a command line):
 
-* GitHub: the ``gh`` CLI, logged in (``gh auth login``); ``--repo OWNER/REPO`` or the current repo.
-* Jira Cloud (REST v3): ``JIRA_BASE_URL``, ``JIRA_EMAIL``, ``JIRA_API_TOKEN``, ``JIRA_PROJECT``.
+* GitHub: the ``gh`` CLI, logged in (``gh auth login``); ``--repo OWNER/REPO`` or ``GH_REPO``.
+* Jira Cloud (REST v3): ``JIRA_BASE_URL`` (used as given, gateway URLs work), ``JIRA_EMAIL``,
+  ``JIRA_API_TOKEN``, ``JIRA_PROJECT``.
 * Azure DevOps (REST 7.1): ``ADO_ORG_URL``, ``ADO_PROJECT``, ``ADO_PAT``.
 
-Exit codes: 0 ok, 1 some tracker calls failed, 2 usage, configuration or parse error.
+Exit codes: 0 nothing to report, 1 a finding class or a failed tracker call, 2 usage or
+configuration error.
 """
 from __future__ import annotations
 
 import argparse
 import base64
 import copy
+import datetime
 import html
 import json
 import os
@@ -66,9 +73,8 @@ BEGIN = "<!-- re-skills:begin -->"
 END = "<!-- re-skills:end -->"
 TRACKERS = ("github", "jira", "ado")
 RETIRED = {"withdrawn", "rejected"}
+LIFECYCLE_DECISIONS = {"withdrawn", "rejected", "deferred"}
 PROGRESSION = ["draft", "proposed", "agreed", "implemented", "verified"]
-ATTRIBUTES = ["Type", "Priority", "Status", "Source", "Rationale", "Owner", "Verification", "Version",
-              "Links", "Tags"]
 TIMEOUT = 30
 
 
@@ -147,19 +153,52 @@ def pick_issue(rid: str, issues: Sequence["Issue"]) -> Tuple[Optional["Issue"], 
 
 # --------------------------------------------------------------------------- body blocks
 
+TYPE_LABELS = {"F": "F functional", "Q": "Q quality requirement", "C": "C constraint"}
+_REF = re.compile(r"^(?:github:[^\s#]*#\d+|jira:[A-Z][A-Z0-9_]*-\d+|ado:\d+)$")
 
-def block_data(row: reqio.Row, trace: Dict[str, Dict[str, List[str]]], register: str) -> Dict:
+
+def tracker_refs(links: str) -> List[str]:
+    return [t for t in re.split(r"[\s,;]+", links or "") if _REF.match(t)]
+
+
+def block_data(row: reqio.Row, ctx: Dict) -> Dict:
+    """The managed block's content (``assets/issue-body.md`` of the issue-sync skill)."""
     rid = row.get_str("ID")
-    attrs = [(name, _one_line(row.get_str(name))) for name in ATTRIBUTES if row.get_str(name)]
-    links = OrderedDict((label, trace.get(rid, {}).get(kind, [])[:10])
-                        for label, kind in (("Tests", "test"), ("Code", "code"), ("Decisions", "decision")))
-    return {"id": rid, "text": _one_line(row.get_str("Text")), "attributes": attrs,
-            "trace": OrderedDict((k, v) for k, v in links.items() if v), "register": register}
-
-
-def _footer(data: Dict) -> str:
-    return (f"Synced by re-skills issue-sync from {data['register']}. Edit the requirement there; "
-            "this block is replaced on every sync.")
+    attrs = [("Source", _one_line(row.get_str("Source"))), ("Rationale", _one_line(row.get_str("Rationale"))),
+             ("Verification", _one_line(row.get_str("Verification")) or "TBD")]
+    if "Owner" in row:
+        attrs.append(("Owner", _one_line(row.get_str("Owner"))))
+    sources = []
+    for kind in ("source", "stakeholder", "interview"):
+        try:
+            pattern = reqio.id_prefix_regex(kind, ctx["schema"])
+        except KeyError:
+            continue
+        prefix = str(((ctx["schema"].get("ids") or {}).get(kind) or {}).get("prefix", ""))
+        for match in pattern.finditer(row.get_str("Source")):
+            sid = prefix + match.group(1)
+            title = ctx["source_titles"].get(sid)
+            entry = f"{sid} ({title})" if title else sid
+            if entry not in sources:
+                sources.append(entry)
+    links = [t for t in re.split(r"[\s,;]+", row.get_str("Links")) if t and not _REF.match(t)]
+    traced = ctx["trace"].get(rid, {})
+    tests_code = [f"`{v}` (test)" for v in traced.get("test", [])[:10]] + \
+                 [f"`{v}` (code)" for v in traced.get("code", [])[:10]]
+    return {
+        "id": rid,
+        "header": f"{TYPE_LABELS.get(row.get_str('Type').upper(), row.get_str('Type') or 'requirement')} · priority "
+                  f"{row.get_str('Priority') or 'TBD'} · register status at last push: {row.get_str('Status')}",
+        "text": _one_line(row.get_str("Text")),
+        "attributes": attrs,
+        "acs": ctx["acs"].get(rid, []),
+        "trace": [("Register", f"`{ctx['register']}` ({rid})"),
+                  ("Sources", ", ".join(sources) or "none"),
+                  ("Decisions and links", " ".join(links) or "none"),
+                  ("Tests and code", ", ".join(tests_code) or "not traced yet")],
+        "footer": f"Managed by re-skills issue-sync. Change the requirement in `{ctx['register']}` and push again: "
+                  "edits inside this block are overwritten. Discuss outside the block or in comments.",
+    }
 
 
 class MarkdownBody:
@@ -169,13 +208,19 @@ class MarkdownBody:
     _region = re.compile(re.escape(BEGIN) + r".*?" + re.escape(END), re.S)
 
     def render(self, data: Dict) -> str:
-        out = [BEGIN, f"> {data['text']}", "", "| Attribute | Value |", "| --- | --- |"]
+        out = [BEGIN, f"**{data['id']}** · {data['header']}", "", f"> {data['text']}", "",
+               "| Attribute | Value |", "| --- | --- |"]
         out += [f"| {k} | {_md_cell(v)} |" for k, v in data["attributes"]]
-        if data["trace"]:
-            out += ["", "**Trace**"]
-            out += [f"- {label}: " + ", ".join(f"`{v}`" for v in values) for label, values in data["trace"].items()]
-        out += ["", f"_{_footer(data)}_", END]
+        out += ["", "**Acceptance criteria**", ""]
+        out += [f"- {ac}" for ac in data["acs"]] or ["- none recorded"]
+        out += ["", "**Trace**", ""]
+        out += [f"- {k}: {v}" for k, v in data["trace"]]
+        out += ["", f"_{data['footer']}_", END]
         return "\n".join(out)
+
+    def markers(self, body: Any) -> Tuple[int, int]:
+        text = body or ""
+        return text.count(BEGIN), text.count(END)
 
     def merge(self, existing: Any, data: Dict) -> str:
         block = self.render(data)
@@ -199,13 +244,20 @@ class HtmlBody:
     def render(self, data: Dict) -> str:
         e = html.escape
         rows = "".join(f"<tr><td>{e(k)}</td><td>{e(v)}</td></tr>" for k, v in data["attributes"])
-        out = [BEGIN, "<div>", f"<blockquote>{e(data['text'])}</blockquote>",
-               f"<table><tr><th>Attribute</th><th>Value</th></tr>{rows}</table>"]
-        if data["trace"]:
-            items = "".join(f"<li>{e(label)}: {e(', '.join(values))}</li>" for label, values in data["trace"].items())
-            out.append(f"<p><strong>Trace</strong></p><ul>{items}</ul>")
-        out += [f"<p><em>{e(_footer(data))}</em></p>", "</div>", END]
-        return "".join(out)
+        acs = "".join(f"<li>{e(ac)}</li>" for ac in data["acs"]) or "<li>none recorded</li>"
+        trace = "".join(f"<li>{e(k)}: {e(v)}</li>" for k, v in data["trace"])
+        return "".join([
+            BEGIN, "<div>", f"<p><strong>{e(data['id'])}</strong> · {e(data['header'])}</p>",
+            f"<blockquote>{e(data['text'])}</blockquote>",
+            f"<table><tr><th>Attribute</th><th>Value</th></tr>{rows}</table>",
+            f"<p><strong>Acceptance criteria</strong></p><ul>{acs}</ul>",
+            f"<p><strong>Trace</strong></p><ul>{trace}</ul>",
+            f"<p><em>{e(data['footer'])}</em></p>", "</div>", END])
+
+    def markers(self, body: Any) -> Tuple[int, int]:
+        text = body or ""
+        count = lambda word: len(re.findall(rf"(?:<!--|&lt;!--)\s*re-skills:{word}\s*(?:-->|--&gt;)", text, re.I))
+        return count("begin"), count("end")
 
     def merge(self, existing: Any, data: Dict) -> str:
         block = self.render(data)
@@ -223,7 +275,7 @@ class HtmlBody:
 
 
 class AdfBody:
-    """Jira Cloud: Atlassian Document Format; the markers are their own paragraphs."""
+    """Jira Cloud: Atlassian Document Format; the markers are their own (visible) paragraphs."""
 
     name = "adf"
 
@@ -248,20 +300,23 @@ class AdfBody:
             node["marks"] = [{"type": m} for m in marks]
         return node
 
+    def _bullets(self, items: Sequence[str]) -> Dict:
+        return {"type": "bulletList", "content": [
+            {"type": "listItem", "content": [self._para(self._t(item))]} for item in items]}
+
     def nodes(self, data: Dict) -> List[Dict]:
-        items = [{"type": "listItem", "content": [self._para(self._t(k, "strong"), self._t(f": {v}"))]}
-                 for k, v in data["attributes"]]
-        out: List[Dict] = [self._para(self._t(BEGIN)),
-                           {"type": "blockquote", "content": [self._para(self._t(data["text"] or " "))]}]
-        if items:
-            out.append({"type": "bulletList", "content": items})
-        if data["trace"]:
-            out.append(self._para(self._t("Trace", "strong")))
-            out.append({"type": "bulletList", "content": [
-                {"type": "listItem", "content": [self._para(self._t(f"{label}: {', '.join(values)}"))]}
-                for label, values in data["trace"].items()]})
-        out += [self._para(self._t(_footer(data), "em")), self._para(self._t(END))]
-        return out
+        return [
+            self._para(self._t(BEGIN)),
+            self._para(self._t(data["id"], "strong"), self._t(f" · {data['header']}")),
+            {"type": "blockquote", "content": [self._para(self._t(data["text"] or " "))]},
+            self._bullets([f"{k}: {v}" for k, v in data["attributes"]]),
+            self._para(self._t("Acceptance criteria", "strong")),
+            self._bullets(list(data["acs"]) or ["none recorded"]),
+            self._para(self._t("Trace", "strong")),
+            self._bullets([f"{k}: {v}" for k, v in data["trace"]]),
+            self._para(self._t(data["footer"], "em")),
+            self._para(self._t(END)),
+        ]
 
     def _bounds(self, content: List[Any]) -> Optional[Tuple[int, int]]:
         begin = next((i for i, n in enumerate(content) if _one_line(self._text(n)) == BEGIN), None)
@@ -269,6 +324,11 @@ class AdfBody:
             return None
         end = next((i for i in range(begin + 1, len(content)) if _one_line(self._text(content[i])) == END), None)
         return (begin, end) if end is not None else None
+
+    def markers(self, body: Any) -> Tuple[int, int]:
+        content = list(body.get("content") or []) if isinstance(body, dict) else []
+        texts = [_one_line(self._text(n)) for n in content]
+        return texts.count(BEGIN), texts.count(END)
 
     def merge(self, existing: Any, data: Dict) -> Dict:
         doc = copy.deepcopy(existing) if isinstance(existing, dict) and existing.get("type") == "doc" else None
@@ -288,6 +348,14 @@ class AdfBody:
         if not bounds:
             return None
         return _one_line(self._text(content[bounds[0]:bounds[1] + 1]))
+
+
+def body_is_empty(body: Any) -> bool:
+    if body is None:
+        return True
+    if isinstance(body, dict):
+        return not _one_line(AdfBody._text(body))
+    return not re.sub(r"<[^>]+>", "", str(body)).strip()
 
 
 # --------------------------------------------------------------------------- tracker clients
@@ -624,6 +692,7 @@ def _load_rows(ws: Path, schema: Dict) -> "OrderedDict[str, reqio.Row]":
 
 
 def _trace(ws: Path) -> Dict[str, Dict[str, List[str]]]:
+    """Tests (verified-by) and code (implemented-by) per requirement from ``trace/trace.csv``."""
     path = ws / "trace" / "trace.csv"
     out: Dict[str, Dict[str, List[str]]] = {}
     if not path.is_file():
@@ -633,185 +702,415 @@ def _trace(ws: Path) -> Dict[str, Dict[str, List[str]]]:
     except (OSError, UnicodeDecodeError, ValueError):
         return out
     for row in table.rows:
+        relation = row.get_str("Relation")
+        kind = {"verified-by": "test", "implemented-by": "code"}.get(relation)
+        if kind is None:
+            continue
         rid = row.get_str("From").split(".AC", 1)[0]
-        kind = row.get_str("ToType")
-        target = row.get_str("To")
         values = out.setdefault(rid, {}).setdefault(kind, [])
-        if target and target not in values:
-            values.append(target)
+        if row.get_str("To") and row.get_str("To") not in values:
+            values.append(row.get_str("To"))
     return out
 
 
-def _select(rows: "OrderedDict[str, reqio.Row]", args: argparse.Namespace, default_statuses: Optional[List[str]]
-            ) -> List[reqio.Row]:
+def _acceptance_criteria(ws: Path, schema: Dict) -> Dict[str, List[str]]:
+    """``R-nnn.ACn: <criterion>`` lines per requirement from ``stories/*.md``."""
+    spec = (schema.get("ids") or {}).get("requirement") or {"prefix": "R-", "digits": 3}
+    ac = rf"({re.escape(str(spec.get('prefix', 'R-')))}\d{{{int(spec.get('digits', 3))},}})\.AC(\d+)"
+    found: Dict[str, Dict[int, str]] = {}
+    stories = ws / "stories"
+    for path in sorted(stories.glob("*.md")) if stories.is_dir() else []:
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+            tables = reqio.read_tables(path)
+        except (OSError, UnicodeDecodeError, ValueError):
+            continue
+        for table in tables:
+            if "ID" not in table.columns:
+                continue
+            text_col = next((c for c in table.columns if c.lower().startswith("acceptance")), table.columns[-1])
+            for row in table.rows:
+                m = re.match(rf"^{ac}$", row.get_str("ID"))
+                if m:
+                    found.setdefault(m.group(1), {}).setdefault(int(m.group(2)), _one_line(row.get_str(text_col)))
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("|"):
+                continue
+            label = re.match(rf"^\s*(?:[-*+]\s+)?(?:\*\*|__)\s*{ac}\s*:?\s*(.*?)\s*(?:\*\*|__)", line)
+            if label:
+                steps = []
+                for nxt in lines[i + 1:]:
+                    step = re.match(r"^\s*[-*+]\s+(?:\*\*|__)?(Given|When|Then|And|But)(?:\*\*|__)?:?\s+(.*)$", nxt, re.I)
+                    if not step:
+                        if nxt.strip() or steps:
+                            break
+                        continue
+                    steps.append(f"{step.group(1).capitalize()} {step.group(2).strip()}")
+                text = (label.group(3) + ": " if label.group(3) else "") + "; ".join(steps)
+                found.setdefault(label.group(1), {}).setdefault(int(label.group(2)), _one_line(text))
+                continue
+            item = re.match(rf"^\s*[-*+]\s+{ac}\s*:\s*(.+)$", line)
+            if item:
+                found.setdefault(item.group(1), {}).setdefault(int(item.group(2)), _one_line(item.group(3)))
+    return {rid: [f"{rid}.AC{n}: {text}" for n, text in sorted(items.items())] for rid, items in found.items()}
+
+
+def _source_titles(ws: Path) -> Dict[str, str]:
+    path = ws / "sources.csv"
+    if not path.is_file():
+        return {}
+    try:
+        table = reqio.read_table(path)
+    except (OSError, UnicodeDecodeError, ValueError):
+        return {}
+    col = next((c for c in ("Title", "Source", "Name", "Description") if c in table.columns), None)
+    return {r.get_str("ID"): _one_line(r.get_str(col)) for r in table.rows if col and r.get_str(col)}
+
+
+def _context(ws: Path, schema: Dict) -> Dict:
+    register = os.path.relpath(ws / "requirements.csv", reqio.find_repo_root(ws)).replace(os.sep, "/")
+    return {"schema": schema, "register": register, "trace": _trace(ws), "acs": _acceptance_criteria(ws, schema),
+            "source_titles": _source_titles(ws)}
+
+
+def _selection(rows: "OrderedDict[str, reqio.Row]", args: argparse.Namespace) -> Tuple[set, bool]:
     ids = _split_list(getattr(args, "ids", None))
     if ids:
         unknown = [i for i in ids if i not in rows]
         if unknown:
             raise UsageError(f"unknown requirement ID(s): {', '.join(unknown)}")
-        keep = set(ids)
-        return [r for rid, r in rows.items() if rid in keep]
-    statuses = {s.lower() for s in _split_list(getattr(args, "status", None))}
-    if statuses:
-        return [r for r in rows.values() if r.get_str("Status").lower() in statuses]
-    if default_statuses is None:
-        return [r for r in rows.values() if r.get_str("Status").lower() not in RETIRED]
-    return [r for r in rows.values() if r.get_str("Status").lower() in default_statuses]
+        return set(ids), True
+    statuses = {s.lower() for s in _split_list(getattr(args, "status", None))} or {"agreed"}
+    return {rid for rid, r in rows.items() if r.get_str("Status").lower() in statuses}, False
 
 
-def _register_name(ws: Path) -> str:
-    return "`" + os.path.relpath(ws / "requirements.csv", reqio.find_repo_root(ws)).replace(os.sep, "/") + "`"
+def _status_map(tracker: str, schema: Dict) -> Dict[str, str]:
+    status_map = ((schema.get("issues") or {}).get("status_map") or {}).get(tracker) or {}
+    return {str(k).strip().lower(): str(v) for k, v in status_map.items()}
 
 
 def map_status(tracker: str, issue: Issue, schema: Dict) -> Tuple[Optional[str], str]:
-    """(requirement status, the key that matched or a reason it did not)."""
-    status_map = ((schema.get("issues") or {}).get("status_map") or {}).get(tracker) or {}
-    lowered = {str(k).strip().lower(): str(v) for k, v in status_map.items()}
+    """(requirement status, the key that matched or why nothing matched)."""
+    lowered = _status_map(tracker, schema)
     for key in issue.status_keys():
         if key.strip().lower() in lowered:
             return lowered[key.strip().lower()], key
+        if key == "closed:not_planned":  # never falls back to "closed" (which means implemented)
+            return "rejected", key
     keys = issue.status_keys()
-    return None, f"no mapping for tracker status {keys[0]!r} in issues.status_map.{tracker}"
+    return None, f"{keys[0]!r} is not in issues.status_map.{tracker}"
 
 
-def transition_allowed(current: str, target: str, schema: Dict) -> bool:
-    transitions = ((schema.get("lifecycle") or {}).get("transitions") or {})
-    if target in (transitions.get(current) or []):
+def initial_tracker_status(tracker: str, status: str, schema: Dict) -> Optional[str]:
+    """The first tracker status that maps to ``status`` (what a new issue is expected to start in)."""
+    status_map = ((schema.get("issues") or {}).get("status_map") or {}).get(tracker) or {}
+    return next((str(k) for k, v in status_map.items() if str(v).lower() == status.lower() and ":" not in str(k)), None)
+
+
+def _has_evidence(row: reqio.Row, trace: Dict[str, Dict[str, List[str]]]) -> bool:
+    if trace.get(row.get_str("ID"), {}).get("test"):
         return True
-    return current in PROGRESSION and target in PROGRESSION and PROGRESSION.index(target) > PROGRESSION.index(current)
+    return bool(re.search(r"test|inspection|demonstration|review", row.get_str("Links"), re.I))
+
+
+def classify_pull(row: reqio.Row, mapped: Optional[str], schema: Dict, trace: Dict) -> Tuple[str, str]:
+    """Pull guard class (``sync-rules.md``) and a one-line reason. Only ``update`` is written."""
+    current = row.get_str("Status").lower()
+    if mapped is None:
+        return "unmapped", ""
+    target = mapped.lower()
+    if current in LIFECYCLE_DECISIONS:
+        if target == current:
+            return "unchanged", ""
+        return "conflict-lifecycle", f"{current} in the register but the issue maps to {target}; a person decides"
+    if target == current:
+        return "unchanged", ""
+    if target == "agreed" and current in ("draft", "proposed"):
+        return "needs-person", "agreed needs a named person in Source, Owner or a decision record"
+    if target == "verified" and not _has_evidence(row, trace):
+        return "needs-evidence", "verified needs a test, inspection or demonstration in Links or trace.csv"
+    transitions = ((schema.get("lifecycle") or {}).get("transitions") or {})
+    if target in [str(t).lower() for t in transitions.get(current) or []]:
+        return "update", ""
+    if current in PROGRESSION and target in PROGRESSION and PROGRESSION.index(target) < PROGRESSION.index(current):
+        return "skip-coarse-map", f"{current} -> {target} is not a lifecycle transition (the tracker map is coarser)"
+    return "conflict", f"{current} -> {target} is not a lifecycle transition; work went ahead without it"
+
+
+def _reference(tracker: str, issue: Issue, repo: Optional[str]) -> str:
+    if tracker == "github":
+        m = re.search(r"github\.com/([^/]+/[^/]+)/issues/(\d+)", issue.url or "")
+        if m:
+            return f"github:{m.group(1)}#{m.group(2)}"
+        return f"github:{repo or ''}#{issue.key}"
+    return f"{tracker}:{issue.key}"
+
+
+def _record_references(ws: Path, refs: Dict[str, str]) -> List[str]:
+    """Append tracker references to ``Links`` in requirements.csv; returns the IDs changed."""
+    path = ws / "requirements.csv"
+    if not refs or not path.is_file():
+        return []
+    table = reqio.read_table(path)
+    columns = list(table.columns)
+    if "Links" not in columns:
+        columns.append("Links")
+    changed = []
+    rows = []
+    for row in table.rows:
+        ref = refs.get(row.get_str("ID"))
+        if ref and ref not in row.get_str("Links").split():
+            row["Links"] = (row.get_str("Links") + " " + ref).strip()
+            changed.append(row.get_str("ID"))
+        rows.append(row)
+    if changed:
+        reqio.write_csv(path, rows, columns)
+    return changed
+
+
+def _target(tracker: str, args: argparse.Namespace, env: Optional[Dict[str, str]] = None) -> str:
+    env = dict(os.environ if env is None else env)
+    if tracker == "github":
+        return getattr(args, "repo", None) or env.get("GH_REPO") or "current repository"
+    if tracker == "jira":
+        return env.get("JIRA_PROJECT") or "?"
+    org = env.get("ADO_ORG_URL", "").rstrip("/").rsplit("/", 1)[-1]
+    return f"{org}/{env.get('ADO_PROJECT', '')}".strip("/") or "?"
 
 
 # --------------------------------------------------------------------------- commands
 
 
-def _print_table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> None:
-    widths = [max(len(str(h)), *(len(str(r[i])) for r in rows)) if rows else len(str(h)) for i, h in enumerate(headers)]
-    print("  ".join(str(h).ljust(w) for h, w in zip(headers, widths)).rstrip())
-    for row in rows:
-        print("  ".join(str(c).ljust(w) for c, w in zip(row, widths)).rstrip())
+def _now() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _emit(args: argparse.Namespace, command: str, network: str, actions: List[Dict], summary_note: str,
+          footer: str) -> None:
+    summary: "OrderedDict[str, int]" = OrderedDict()
+    for a in actions:
+        summary[a["action"]] = summary.get(a["action"], 0) + 1
+    target = _target(args.tracker, args)
+    if args.format == "json":
+        print(json.dumps({"command": command, "tracker": args.tracker, "target": target,
+                          "network": network != "no", "generated": _now(), "apply": bool(getattr(args, "apply", False)),
+                          "actions": actions, "summary": summary}, indent=2, ensure_ascii=False))
+        return
+    label = {"github": "github", "jira": "jira project", "ado": "ado"}[args.tracker]
+    print(f"Tracker: {label} {target} · Command: {command} · Network: {network} · Generated: {_now()}")
+    print()
+    print("| ID | Action | Issue | Title | Status | Notes |")
+    print("| --- | --- | --- | --- | --- | --- |")
+    for a in actions:
+        print(f"| {a['id']} | {a['action']} | {a.get('issue') or '-'} | {_md_cell(a['title'])} | "
+              f"{_md_cell(a.get('status_text', a.get('status', '')))} | {_md_cell(a.get('reason', ''))} |")
+    print()
+    print("Summary: " + (", ".join(f"{v} {k}" for k, v in summary.items()) or "nothing to do") + summary_note)
+    print()
+    print(footer)
+
+
+def _decisions(row: reqio.Row) -> str:
+    ids = [t for t in re.split(r"[\s,;]+", row.get_str("Links")) if re.match(r"^(?:RDR|CR|D)-\d+$", t)]
+    return f" ({', '.join(ids)})" if ids else ""
 
 
 def cmd_plan(args: argparse.Namespace, client: Optional[TrackerClient] = None) -> int:
     ws, schema = _workspace(args)
-    rows = _select(_load_rows(ws, schema), args, ["agreed"])
-    trace = _trace(ws)
-    register = _register_name(ws)
-    labels = _split_list(args.label)
-    items = []
-    for row in rows:
-        data = block_data(row, trace, register)
-        items.append({"id": row.get_str("ID"), "title": issue_title(row), "labels": labels,
-                      "action": "create, or update the issue whose title holds the ID",
-                      "body": MarkdownBody().render(data)})
-    plan = {"tracker": args.tracker, "count": len(items), "items": items}
+    rows = _load_rows(ws, schema)
+    selected, named = _selection(rows, args)
+    ctx = _context(ws, schema)
+    actions: List[Dict] = []
+    for rid, row in rows.items():
+        status = row.get_str("Status").lower()
+        refs = tracker_refs(row.get_str("Links"))
+        ref = next((r for r in refs if r.startswith(args.tracker + ":")), None)
+        entry = {"id": rid, "issue": ref, "title": issue_title(row), "status": status, "tracker_status": None}
+        if status in LIFECYCLE_DECISIONS:
+            if ref:
+                entry.update(action="move-on-board", status_text=f"{status} -> (manual)",
+                             reason=f"{status} in the register; push does not touch it; close {ref.split(':', 1)[1]} "
+                                    f"by hand with the reason{_decisions(row)}")
+                actions.append(entry)
+            continue
+        if rid not in selected:
+            entry.update(action="skip", status_text=status,
+                         reason=f"Status={status}; name it in --ids to push it")
+            actions.append(entry)
+            continue
+        if ref:
+            entry.update(action="update", status_text=f"{status} -> (tracker owns status)",
+                         reason="refresh title and managed block; tracker owns status")
+        else:
+            initial = initial_tracker_status(args.tracker, status, schema)
+            entry.update(action="create-or-match", tracker_status=initial,
+                         status_text=f"{status} -> {initial or '(initial state)'}",
+                         reason=f"no tracker reference in Links; push matches a title starting with '{rid}: ' "
+                                "before creating")
+        entry["body"] = MarkdownBody().render(block_data(row, ctx))
+        actions.append(entry)
     if args.out:
         out = Path(args.out)
         out.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"command": "plan", "tracker": args.tracker, "target": _target(args.tracker, args),
+                   "network": False, "generated": _now(), "actions": actions}
         with open(out, "w", encoding="utf-8", newline="\n") as handle:
-            handle.write(json.dumps(plan, indent=2, ensure_ascii=False) + "\n")
-    if args.format == "json":
-        print(json.dumps(plan, indent=2, ensure_ascii=False))
-    else:
-        _print_table(["ID", "Title", "Labels"], [(i["id"], i["title"], ", ".join(labels) or "-") for i in items])
-        print(f"\n{len(items)} requirement(s) for {args.tracker}; nothing was sent (plan never calls the tracker)."
-              + (f" Plan written to {args.out}." if args.out else ""))
+            handle.write(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    push_ids = ",".join(a["id"] for a in actions if a["action"] in ("create-or-match", "update"))
+    _emit(args, "plan", "no", [{k: v for k, v in a.items() if k != "body"} for a in actions] if args.format != "json"
+          else actions, " (push)",
+          f"Nothing has been written. To apply: `push --tracker {args.tracker} --ids {push_ids} --apply`."
+          if push_ids else "Nothing has been written.")
     return 0
+
+
+PUSH_FINDINGS = {"ambiguous", "markers-missing", "missing-issue", "move-on-board", "error"}
+PULL_FINDINGS = {"ambiguous", "needs-person", "needs-evidence", "skip-coarse-map", "conflict", "conflict-lifecycle",
+                 "unmapped", "missing-issue"}
 
 
 def cmd_push(args: argparse.Namespace, client: Optional[TrackerClient] = None) -> int:
     ws, schema = _workspace(args)
-    rows = _select(_load_rows(ws, schema), args, ["agreed"])
-    if not rows:
+    rows = _load_rows(ws, schema)
+    selected, named = _selection(rows, args)
+    if not selected:
         print("no requirements selected")
         return 0
     client = client or make_client(args.tracker, args)
-    trace = _trace(ws)
-    register = _register_name(ws)
+    ctx = _context(ws, schema)
     labels = _split_list(args.label)
+    ids = [rid for rid in rows if rid in selected]
     try:
-        matches = client.find_many([r.get_str("ID") for r in rows])
+        matches = client.find_many(ids)
     except TrackerError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
-    report = []
-    errors = 0
-    for row in rows:
-        rid = row.get_str("ID")
+    actions: List[Dict] = []
+    new_refs: Dict[str, str] = {}
+    for rid in ids:
+        row = rows[rid]
+        status = row.get_str("Status").lower()
         title = issue_title(row)
-        data = block_data(row, trace, register)
+        refs = [r for r in tracker_refs(row.get_str("Links")) if r.startswith(args.tracker + ":")]
         issue, candidates = pick_issue(rid, matches.get(rid, []))
-        entry = {"id": rid, "title": title, "issue": issue.key if issue else "", "url": issue.url if issue else ""}
+        entry: Dict[str, Any] = {"id": rid, "title": title, "status": status, "status_text": status,
+                                 "issue": refs[0] if refs else None, "reason": ""}
         if issue is None and candidates:
-            entry.update(action="ambiguous", detail="several issues hold the ID: " +
-                         ", ".join(c.key for c in candidates))
-            report.append(entry)
+            entry.update(action="ambiguous", reason="several issues hold the ID: " + ", ".join(c.key for c in candidates))
+            actions.append(entry)
             continue
-        body = client.body.merge(issue.body if issue else None, data)
+        if status in LIFECYCLE_DECISIONS:
+            if issue is not None or refs:
+                ref = _reference(args.tracker, issue, args.repo) if issue else refs[0]
+                entry.update(action="move-on-board", issue=ref,
+                             reason=f"{status} in the register; not pushed; close it by hand with the "
+                                    f"reason{_decisions(row)}")
+            else:
+                entry.update(action="skip", reason=f"Status={status}: never pushed")
+            actions.append(entry)
+            continue
+        if issue is None and refs:
+            entry.update(action="missing-issue", reason=f"{refs[0]} is in Links but no issue title starts with "
+                                                        f"'{rid}: '; fix the reference or the title")
+            actions.append(entry)
+            continue
+        if issue is not None:
+            entry["issue"] = _reference(args.tracker, issue, args.repo)
+            begins, ends = client.body.markers(issue.body)
+            if (begins, ends) != (1, 1) and not body_is_empty(issue.body):
+                entry.update(action="markers-missing",
+                             reason="managed block markers missing or doubled; body left alone (restore the block "
+                                    "from `plan` and push again)")
+                actions.append(entry)
+                continue
+        body = client.body.merge(issue.body if issue else None, block_data(row, ctx))
         if issue is None:
-            action = "create"
+            action, reason = "create", "no issue holds the ID yet"
         else:
-            same_block = client.body.block_text(issue.body) == client.body.block_text(body)
+            same = client.body.block_text(issue.body) == client.body.block_text(body)
             missing_labels = [l for l in labels if l not in issue.labels]
-            action = "unchanged" if same_block and issue.title == title and not missing_labels else "update"
-        entry["action"] = action
+            if same and issue.title == title and not missing_labels:
+                action, reason = "unchanged", ""
+            else:
+                action, reason = "update", "title and managed block refreshed"
+        entry.update(action=action, reason=reason)
         if args.apply and action in ("create", "update"):
             try:
                 done = client.create(title, body, labels) if action == "create" else client.update(issue, title, body, labels)
-                entry.update(issue=done.key, url=done.url, action=action + "d")
+                entry.update(action=action + "d", issue=_reference(args.tracker, done, args.repo))
             except TrackerError as exc:
-                errors += 1
-                entry.update(action="error", detail=str(exc))
-        report.append(entry)
-    _report(args, report, ["ID", "Action", "Issue", "Title"],
-            lambda e: (e["id"], e["action"], e.get("issue") or "-", e.get("detail") or e["title"]),
-            dry_hint="dry run: nothing was sent; add --apply to create and update the issues")
-    return 1 if errors else 0
+                entry.update(action="error", reason=str(exc))
+        if args.apply and entry["action"] in ("created", "updated", "unchanged") and entry["issue"] \
+                and entry["issue"] not in row.get_str("Links").split():
+            new_refs[rid] = entry["issue"]
+        actions.append(entry)
+    recorded = _record_references(ws, new_refs) if args.apply else []
+    footer = ("Nothing has been written. To apply: `push --tracker {} --ids {} --apply`.".format(
+        args.tracker, ",".join(a["id"] for a in actions if a["action"] in ("create", "update"))) if not args.apply
+              else "Nothing was deleted. " + (f"`requirements.csv`: Links now holds {', '.join(new_refs[r] for r in recorded)}."
+                                              if recorded else "`requirements.csv` unchanged."))
+    _emit(args, "push" if args.apply else "push dry run", "read-write" if args.apply else "read-only", actions,
+          " (push)", footer)
+    return 1 if any(a["action"] in PUSH_FINDINGS for a in actions) else 0
 
 
 def cmd_pull(args: argparse.Namespace, client: Optional[TrackerClient] = None) -> int:
     ws, schema = _workspace(args)
-    all_rows = _load_rows(ws, schema)
-    rows = [r for r in _select(all_rows, args, None) if r.get_str("Status").lower() not in RETIRED]
-    if not rows:
+    rows = _load_rows(ws, schema)
+    ids = _split_list(args.ids)
+    unknown = [i for i in ids if i not in rows]
+    if unknown:
+        raise UsageError(f"unknown requirement ID(s): {', '.join(unknown)}")
+    wanted = [rid for rid in rows if not ids or rid in ids]
+    statuses = {s.lower() for s in _split_list(args.status)}
+    if statuses:
+        wanted = [rid for rid in wanted if rows[rid].get_str("Status").lower() in statuses]
+    if not wanted:
         print("no requirements selected")
         return 0
     client = client or make_client(args.tracker, args)
+    trace = _trace(ws)
     try:
-        matches = client.find_many([r.get_str("ID") for r in rows])
+        matches = client.find_many(wanted)
     except TrackerError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
-    register_path = ws / "requirements.csv"
-    report = []
+    register_path = (ws / "requirements.csv").resolve()
+    actions: List[Dict] = []
     changes: Dict[str, str] = {}
-    for row in rows:
-        rid = row.get_str("ID")
+    for rid in wanted:
+        row = rows[rid]
         current = row.get_str("Status").lower()
+        refs = [r for r in tracker_refs(row.get_str("Links")) if r.startswith(args.tracker + ":")]
         issue, candidates = pick_issue(rid, matches.get(rid, []))
-        entry = {"id": rid, "issue": issue.key if issue else "", "tracker_status": issue.status if issue else "",
-                 "mapped": "", "current": current}
+        entry: Dict[str, Any] = {"id": rid, "title": issue_title(row), "status": current, "tracker_status": None,
+                                 "issue": refs[0] if refs else None, "mapped": None, "reason": ""}
         if issue is None:
-            entry["action"] = "ambiguous" if candidates else "no issue"
             if candidates:
-                entry["detail"] = "several issues hold the ID: " + ", ".join(c.key for c in candidates)
-            report.append(entry)
-            continue
-        mapped, why = map_status(args.tracker, issue, schema)
-        if mapped is None:
-            entry.update(action="skipped", detail=why)
-        else:
-            entry["mapped"] = mapped
-            if mapped.lower() == current:
-                entry["action"] = "unchanged"
-            elif not args.ignore_lifecycle and not transition_allowed(current, mapped.lower(), schema):
-                entry.update(action="skipped", detail=f"lifecycle does not allow {current} -> {mapped} "
-                                                      "(--ignore-lifecycle overrides)")
-            elif Path(row.file).resolve() != register_path.resolve():
-                entry.update(action="skipped", detail=f"row lives in {Path(row.file).name}, not requirements.csv")
+                entry.update(action="ambiguous", status_text=current,
+                             reason="several issues hold the ID: " + ", ".join(c.key for c in candidates))
+            elif refs:
+                entry.update(action="missing-issue", status_text=current,
+                             reason=f"{refs[0]} is in Links but no issue title starts with '{rid}: '")
             else:
-                entry["action"] = "update" if not args.apply else "updated"
-                changes[rid] = mapped
-        report.append(entry)
+                continue  # not linked: nothing to pull
+            actions.append(entry)
+            continue
+        entry["issue"] = _reference(args.tracker, issue, getattr(args, "repo", None))
+        entry["tracker_status"] = issue.status
+        mapped, why = map_status(args.tracker, issue, schema)
+        entry["mapped"] = mapped
+        action, reason = classify_pull(row, mapped, schema, trace)
+        if action == "unmapped":
+            reason = f"{why}; add it with attribute-schema"
+        if action == "update" and Path(row.file).resolve() != register_path:
+            action, reason = "skip", f"row lives in {Path(row.file).name}, not requirements.csv"
+        entry["status_text"] = f"{current} -> {issue.status}" + (f" ({mapped})" if mapped else "")
+        if action == "update":
+            reason = "written with --apply" if not args.apply else "written"
+            changes[rid] = mapped
+        entry.update(action=action, reason=reason)
+        actions.append(entry)
     if args.apply and changes:
         table = reqio.read_table(register_path)
         updated = []
@@ -820,28 +1119,17 @@ def cmd_pull(args: argparse.Namespace, client: Optional[TrackerClient] = None) -
                 row["Status"] = changes[row.get_str("ID")]
             updated.append(row)
         reqio.write_csv(register_path, updated, table.columns)
-    _report(args, report, ["ID", "Issue", "Tracker status", "Mapped", "Current", "Action"],
-            lambda e: (e["id"], e["issue"] or "-", e["tracker_status"] or "-", e["mapped"] or "-", e["current"],
-                       e["action"] + (f" ({e['detail']})" if e.get("detail") else "")),
-            dry_hint="dry run: requirements.csv was not changed; add --apply to write the Status changes")
+    written = sum(1 for a in actions if a["action"] == "update")
+    kept = sum(1 for a in actions if a["action"] not in ("update", "unchanged"))
     if args.apply:
-        print(f"{len(changes)} Status value(s) written to {register_path}" if changes else "requirements.csv unchanged")
-    return 0
-
-
-def _report(args: argparse.Namespace, report: List[Dict], headers: Sequence[str],
-            row_fn: Callable[[Dict], Sequence[str]], dry_hint: str) -> None:
-    if args.format == "json":
-        print(json.dumps({"tracker": args.tracker, "apply": bool(args.apply), "items": report},
-                         indent=2, ensure_ascii=False))
-        return
-    _print_table(headers, [row_fn(e) for e in report])
-    counts: Dict[str, int] = {}
-    for e in report:
-        counts[e["action"]] = counts.get(e["action"], 0) + 1
-    print("\n" + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
-    if not args.apply:
-        print(dry_hint)
+        footer = (f"`requirements.csv`: Status changed for {', '.join(changes)}; no other cell changed."
+                  if changes else "`requirements.csv` unchanged.")
+    else:
+        footer = f"Nothing has been written. To apply: `pull --tracker {args.tracker} --apply`."
+    _emit(args, "pull" if args.apply else "pull dry run", "read-only", actions,
+          f" | {written} update, {sum(1 for a in actions if a['action'] == 'unchanged')} unchanged, "
+          f"{kept} not written (pull)", footer)
+    return 1 if any(a["action"] in PULL_FINDINGS for a in actions) else 0
 
 
 # --------------------------------------------------------------------------- CLI
@@ -852,22 +1140,23 @@ def build_parser() -> argparse.ArgumentParser:
         description="Sync requirements with GitHub Issues (gh CLI), Jira Cloud or Azure DevOps: plan offline, "
                     "push issues (title '<ID>: <Title>', managed body block) and pull Status back.",
         epilog="Dry run unless --apply. Jira: JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN, JIRA_PROJECT. "
-               "Azure DevOps: ADO_ORG_URL, ADO_PROJECT, ADO_PAT. Exit codes: 0 ok, 1 tracker call failed, "
-               "2 usage or configuration error.",
+               "Azure DevOps: ADO_ORG_URL, ADO_PROJECT, ADO_PAT. GitHub: gh (GH_REPO or --repo selects the "
+               "repository). Exit codes: 0 nothing to report, 1 a finding (ambiguous, markers-missing, "
+               "needs-person, conflict, ...) or a failed call, 2 usage or configuration error.",
     )
     sub = parser.add_subparsers(dest="action", metavar="{plan,push,pull}")
     sub.required = True
-    for name, help_text in (("plan", "show what push would send (no network)"),
+    for name, help_text in (("plan", "show what push would do (no network)"),
                             ("push", "create or update one issue per requirement"),
-                            ("pull", "refresh Status in requirements.csv from the tracker")):
+                            ("pull", "refresh Status in requirements.csv from the tracker, guarded by the lifecycle")):
         p = sub.add_parser(name, help=help_text, description=help_text)
         p.add_argument("--tracker", choices=TRACKERS, required=True)
         p.add_argument("--ids", metavar="ID", nargs="+", action="extend", help="only these requirement IDs")
         p.add_argument("--status", metavar="S", nargs="+", action="extend",
-                       help="requirements with these statuses (default: agreed for plan/push; all but "
-                            "withdrawn and rejected for pull)")
+                       help="requirements with these statuses (default: agreed for plan/push; every linked row "
+                            "for pull)")
         p.add_argument("--format", choices=("text", "json"), default="text")
-        p.add_argument("--repo", metavar="OWNER/REPO", help="GitHub repository (default: the current one)")
+        p.add_argument("--repo", metavar="OWNER/REPO", help="GitHub repository (default: GH_REPO or the current one)")
         p.add_argument("--issue-type", metavar="TYPE",
                        help="Jira issue type (default Story) or Azure DevOps work item type (default User Story)")
         p.add_argument("--workspace", metavar="DIR", help="workspace folder (default: <repo root>/requirements)")
@@ -879,9 +1168,6 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--out", metavar="FILE", help="also write the plan as JSON to FILE")
         else:
             p.add_argument("--apply", action="store_true", help="make the changes (default: dry run)")
-        if name == "pull":
-            p.add_argument("--ignore-lifecycle", action="store_true",
-                           help="apply mapped statuses even when the lifecycle does not allow the transition")
     return parser
 
 

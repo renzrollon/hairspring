@@ -50,6 +50,8 @@ def traced(workspace, git_available):
         "def test_minimum_redemption():\n"
         '    data = "r080"\n'
     ))
+    workspace.write("openspec/changes/add-redemption/specs/redemption/spec.md",
+                    "### Requirement: R-041 Minimum redemption\n<!-- R-041 -->\nR-019 was dropped.\n")
     workspace.write("node_modules/pkg/index.js", "// R-001 vendored\n")
     workspace.write("src/loyalty/blob.bin", "R-001")
     (workspace.root / "src" / "loyalty" / "image.dat").write_bytes(b"\x00\x01R-001\x00")
@@ -81,6 +83,10 @@ def test_build_writes_the_three_files_with_expected_links(traced, capsys):
     assert edges[("R-001", head, "mentioned-in")]["Evidence"] == head
     assert ("R-002", head, "mentioned-in") in edges
     assert not any("node_modules" in k[1] or k[1].endswith((".bin", ".dat")) for k in edges)
+    spec = "openspec/changes/add-redemption/specs/redemption/spec.md"
+    mention = edges[("R-041", spec, "mentioned-in")]
+    assert (mention["ToType"], mention["Evidence"]) == ("code", f"{spec}:1")
+    assert ("R-041", spec, "implemented-by") not in edges
     for row in _rows(traced.ws / "trace" / "trace.csv"):
         assert row["FromType"] in tracing.NODE_TYPES and row["ToType"] in tracing.NODE_TYPES
         assert row["Relation"] in tracing.RELATIONS
@@ -116,6 +122,8 @@ def test_gap_kinds_are_status_aware(traced, capsys):
     s = report["summary"]
     assert (s["requirements"], s["in_scope"], s["with_test"], s["without_tests"]) == (5, 4, 2, 1)
     assert not any(g["id"] == "R-777" for g in report["gaps"])  # commit history never produces a gap
+    # the OpenSpec mention of R-041 is not an implementation, and its R-019 mention is not a retired citation
+    assert s["with_code_or_commit"] == 2
 
 
 def test_trace_md_has_summary_graph_and_gap_tables(traced, capsys):
@@ -168,6 +176,10 @@ def test_impact_follows_links_and_shared_artifacts(traced, capsys):
     assert depth2["code"][0]["via"] == "R-001" and depth2["code"][0]["hop"] == 2
     md = run_cli(tracing, ["impact", "r_041", "--format", "md"], capsys)
     assert md.code == 0 and md.out.startswith("## Impact of R-041") and "`docs/adr/0001-minimum.md`" in md.out
+    assert "### Mentions (OpenSpec and spec hand-offs)" in md.out and "openspec/changes/add-redemption" in md.out
+    mentions = run_cli(tracing, ["impact", "R-041", "--format", "json"], capsys).json()
+    assert [m["name"] for m in mentions["mentions"]] == ["openspec/changes/add-redemption/specs/redemption/spec.md"]
+    assert mentions["code"] == []
     text = run_cli(tracing, ["impact", "R-041.AC2"], capsys).out
     assert text.startswith("Impact of R-041 (depth 2)")
     assert run_cli(tracing, ["impact", "R-500"], capsys).code == 2

@@ -4,7 +4,7 @@
 Usage::
 
     re-lint openspec CHANGE_NAME [--ids R-001,R-002 | --status agreed] [--target openspec|spec-kit]
-                     [--out DIR] [--force] [--allow-tbd] [--skip-blocked] [--capability NAME]
+                     [--out DIR] [--force] [--allow-tbd] [--allow-draft] [--skip-blocked] [--capability NAME]
                      [--date YYYY-MM-DD] [--title TEXT]
 
 OpenSpec (default target) writes ``<out>/openspec/changes/<change>/``:
@@ -35,15 +35,24 @@ one user story per functional requirement (priority must/should/could -> P1/P2/P
 acceptance scenarios, Functional Requirements and Constraints keyed by R-ID, quality requirements
 under Measurable Outcomes, and the rows left out under Assumptions.
 
-Selection: ``--ids`` (exactly those) or ``--status`` (default ``agreed``). Withdrawn, rejected and
-deferred rows and ``Priority=wont`` never go across. The gate refuses (exit 1, nothing written)
-when a selected row has ``TBD``/``TBC``/``??``/``XXX`` in any attribute or acceptance criterion
-(``--allow-tbd`` hands it off anyway) or when a functional requirement has neither an acceptance
-criterion nor a WHEN/IF/WHILE/WHERE clause; ``--skip-blocked`` leaves blocked rows out and lists
-them under "Not in this change". An existing change folder (or spec-kit spec) is never
-overwritten without ``--force``.
+Selection: ``--ids`` (exactly those, comma or space lists) or ``--status`` (default ``agreed``).
+Withdrawn, rejected and deferred rows and ``Priority=wont`` never go across; named ones are listed
+under "Not in this change". The gate refuses (exit 1, nothing written) when a selected row has
 
-Exit codes: 0 written, 1 refused (gate, existing folder, nothing to hand off), 2 usage error.
+* ``open-tbd``: ``TBD``/``TBC``/``??``/``XXX`` in any attribute or acceptance criterion
+  (override for an approved ID: ``--allow-tbd``);
+* ``not-agreed``: Status ``draft`` or ``proposed`` (override: ``--allow-draft``);
+* ``no-scenario-source``: a functional requirement with neither an acceptance criterion nor a
+  WHEN/IF/WHILE/WHERE clause (no override: write a criterion).
+
+``--skip-blocked`` leaves blocked rows out instead and lists them under "Not in this change".
+Rows that cross through an override are marked ``<Status>; exception: <finding>`` in the
+Traceability table. Warnings that do not block: ``strict-keyword`` (no SHALL/MUST), ``too-long``
+(over 500 characters with the anchor), ``id-in-open-change``. An existing change folder (or
+spec-kit spec) is never overwritten without ``--force``.
+
+Exit codes: 0 written (warnings printed), 1 refused (gate, existing folder, nothing to hand off),
+2 usage error.
 """
 from __future__ import annotations
 
@@ -179,13 +188,14 @@ def ears_steps(text: str) -> Optional[List[Tuple[str, str]]]:
     return steps
 
 
-_INLINE_SPLIT = re.compile(r"(?:^|[,;]\s*|\.\s+)\b(given|when|then)\b\s*", re.I)
+# A clause opens at Given/When/Then/And/But at the start or right after ", ", "; " or ". ".
+# An "and" inside a clause never splits it.
+_INLINE_SPLIT = re.compile(r"(?:^|[,;.]\s+)\b(given|when|then|and|but)\b\s*", re.I)
 _INLINE_SPLIT_LOOSE = re.compile(r"(?:^|\s+)\b(given|when|then)\b\s*", re.I)
-_AND_SPLIT = re.compile(r",?\s+and\s+(?=(?:the|a|an|its|their|it|they|no|this|that|his|her)\b)", re.I)
 
 
 def inline_steps(text: str) -> Tuple[str, List[Tuple[str, str]]]:
-    """Leading label and steps of "Given ..., when ..., then ... and ..." text."""
+    """Leading label and steps of "Given ..., when ..., then ..." text (``But`` becomes ``AND``)."""
     body = _one_line(text)
     parts = _INLINE_SPLIT.split(body)
     if len(parts) < 3 or not any(p.lower() == "then" for p in parts[1::2]):
@@ -199,12 +209,7 @@ def inline_steps(text: str) -> Tuple[str, List[Tuple[str, str]]]:
         if not clause:
             continue
         keyword = keyword.upper()
-        if keyword == "THEN":
-            pieces = _AND_SPLIT.split(clause)
-            steps.append(("THEN", pieces[0].strip()))
-            steps.extend(("AND", p.strip().rstrip(".")) for p in pieces[1:] if p.strip())
-        else:
-            steps.append((keyword, clause))
+        steps.append(("AND" if keyword in ("AND", "BUT") else keyword, clause))
     return label, steps
 
 
@@ -257,7 +262,8 @@ def parse_acceptance_criteria(ws: Path, schema: Dict) -> Dict[str, List[Dict]]:
                     while j < len(lines):
                         step = _STEP.match(lines[j])
                         if step:
-                            steps.append((step.group(1).upper(), step.group(2).strip()))
+                            keyword = step.group(1).upper()
+                            steps.append(("AND" if keyword == "BUT" else keyword, step.group(2).strip()))
                             raw.append(step.group(2))
                         elif _FLAG.match(lines[j]):
                             raw.append(lines[j])
@@ -375,41 +381,46 @@ def _verification_csv(ws: Path) -> Dict[str, str]:
     return out
 
 
-def gate(rows: Sequence[reqio.Row], acs: Dict[str, List[Dict]], named: bool, allow_tbd: bool
-         ) -> Tuple[List[reqio.Row], List[Tuple[str, str, str, str]], List[Tuple[str, str]], List[str]]:
-    """Rows that go across, blocked rows (id, check, finding, action), left-out rows, notes."""
+def gate(rows: Sequence[reqio.Row], acs: Dict[str, List[Dict]], named: bool, allow_tbd: bool, allow_draft: bool
+         ) -> Tuple[List[reqio.Row], List[Tuple[str, str, str, str]], List[Tuple[str, str]], Dict[str, List[str]]]:
+    """Rows that go across, blocked rows (id, check, finding, override), rows left out, approved exceptions."""
     accepted: List[reqio.Row] = []
     blocked: List[Tuple[str, str, str, str]] = []
     left_out: List[Tuple[str, str]] = []
-    notes: List[str] = []
+    exceptions: Dict[str, List[str]] = {}
     for row in rows:
         rid = row.get_str("ID")
         status = row.get_str("Status").lower()
-        if status in NEVER_STATUSES:
-            left_out.append((rid, f"Status={status} (never handed off)"))
-            continue
-        if row.get_str("Priority").lower() == "wont":
-            left_out.append((rid, "Priority=wont (never handed off)"))
+        links = f"; links: {_one_line(row.get_str('Links'))}" if row.get_str("Links") else ""
+        if status in NEVER_STATUSES or row.get_str("Priority").lower() == "wont":
+            if named:  # rows the status selection never picks are not listed
+                reason = f"Status={status}" if status in NEVER_STATUSES else "Priority=wont"
+                left_out.append((rid, reason + links))
             continue
         tbd_cols = [c for c, v in row.items() if c != "ID" and _TBD.search(str(v or ""))]
         tbd_cols += [a["id"] for a in acs.get(rid, []) if _TBD.search(a["raw"])]
-        if tbd_cols and not allow_tbd:
-            blocked.append((rid, "G2", f"open placeholder in {', '.join(tbd_cols)}",
-                            "answer the open question, or pass --allow-tbd"))
-            continue
-        if _row_type(row) == "F" and not acs.get(rid) and ears_steps(row.get_str("Text")) is None:
-            blocked.append((rid, "G4", "no acceptance criterion and no WHEN/IF/WHILE/WHERE clause",
-                            "write an acceptance criterion (user-story-refiner, testability-check)"))
-            continue
+        problems: List[Tuple[str, str, str]] = []
         if tbd_cols:
-            left_out.append((rid, f"in this change despite open placeholder in {', '.join(tbd_cols)} (--allow-tbd)"))
+            if allow_tbd:
+                exceptions.setdefault(rid, []).append("open-tbd")
+            else:
+                problems.append(("G2", f"open-tbd in {', '.join(tbd_cols)}",
+                                 "answer the open question; if the owner approved this ID with its placeholder, "
+                                 "pass --allow-tbd"))
         if status in DRAFT_STATUSES:
-            how = "named by --ids" if named else "selected by --status"
-            left_out.append((rid, f"in this change with Status={status} ({how}); confirm the approval"))
+            if allow_draft:
+                exceptions.setdefault(rid, []).append("not-agreed")
+            else:
+                problems.append(("selection", f"not-agreed (Status={status})",
+                                 "get the owner's approval for this ID, then pass --allow-draft"))
+        if _row_type(row) == "F" and not acs.get(rid) and ears_steps(row.get_str("Text")) is None:
+            problems.append(("G4", "no-scenario-source (no acceptance criterion and no WHEN/IF/WHILE/WHERE clause)",
+                             "write an acceptance criterion (user-story-refiner, testability-check)"))
+        if problems:
+            blocked += [(rid, check, finding, action) for check, finding, action in problems]
+            continue
         accepted.append(row)
-        if status in DRAFT_STATUSES:
-            notes.append(rid)
-    return accepted, blocked, left_out, notes
+    return accepted, blocked, left_out, exceptions
 
 
 # --------------------------------------------------------------------------- OpenSpec rendering
@@ -494,8 +505,8 @@ def render_openspec(change: str, date: str, register: str, plan: Dict) -> Dict[s
                f"<!-- {GENERATED_MARK} from {register} on {date}. Keep the R-IDs in headings; change "
                "requirement text in the register and re-export. -->", ""]
         if new_cap:
-            label = cap.rsplit("/", 1)[-1].replace("-", " ")
-            purpose = (f"{label[:1].upper()}{label[1:]}: {'; '.join(short_title(r) for r in rows)} "
+            label = " ".join(w.capitalize() for w in cap.rsplit("/", 1)[-1].split("-"))
+            purpose = (f"{label}: {'; '.join(short_title(r) for r in rows)} "
                        f"({', '.join(r.get_str('ID') for r in rows)}).")
             if len(purpose) < 60:
                 purpose += f" The requirement text is owned by `{register}`."
@@ -521,7 +532,8 @@ def render_openspec(change: str, date: str, register: str, plan: Dict) -> Dict[s
     if len(why) < 50:
         why += " They are agreed in the requirement register and handed off for implementation."
     if len(why) > 1000:
-        why = why[:996].rsplit(" ", 1)[0] + " ..."
+        cut = why[:1000]
+        why = cut[:cut.rfind(". ") + 1] if ". " in cut else cut.rsplit(" ", 1)[0]
     p = [f"# Proposal: {change}", "",
          f"<!-- {GENERATED_MARK} from {register} on {date}. R-IDs are trace anchors: keep them in commits and "
          "test names. Change requirement text in the register and re-export; do not edit it here. "
@@ -544,10 +556,7 @@ def render_openspec(change: str, date: str, register: str, plan: Dict) -> Dict[s
               f"{_md_cell(plan['verification'].get(r.get_str('ID')) or 'TBD')} |" for r in quality]
     else:
         p.append("None.")
-    p += ["", "## Impact", ""]
-    for path, rids in plan["code"].items():
-        p.append(f"- `{path}` ({', '.join(rids)}; from the trace matrix)")
-    p += [f"- Register: `{register}`", "", "## Not in this change", ""]
+    p += ["", "## Impact", "", f"- Register: `{register}`", "", "## Not in this change", ""]
     if plan["left_out"]:
         p += ["| ID | Reason |", "| --- | --- |"]
         p += [f"| {rid} | {_md_cell(reason)} |" for rid, reason in plan["left_out"]]
@@ -557,7 +566,10 @@ def render_openspec(change: str, date: str, register: str, plan: Dict) -> Dict[s
           "| --- | --- | --- | --- | --- | --- |"]
     for r in plan["rows"]:
         rid = r.get_str("ID")
-        p.append(f"| {rid} | {_row_type(r)} | {r.get_str('Priority')} | {r.get_str('Status')} | "
+        status = r.get_str("Status")
+        if plan["exceptions"].get(rid):
+            status += f"; exception: {', '.join(plan['exceptions'][rid])}"
+        p.append(f"| {rid} | {_row_type(r)} | {r.get_str('Priority')} | {status} | "
                  f"{_md_cell(r.get_str('Source'))} | {lands[rid]}; tasks {task_no[rid]} |")
     files["proposal.md"] = "\n".join(p) + "\n"
     order = [".openspec.yaml", "proposal.md", "tasks.md"]
@@ -594,7 +606,7 @@ def render_speckit(change: str, title: str, date: str, register: str, plan: Dict
                        "demonstration": "A demonstration"}[method]
         first = scen[0]["id"] if scen and not scen[0]["derived"] else f"{rid} main case"
         out += [f"### User Story {n} - {short_title(row)} (Priority: {prio})", f"<!-- {rid} -->", "",
-                f"{_clarify(_one_line(row.get_str('Text')), register)} ({rid})", "",
+                f"{_clarify(upcase_obligation(_one_line(row.get_str('Text'))), register)} ({rid})", "",
                 f"**Why this priority**: {_clarify(_one_line(row.get_str('Rationale')), register) or 'Not stated in the register.'}",
                 "", f"**Independent Test**: {method_text} of scenario {first}.", "", "**Acceptance Scenarios**:", ""]
         for k, sc in enumerate(scen, 1):
@@ -611,10 +623,10 @@ def render_speckit(change: str, title: str, date: str, register: str, plan: Dict
     out += [f"- **{r.get_str('ID')}**: {_clarify(upcase_obligation(_one_line(r.get_str('Text'))), register)}"
             for r in functional] or ["- No functional requirement was selected for this feature."]
     out += ["", "### Constraints", ""]
-    out += [f"- **{r.get_str('ID')}**: {_clarify(_one_line(r.get_str('Text')), register)}"
+    out += [f"- **{r.get_str('ID')}**: {_clarify(upcase_obligation(_one_line(r.get_str('Text'))), register)}"
             for r in rows if _row_type(r) == "C"] or ["- No constraint was selected for this feature."]
     out += ["", "## Success Criteria *(mandatory)*", "", "### Measurable Outcomes", ""]
-    out += [f"- **{r.get_str('ID')}**: {_clarify(_one_line(r.get_str('Text')), register)}"
+    out += [f"- **{r.get_str('ID')}**: {_clarify(upcase_obligation(_one_line(r.get_str('Text'))), register)}"
             for r in rows if _row_type(r) == "Q"] or ["- No quality requirement was selected for this feature."]
     out += ["", "## Assumptions", "", f"- Requirement text is owned by `{register}`; change it there and re-export."]
     out += [f"- Not in this feature: {rid} ({reason})" for rid, reason in plan["left_out"]]
@@ -635,25 +647,6 @@ def _capability_for(row: reqio.Row, change: str, forced: Optional[str]) -> str:
         if change.startswith(prefix) and len(change) > len(prefix):
             return change[len(prefix):]
     return change
-
-
-def _trace_code(ws: Path, ids: Sequence[str]) -> "OrderedDict[str, List[str]]":
-    path = ws / "trace" / "trace.csv"
-    out: "OrderedDict[str, List[str]]" = OrderedDict()
-    if not path.is_file():
-        return out
-    try:
-        table = reqio.read_table(path)
-    except (OSError, UnicodeDecodeError, ValueError):
-        return out
-    wanted = set(ids)
-    for row in table.rows:
-        rid = row.get_str("From").split(".AC", 1)[0]
-        if rid in wanted and row.get_str("ToType") == "code":
-            out.setdefault(row.get_str("To"), [])
-            if rid not in out[row.get_str("To")]:
-                out[row.get_str("To")].append(rid)
-    return out
 
 
 def cmd_openspec(args: argparse.Namespace) -> int:
@@ -700,15 +693,21 @@ def cmd_openspec(args: argparse.Namespace) -> int:
                       "(never on a change whose tasks.md has ticked boxes)")
 
     acs = parse_acceptance_criteria(ws, schema)
-    accepted, blocked, left_out, _ = gate(selected, acs, named, args.allow_tbd)
+    accepted, blocked, left_out, exceptions = gate(selected, acs, named, args.allow_tbd, args.allow_draft)
     if blocked and not args.skip_blocked:
         print("| ID | Check | Finding | Action |")
         print("| --- | --- | --- | --- |")
         for rid, check, finding, action in blocked:
             print(f"| {rid} | {check} | {finding} | {action} |")
-        raise Refusal(f"the hand-off gate blocked {len(blocked)} requirement(s); nothing was written "
-                      "(fix them, or pass --skip-blocked to leave them out)")
-    left_out = [(rid, f"{finding} ({check})") for rid, check, finding, _ in blocked] + left_out
+        raise Refusal(f"the hand-off gate blocked {len({b[0] for b in blocked})} requirement(s); nothing was "
+                      "written (fix them, use the override named in the table for an approved ID, or pass "
+                      "--skip-blocked to leave them out)")
+    reasons: "OrderedDict[str, List[str]]" = OrderedDict()
+    for rid, _, finding, _ in blocked:
+        reasons.setdefault(rid, []).append(finding)
+    by_id_links = {r.get_str("ID"): r.get_str("Links") for r in selected}
+    left_out = [(rid, "; ".join(found) + (f"; links: {_one_line(by_id_links[rid])}" if by_id_links.get(rid) else ""))
+                for rid, found in reasons.items()] + left_out
     if not accepted:
         how = f"--ids {','.join(_split_list(args.ids))}" if named else f"--status {','.join(_split_list(args.status or ['agreed']))}"
         details = "; ".join(f"{rid}: {reason}" for rid, reason in left_out)
@@ -725,9 +724,10 @@ def cmd_openspec(args: argparse.Namespace) -> int:
         text = row.get_str("Text")
         upper = upcase_obligation(text)
         if not re.search(r"\b(SHALL|MUST)\b", upper):
-            warnings.append(f"{rid}: no SHALL/MUST in the text; `openspec validate --strict` fails on it")
+            warnings.append(f"{rid}: strict-keyword: no SHALL/MUST in the text; `openspec validate --strict` fails on it")
         if len(f"<!-- {rid} -->\n{_one_line(upper)}") > MAX_TEXT:
-            warnings.append(f"{rid}: requirement text over {MAX_TEXT} characters; split it with requirement-phrasing")
+            warnings.append(f"{rid}: too-long: requirement text over {MAX_TEXT} characters; split it with "
+                            "requirement-phrasing")
         for sc in scenarios[rid]:
             kws = {k for k, _ in sc["steps"]}
             if not kws & {"WHEN", "GIVEN"} or "THEN" not in kws:
@@ -743,13 +743,13 @@ def cmd_openspec(args: argparse.Namespace) -> int:
         capabilities.setdefault(cap, []).append(row)
     for rid, changes in ids_in_other_changes(root, change, id_pattern).items():
         if rid in scenarios:
-            warnings.append(f"{rid}: also in open change(s) {', '.join(changes)}; they collide at archive")
+            warnings.append(f"{rid}: id-in-open-change: also in {', '.join(changes)}; they collide at archive")
     existing_caps = {cap for cap, _ in existing.values()}
     specs_dir = root / "openspec" / "specs"
     existing_caps |= {c for c in capabilities if (specs_dir / c / "spec.md").is_file()}
     plan = {"rows": accepted, "scenarios": scenarios, "capabilities": capabilities, "left_out": left_out,
             "verification": verification, "existing": existing, "existing_caps": existing_caps,
-            "code": _trace_code(ws, [r.get_str("ID") for r in accepted])}
+            "exceptions": exceptions}
 
     if args.target == "openspec":
         files = render_openspec(change, date, register, plan)
@@ -783,8 +783,10 @@ def cmd_openspec(args: argparse.Namespace) -> int:
     rel_dest = os.path.relpath(dest, Path.cwd()) if str(dest).startswith(str(Path.cwd())) else str(dest)
     print(f"wrote {rel_dest}/ ({', '.join(written)})")
     print(f"handed off: {', '.join(r.get_str('ID') for r in accepted)}")
+    for rid, found in exceptions.items():
+        print(f"exception: {rid}: {', '.join(found)} (approved by override; marked in the Traceability table)")
     for rid, reason in left_out:
-        print(f"note: {rid}: {reason}")
+        print(f"left out: {rid}: {reason}")
     for warning in warnings:
         print(f"warning: {warning}")
     print(f"next: {next_step}")
@@ -807,7 +809,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--target", choices=("openspec", "spec-kit"), default="openspec")
     parser.add_argument("--out", metavar="DIR", help="folder holding openspec/ or specs/ (default: the repo root)")
     parser.add_argument("--force", action="store_true", help="overwrite an existing change folder or spec")
-    parser.add_argument("--allow-tbd", action="store_true", help="hand off rows with TBD/TBC/??/XXX placeholders")
+    parser.add_argument("--allow-tbd", action="store_true",
+                        help="hand off rows with TBD/TBC/??/XXX placeholders (only for IDs the owner approved)")
+    parser.add_argument("--allow-draft", action="store_true",
+                        help="hand off selected draft/proposed rows (only for IDs the owner approved)")
     parser.add_argument("--skip-blocked", action="store_true",
                         help="leave rows the gate blocks out (listed under 'Not in this change') instead of refusing")
     parser.add_argument("--capability", metavar="NAME", help="put every functional requirement in this capability")

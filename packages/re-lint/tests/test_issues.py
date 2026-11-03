@@ -21,7 +21,7 @@ def _row(rid, **attrs):
 
 
 class FakeClient(issues.TrackerClient):
-    """In-memory tracker: no network, records every write."""
+    """In-memory GitHub-like tracker: no network, records every write."""
 
     name = "github"
     body = issues.MarkdownBody()
@@ -35,8 +35,8 @@ class FakeClient(issues.TrackerClient):
         return {rid: [i for i in self.issues if rid in i.title] for rid in ids}
 
     def create(self, title, body, labels):
-        issue = issues.GitHubIssue(str(len(self.issues) + 1), title, body, "open", f"https://x/{len(self.issues) + 1}",
-                                   list(labels))
+        n = len(self.issues) + 1
+        issue = issues.GitHubIssue(str(n), title, body, "open", f"https://github.com/o/r/issues/{n}", list(labels))
         self.issues.append(issue)
         self.calls.append(("create", title))
         return issue
@@ -46,6 +46,10 @@ class FakeClient(issues.TrackerClient):
         issue.labels = sorted(set(issue.labels) | set(labels))
         self.calls.append(("update", issue.key))
         return issue
+
+
+def _gh(n, title, body="", state="OPEN", reason=""):
+    return issues.GitHubIssue(str(n), title, body, state, f"https://github.com/o/r/issues/{n}", [], reason)
 
 
 class ExplodingClient(FakeClient):
@@ -63,36 +67,56 @@ def _main(argv, capsys, client=None):
 @pytest.fixture
 def ws(workspace):
     workspace.register([
-        make_row("R-001", Status="agreed", Title="Earn points"),
+        make_row("R-001", Status="agreed", Title="Earn points", Links="RDR-001"),
         make_row("R-002", text="WHEN a member opens the app, the app shall show the posted balance and the pending "
                  "points with their posting date.", Status="agreed"),
         make_row("R-003", Status="verified", Title="Round down"),
         make_row("R-004", Status="implemented", Title="Expire points"),
         make_row("R-005", Status="agreed", Title="Print vouchers"),
-        make_row("R-006", Status="withdrawn", Title="Old idea"),
+        make_row("R-006", Status="withdrawn", Title="Old idea", Links="github:o/r#6 RDR-002"),
         make_row("R-007", Status="draft", Title="Draft idea"),
-    ], header=HEADER)
+        make_row("R-008", Status="proposed", Title="Proposed idea"),
+    ], header=HEADER + ["Links"])
     workspace.write("requirements/trace/trace.csv", (
         "From,FromType,To,ToType,Relation,Evidence\n"
         "R-001,requirement,tests/test_earn.py::test_r_001_x,test,verified-by,tests/test_earn.py:1\n"
         "R-001,requirement,src/earn.py,code,implemented-by,src/earn.py:1\n"
+        "R-001,requirement,openspec/changes/x/specs/y/spec.md,code,mentioned-in,openspec/changes/x/specs/y/spec.md:3\n"
     ))
+    workspace.write("requirements/sources.csv", "ID,Source,Kind\nS-01,Programme T&C draft v3,document\n")
+    workspace.write("requirements/stories/earn.md", "| ID | Acceptance criterion |\n| --- | --- |\n"
+                    "| R-001.AC1 | Given a purchase of SGD 12, when it posts, then the member earns 12 points. |\n")
     return workspace
 
 
-def test_plan_is_offline(ws, capsys, tmp_path):
+def _csv(ws):
+    return {r["ID"]: r for r in csv.DictReader(io.StringIO((ws.ws / "requirements.csv").read_text(encoding="utf-8")))}
+
+
+def test_plan_is_offline_and_lists_every_row(ws, capsys, tmp_path, monkeypatch):
+    monkeypatch.setenv("JIRA_PROJECT", "LOY")
     out = tmp_path / "plan.json"
-    code, text, _ = _main(["plan", "--tracker", "jira", "--out", str(out), "--label", "requirement"], capsys,
-                          ExplodingClient())
-    assert code == 0 and "nothing was sent" in text
-    assert "R-001: Earn points" in text and "R-007" not in text  # default selection: agreed
+    code, text, _ = _main(["plan", "--tracker", "github", "--out", str(out)], capsys, ExplodingClient())
+    assert code == 0
+    assert "| R-001 | create-or-match | - | R-001: Earn points | agreed -> open |" in text
+    assert "| R-006 | move-on-board | github:o/r#6 | R-006: Old idea | withdrawn -> (manual) |" in text
+    assert "close o/r#6 by hand with the reason (RDR-002)" in text
+    assert "| R-007 | skip | - | R-007: Draft idea | draft | Status=draft; name it in --ids to push it |" in text
+    assert "Nothing has been written. To apply: `push --tracker github --ids R-001,R-002,R-005 --apply`." in text
     plan = json.loads(out.read_text(encoding="utf-8"))
-    assert [i["id"] for i in plan["items"]] == ["R-001", "R-002", "R-005"]
-    body = plan["items"][0]["body"]
-    assert body.startswith(issues.BEGIN) and body.endswith(issues.END)
-    assert "| Status | agreed |" in body and "`tests/test_earn.py::test_r_001_x`" in body
-    code, text, _ = _main(["plan", "--tracker", "github", "--ids", "R-007", "--format", "json"], capsys, ExplodingClient())
-    assert [i["id"] for i in json.loads(text)["items"]] == ["R-007"]
+    assert (plan["command"], plan["network"]) == ("plan", False)
+    first = plan["actions"][0]
+    assert {k: first[k] for k in ("id", "action", "issue", "title", "status", "tracker_status")} == {
+        "id": "R-001", "action": "create-or-match", "issue": None, "title": "R-001: Earn points", "status": "agreed",
+        "tracker_status": "open"}
+    body = first["body"]
+    assert body.startswith(issues.BEGIN + "\n**R-001** · F functional · priority must · register status at last push: agreed")
+    assert "| Verification | TBD |" in body and "- R-001.AC1: Given a purchase of SGD 12" in body
+    assert "- Sources: S-01 (Programme T&C draft v3)" in body and "- Decisions and links: RDR-001" in body
+    assert "`tests/test_earn.py::test_r_001_x` (test), `src/earn.py` (code)" in body and "openspec" not in body
+    code, text, _ = _main(["plan", "--tracker", "jira", "--ids", "R-007", "--format", "json"], capsys, ExplodingClient())
+    data = json.loads(text)
+    assert data["target"] == "LOY" and [a["action"] for a in data["actions"] if a["id"] == "R-007"] == ["create-or-match"]
     assert _main(["plan", "--tracker", "github", "--ids", "R-404"], capsys)[0] == 2
 
 
@@ -102,25 +126,26 @@ def test_title_uses_title_or_first_80_characters():
     assert issues.issue_title(long) == "R-002: " + ("x" * 50 + " " + "y" * 29)
 
 
-def test_push_dry_run_then_apply_is_idempotent(ws, capsys):
+def test_push_dry_run_then_apply_records_links_and_is_idempotent(ws, capsys):
     client = FakeClient()
     code, text, _ = _main(["push", "--tracker", "github"], capsys, client)
-    assert code == 0 and "3 create" in text and "dry run" in text
+    assert code == 0 and "Summary: 3 create" in text and "Nothing has been written" in text
     assert [c for c in client.calls if c[0] != "find"] == []
     code, text, _ = _main(["push", "--tracker", "github", "--apply", "--label", "requirement"], capsys, client)
     assert code == 0 and "3 created" in text
-    assert [i.title for i in client.issues] == ["R-001: Earn points", "R-002: " + make_row(
-        "R-002", text="WHEN a member opens the app, the app shall show the posted balance and the pending points "
-        "with their posting date.")["Text"][:80].rstrip(), "R-005: Print vouchers"]
-    assert client.issues[0].labels == ["requirement"]
+    assert [i.title for i in client.issues][0] == "R-001: Earn points" and client.issues[0].labels == ["requirement"]
+    links = {rid: row["Links"] for rid, row in _csv(ws).items()}
+    assert links["R-001"] == "RDR-001 github:o/r#1" and links["R-002"] == "github:o/r#2"
+    assert "Links now holds github:o/r#1, github:o/r#2, github:o/r#3" in text
     code, text, _ = _main(["push", "--tracker", "github", "--apply", "--label", "requirement"], capsys, client)
-    assert "3 unchanged" in text and len(client.issues) == 3
+    assert code == 0 and "3 unchanged" in text and len(client.issues) == 3
 
 
 def test_push_replaces_only_the_managed_block(ws, capsys):
-    stale = issues.MarkdownBody().render(issues.block_data(_row("R-001", text="Old text."), {}, "`x`"))
+    ctx = {"schema": issues.reqio.DEFAULT_SCHEMA, "register": "x", "trace": {}, "acs": {}, "source_titles": {}}
+    stale = issues.MarkdownBody().render(issues.block_data(_row("R-001", text="Old text."), ctx))
     human = "Design notes from the team.\n\n" + stale + "\n\nDiscussion: keep this."
-    client = FakeClient([issues.GitHubIssue("7", "R-001: Earn points", human, "open")])
+    client = FakeClient([_gh(7, "R-001: Earn points", human)])
     code, text, _ = _main(["push", "--tracker", "github", "--ids", "R-001", "--apply"], capsys, client)
     assert code == 0 and "1 updated" in text
     body = client.issues[0].body
@@ -128,81 +153,106 @@ def test_push_replaces_only_the_managed_block(ws, capsys):
     assert body.count(issues.BEGIN) == 1 and "Old text." not in body and make_row()["Text"] in body
 
 
-def test_push_reports_ambiguous_matches(ws, capsys):
-    client = FakeClient([issues.GitHubIssue("1", "Follow-up on R-001 and R-002", ""),
-                         issues.GitHubIssue("2", "Question about R-001", "")])
-    code, text, _ = _main(["push", "--tracker", "github", "--ids", "R-001", "--apply", "--format", "json"], capsys, client)
-    item = json.loads(text)["items"][0]
-    assert item["action"] == "ambiguous" and "1, 2" in item["detail"]
+@pytest.mark.parametrize("body", ["Written by hand, no block.", issues.BEGIN + "\nx\n" + issues.END + "\n" + issues.BEGIN])
+def test_push_leaves_bodies_without_clean_markers_alone(ws, capsys, body):
+    client = FakeClient([_gh(7, "R-001: Earn points", body)])
+    code, text, _ = _main(["push", "--tracker", "github", "--ids", "R-001", "--apply"], capsys, client)
+    assert code == 1 and "| R-001 | markers-missing |" in text
+    assert client.issues[0].body == body and not [c for c in client.calls if c[0] == "update"]
+    empty = FakeClient([_gh(8, "R-001: Earn points", "")])
+    assert _main(["push", "--tracker", "github", "--ids", "R-001", "--apply"], capsys, empty)[0] == 0
+    assert issues.BEGIN in empty.issues[0].body
+
+
+def test_push_reports_ambiguous_missing_and_retired_rows(ws, capsys):
+    client = FakeClient([_gh(1, "Follow-up on R-001 and R-002"), _gh(2, "Question about R-001"),
+                         _gh(6, "R-006: Old idea")])
+    code, text, _ = _main(["push", "--tracker", "github", "--ids", "R-001", "R-006", "--apply", "--format", "json"],
+                          capsys, client)
+    assert code == 1
+    items = {a["id"]: a for a in json.loads(text)["actions"]}
+    assert items["R-001"]["action"] == "ambiguous" and "1, 2" in items["R-001"]["reason"]
+    assert items["R-006"]["action"] == "move-on-board" and items["R-006"]["issue"] == "github:o/r#6"
     assert not [c for c in client.calls if c[0] in ("create", "update")]
-    leading = FakeClient([issues.GitHubIssue("1", "Follow-up on R-001", ""), issues.GitHubIssue("2", "[R-001] Earn", "")])
-    issue, candidates = issues.pick_issue("R-001", leading.issues)
+    ws.register([make_row("R-001", Status="agreed", Links="github:o/r#41")], header=HEADER + ["Links"])
+    lost = FakeClient()
+    code, text, _ = _main(["push", "--tracker", "github", "--apply"], capsys, lost)
+    assert code == 1 and "| R-001 | missing-issue | github:o/r#41 |" in text and lost.issues == []
+    leading = [issues.Issue("1", "Follow-up on R-001"), issues.Issue("2", "[R-001] Earn")]
+    issue, candidates = issues.pick_issue("R-001", leading)
     assert issue.key == "2" and len(candidates) == 2
     assert issues.pick_issue("R-001", [issues.Issue("3", "R-0012: other")])[0] is None
 
 
-def _statuses(ws):
-    rows = csv.DictReader(io.StringIO((ws.ws / "requirements.csv").read_text(encoding="utf-8")))
-    return {r["ID"]: r["Status"] for r in rows}
-
-
-def test_pull_maps_status_and_respects_the_lifecycle(ws, capsys):
+def test_pull_guard_classes(ws, capsys):
     tracker = FakeClient([
-        issues.GitHubIssue("1", "R-001: Earn points", "", "CLOSED", state_reason="COMPLETED"),
-        issues.GitHubIssue("2", "R-002: Balance", "", "OPEN"),
-        issues.GitHubIssue("3", "R-003: Round down", "", "CLOSED"),      # verified -> implemented is a downgrade
-        issues.GitHubIssue("4", "R-004: Expire points", "", "OPEN"),     # implemented -> agreed is allowed (reopened)
-        issues.GitHubIssue("5", "R-005: Print vouchers", "", "CLOSED", state_reason="NOT_PLANNED"),
-        issues.GitHubIssue("6", "R-006: Old idea", "", "OPEN"),          # withdrawn rows never change
+        _gh(1, "R-001: Earn points", state="CLOSED", reason="COMPLETED"),   # agreed -> implemented: update
+        _gh(2, "R-002: Balance"),                                           # agreed -> agreed: unchanged
+        _gh(3, "R-003: Round down", state="CLOSED"),                        # verified -> implemented: coarse map
+        _gh(4, "R-004: Expire points"),                                     # implemented -> agreed (reopened): update
+        _gh(5, "R-005: Print vouchers", state="CLOSED", reason="NOT_PLANNED"),  # -> rejected: not a transition
+        _gh(6, "R-006: Old idea"),                                          # withdrawn + open: conflict-lifecycle
+        _gh(7, "R-007: Draft idea", state="CLOSED"),                        # draft -> implemented: conflict
+        _gh(8, "R-008: Proposed idea"),                                     # proposed -> agreed: needs a person
     ])
     before = (ws.ws / "requirements.csv").read_bytes()
     code, text, _ = _main(["pull", "--tracker", "github", "--format", "json"], capsys, tracker)
-    assert code == 0 and (ws.ws / "requirements.csv").read_bytes() == before
-    items = {i["id"]: i for i in json.loads(text)["items"]}
-    assert "R-006" not in items
-    assert (items["R-001"]["action"], items["R-001"]["mapped"]) == ("update", "implemented")
-    assert items["R-002"]["action"] == "unchanged"
-    assert items["R-003"]["action"] == "skipped" and "lifecycle does not allow verified -> implemented" in items["R-003"]["detail"]
-    assert (items["R-004"]["action"], items["R-004"]["mapped"]) == ("update", "agreed")
-    assert items["R-005"]["action"] == "skipped" and "closed:not_planned" in items["R-005"]["detail"]
-    assert items["R-007"]["action"] == "no issue"
+    assert code == 1 and (ws.ws / "requirements.csv").read_bytes() == before
+    items = {a["id"]: a for a in json.loads(text)["actions"]}
+    assert {rid: a["action"] for rid, a in items.items()} == {
+        "R-001": "update", "R-002": "unchanged", "R-003": "skip-coarse-map", "R-004": "update", "R-005": "conflict",
+        "R-006": "conflict-lifecycle", "R-007": "conflict", "R-008": "needs-person"}
+    assert items["R-005"]["mapped"] == "rejected" and items["R-001"]["issue"] == "github:o/r#1"
     code, text, _ = _main(["pull", "--tracker", "github", "--apply"], capsys, tracker)
-    assert code == 0 and "2 Status value(s) written" in text
-    assert _statuses(ws) == {"R-001": "implemented", "R-002": "agreed", "R-003": "verified", "R-004": "agreed",
-                             "R-005": "agreed", "R-006": "withdrawn", "R-007": "draft"}
-    forced = _main(["pull", "--tracker", "github", "--ids", "R-003", "--apply", "--ignore-lifecycle"], capsys, tracker)
-    assert forced[0] == 0 and _statuses(ws)["R-003"] == "implemented"
+    assert "Status changed for R-001, R-004; no other cell changed." in text
+    assert {rid: r["Status"] for rid, r in _csv(ws).items()} == {
+        "R-001": "implemented", "R-002": "agreed", "R-003": "verified", "R-004": "agreed", "R-005": "agreed",
+        "R-006": "withdrawn", "R-007": "draft", "R-008": "proposed"}
+
+
+def test_pull_verified_needs_evidence(ws, capsys):
+    ado = FakeClient([issues.Issue("41", "R-001: Earn points", "", "Closed"), issues.Issue("44", "R-004: Expire", "", "Closed")])
+    code, text, _ = _main(["pull", "--tracker", "ado", "--format", "json", "--apply"], capsys, ado)
+    items = {a["id"]: a["action"] for a in json.loads(text)["actions"]}
+    assert items == {"R-001": "conflict", "R-004": "needs-evidence"}  # agreed -> verified skips implemented
+    ws.write("requirements/trace/trace.csv", "From,FromType,To,ToType,Relation,Evidence\n"
+             "R-004,requirement,tests/t.py::test_r_004,test,verified-by,tests/t.py:1\n")
+    code, text, _ = _main(["pull", "--tracker", "ado", "--ids", "R-004", "--apply"], capsys, ado)
+    assert _csv(ws)["R-004"]["Status"] == "verified"
 
 
 def test_pull_uses_schema_status_map_case_insensitively(ws, capsys):
-    ws.schema({"issues": {"status_map": {"github": {"closed:not_planned": "deferred"}, "jira": {"done": "verified"}}}})
-    tracker = FakeClient([issues.GitHubIssue("5", "R-005: Print vouchers", "", "CLOSED", state_reason="NOT_PLANNED")])
+    ws.schema({"issues": {"status_map": {"github": {"closed:not_planned": "deferred"}, "jira": {"done": "implemented"}}}})
+    tracker = FakeClient([_gh(5, "R-005: Print vouchers", state="CLOSED", reason="NOT_PLANNED")])
     code, text, _ = _main(["pull", "--tracker", "github", "--ids", "R-005", "--apply"], capsys, tracker)
-    assert code == 0 and _statuses(ws)["R-005"] == "deferred"
-    jira = FakeClient([issues.Issue("LOY-4", "R-004: Expire points", None, "Done")])
-    _main(["pull", "--tracker", "jira", "--ids", "R-004", "--apply"], capsys, jira)
-    assert _statuses(ws)["R-004"] == "verified"
-    review = FakeClient([issues.Issue("LOY-1", "R-001: Earn points", None, "In Review")])
-    _, text, _ = _main(["pull", "--tracker", "jira", "--ids", "R-001", "--format", "json"], capsys, review)
-    assert "no mapping for tracker status 'In Review' in issues.status_map.jira" in text
+    assert code == 0 and _csv(ws)["R-005"]["Status"] == "deferred"
+    jira = FakeClient([issues.Issue("LOY-1", "R-001: Earn points", None, "DONE")])
+    _main(["pull", "--tracker", "jira", "--ids", "R-001", "--apply"], capsys, jira)
+    assert _csv(ws)["R-001"]["Status"] == "implemented"
+    review = FakeClient([issues.Issue("LOY-2", "R-002: Balance", None, "In Review")])
+    code, text, _ = _main(["pull", "--tracker", "jira", "--ids", "R-002", "--format", "json"], capsys, review)
+    assert code == 1 and "'In Review' is not in issues.status_map.jira" in text
 
 
 # ---------------------------------------------------------------- body formats
 
 
 def _data():
-    return issues.block_data(_row("R-001", Title="Earn points"), {"R-001": {"test": ["tests/t.py::test_r_001"]}},
-                             "`requirements/requirements.csv`")
+    ctx = {"schema": issues.reqio.DEFAULT_SCHEMA, "register": "requirements/requirements.csv",
+           "trace": {"R-001": {"test": ["tests/t.py::test_r_001"]}}, "acs": {}, "source_titles": {}}
+    return issues.block_data(_row("R-001", Title="Earn points"), ctx)
 
 
 def test_html_body_replaces_escaped_markers_and_keeps_the_rest():
     body = issues.HtmlBody()
     escaped = "<p>Intro</p><p>&lt;!-- re-skills:begin --&gt;</p><p>old</p><p>&lt;!-- re-skills:end --&gt;</p><p>Outro</p>"
+    assert body.markers(escaped) == (1, 1)
     merged = body.merge(escaped, _data())
     assert merged.startswith("<p>Intro</p><!-- re-skills:begin -->") and merged.endswith("<!-- re-skills:end --><p>Outro</p>")
     assert "old" not in merged and "&lt;!--" not in merged
     assert body.block_text(merged) == body.block_text(body.merge("", _data()))
-    assert "<script>" not in body.render(issues.block_data(_row("R-1", text="<script>x</script>"), {}, "r"))
+    ctx = {"schema": issues.reqio.DEFAULT_SCHEMA, "register": "r", "trace": {}, "acs": {}, "source_titles": {}}
+    assert "<script>" not in body.render(issues.block_data(_row("R-1", text="<script>x</script>"), ctx))
 
 
 def test_adf_body_replaces_marker_paragraphs():
@@ -212,10 +262,10 @@ def test_adf_body_replaces_marker_paragraphs():
     human = {"type": "paragraph", "content": [{"type": "text", "text": "Team notes"}]}
     doc["content"].insert(0, human)
     doc["content"].append(human)
-    again = body.merge(doc, issues.block_data(_row("R-001", text="New text."), {}, "r"))
+    ctx = {"schema": issues.reqio.DEFAULT_SCHEMA, "register": "r", "trace": {}, "acs": {}, "source_titles": {}}
+    again = body.merge(doc, issues.block_data(_row("R-001", text="New text."), ctx))
     assert again["content"][0] == human and again["content"][-1] == human
-    assert "New text." in body.block_text(again) and sum(
-        1 for n in again["content"] if issues.AdfBody._text(n) == issues.BEGIN) == 1
+    assert "New text." in body.block_text(again) and body.markers(again) == (1, 1)
 
 
 # ---------------------------------------------------------------- real clients with fake transports
@@ -292,6 +342,7 @@ def test_jira_push_through_run_never_prints_the_token(ws, capsys):
     assert code == 1  # the third create failed
     assert "SECRET-TOKEN" not in out + err and "HTTP 500: boom" in out
     assert "2 created" in out and "1 error" in out
+    assert _csv(ws)["R-001"]["Links"] == "RDR-001 jira:LOY-1" and _csv(ws)["R-005"]["Links"] == ""
 
 
 def test_ado_client_requests():

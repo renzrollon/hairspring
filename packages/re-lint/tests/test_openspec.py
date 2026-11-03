@@ -88,8 +88,10 @@ def test_openspec_change_folder(ws, capsys):
             "- **THEN** the loyalty service issues a voucher worth SGD 10\n"
             "- **AND** the member's posted balance is 250 points\n") in spec
     assert ("#### Scenario: R-042.AC1 Member requests a voucher\n- **GIVEN** a member with 480 posted points\n"
-            "- **WHEN** the member requests a voucher\n- **THEN** the loyalty service rejects the request\n"
-            "- **AND** the response states the 500-point minimum\n") in spec
+            "- **WHEN** the member requests a voucher\n"
+            "- **THEN** the loyalty service rejects the request and the response states the 500-point minimum\n"
+            ) in spec  # an "and" inside a clause never splits it
+    assert "Voucher Redemption: Issue voucher on redemption request; Reject redemption below minimum" in spec
     assert "R-085" not in spec and "R-100" not in spec  # quality requirements and constraints stay in the proposal
     checkout = (change / "specs" / "checkout" / "spec.md").read_text(encoding="utf-8")
     assert ("#### Scenario: R-041 main case (derived from the requirement text)\n"
@@ -105,6 +107,8 @@ def test_openspec_change_folder(ws, capsys):
     assert "- R-042 Reject redemption below minimum (should)" in proposal
     assert "| R-100 | C | The loyalty service shall implement the TillPoint interface v2.1. |" in proposal
     assert "| R-041 | F | must | agreed | S-01 | specs/checkout/spec.md; tasks 2.1 |" in proposal
+    assert "## Impact\n\n- Register: `requirements/requirements.csv`\n" in proposal
+    assert "## Not in this change\n\nNone." in proposal
     tasks = (change / "tasks.md").read_text(encoding="utf-8")
     assert "## 1. voucher-redemption" in tasks and "## 3. Quality requirements and constraints" in tasks
     assert ("- [ ] 1.1 Implement R-040 Issue voucher on redemption request; verify by an automated test for "
@@ -114,34 +118,48 @@ def test_openspec_change_folder(ws, capsys):
     assert "next: openspec validate add-voucher-redemption --strict" in result.out
 
 
-def test_default_selection_is_agreed_and_never_rows_are_left_out(ws, capsys):
+def test_default_selection_is_agreed_and_blocked_rows_can_be_left_out(ws, capsys):
+    refused = run_cli(openspec, ["add-voucher-redemption", "--date", DATE], capsys)
+    assert refused.code == 1 and "| R-044 | G2 | open-tbd in R-044.AC1 |" in refused.out
+    assert not _change(ws).exists()
     result = run_cli(openspec, ["add-voucher-redemption", "--date", DATE, "--skip-blocked"], capsys)
     assert result.code == 0, result.err
     assert "handed off: R-040, R-041, R-042, R-085, R-100" in result.out
     proposal = (_change(ws) / "proposal.md").read_text(encoding="utf-8")
-    assert "| R-044 | open placeholder in R-044.AC1 (G2) |" in proposal
-    named = run_cli(openspec, ["fix-voucher", "--ids", "R-019", "R-060", "R-043", "--date", DATE], capsys)
-    assert named.code == 0
+    assert "| R-044 | open-tbd in R-044.AC1 |" in proposal
+    assert "R-043" not in proposal and "R-045" not in proposal  # never selected: not listed
+
+
+def test_named_rows_never_selectable_and_approved_exceptions(ws, capsys):
+    draft = run_cli(openspec, ["fix-voucher", "--ids", "R-019", "R-060", "R-043", "--date", DATE], capsys)
+    assert draft.code == 1 and "not-agreed (Status=draft)" in draft.out and "--allow-draft" in draft.out
+    named = run_cli(openspec, ["fix-voucher", "--ids", "R-019", "R-060", "R-043", "--date", DATE, "--allow-draft"],
+                    capsys)
+    assert named.code == 0, named.err
     proposal = (_change(ws, "fix-voucher") / "proposal.md").read_text(encoding="utf-8")
-    assert "| R-019 | Status=withdrawn (never handed off) |" in proposal
-    assert "| R-060 | Priority=wont (never handed off) |" in proposal
-    assert "| R-043 | in this change with Status=draft (named by --ids); confirm the approval |" in proposal
+    not_in = proposal.split("## Not in this change", 1)[1].split("## Traceability", 1)[0]
+    assert "| R-019 | Status=withdrawn |" in not_in and "| R-060 | Priority=wont |" in not_in
+    assert "R-043" not in not_in  # handed off: never listed under "Not in this change"
+    assert "| R-043 | F | could | draft; exception: not-agreed |" in proposal
     spec = (_change(ws, "fix-voucher") / "specs" / "voucher" / "spec.md").read_text(encoding="utf-8")
     assert "the POS SHOULD print" in spec  # no shall/must: should is upper-cased
-    assert "R-043: no SHALL/MUST" in named.out
+    assert "R-043: strict-keyword" in named.out and "exception: R-043: not-agreed" in named.out
     nothing = run_cli(openspec, ["add-x", "--ids", "R-019"], capsys)
     assert nothing.code == 1 and "nothing to hand off" in nothing.err
 
 
 def test_gate_refuses_tbd_and_missing_scenarios(ws, capsys):
     tbd = run_cli(openspec, ["add-confirm", "--ids", "R-044"], capsys)
-    assert tbd.code == 1 and "| R-044 | G2 | open placeholder in R-044.AC1 |" in tbd.out
+    assert tbd.code == 1 and "| R-044 | G2 | open-tbd in R-044.AC1 |" in tbd.out and "--allow-tbd" in tbd.out
     assert not _change(ws, "add-confirm").exists()
     allowed = run_cli(openspec, ["add-confirm", "--ids", "R-044", "--allow-tbd", "--date", DATE], capsys)
-    assert allowed.code == 0 and "--allow-tbd" in (_change(ws, "add-confirm") / "proposal.md").read_text()
-    ubiquitous = run_cli(openspec, ["add-audit", "--ids", "R-045"], capsys)
-    assert ubiquitous.code == 1 and "G4" in ubiquitous.out and "no acceptance criterion" in ubiquitous.out
-    assert run_cli(openspec, ["add-audit", "--ids", "R-045", "--skip-blocked"], capsys).code == 1  # nothing left
+    assert allowed.code == 0
+    proposal = (_change(ws, "add-confirm") / "proposal.md").read_text(encoding="utf-8")
+    assert "| R-044 | F | must | agreed; exception: open-tbd |" in proposal
+    assert "## Not in this change\n\nNone." in proposal
+    ubiquitous = run_cli(openspec, ["add-audit", "--ids", "R-045", "--allow-draft"], capsys)
+    assert ubiquitous.code == 1 and "| R-045 | G4 | no-scenario-source" in ubiquitous.out
+    assert run_cli(openspec, ["add-audit", "--ids", "R-045", "--allow-draft", "--skip-blocked"], capsys).code == 1
 
 
 def test_existing_change_needs_force(ws, capsys):
@@ -178,7 +196,8 @@ def test_capability_option_and_modified_requirements(ws, capsys):
 
 def test_spec_kit_target(ws, capsys):
     result = run_cli(openspec, ["004-voucher-redemption", "--target", "spec-kit", "--ids",
-                                "R-040,R-042,R-043,R-044,R-085,R-100", "--allow-tbd", "--date", DATE], capsys)
+                                "R-040,R-042,R-043,R-044,R-085,R-100", "--allow-tbd", "--allow-draft", "--date", DATE],
+                     capsys)
     assert result.code == 0, result.err
     spec = (ws.root / "specs" / "004-voucher-redemption" / "spec.md").read_text(encoding="utf-8")
     assert spec.startswith("# Feature Specification: Voucher redemption\n\n**Feature Branch**: `004-voucher-redemption`")
@@ -194,12 +213,13 @@ def test_spec_kit_target(ws, capsys):
     assert ("1. **Given** a member with 1,250 posted points, **When** the member requests a voucher for 1,000 points "
             "in the customer mobile app, **Then** the loyalty service issues a voucher worth SGD 10, **And** the "
             "member's posted balance is 250 points (R-040.AC1)") in spec
+    assert "the loyalty service SHALL issue a voucher worth SGD 1 per 100 points redeemed. (R-040)" in spec
     assert "- R-042: Reject redemption below minimum (see User Story 3)" in spec
-    assert "- **R-040**: WHEN a member" in spec and "SHALL issue" in spec
-    assert "- **R-085**: WHILE the POS load" in spec.split("### Measurable Outcomes")[1]
-    assert "- **R-100**: The loyalty service shall implement" in spec.split("### Constraints")[1]
+    assert "- **R-085**: WHILE the POS load" in spec.split("### Measurable Outcomes")[1] and "SHALL answer" in spec
+    assert "- **R-100**: The loyalty service SHALL implement" in spec.split("### Constraints")[1]
     assert "[NEEDS CLARIFICATION: value is TBD in requirements/requirements.csv]" in spec
-    assert "- Not in this feature: R-043 (in this change with Status=draft" in spec
+    assert "Not in this feature" not in spec  # every named row crossed
+    assert " shall " not in spec.split("## Requirements")[0].split("## User Scenarios")[1].replace("Given", "")
     assert not (ws.root / "openspec").exists()
     again = run_cli(openspec, ["004-voucher-redemption", "--target", "spec-kit", "--ids", "R-040"], capsys)
     assert again.code == 1
@@ -232,10 +252,11 @@ def test_ears_steps(text, steps):
 def test_inline_steps_and_names():
     label, steps = openspec.inline_steps("Given a member with 300 posted points and 400 pending points, when the "
                                          "member asks for a voucher, then the app refuses it and the app shows the "
-                                         "minimum.")
+                                         "minimum, and the balance stays 300; but no voucher is issued.")
     assert label == "" and steps == [("GIVEN", "a member with 300 posted points and 400 pending points"),
-                                     ("WHEN", "the member asks for a voucher"), ("THEN", "the app refuses it"),
-                                     ("AND", "the app shows the minimum")]
+                                     ("WHEN", "the member asks for a voucher"),
+                                     ("THEN", "the app refuses it and the app shows the minimum"),
+                                     ("AND", "the balance stays 300"), ("AND", "no voucher is issued")]
     assert openspec.when_name(steps) == "Member asks for a voucher"
     assert openspec.upcase_obligation("The app shall show it and must not crash.") == "The app SHALL show it and MUST not crash."
     assert openspec.upcase_obligation("The app should show it; users may skip.") == "The app SHOULD show it; users MAY skip."

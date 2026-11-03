@@ -20,7 +20,9 @@ Usage::
 * code files matching ``schema.trace.code_globs`` (``implemented-by``),
 * test files matching ``schema.trace.test_globs`` (``verified-by``), including test-name
   forms ``test_r_012_*``, ``test_R012``, ``TestR012_*`` and ``r012``/``R012``/``r_012``,
-* ``git log`` messages when ``schema.trace.scan_git_log`` is true (``mentioned-in``).
+* ``git log`` messages when ``schema.trace.scan_git_log`` is true (``mentioned-in``, ToType ``commit``),
+* files under ``openspec/`` (``mentioned-in``, ToType ``code``): hand-off specs cite R-IDs as anchors.
+  These mentions never count as an implementation reference and never produce a gap.
 
 It writes three files to ``--out`` (default ``<workspace>/trace``):
 
@@ -474,8 +476,8 @@ class TraceBuilder:
         self.commits: Dict[str, str] = {}
         self.stats = {"files_scanned": 0, "files_skipped": 0, "commits_scanned": 0, "git_log": False}
 
-    def add(self, ref: str, to: str, to_type: str, evidence: str) -> None:
-        relation = RELATION_FOR_TYPE[to_type]
+    def add(self, ref: str, to: str, to_type: str, evidence: str, relation: Optional[str] = None) -> None:
+        relation = relation or RELATION_FOR_TYPE[to_type]
         key = (ref, to, relation)
         if key not in self.edges:
             self.edges[key] = {
@@ -563,7 +565,7 @@ class TraceBuilder:
             elif ws_rel not in ("", ".") and (rel == ws_rel or rel.startswith(ws_rel + "/")):
                 continue  # registers and generated work products are not code
             elif rel.startswith("openspec/"):
-                continue  # hand-off specs carry IDs as anchors, not as trace evidence
+                kind = "openspec"  # hand-off specs: R-IDs are anchors, traced as mentioned-in
             else:
                 kind = self.classify(rel)
             if kind is None:
@@ -587,7 +589,10 @@ class TraceBuilder:
                     name = _test_name(lines, index)
                     to = f"{rel}::{name}" if name else rel
                 for ref in refs:
-                    self.add(ref, to, kind, f"{rel}:{index + 1}")
+                    if kind == "openspec":
+                        self.add(ref, to, "code", f"{rel}:{index + 1}", relation="mentioned-in")
+                    else:
+                        self.add(ref, to, kind, f"{rel}:{index + 1}")
 
     # -- git log
 
@@ -705,7 +710,10 @@ def compute_gaps(edges: Sequence[Dict[str, str]], reqs: "OrderedDict[str, reqio.
     committed = statuses or COMMITTED_STATUSES
     types_by_req: Dict[str, Set[str]] = defaultdict(set)
     for edge in edges:
-        types_by_req[IdMatcher.base(edge.get("From", ""))].add(edge.get("ToType", ""))
+        to_type = edge.get("ToType", "")
+        if to_type == "code" and edge.get("Relation") == "mentioned-in":
+            to_type = "mention"  # an OpenSpec/spec mention is not an implementation reference
+        types_by_req[IdMatcher.base(edge.get("From", ""))].add(to_type)
     gaps: List[Dict] = []
     counts = OrderedDict(
         (k, 0) for k in ("requirements", "in_scope", "retired", "with_source", "with_decision",
@@ -749,7 +757,7 @@ def compute_gaps(edges: Sequence[Dict[str, str]], reqs: "OrderedDict[str, reqio.
     seen: Set[Tuple[str, str]] = set()
     for edge in edges:
         kind = edge.get("ToType")
-        if kind not in ("code", "test"):
+        if kind not in ("code", "test") or edge.get("Relation") == "mentioned-in":
             continue
         ref = edge.get("From", "")
         key = (ref, edge.get("Evidence", ""))
@@ -785,7 +793,7 @@ def _render_mermaid(edges: Sequence[Dict[str, str]], reqs: Dict, gap_ids: Set[st
     """Mermaid lines, links drawn and links available (code/tests grouped per file, no commits)."""
     pairs: "OrderedDict[Tuple[str, str, str], None]" = OrderedDict()
     for edge in edges:
-        if edge["ToType"] == "commit":
+        if edge["ToType"] == "commit" or edge["Relation"] == "mentioned-in":
             continue
         to = edge["To"].split("::", 1)[0] if edge["ToType"] == "test" else edge["To"]
         pairs.setdefault((IdMatcher.base(edge["From"]), to, edge["ToType"]), None)
@@ -920,15 +928,17 @@ def render_trace_md(edges: Sequence[Dict[str, str]], reqs: Dict, report: Dict, c
 
     grouped: Dict[str, Dict[str, List[str]]] = defaultdict(lambda: defaultdict(list))
     for edge in edges:
-        grouped[IdMatcher.base(edge["From"])][edge["ToType"]].append(edge["To"])
-    out += ["## Matrix", "", "| Requirement | Status | Sources | Decisions | Code | Tests | Commits |",
-            "| --- | --- | --- | --- | --- | --- | --- |"]
+        kind = "mention" if edge["ToType"] == "code" and edge["Relation"] == "mentioned-in" else edge["ToType"]
+        grouped[IdMatcher.base(edge["From"])][kind].append(edge["To"])
+    out += ["## Matrix", "", "| Requirement | Status | Sources | Decisions | Code | Tests | Commits | Specs |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- |"]
     for rid in sorted(set(reqs) | set(grouped), key=_id_key):
         g = grouped.get(rid, {})
         status = _status(reqs.get(rid)) if rid in reqs else "not in register"
         out.append(
             f"| {rid} | {status} | {_cell_list(g.get('source', []))} | {_cell_list(g.get('decision', []))} | "
-            f"{_cell_list(g.get('code', []))} | {_cell_list(g.get('test', []))} | {_cell_list(g.get('commit', []))} |"
+            f"{_cell_list(g.get('code', []))} | {_cell_list(g.get('test', []))} | {_cell_list(g.get('commit', []))} | "
+            f"{_cell_list(g.get('mention', []))} |"
         )
     out.append("")
     if commits:
@@ -1012,8 +1022,9 @@ def _impact(seeds: Sequence[str], edges: Sequence[Dict[str, str]], reqs: Dict, d
             links[rid].add(other)
             links[other].add(rid)
             continue
-        art = (edge["ToType"], edge["To"])
-        art_by_req[rid].append((edge["ToType"], edge["To"], edge["Evidence"]))
+        to_type = "mention" if edge["ToType"] == "code" and edge["Relation"] == "mentioned-in" else edge["ToType"]
+        art = (to_type, edge["To"])
+        art_by_req[rid].append((to_type, edge["To"], edge["Evidence"]))
         reqs_by_art[art].add(rid)
     for rid, row in reqs.items():
         for token in re.split(r"[\s,;]+", row.get_str("Links")):
@@ -1053,7 +1064,7 @@ def _impact(seeds: Sequence[str], edges: Sequence[Dict[str, str]], reqs: Dict, d
             "title": (row.get_str("Title") or row.get_str("Text")) if row is not None else "",
         })
     for group, key in (("decision", "decisions"), ("code", "code"), ("test", "tests"),
-                       ("source", "sources"), ("commit", "commits")):
+                       ("source", "sources"), ("commit", "commits"), ("mention", "mentions")):
         result[key] = [
             {"name": name, "hop": info["hop"], "via": info["via"], "evidence": info["evidence"]}
             for (kind, name), info in found_arts.items() if kind == group
@@ -1062,7 +1073,7 @@ def _impact(seeds: Sequence[str], edges: Sequence[Dict[str, str]], reqs: Dict, d
 
 
 _GROUP_TITLES = (("decisions", "Decisions"), ("code", "Code"), ("tests", "Tests"),
-                 ("sources", "Sources"), ("commits", "Commits"))
+                 ("sources", "Sources"), ("commits", "Commits"), ("mentions", "Mentions (OpenSpec and spec hand-offs)"))
 
 
 def _impact_text(result: Dict) -> str:
