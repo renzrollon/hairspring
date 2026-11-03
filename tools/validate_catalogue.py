@@ -977,7 +977,10 @@ def _first_sentence(text: str) -> str:
 
 
 def _md_cell(text: str) -> str:
-    return str(text).replace("|", "\\|").replace("\n", " ").strip()
+    # Escape "<" outside code spans so GitHub does not strip placeholders such as <role>.
+    parts = re.split(r"(`[^`]*`)", str(text))
+    text = "".join(p if p.startswith("`") else p.replace("<", "&lt;") for p in parts)
+    return text.replace("|", "\\|").replace("\n", " ").strip()
 
 
 def _stage_key(skill: Skill) -> Tuple[int, str]:
