@@ -63,4 +63,4 @@ If the markers are missing or appear twice, `push` leaves that issue's body alon
 
 ## Issue type
 
-Which Jira issue type or Azure DevOps work item type a new issue gets is set by the script (see `issue_sync.py --help`). CMMI projects in Azure DevOps have a `Requirement` type; Agile ones use `User Story`. Check with the board owner before the first push.
+A new issue gets the type given with `--issue-type TYPE`: by default `Story` in Jira and `User Story` in Azure DevOps. CMMI projects in Azure DevOps have a `Requirement` type; Agile ones use `User Story`. Check with the board owner before the first push.
