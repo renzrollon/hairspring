@@ -135,11 +135,14 @@ class Row(dict):
 
     file: str = ""
     line: int = 0
+    end_line: int = 0
 
     def __init__(self, data: Optional[Dict[str, str]] = None, file: str = "", line: int = 0):
         super().__init__(data or {})
         self.file = file
         self.line = line
+        # Last physical line of the row (a quoted CSV field may span several lines).
+        self.end_line = line
 
     def get_str(self, key: str) -> str:
         value = self.get(key)
@@ -347,13 +350,23 @@ def _csv_table(path: Path, text: str) -> Table:
     except StopIteration:
         return Table([], [], file=str(path))
     rows: List[Row] = []
-    # csv.reader tracks physical lines; line_num after reading a record is its last line.
-    for record in reader:
+    # csv.reader tracks physical lines: line_num after reading a record is its *last* line, so a
+    # record starts on the line after the previous record ended (quoted fields may span lines).
+    while True:
+        start = reader.line_num + 1
+        try:
+            record = next(reader)
+        except StopIteration:
+            break
+        except csv.Error as exc:
+            raise ValueError(f"{path}:{reader.line_num}: malformed CSV: {exc}") from exc
         if not any(cell.strip() for cell in record):
             continue
         record += [""] * (len(header) - len(record))
         data = {h: (record[k] if k < len(record) else "") for k, h in enumerate(header)}
-        rows.append(Row(data, file=str(path), line=reader.line_num))
+        row = Row(data, file=str(path), line=start)
+        row.end_line = reader.line_num
+        rows.append(row)
     return Table(header, rows, file=str(path))
 
 
