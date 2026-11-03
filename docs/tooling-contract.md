@@ -32,6 +32,7 @@ Deterministic checks run as code, not as model judgment, so they can gate CI. Th
 | `re_lint/reqif_io.py` | `scripts/reqif_bridge.py` | `reqif-bridge` |
 | `re_lint/openspec.py` | `scripts/to_openspec.py` | `to-openspec` |
 | `re_lint/issues.py` | `scripts/issue_sync.py` | `issue-sync` |
+| `skills/_primitives/re-templates/assets/schema.json` | `assets/schema.json` | `re-setup`, `attribute-schema` |
 
 Generated docs (also written by `tools/vendor_scripts.py`): `skills/validation/requirement-linter/references/rules.md` from the rule registry in `lint.py`.
 
@@ -164,3 +165,20 @@ re-lint issues pull  --tracker github|jira|ado [--apply]            # refresh St
 ```
 
 Dry run unless `--apply`. GitHub uses the `gh` CLI; Jira uses `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT`; Azure DevOps uses `ADO_ORG_URL`, `ADO_PROJECT`, `ADO_PAT`. Issue title is `<ID>: <Title or first 80 chars of Text>`; the body carries the text, attributes and trace links in a fenced block delimited by `<!-- re-skills:begin -->` / `<!-- re-skills:end -->` so re-syncs replace only that block. Status mapping is configurable under `schema.json` → `issues.status_map`.
+
+## GitHub Action (`action.yml` at the repo root)
+
+So teams can gate pull requests without installing anything:
+
+```yaml
+- uses: renzrollon/hairspring@v0.1.0
+  with:
+    paths: ""            # default: the workspace registers
+    fail-on: error        # error | warning | info
+    format: github        # annotations on the PR diff
+    schema: ""           # default: requirements/schema.json
+    changed-only: ""     # e.g. origin/main to lint only changed rows
+    trace-gaps: "false"  # "true" also runs `re-lint trace build` and `trace gaps --fail-on-gaps`
+```
+
+The action installs `packages/re-lint` from the action's own checkout (`pip install "$GITHUB_ACTION_PATH/packages/re-lint"`), so it never needs PyPI. A copy-paste workflow lives in `docs/ci/requirements-lint.yml`.
