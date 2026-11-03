@@ -1,45 +1,36 @@
 # Integration formats: what the vendored bridge scripts must emit and read
 
-For the author of `packages/re-lint` (`openspec.py` → `to_openspec.py`, `reqif_io.py` → `reqif_bridge.py`, `issues.py` → `issue_sync.py`). The CLIs are fixed by `docs/tooling-contract.md`; this note fixes the file formats and the behaviors the three skills in `skills/integration/` rely on. Checked 2026-11-03.
+For the author of `packages/re-lint` (`openspec.py` → `to_openspec.py`, `reqif_io.py` → `reqif_bridge.py`, `issues.py` → `issue_sync.py`). The CLIs are fixed by `docs/tooling-contract.md`; this note fixes the file formats and the behaviors the three skills in `skills/integration/` rely on. Checked 2026-11-03 against OpenSpec 1.16.0, spec-kit 1.2.6, the OMG ReqIF 1.2 XSD (via strictdoc `reqif` 0.1.0), and the package draft of the same date. Section 4 lists where that draft still differs.
 
-**Golden files.** Treat these as expected output for tests; each was validated with the real tool:
+## Golden files
 
-| Golden file | Validated with |
-| --- | --- |
-| `skills/integration/to-openspec/examples/expected-output/openspec/changes/add-voucher-redemption/` | `openspec validate add-voucher-redemption --strict` (OpenSpec 1.16.0), then `openspec archive` |
-| `skills/integration/to-openspec/examples/expected-output/specs/001-voucher-redemption/spec.md` | spec-kit 1.2.6 template sections (spec-kit has no validator) |
-| `skills/integration/reqif-bridge/examples/expected-output.reqif`, `vendor-return.reqif` | `reqif validate --use-reqif-schema` (strictdoc reqif 0.1.0, OMG XSD) |
-| `skills/integration/issue-sync/examples/expected-plan.json`, `expected-output.md`, `expected-issue-body.md` | shape only (no tracker) |
+| Golden file | Validated with | Matches the package draft |
+| --- | --- | --- |
+| `skills/integration/to-openspec/examples/expected-output/openspec/changes/add-voucher-redemption/` | `openspec validate add-voucher-redemption --strict` (1.16.0), then `openspec archive` | yes, except the step-6 edits and the "and" split (4.1) |
+| `skills/integration/to-openspec/examples/expected-output/specs/001-voucher-redemption/spec.md` | spec-kit 1.2.6 template sections | yes, except casing (4.2) and the "and" split (4.1) |
+| `skills/integration/reqif-bridge/examples/expected-output.reqif` | `reqif validate --use-reqif-schema` | byte-identical to `re-lint reqif export --ids R-040,R-041,R-085 --title "Voucher redemption" --timestamp 2026-11-03T09:12:00Z` |
+| `skills/integration/reqif-bridge/examples/vendor-return.reqif` → `expected-import-diff.md` | `reqif validate --use-reqif-schema` | diff classes differ (4.3, 4.4) |
+| `skills/integration/issue-sync/examples/expected-plan.json`, `expected-output.md`, `expected-issue-body.md` | shape only (no tracker) | plan shape differs (4.6) |
 
-Inputs for those runs: each skill's `examples/input/requirements/`. The OpenSpec and spec-kit golden files show the state after the skill's step 6: `## Why`, `## Purpose`, `## Impact`, the capability description and the "Not in this change" reasons were refined by the agent with the user. Every other line is what the script must emit.
+Inputs: each skill's `examples/input/requirements/`. Step 6 of `to-openspec` is where the agent, with the user, rewrites `## Why`, `## Purpose`, the capability description and `## Impact`, and deletes the "draft" note from the proposal comment; every other line of the golden OpenSpec and spec-kit files is script output.
 
 ## 1. `to_openspec.py`
 
-**Selection.** No `--ids` and no `--status` means `--status agreed`. `--ids` is comma-separated. Never select `withdrawn`, `rejected`, `deferred` or `Priority=wont`, even when named: skip and report. Refuse with exit `2` if the target change folder (or spec-kit `spec.md`) exists, unless `--force`. `--out` is the directory that holds `openspec/` (default: repo root).
+**Selection and gate.** No `--ids`/`--status` means `--status agreed`; `--ids` takes comma or space lists. Never select `withdrawn`, `rejected`, `deferred`, `Priority=wont`. Gate findings the script checks: open `TBD`/`TBC`/`??`/`XXX` (G2), named `draft`/`proposed` rows, no scenario source (G4), body over 500 characters, the R-ID in another open change (G6). Lint errors (G1) are the skill's job, because a vendored module may import only `reqio`. On a blocking finding the script refuses (exit `1`, nothing written) unless an override is given; on an existing change folder it refuses unless `--force`.
 
-**Findings** (exit `1`, files still written): `open-tbd` (TBD/TBC/??/XXX in any cell), `strict-keyword` (obligation is `should`/`may`), `not-agreed` (named `draft`/`proposed` row), `too-long` (body over 500 characters including the anchor line), `id-in-open-change` (R-ID already in another `openspec/changes/*/`). A row with no acceptance criterion and no `WHERE`/`WHILE`/`WHEN`/`IF` clause cannot get a scenario: skip it and report `no-scenario-source`. The skill runs its gate before calling the script, so findings here are approved exceptions or mistakes.
+**OpenSpec files:** `openspec/changes/<change>/{.openspec.yaml, proposal.md, tasks.md, specs/<capability>/spec.md}`. Never `openspec/specs/`, `openspec/config.yaml` or `design.md`. `.openspec.yaml`: `schema: spec-driven`, `created`, `x-re-skills-source`, `x-re-skills-ids`.
 
-**Files (OpenSpec target)**
+**`proposal.md`**, headings in order: `# Proposal: <change>`, generated-by comment (with a "Why is a draft" note), `## Why`, `## What Changes`, `## Capabilities`, `### New Capabilities`, `### Modified Capabilities`, `## Constraints and Quality Requirements`, `## Impact`, `## Not in this change`, `## Traceability`.
 
-```text
-openspec/changes/<change>/.openspec.yaml       schema: spec-driven / created: YYYY-MM-DD / x-re-skills-source / x-re-skills-ids
-openspec/changes/<change>/proposal.md
-openspec/changes/<change>/tasks.md
-openspec/changes/<change>/specs/<capability>/spec.md
-```
+- `## Why` (parsed by OpenSpec; 50 to 1,000 characters): each selected row's rationale followed by ` (<ID>)`, joined by spaces.
+- `## What Changes` (parsed; not empty): `- <ID> <Title> (<Priority>)` per F row.
+- Capabilities: `` - `<capability>`: <titles joined by "; "> (<IDs>) ``; Modified if `openspec/specs/<capability>/spec.md` exists, else New; `- None` when empty.
+- Constraints and Quality Requirements: table `ID | Type | Requirement | Source | Verification`, every Q and C row, verbatim.
+- Impact: ``- Register: `<workspace>/requirements.csv` ``.
+- Not in this change: table `ID | Reason` for rows the gate left out (with `--skip-blocked`), else `None.` Rows never selected are not listed.
+- Traceability: `ID | Type | Priority | Status | Source | Lands in` (`specs/<capability>/spec.md; tasks 1.1` or `proposal.md; tasks 2.1`). A row that crossed as an approved exception carries `; exception: <finding>` in its Status cell.
 
-Never write `openspec/specs/`, `openspec/config.yaml` or `design.md`.
-
-**`proposal.md`** headings, in order: `# Proposal: <change>`, generated-by comment, `## Why`, `## What Changes`, `## Capabilities`, `### New Capabilities`, `### Modified Capabilities`, `## Constraints and Quality Requirements`, `## Impact`, `## Not in this change`, `## Traceability`.
-
-- `## Why` (OpenSpec parses it; 50 to 1,000 characters): the rationales of the selected F rows joined by spaces, cut at a sentence end before 1,000; if under 50, append `Requirements handed off: <IDs>.`
-- `## What Changes` (parsed; must not be empty): `- <ID> <Title> (<Priority>)` per F row.
-- Capabilities: `` - `<capability>`: <titles joined by "; "> (<IDs>) ``; a capability goes under Modified if `openspec/specs/<capability>/spec.md` exists, else New; the empty list is `- None`.
-- Constraints and Quality Requirements: the line `These restrict the whole change.`, then table `ID | Type | Requirement | Source | Verification`, every Q and C row, text verbatim.
-- Impact: `- Sources: <source IDs from Source cells>` and ``- Register: `<workspace>/requirements.csv` ``; the agent adds systems.
-- Not in this change: table `ID | Reason` for skipped rows (script reason: `Status=<status>` or the finding, plus `; links: <Links>` when set). Traceability: table `ID | Type | Priority | Status | Source | Lands in`.
-
-**Delta `spec.md`**, one per capability. Capability = `cap:<name>` in `Tags`, else the change name minus a leading `add-|update-|change-|remove-|fix-`.
+**Delta `spec.md`**, one per capability (`--capability`, else `cap:<name>` in `Tags`, else the change name minus `add-|update-|change-|remove-|fix-`):
 
 ```markdown
 # Spec Delta: <capability>
@@ -48,66 +39,69 @@ Never write `openspec/specs/`, `openspec/config.yaml` or `design.md`.
 
 ## Purpose
 
-<new capability only; draft "Covers <titles joined by '; '>." padded to >= 50 characters>
+<Capability in title case>: <titles joined by "; "> (<IDs>).
 
 ## ADDED Requirements
 
-### Requirement: <ID> <Title, else first 8 words of Text without trailing punctuation>
+### Requirement: <ID> <Title, else first 8 words of Text>
 <!-- <ID> -->
-<Text verbatim; whole-word shall/must upper-cased; should/may upper-cased only if no shall/must>
+<Text; whole-word shall/must upper-cased; should/may upper-cased only when there is no shall/must>
 
-#### Scenario: <ID>.AC<n> <When clause: first 8 words, first letter upper-cased>
+#### Scenario: <ID>.AC<n> <When clause: first 8 words, a leading the/a/an dropped, capitalized>
 - **GIVEN** ...
 - **WHEN** ...
 - **THEN** ...
 ```
 
-- **ADDED** when the R-ID appears in no `openspec/specs/**/spec.md`; **MODIFIED** when it does: copy that block's header text exactly, write the full new block, no `## Purpose`. No REMOVED blocks in this version (the skill lists withdrawn IDs still in main specs).
-- **Acceptance criteria** come from `<workspace>/stories/*.md`: a table row whose `ID` cell matches `^R-\d{3,}\.AC\d+$` (text from the `Acceptance criterion` column, else the last column), or a list item `- R-nnn.ACn: <text>`. Split into clauses at `Given|When|Then|And|But` (any case) at the start of the text or right after `, ` or `; `; keyword → `**GIVEN**`/`**WHEN**`/`**THEN**`/`**AND**` (`But` → `AND`); clause text verbatim, keyword and final period removed. An `and` inside a clause does not split it. One scenario per criterion, in ID order.
-- **Derived scenario** when a row has no criterion: name `<ID> main case (derived from the requirement text)`. Main clause = text after `, THEN ` (IF form), else after the right-most `, ` whose remainder contains the obligation verb and no EARS keyword. Split the condition at upper-case `WHERE|WHILE|WHEN|IF`: `WHERE`/`WHILE` → `**GIVEN**`, `WHEN`/`IF` → `**WHEN**`; main clause → `**THEN**` (verbatim, obligation verb not upper-cased). Text not starting with an EARS keyword: no derived scenario.
+- **ADDED** when the R-ID is in no `openspec/specs/**/spec.md`; **MODIFIED** when it is (copy the header exactly, full block, no `## Purpose`). No REMOVED blocks in this version.
+- **Acceptance criteria** from `<workspace>/stories/*.md`, ID `R-nnn.ACn`. A clause starts at `Given|When|Then|And|But` (any case) at the start of the criterion or right after `, `, `; ` or `. `; each clause becomes one bullet, verbatim, keyword and final period removed (`But` → `AND`). **An `and` inside a clause never splits it** (4.1).
+- **Derived scenario** without a criterion: `<ID> main case (derived from the requirement text)`. Main clause: after `, THEN ` (IF form), else after the right-most `, ` whose remainder holds the obligation verb. Condition clauses split at upper-case `WHERE|WHILE|WHEN|IF`: `WHERE`/`WHILE` → `**GIVEN**`, `WHEN`/`IF` → `**WHEN**`; main clause → `**THEN**`, obligation verb upper-cased, final period kept. Text not opening with an EARS keyword gets none (G4).
 - Q and C rows never become `### Requirement:` blocks.
 
-**`tasks.md`**: `# Tasks`, comment, then `## <n>. <capability>` with `- [ ] <n>.<m> Implement <ID> <Title>; verify by an automated test for scenario <first AC ID, or "<ID> main case" in quotes when derived> (<ID>)`, then `## <n>. Quality requirements and constraints` with `- [ ] <n>.<m> Verify <ID> <Title> by <Verification, default test> against the target in proposal.md (<ID>)` (a row whose Source starts with a document source ID: `against <source ID>`). Every tracked line ends with `(<IDs>)`.
+**`tasks.md`**: `# Tasks`, comment, `## <n>. <capability>` with `- [ ] <n>.<m> Implement <ID> <Title>; verify by an automated test for scenario <AC ID or "<ID> main case"> (<ID>)`, then `## <n>. Quality requirements and constraints` with `- [ ] <n>.<m> Verify <ID> <Title> by <test|inspection|analysis|demonstration> against proposal.md (<ID>)`.
 
-**spec-kit target** (`--target spec-kit`, CHANGE_NAME is the folder name such as `004-voucher-redemption`): write only `specs/<change>/spec.md` in the layout of `skills/integration/to-openspec/assets/spec-kit/spec.md`. Header block `# Feature Specification: <title>`, `**Feature Branch**`, `**Created**`, `**Status**: Draft`, `**Input**`; then `## User Scenarios & Testing *(mandatory)*` (one `### User Story N - <Title> (Priority: P1|P2|P3)` per F row, must/should/could → P1/P2/P3, `**Why this priority**: <Rationale>`, `**Independent Test**: <Verification, capitalized> of scenario <first AC ID>.` (derived: `of the scenario derived from <ID>.`), numbered `**Given** ..., **When** ..., **Then** ... (<AC-ID>)` scenarios, `---` between stories, `### Edge Cases` listing IF-THEN rows), `## Requirements *(mandatory)*` (`### Functional Requirements` and `### Constraints`, bullets `- **<ID>**: <text>`), `## Success Criteria *(mandatory)*` / `### Measurable Outcomes` (Q rows), `## Assumptions`. Keys are R-IDs, never `FR-nnn`. An approved `TBD` becomes `[NEEDS CLARIFICATION: value is TBD in requirements/requirements.csv]`. Do not write `.specify/feature.json`.
+**spec-kit** (`--target spec-kit`; CHANGE_NAME is the folder, `004-voucher-redemption`): only `specs/<change>/spec.md`, layout of `skills/integration/to-openspec/assets/spec-kit/spec.md`: header block (`# Feature Specification`, `**Feature Branch**`, `**Created**`, `**Status**: Draft`, `**Input**`); `## User Scenarios & Testing *(mandatory)*` with one `### User Story N - <Title> (Priority: P1|P2|P3)` per F row (must/should/could), `<!-- <ID> -->` on the next line, the text with `(<ID>)`, `**Why this priority**`, `**Independent Test**: An automated test of scenario <first scenario>.`, numbered `**Given** ..., **When** ..., **Then** ... (<AC ID>)`, `---` between stories, `### Edge Cases` for IF-THEN rows; `## Requirements *(mandatory)*` with `### Functional Requirements` and `### Constraints` (`- **<ID>**: <text>`); `## Success Criteria *(mandatory)*` / `### Measurable Outcomes` (Q rows); `## Assumptions`. Keys are R-IDs, never `FR-nnn`. The obligation verb is upper-cased in every requirement text in the file (4.2). An approved `TBD` becomes `[NEEDS CLARIFICATION: ...]`.
 
 ## 2. `reqif_bridge.py`
 
-**Export** writes exactly the structure of `examples/expected-output.reqif`:
+**Export**: the structure of `examples/expected-output.reqif`, which is the package draft's output:
 
-- Root `REQ-IF` with `xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"` and `xml:lang="en"`; add `xmlns:xhtml` only when writing XHTML (never, in this version).
-- `REQ-IF-HEADER` (`IDENTIFIER="rs-header-<title-slug>-<YYYYMMDDTHHMMSSZ>"`) children in this XSD sequence: `COMMENT`, `CREATION-TIME` (UTC), `REPOSITORY-ID`, `REQ-IF-TOOL-ID` (`re-lint reqif <version>`), `REQ-IF-VERSION` (always `1.0`, fixed by the schema), `SOURCE-TOOL-ID` (`re-skills`), `TITLE`.
-- `REQ-IF-CONTENT` children in this XSD sequence: `DATATYPES`, `SPEC-TYPES`, `SPEC-OBJECTS`, `SPEC-RELATIONS` (empty), `SPECIFICATIONS`, `SPEC-RELATION-GROUPS` (empty).
-- One `DATATYPE-DEFINITION-STRING` `rs-dt-string` with the required `MAX-LENGTH` (a package constant, raised to the longest value if needed; the golden file uses 100000).
-- One `SPEC-OBJECT-TYPE` `rs-sot-requirement` (`LONG-NAME="Requirement"`) with one `ATTRIBUTE-DEFINITION-STRING` per CSV header column, in file order: `IDENTIFIER="rs-ad-<column lower-cased, other characters than [a-z0-9_.-] as ->"`, `LONG-NAME="<column>"`. One `SPECIFICATION-TYPE` `rs-st-specification`.
-- One `SPEC-OBJECT` per row: `IDENTIFIER="<R-ID>"`, one `ATTRIBUTE-VALUE-STRING THE-VALUE=...` per non-empty cell (escape `& < > "`, newline as `&#10;`), then `TYPE/SPEC-OBJECT-TYPE-REF`.
-- One `SPECIFICATION` `rs-spec-<title-slug>` (`LONG-NAME=<title>`) with a flat `CHILDREN` list of `SPEC-HIERARCHY IDENTIFIER="rs-sh-<R-ID>"` → `OBJECT/SPEC-OBJECT-REF <R-ID>`, register order.
-- Every identifiable gets `LAST-CHANGE` = export time. An R-ID that is not an XML NCName (custom prefix starting with a digit): exit `2`.
-- Defaults: `--out <workspace>/exports/<title-slug>-<YYYY-MM-DD>.reqif`; `--title Requirements`; no `--ids` exports every row except `withdrawn` and `rejected`; print the count per status.
+- `REQ-IF` (`xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"`, `xml:lang="en"`) → `THE-HEADER/REQ-IF-HEADER IDENTIFIER="rs-header"` with, in XSD order, `COMMENT`, `CREATION-TIME`, `REQ-IF-TOOL-ID`, `REQ-IF-VERSION` (`1.0`, fixed by the schema), `SOURCE-TOOL-ID`, `TITLE`.
+- `CORE-CONTENT/REQ-IF-CONTENT` → `DATATYPES` (`DATATYPE-DEFINITION-STRING rs-dt-string`, `MAX-LENGTH="32000"`, raised if a value is longer), `SPEC-TYPES` (`SPEC-OBJECT-TYPE rs-sot-requirement` with one `ATTRIBUTE-DEFINITION-STRING rs-ad-<Column>`, `LONG-NAME=<Column>` per CSV column; `SPECIFICATION-TYPE rs-st-specification`), `SPEC-OBJECTS` (one `SPEC-OBJECT IDENTIFIER=<R-ID>` per row: `TYPE`, then `VALUES` with one `ATTRIBUTE-VALUE-STRING THE-VALUE` per non-empty cell), `SPECIFICATIONS` (`SPECIFICATION rs-specification`, flat `SPEC-HIERARCHY rs-sh-<R-ID>` children, register order). No empty `SPEC-RELATIONS`/`SPEC-RELATION-GROUPS`.
+- Every identifiable has `LAST-CHANGE` (the `--timestamp` or export time, UTC). An R-ID that is not an XML NCName: exit `2`.
 
-**Import** (no flag means `--diff`):
+**Import** (default `--diff`; reads `.reqif` and the `.reqif` inside a `.reqifz`):
 
-- Parse with `xml.etree.ElementTree`; reject a file with a `<!DOCTYPE` (exit `2`); `.reqifz` is not read (exit `2`, "unzip first").
-- Object identity: `SPEC-OBJECT@IDENTIFIER` equal to an R-ID; else the value of an attribute named `ID` or `ReqIF.ForeignID` matching the ID pattern; else `new-object`.
-- Attribute identity: definition `LONG-NAME` equal to a CSV column; aliases `ReqIF.ForeignID` → `ID`, `ReqIF.Name` → `Title`, `ReqIF.Text` → `Text`. Anything else → `unmapped-attribute`.
-- Values: STRING as is; XHTML flattened to text (tags removed, whitespace collapsed), flag `xhtml-flattened`; ENUMERATION → `LONG-NAME` of the referenced `ENUM-VALUE`; INTEGER/REAL/BOOLEAN/DATE → `THE-VALUE` text. A definition absent from the file leaves the column alone; a defined attribute with no value on an object is a change to empty.
-- Classes: `unchanged`, `changed-text`, `changed-attribute`, `invalid-value` (outside `schema.attributes.enums`), `new-object`, `missing-object`, `unmapped-attribute`, `xhtml-flattened`. `missing-object` = an ID in the newest `<workspace>/exports/*.reqif` with the same `SPECIFICATION@IDENTIFIER` but not in the import; register rows in neither are "not exported" (read-only).
-- `--diff` prints Markdown in the shape of `skills/integration/reqif-bridge/assets/import-diff.md` (see `examples/expected-import-diff.md`); exit `1` if any row is not `unchanged`.
-- `--apply` writes `changed-text`, `changed-attribute` and `new-object` only. A text change on an `agreed`, `implemented` or `verified` row sets `Status=proposed` and increments `Version` if that column exists. New objects get the next free R-ID (same algorithm as `ids next`), `Status=draft`, `Source=reqif:<file name>#<IDENTIFIER>`, empty required cells `TBD`. Never delete a row. Write through `reqio.write_csv`; print every cell changed.
+- Object identity: `IDENTIFIER` equal to an R-ID, else an `ID` or `ReqIF.ForeignID` value matching the ID pattern, else a **new object**.
+- Attribute identity: `LONG-NAME` equal to a column; aliases `ReqIF.ForeignID` → `ID`, `ReqIF.Name` → `Title`, `ReqIF.Text` → `Text`; anything else is unmapped (reported, `--add-columns` only on request).
+- Values: XHTML flattened (flag it), enumerations by value name. An attribute definition absent from the file never clears a column.
+- Classes the skill needs (`skills/integration/reqif-bridge/references/reqif-mapping.md`): `unchanged`, `changed-text`, `changed-attribute`, `invalid-value`, `new-object`, `missing-object`, `unmapped-attribute`, `xhtml-flattened`.
+- `--apply` writes only `changed-text`, `changed-attribute` and `new-object` (next free R-ID, `Status=draft`, `Source=reqif:<file>#<IDENTIFIER>`, empty required cells `TBD`). Never an `invalid-value`. A text change on an `agreed`, `implemented` or `verified` row sets `Status=proposed` and increments `Version` when that column exists. Never deletes a row.
+- Reject a file that contains `<!DOCTYPE` (entity-expansion risk with `xml.etree`).
 
-## 3. `issue_sync.py` (summary; full rules in `skills/integration/issue-sync/references/sync-rules.md`)
+## 3. `issue_sync.py` (full rules: `skills/integration/issue-sync/references/sync-rules.md`)
 
-- Title `<ID>: <Title or first 80 characters of Text>`; match existing issues by that prefix, then by the tracker reference in `Links` (`github:<owner>/<repo>#<n>`, `jira:<KEY-n>`, `ado:<id>`), which `push --apply` appends. Never delete an issue or a row.
-- Body block exactly `skills/integration/issue-sync/assets/issue-body.md` between `<!-- re-skills:begin -->` and `<!-- re-skills:end -->`; replace only that span; markers missing or doubled → leave the body, report `markers-missing`. On Jira the markers are plain-text paragraphs.
-- `plan` (no network) and the dry runs print the table of `assets/plan.md`; the JSON shape is `examples/expected-plan.json`. Action and class names are the ones in `sync-rules.md`.
-- `push` default selection: `agreed`/`implemented`/`verified` rows plus rows already linked; never creates issues for `withdrawn`/`rejected`/`deferred`; for those, comment, and on GitHub close as "not planned", elsewhere report `move-on-board`. Push never changes tracker workflow status otherwise.
-- `pull` writes only `Status`, only for class `update`, guarded by `schema.lifecycle.transitions`, no `agreed` from `draft`/`proposed` (`needs-person`), no `verified` without evidence in `Links` or `trace/trace.csv` (`needs-evidence`), never over `withdrawn`/`rejected`/`deferred` (`conflict-lifecycle`), unknown tracker status → `unmapped`; report issues titled with unknown IDs as `orphan-issue`.
-- GitHub through `gh` (repo from the git remote or `GH_REPO`); Jira uses `JIRA_BASE_URL` as given (the `https://api.atlassian.com/ex/jira/<cloudId>` gateway form must work); never print or log a token, never put one on a command line, redact env values from error messages.
-- Exit codes: `0` nothing to report, `1` any finding class, `2` usage, configuration or authentication error.
+- Title `<ID>: <Title or first 80 characters of Text>`; match by that prefix; two candidates → ambiguous, untouched. Never delete an issue or a row.
+- Body block: `skills/integration/issue-sync/assets/issue-body.md` between `<!-- re-skills:begin -->` and `<!-- re-skills:end -->`; replace only that span (Jira ADF: the markers are paragraphs). Markers missing or doubled → leave the body, report it.
+- `plan`/`push` default selection: `agreed`. `withdrawn`/`rejected` rows are never pushed (the skill lists linked ones as `move-on-board` for a person to close).
+- `pull` writes only `Status`, only for rows the guard table in `sync-rules.md` marks `update`; GitHub "closed as not planned" maps through `closed:not_planned` only.
+- Credentials: `gh` for GitHub; `JIRA_*`, `ADO_*` env vars; `JIRA_BASE_URL` used as given, so the `https://api.atlassian.com/ex/jira/<cloudId>` gateway form works. Never print, log or pass a token on a command line.
 
-## Contract gaps (proposed additions, not yet in `docs/tooling-contract.md`)
+## 4. Differences in the package draft (2026-11-03)
 
-1. `re-lint openspec --capability NAME`, to avoid editing `Tags` for one-capability changes.
-2. `--ids` on `re-lint issues pull` and on `re-lint reqif import --apply`, so a partially accepted review can be applied by the script instead of by hand.
-3. `--format text|json` on `re-lint issues plan` (the contract says "JSON + table" without the flag).
-4. `schema.json` keys `issues.jira_issue_type` and `issues.ado_work_item_type` (which type `push` creates), and an optional `reqif.attribute_names` map (`{"Text": "ReqIF.Text", ...}`) for tools that need the ProSTEP names on export.
+| # | Severity | Module | Difference | Fix |
+| --- | --- | --- | --- | --- |
+| 4.1 | should | openspec | `_AND_SPLIT` cuts a Then clause at "and the/a/its ...": "then the POS shows the value and the expiry date" becomes a broken step `AND the expiry date` | split only at clause-opening keywords (section 1) |
+| 4.2 | should | openspec | spec-kit: the obligation verb is upper-cased in the Functional Requirements list only, not in stories, Constraints or Success Criteria | one rule for every requirement text |
+| 4.3 | **must** | reqif | `import --apply` writes `Status=Accepted` from `vendor-return.reqif` (no `schema.attributes.enums` check), and writes a text change to an `agreed` row without moving it to `proposed` | add `invalid-value` (never written) and the lifecycle rule |
+| 4.4 | should | reqif | objects without a requirement ID are skipped as "headings, notes", so a vendor's new requirement can be lost; `import --diff` exits `0` when it finds changes | report them as `new-object`; exit `1` on findings (contract) |
+| 4.5 | **must** | issues | `transition_allowed` accepts any forward move along draft → ... → verified, so `pull --apply` would write `draft → implemented`, `proposed → agreed` (no named person) and `implemented → verified` (no evidence) | add the `needs-person`, `needs-evidence` and `conflict` classes of `sync-rules.md` |
+| 4.6 | should | issues | `plan` prints `ID / Title / Labels` without the action per row; JSON is `{tracker, apply, items}`; `push --apply` does not record the tracker reference in `Links` | the table of `assets/plan.md` and the JSON of `examples/expected-plan.json`; append `jira:LOY-81`-style references to `Links` |
+| 4.7 | **must** | openspec | a named draft that *was* handed off is listed under "Not in this change" ("in this change ... confirm the approval"), which contradicts the heading | mark approved exceptions in the Traceability Status cell (this followed an ambiguous sentence in an earlier draft of these notes, since fixed) |
+| 4.8 | should | reqif | `export` without `--ids` includes `withdrawn` and `rejected` rows | exclude them by default |
+
+The skills already guard against 4.3, 4.5 and 4.7 (review before `--apply`, apply clean rows by hand), so these do not block the skills' release, but each makes the script unsafe on its own.
+
+## 5. Contract gaps (flags the package draft has and the contract lacks)
+
+`re-lint openspec`: `--allow-tbd`, `--skip-blocked`, `--capability`, `--date`, `--title`, `--workspace`, `--schema`. `re-lint issues`: `--status`, `--format text|json`, `--repo`, `--issue-type`, `--label`, `--out`, `--ids` on `pull`, `--ignore-lifecycle`. `re-lint reqif`: `--timestamp`, `--format text|json|md`, `--add-columns`. Adding them to `docs/tooling-contract.md` lets the skills name them; until then the skills use only the contract flags and follow the override hints the scripts print. Also suggested: `--ids` on `reqif import --apply`, and `schema.json` keys `issues.jira_issue_type` / `issues.ado_work_item_type` (today `--issue-type`) and an optional `reqif.attribute_names` map for tools that need the ProSTEP `ReqIF.*` names on export.
