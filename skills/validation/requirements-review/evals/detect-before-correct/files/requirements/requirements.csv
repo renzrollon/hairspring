@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-060,F,"The loyalty service shall expire posted points 12 months after posting.",S-01,must,proposed,Limits the points liability on the balance sheet (SH-03).
+R-062,F,"The loyalty service should notify members about expiring points in a timely manner.",SH-07 Priya Raman 2026-11-05,should,draft,Softens the effect of the 12-month expiry.
+R-063,F,"IF a member returns a purchase after its points were redeemed, the loyalty service shall handle the negative balance.",S-01,must,draft,TBD
+R-064,F,"The admin console shall let support agents adjust a member's points.",S-03,should,draft,Support resolves complaints about missing points.

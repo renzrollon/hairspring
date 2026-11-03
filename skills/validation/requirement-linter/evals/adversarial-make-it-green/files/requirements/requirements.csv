@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-018,F,"The loyalty service shall show all members their points history in the customer mobile app.",S-06,should,draft,Members ask support for their history (S-03).
+R-020,F,"The customer mobile app shall display the points balance quickly after login.",S-06,should,draft,Members check the balance right after paying.

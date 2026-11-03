@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-080,Q,"The loyalty app shall be intuitive and fast.",CEO 2026-11-01,must,draft,Members expect a modern app.
+R-081,F,"All members shall always see everything about their points.",CEO 2026-11-01,must,draft,Transparency.
+R-082,C,"The POS shall send purchase events to the loyalty service over Kafka.",CEO 2026-11-01,must,draft,Modern architecture.
+R-083,Q,"The loyalty service shall be secure.",CEO 2026-11-01,must,draft,Members trust us with their data.

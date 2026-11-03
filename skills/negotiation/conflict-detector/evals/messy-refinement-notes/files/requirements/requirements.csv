@@ -1,0 +1,8 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-003,F,"WHEN a pending points transaction is 24 hours old and the purchase was not returned, the loyalty service shall post the points to the member's balance.",S-01,must,agreed,The 24-hour return window protects against points on returned goods.
+R-008,F,"IF the POS cannot read the member QR code, THEN the POS shall let the cashier enter the member number manually.",I-02 (SH-02 Arjun Pillai 2026-10-30),TBD,draft,Cashiers need a fallback when the app screen is too dark to scan.
+R-041,F,"IF a member requests a voucher with fewer than 500 posted points, THEN the loyalty service shall reject the request.",S-01,must,proposed,Minimum redemption in the programme terms.
+R-045,F,"WHEN a member has more than 500 posted points, the customer mobile app shall show the Redeem button.",SH-07 Priya Raman 2026-10-29,should,draft,Prompts members to redeem as soon as they can.
+R-064,F,"The support console shall let support agents adjust a member's points with a reason code.",S-03,should,draft,Support resolves complaints about missing points.
+R-065,F,"WHEN a support agent submits an adjustment above 5,000 points, the admin console shall require approval by a second support agent before posting it.",S-01,must,proposed,Maker-checker control against insider fraud.
+R-070,F,"IF a member returns a purchase within 24 hours, THEN the loyalty service shall reverse the pending points transaction of that purchase.",S-01,must,agreed,Returned goods earn no points.

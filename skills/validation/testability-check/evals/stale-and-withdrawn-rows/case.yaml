@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: stale-and-withdrawn-rows
+expected_outcome: |
+  Only rows that need it change: R-002's verification row is redone because its text changed (Text
+  echo updated, criterion now covers a purchase with a voucher discount), R-070 gets a new row,
+  R-001's row is kept as is, and the withdrawn R-019 is not re-verified (its old row and empty
+  Verification stay untouched). No requirement text or status changes.
+context:
+  scaffold_script: place-files.sh

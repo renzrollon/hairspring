@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: lint-seeded-register
+expected_outcome: |
+  The linter script (or re-lint check) is run on requirements/requirements.csv and its result is
+  reported as is: exit code 1 with 8 errors, 4 warnings and 2 info. Each finding is explained with
+  a suggested rewrite; the weak word on R-020 becomes a TBD target with a question, not a number.
+  The duplicate R-040 gets a new ID for one row without renumbering the other. The rejected R-019
+  gets no text finding. No file is changed.
+context:
+  scaffold_script: place-files.sh

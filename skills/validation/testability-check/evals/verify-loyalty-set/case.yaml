@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: verify-loyalty-set
+expected_outcome: |
+  requirements/verification.csv is written with the template header and one row per requirement,
+  using only the four methods and four levels. R-082 ('intuitive') is marked not verifiable with a
+  proposed measurable form whose targets are TBD and a question for the owner. R-083 keeps its TBD
+  rate (last year's 9,000 per minute is context, not the target). R-065's criterion covers the
+  5,000-point boundary. requirements.csv gains the Verification column (empty for R-082) and no
+  other change.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,2 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-020,F,"WHEN the member opens the balance screen, the customer mobile app shall display the posted points balance.",S-06,must,agreed,Members check their balance after paying.

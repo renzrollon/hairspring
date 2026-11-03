@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-008,F,"IF the POS cannot read the member QR code, THEN the POS shall let the cashier enter the member number manually.",I-02 (SH-02 Arjun Pillai 2026-10-30),could,draft,Cashiers need a fallback when the app screen is too dark to scan.
+R-060,F,"The loyalty service shall expire posted points 12 months after posting.",S-01,must,proposed,Limits the points liability on the balance sheet (SH-03).
+R-061,F,"The loyalty service shall expire posted points 18 months after posting.",SH-07 Priya Raman 2026-10-29,must,draft,Occasional shoppers lose points before they reach the redemption minimum.

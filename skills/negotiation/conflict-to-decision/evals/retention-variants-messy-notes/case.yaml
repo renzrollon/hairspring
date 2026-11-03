@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: retention-variants-messy-notes
+expected_outcome: |
+  A new record RDR-002-<slug>.md (RDR-001 exists) documents the agreed variant: closed members'
+  transaction records are kept for 7 years with the member ID replaced by a random reference and no
+  mapping, personal data deleted within 30 days. Decision-makers and the legal participant are
+  recorded. The confirmed updates are applied: affected rows link the RDR, no row is deleted, no
+  new duration is invented (the backup question stays open), and CF-02 is set to resolved with the
+  RDR as decision.
+context:
+  scaffold_script: place-files.sh

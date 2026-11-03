@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: messy-refinement-notes
+expected_outcome: |
+  conflicts.md registers the R-041/R-045 boundary at exactly 500 points as inconsistent conditions,
+  the R-008 must-vs-wont split between Arjun Pillai (SH-02) and Lena Koh (SH-05) as a priority
+  disagreement, and R-064/R-065 as differing level of detail or overlap. The consistent pair
+  R-003/R-070 is not registered as a conflict. Noise in the notes is ignored, and no requirement is
+  changed.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,6 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-044,F,"WHEN the member opens the vouchers screen, the customer mobile app shall list the member's unused vouchers with their value and expiry date.",SH-01 Mei Tan 2026-10-28,could,draft,Members want to find their vouchers at the till.
+R-048,F,"WHEN the member selects an unused voucher, the customer mobile app shall display the voucher as a QR code for the POS to scan.",S-02,must,draft,The POS reads vouchers by QR code.
+R-049,F,"WHEN a member redeems points in the customer mobile app, the customer mobile app shall let the member choose the number of points to redeem in steps of 100 points.",SH-01 Mei Tan 2026-10-28,should,draft,100 points = SGD 1 (S-01).
+R-050,F,"WHERE the member has fewer than 500 posted points, the customer mobile app shall show how many points are missing to reach the redemption minimum.",SH-07 Priya Raman 2026-10-29,could,draft,Motivates members to come back.
+R-051,F,"The customer mobile app shall let a member send an unused voucher to another member.",SH-07 Priya Raman 2026-10-29,could,draft,Gifting could bring in new members.

@@ -1,0 +1,53 @@
+# re-skills requirement lint for GitHub Actions.
+# Copy to .github/workflows/requirements-lint.yml.
+#
+# Pull requests: lints only the rows changed versus the base branch; findings appear as
+# annotations on the PR diff, and the job fails on errors.
+# Pushes to main: lints the whole register.
+# If requirements/schema.json renames the workspace, change the two "paths" filters below.
+name: requirements-lint
+
+on:
+  pull_request:
+    paths:
+      - "requirements/**"
+  push:
+    branches: [main]
+    paths:
+      - "requirements/**"
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # changed-only compares against the base branch, so fetch its history
+
+      - name: Lint requirements
+        uses: renzrollon/hairspring@v0.1.0
+        with:
+          fail-on: error # error | warning | info
+          format: github # annotations on the PR diff
+          changed-only: ${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || '' }}
+          # paths: ""        # default: the workspace registers
+          # schema: ""       # default: requirements/schema.json
+          # trace-gaps: "false"
+
+      # Alternative without the action: replace the step above with these three.
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: "3.12"
+      # - name: Install re-lint
+      #   run: pip install "git+https://github.com/renzrollon/hairspring@v0.1.0#subdirectory=packages/re-lint"
+      #   # once published to PyPI: pip install "re-lint==0.1.0"
+      # - name: Lint requirements
+      #   run: |
+      #     if [ "${{ github.event_name }}" = "pull_request" ]; then
+      #       re-lint check --format github --fail-on error --changed-only "origin/${{ github.base_ref }}"
+      #     else
+      #       re-lint check --format github --fail-on error
+      #     fi

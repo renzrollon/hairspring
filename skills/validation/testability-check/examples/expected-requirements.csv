@@ -1,0 +1,12 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Verification
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.,test
+R-002,F,"The loyalty service shall award 1 point per SGD 1 of the purchase amount, rounded down per transaction.",S-01,must,agreed,Earning rule in the programme terms.,test
+R-003,F,"WHEN a pending points transaction is 24 hours old and the purchase was not returned, the loyalty service shall post the points to the member's balance.",S-01,must,agreed,The 24-hour return window protects against points on returned goods.,test
+R-024,Q,"WHEN the loyalty service posts points for a purchase, the updated balance shall be available to the customer mobile app within TBD seconds.",S-06 (LOY-118),should,draft,"""Quickly"" in LOY-118 needs a measurable target; open question Q1 to SH-01.",test
+R-042,F,"WHEN the cashier scans a voucher at the POS, the POS shall apply the voucher value as a discount to the open sale.",S-02,must,proposed,The POS applies the discount; it is outside the system boundary.,demonstration
+R-065,F,"WHEN a support agent submits an adjustment above 5,000 points, the admin console shall require approval by a second support agent before posting it.",S-01,must,proposed,Maker-checker control against insider fraud.,test
+R-082,Q,The customer mobile app shall be intuitive.,SH-01 Mei Tan 2026-10-28,should,draft,Members should redeem without calling support.,
+R-083,Q,"WHILE the year-end sale peak is running, the loyalty service shall accept TBD purchase events per minute without losing an event.",SH-08 Wei Jie Chua 2026-10-30,must,draft,"Last year's peak was about 9,000 purchases per minute across stores.",test
+R-084,Q,The loyalty service shall be available TBD % of each calendar month.,SH-08 Wei Jie Chua 2026-10-30,must,draft,The POS and the app depend on it during opening hours.,analysis
+R-100,C,The loyalty service shall retain points transaction records for 7 years after the transaction date.,S-05 (DRP-2024),must,proposed,Audit retention required by Finance (SH-03).,test
+R-102,C,The loyalty service shall not store payment card numbers.,SH-05 Lena Koh 2026-10-31,must,proposed,Keeps the service out of PCI DSS scope.,inspection

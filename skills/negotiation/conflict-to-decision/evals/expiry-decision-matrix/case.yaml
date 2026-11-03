@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: expiry-decision-matrix
+expected_outcome: |
+  A record requirements/decisions/RDR-001-<slug>.md is written with the MADR-style headings, Mei
+  Tan as decision-maker, the weights recorded as agreed before scoring, a correct matrix (A 24, B
+  21, C 22), option A chosen with reasons, and Priya Raman's dissent. The Requirement Updates table
+  lists R-060 (keep) and R-061 (reject) as not applied, and requirements/requirements.csv is
+  unchanged because the user has not confirmed.
+context:
+  scaffold_script: place-files.sh

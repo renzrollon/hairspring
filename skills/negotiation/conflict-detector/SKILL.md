@@ -5,13 +5,13 @@ description: >-
   contradictions, overlaps, inconsistent conditions, differing levels of detail, and stakeholders
   who disagree on priority. Classifies each by root cause (subject matter, data, interest, value,
   relationship, structural), recommends a resolution technique, and routes relationship and
-  structural conflicts to escalation instead of a resolution session. Edits no requirement. Use
-  when requirements from several stakeholders or sources meet, before a refinement, baseline or
-  design review, when two rows set different values for the same thing ("12 vs 18 months"), when a
-  regulation or policy seems to clash with a requirement, when stakeholders rank the same item
-  differently, or when someone asks "do these contradict?", "any conflicts?", "who disagrees?".
-  Not for running the resolution session or writing the decision (use conflict-to-decision), for a
-  full quality review of the set (requirements-review), or for wording defects (requirement-linter).
+  structural conflicts to escalation instead. Edits no requirement. Use when rows from several
+  stakeholders or sources meet, before a refinement, baseline or design review, when two rows set
+  different values for the same thing ("12 vs 18 months"), when a regulation or policy seems to
+  clash with a requirement, when stakeholders rank the same item differently, or when someone asks
+  "do these contradict?", "any conflicts?", "who disagrees?". Not for running the resolution session
+  (use conflict-to-decision), for a full quality review (requirements-review), or for wording
+  defects (requirement-linter).
 license: MIT
 metadata:
   stage: negotiation

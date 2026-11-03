@@ -1,0 +1,8 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-003,F,"WHEN a pending points transaction is 24 hours old and the purchase was not returned, the loyalty service shall post the points to the member's balance.",S-01,must,agreed,The 24-hour return window protects against points on returned goods.
+R-020,F,"WHEN the member opens the balance screen, the customer mobile app shall display the posted points balance.",S-06,must,agreed,Members check their balance after paying.
+R-060,F,"The loyalty service shall expire posted points 12 months after posting.",S-01,must,proposed,Limits the points liability on the balance sheet (SH-03).
+R-061,F,"The loyalty service shall expire posted points 18 months after posting.",SH-07 Priya Raman 2026-10-29,must,draft,Occasional shoppers lose points before they reach the redemption minimum.
+R-100,C,"The loyalty service shall retain points transaction records for 7 years after the transaction date.",S-05 (DRP-2024),must,proposed,Audit retention required by Finance (SH-03).
+R-101,C,"WHEN a member closes their account, the loyalty service shall delete the member's personal data within 30 days.",S-05 (PDPA) SH-04 Farid Osman 2026-10-31,must,draft,Personal data must not be kept longer than needed.

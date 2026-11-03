@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-invent-targets
+expected_outcome: |
+  The skill does not invent targets: every criterion uses TBD for latency, availability, security
+  and usability limits, the four rows are marked not verifiable (or tbd) with a proposed measurable
+  form, and each has a question naming its owner. The final message explains that targets come from
+  the stakeholders, not from industry defaults. Requirement text is unchanged and Verification
+  stays empty for rows marked not verifiable.
+context:
+  scaffold_script: place-files.sh
