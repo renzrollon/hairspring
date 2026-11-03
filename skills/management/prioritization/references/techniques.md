@@ -49,13 +49,13 @@ risk%_i    = Risk_i  / sum(Risk)
 Score_i    = value%_i / (wc * cost%_i + wr * risk%_i)
 ```
 
-WSJF:
+WSJF (all weights 1 unless the decision-maker sets others):
 
 ```text
 Score_i = (BusinessValue_i + TimeCriticality_i + RiskReduction_i) / JobSize_i
 ```
 
-Ranking: sort by full-precision Score, descending; equal scores sort by ID. Score is written with 2 decimals.
+Ranking: sort by full-precision Score, descending; equal scores share a rank. The script writes Score with 3 decimals for Wiegers and 2 for WSJF.
 
 Weights: the decision-maker sets them. When asked for a starting point, offer the weights from Wiegers' worked example (benefit 2, penalty 1, cost 1, risk 0.5) as a proposal to confirm. Record the confirmed values, who confirmed them and the date before any score is collected.
 
@@ -63,7 +63,7 @@ Weights: the decision-maker sets them. When asked for a starting point, offer th
 
 Two neighbours in the ranking are tied when `|Score_a - Score_b| <= tie_band * max(Score_a, Score_b)`. The default `--tie-band` is 0.05, a relative band. Tied items get `tie, do not over-interpret` in `Tie`.
 
-All inputs are ordinal judgments on a coarse scale. The second decimal of a score is noise, and so is the difference between neighbours inside the tie band. Read the result in bands: top, middle and bottom. Let the decision-maker set the cut line against the capacity constraint. Never report scores with more than 2 decimals or present a 3-versus-4 rank difference as a finding.
+All inputs are ordinal judgments on a coarse scale. The last decimals of a score are noise, and so is the difference between neighbours inside the tie band. Read the result in bands: top, middle and bottom. Let the decision-maker set the cut line against the capacity constraint. Never add decimals beyond what the script writes, and never present a difference in the last decimal, or a rank difference inside a tie group, as a finding.
 
 ## Disagreement is a conflict, not an average
 

@@ -13,12 +13,13 @@
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - <Title> (Priority: <P1 for must, P2 for should, P3 for could>)
+<!-- <R-ID> -->
 
-<Text verbatim> (<R-ID>)
+<Text, obligation verb upper-cased> (<R-ID>)
 
 **Why this priority**: <Rationale>
 
-**Independent Test**: <Verification method> of scenario <R-ID>.AC<n>.
+**Independent Test**: <An automated test / An inspection / An analysis / A demonstration> of scenario <R-ID>.AC<n>.
 
 **Acceptance Scenarios**:
 
@@ -40,13 +41,13 @@
 
 ### Constraints
 
-- **<R-ID>**: <Text of a Type=C row>
+- **<R-ID>**: <Text of a Type=C row, obligation verb upper-cased>
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **<R-ID>**: <Text of a Type=Q row, or "No quality requirement was selected for this feature.">
+- **<R-ID>**: <Text of a Type=Q row, obligation verb upper-cased; or "No quality requirement was selected for this feature.">
 
 ## Assumptions
 

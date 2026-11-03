@@ -12,7 +12,7 @@
 <!-- <R-ID> -->
 <Text verbatim, obligation verb upper-cased (SHALL / MUST)>
 
-#### Scenario: <R-ID>.AC<n> <When clause, at most 8 words>
+#### Scenario: <R-ID>.AC<n> <When clause: first 8 words, leading the/a/an dropped, capitalized>
 - **GIVEN** <given clause of the acceptance criterion>
 - **WHEN** <when clause>
 - **THEN** <then clause>
@@ -21,7 +21,7 @@
 #### Scenario: <R-ID> main case (derived from the requirement text)
 - **GIVEN** <WHILE or WHERE clause, if any>
 - **WHEN** <WHEN or IF clause>
-- **THEN** <main clause, verbatim>
+- **THEN** <main clause, verbatim, obligation verb upper-cased>
 
 ## MODIFIED Requirements
 

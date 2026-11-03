@@ -55,8 +55,8 @@ Sections from the `spec-driven` template, kept: `## Capabilities` with `### New 
 Sections re-skills adds (ignored by the OpenSpec parser, read by people and agents):
 
 - `## Constraints and Quality Requirements`: table `ID | Type | Requirement | Source | Verification` with every Q and C row, text verbatim.
-- `## Not in this change`: table `ID | Reason` for every row left out by the gate (status, lint error, `TBD`, no scenario source), and approvals given by ID.
-- `## Traceability`: table `ID | Type | Priority | Status | Source | Lands in` for every row that went across.
+- `## Not in this change`: table `ID | Reason` for every row left out by the gate (status, lint error, `TBD`, no scenario source), or `None.`. Rows not selected at all (for example drafts outside `--status agreed`) are not listed.
+- `## Traceability`: table `ID | Type | Priority | Status | Source | Lands in` for every row that went across. A row that crossed as an approved exception has `; exception: <finding>, approved by <name> <date>` in its Status cell.
 
 Archive warns when a change holds more than 10 requirement deltas; split larger hand-offs into several changes.
 
@@ -77,7 +77,7 @@ Archive warns when a change holds more than 10 requirement deltas; split larger 
 <!-- R-040 -->
 WHEN a member ... the loyalty service SHALL issue ...
 
-#### Scenario: R-040.AC1 The member requests a voucher for 1,000 points
+#### Scenario: R-040.AC1 Member requests a voucher for 1,000 points
 - **GIVEN** a member with 1,250 posted points
 - **WHEN** the member requests a voucher for 1,000 points in the customer mobile app
 - **THEN** the loyalty service issues a voucher worth SGD 10 and the member's posted balance is 250 points
@@ -111,8 +111,8 @@ Which delta section a row goes to:
 | `ID` | first token of the requirement name; `<!-- R-nnn -->` on the line after the header; first token of scenario names; last token of task lines `(R-nnn)` |
 | `Title`, else the first 8 words of `Text` | rest of the requirement name |
 | `Text` | requirement body, verbatim, except: whole-word `shall` and `must` become `SHALL` and `MUST`; `should` and `may` become `SHOULD` and `MAY` only when the text has no `shall`/`must` |
-| Acceptance criterion `R-nnn.ACn` ("Given ..., when ..., then ...") | `#### Scenario: R-nnn.ACn <the When clause: first 8 words, first letter capitalized>`. A clause starts at `Given`, `When`, `Then`, `And` or `But` (any case) at the start of the criterion or right after `, ` or `; `; each clause becomes a `- **GIVEN**`, `- **WHEN**`, `- **THEN**` or `- **AND**` bullet (`But` → `AND`), in order, verbatim without the keyword and the final period. An `and` inside a clause does not split it |
-| No acceptance criterion, EARS text | one derived scenario `#### Scenario: R-nnn main case (derived from the requirement text)`. The main clause is the text after `, THEN ` (for `IF`), else after the right-most `, ` whose remainder holds the obligation verb. The condition part splits at the upper-case keywords: `WHERE` and `WHILE` clauses become `**GIVEN**`, `WHEN` and `IF` clauses become `**WHEN**`, the main clause becomes `**THEN**`; all verbatim without the keyword and the final period |
+| Acceptance criterion `R-nnn.ACn` ("Given ..., when ..., then ...") | `#### Scenario: R-nnn.ACn <the When clause: first 8 words, a leading the/a/an dropped, first letter capitalized>`. A clause starts at `Given`, `When`, `Then`, `And` or `But` (any case) at the start of the criterion or right after `, ` or `; `; each clause becomes a `- **GIVEN**`, `- **WHEN**`, `- **THEN**` or `- **AND**` bullet (`But` → `AND`), in order, verbatim without the keyword and the final period. An `and` inside a clause does not split it |
+| No acceptance criterion, EARS text | one derived scenario `#### Scenario: R-nnn main case (derived from the requirement text)`. The main clause is the text after `, THEN ` (for `IF`), else after the right-most `, ` whose remainder holds the obligation verb. The condition part splits at the upper-case keywords: `WHERE` and `WHILE` clauses become `**GIVEN**`, `WHEN` and `IF` clauses become `**WHEN**` (verbatim, without the keyword and the trailing comma); the main clause becomes `**THEN**`, verbatim with the obligation verb upper-cased |
 | No acceptance criterion, ubiquitous text | no scenario can be derived; the gate blocks the row |
 | `Tags` entry `cap:<name>` | capability folder; without one, the change name minus a leading `add-`, `update-`, `change-`, `remove-` or `fix-` |
 | `Verification` (or `verification.csv`) | verification wording in the task line (`verify by test`, `by inspection`, ...); `by test` for F rows when empty |
@@ -130,7 +130,7 @@ Which delta section a row goes to:
 
 ## 2. Quality requirements and constraints
 
-- [ ] 2.1 Verify R-085 <Title> by test against the target in proposal.md (R-085)
+- [ ] 2.1 Verify R-085 <Title> by test against proposal.md (R-085)
 ```
 
 - Every tracked task is `- [ ] N.M <description>`; a box holding `x` counts as done.

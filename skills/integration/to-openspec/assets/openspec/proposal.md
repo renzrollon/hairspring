@@ -37,10 +37,12 @@
 
 | ID | Reason |
 | --- | --- |
-| <R-ID> | <Status=draft / lint error <rule> / open TBD / no scenario source / approved by <name> <date> despite <finding>> |
+| <R-ID> | <Status=draft / lint error <rule> / open TBD / no scenario source> |
+
+<Or the single line "None." when the gate left nothing out.>
 
 ## Traceability
 
 | ID | Type | Priority | Status | Source | Lands in |
 | --- | --- | --- | --- | --- | --- |
-| <R-ID> | <F/Q/C> | <Priority> | <Status> | <Source> | <specs/<capability>/spec.md, or proposal.md>; tasks <N.M> |
+| <R-ID> | <F/Q/C> | <Priority> | <Status>[; exception: <finding>, approved by <name> <date>] | <Source> | <specs/<capability>/spec.md, or proposal.md>; tasks <N.M> |

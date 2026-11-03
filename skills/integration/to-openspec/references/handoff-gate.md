@@ -8,7 +8,7 @@ A tool hand-off is where a vague requirement turns into code that does the wrong
 | --- | --- |
 | `Status=agreed` | yes (the default selection, `--status agreed`) |
 | `Status=implemented` or `verified`, named by ID | yes (a re-export, for example after a change request) |
-| `Status=draft` or `proposed`, named by ID | only after the user approves that ID; list the approval in `proposal.md` → "Not in this change" ("R-043 handed off as draft, approved by <name>, <date>") |
+| `Status=draft` or `proposed`, named by ID | only after the user approves that ID; mark it in `proposal.md` → "Traceability" (Status cell `draft; exception: named by ID, approved by <name> <date>`) |
 | `Status=deferred`, `rejected`, `withdrawn` | never |
 | `Priority=wont` | never |
 
@@ -17,7 +17,7 @@ A tool hand-off is where a vague requirement turns into code that does the wrong
 | # | Check | Blocks | How to clear it |
 | --- | --- | --- | --- |
 | G1 | Lint errors on the row | yes | `requirement-phrasing` rewrites it; or the user approves the ID as is |
-| G2 | `TBD`, `TBC`, `??` or `XXX` in Text or any attribute | yes | answer the open question (`clarifying-questions`); or the user approves the ID with its placeholder |
+| G2 | `TBD`, `TBC`, `??` or `XXX` in Text or any attribute | yes | answer the open question (`clarifying-questions`); or the user approves the ID with its placeholder (the script then needs the override it names in its refusal message) |
 | G3 | Obligation verb is `should` or `may` | asks | keep as `SHOULD`/`MAY` (plain `openspec validate` warns, `--strict` fails), or leave the row out |
 | G4 | No acceptance criterion and no `WHEN`/`IF`/`WHILE`/`WHERE` clause | yes | write an acceptance criterion (`testability-check`, or suggest `/user-story-refiner`) |
 | G5 | Text longer than 500 characters | warns | split with `requirement-phrasing` |

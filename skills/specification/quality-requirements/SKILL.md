@@ -68,7 +68,7 @@ Quality requirements are the class elicitation under-collects and the one that d
    | Condition | Load, data volume, environment, time window; baselines from sources ("last year's peak: 9,000 purchases per minute, SH-08") | `TBD` + open question |
    | Measurement method | How and when it is measured: load test, synthetic probe, fault injection, inspection, usability test, production monitoring | Propose one from the catalogue; the owner confirms |
 
-   Phrase the `Text` as `[WHEN/WHILE <condition>,] the <system> shall <measurable property> <target>.` with one target per requirement. A baseline is never a target: put it in *Condition*.
+   Phrase the `Text` as `[WHEN/WHILE <condition>,] the <system> shall <measurable property> <target>.` with one target per requirement. A percentile or other statistic is part of the target: if nobody confirmed it, it is `TBD` too. A baseline is never a target: put it in *Condition*.
 6. **Sort out what is not a quality requirement.** Record it in *Unquantified and reclassified concerns*:
 
    | The concern is really | Example | Do |

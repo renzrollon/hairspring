@@ -1,7 +1,8 @@
 ID,Title,Benefit,Penalty,Cost,Risk,Score,Rank,Tie
-R-063,Second approver for large adjustments,2,8,2,1,1.04,1,
-R-021,Points history in the app,6,4,3,2,0.86,2,
-R-026,Push notification when points are posted,4,2,2,2,0.70,3,
-R-061,Expiry reminder before points expire,3,6,3,2,0.64,4,"tie, do not over-interpret"
-R-043,Redeem a voucher in the app,9,7,6,5,0.62,5,"tie, do not over-interpret"
-R-004,Bonus campaign multiplier,7,2,5,4,0.48,6,
+Weights,,2,1,1,0.5,,,
+R-063,Second approver for large adjustments,2,8,2,1,1.043,1,
+R-021,Points history in the app,6,4,3,2,0.856,2,
+R-026,Push notification when points are posted,4,2,2,2,0.697,3,
+R-061,Expiry reminder before points expire,3,6,3,2,0.642,4,"tie, do not over-interpret"
+R-043,Redeem a voucher in the app,9,7,6,5,0.622,5,"tie, do not over-interpret"
+R-004,Bonus campaign multiplier,7,2,5,4,0.484,6,

@@ -58,16 +58,16 @@ Agreed before scoring: yes
 
 | Band | Rank | ID | Title | Score | Tie |
 | --- | --- | --- | --- | --- | --- |
-| top | 1 | R-063 | Second approver for large adjustments | 1.04 | |
-| top | 2 | R-021 | Points history in the app | 0.86 | |
-| middle | 3 | R-026 | Push notification when points are posted | 0.70 | |
-| middle | 4 | R-061 | Expiry reminder before points expire | 0.64 | tie, do not over-interpret |
-| middle | 5 | R-043 | Redeem a voucher in the app | 0.62 | tie, do not over-interpret |
-| bottom | 6 | R-004 | Bonus campaign multiplier | 0.48 | |
+| top | 1 | R-063 | Second approver for large adjustments | 1.043 | |
+| top | 2 | R-021 | Points history in the app | 0.856 | |
+| middle | 3 | R-026 | Push notification when points are posted | 0.697 | |
+| middle | 4 | R-061 | Expiry reminder before points expire | 0.642 | tie, do not over-interpret |
+| middle | 5 | R-043 | Redeem a voucher in the app | 0.622 | tie, do not over-interpret |
+| bottom | 6 | R-004 | Bonus campaign multiplier | 0.484 | |
 
 Reading the result: scores rest on ordinal judgments, so read the bands, not the decimals. Items marked `tie, do not over-interpret` are equal for this decision.
 
-- The capacity of about four items puts the cut line inside the R-061 / R-043 tie. The 0.02 difference must not decide it. Choose between them on other grounds, for example the year-end expiry wave (R-061) against the redemption volume in the app (R-043).
+- The capacity of about four items puts the cut line inside the R-061 / R-043 tie. The 0.020 difference must not decide it. Choose between them on other grounds, for example the year-end expiry wave (R-061) against the redemption volume in the app (R-043).
 - R-043 has the highest benefit and penalty of all the items, but also the highest cost and risk. A smaller first slice of R-043 could move it up. That is a scope question for `/user-story-refiner`, not a reason to change the scores.
 
 ## Disputed items

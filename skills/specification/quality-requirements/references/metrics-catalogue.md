@@ -1,6 +1,6 @@
 # Metrics catalogue
 
-Metric ideas per sub-characteristic (ISO/IEC 25010:2023 names, US spelling elsewhere). This catalogue gives **what to measure and how**, never a target value: targets come from a named person or a source. Pick a metric, then confirm it with the owner of the concern.
+Metric ideas per sub-characteristic (ISO/IEC 25010:2023 names, US spelling elsewhere). This catalogue gives **what to measure and how**, never a target value: targets come from a named person or a source. Pick a metric, then confirm it with the owner of the concern. A percentile (p95, p99) is part of the target: until someone confirms it, write it as `TBD`.
 
 ## Performance efficiency
 

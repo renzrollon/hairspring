@@ -59,16 +59,16 @@ The template's mandatory sections are `User Scenarios & Testing`, `Requirements`
 
 | Register | spec-kit |
 | --- | --- |
-| Each `Type=F` row | one `### User Story N - <Title> (Priority: Pn)`, ordered by priority then register order: the text verbatim with `(R-nnn)`, `**Why this priority**:` the Rationale, `**Independent Test**:` the verification method and the first scenario name, `**Acceptance Scenarios**:` numbered |
+| Each `Type=F` row | one `### User Story N - <Title> (Priority: Pn)`, ordered by priority then register order; `<!-- R-nnn -->` on the next line; then the text with `(R-nnn)`, `**Why this priority**:` the Rationale, `**Independent Test**: An automated test of scenario <first scenario>.` (or `An inspection`, `An analysis`, `A demonstration`), `**Acceptance Scenarios**:` numbered |
 | Acceptance criterion `R-nnn.ACn` | `1. **Given** ..., **When** ..., **Then** ... (R-nnn.ACn)` |
 | No acceptance criterion, EARS text | one scenario derived as in `openspec-format.md` (`WHILE`/`WHERE` → Given, `WHEN`/`IF` → When, main clause → Then), marked `(R-nnn, derived from the requirement text)` |
 | `IF ... THEN` rows | also one bullet under `### Edge Cases`: `- R-nnn: <Title> (see User Story N)` |
-| `Type=F` text | `- **R-nnn**: <text>` under `### Functional Requirements`; obligation verb upper-cased as for OpenSpec |
+| `Type=F` text | `- **R-nnn**: <text>` under `### Functional Requirements`. In every requirement text in the file (stories and lists), the obligation verb is upper-cased as for OpenSpec |
 | `Type=C` text | `- **R-nnn**: <text>` under `### Constraints` |
 | `Type=Q` text | `- **R-nnn**: <text>` under `### Measurable Outcomes`; if none were selected, one bullet saying so |
 | `Priority` | `must` → P1, `should` → P2, `could` → P3 (`wont` never goes across) |
 | `TBD` in an approved row | `[NEEDS CLARIFICATION: <the open question, or "value is TBD in requirements/requirements.csv">]`; spec-kit expects at most three such markers per spec, so more than three is a reason to stop and run `clarifying-questions` first |
-| Rows left out by the gate | one bullet each under `## Assumptions`: `- Not in this feature: R-nnn (<reason>)` |
+| Rows left out by the gate (not rows that were never selected) | one bullet each under `## Assumptions`: `- Not in this feature: R-nnn (<reason>)` |
 
 **Requirement keys.** spec-kit's template numbers requirements `FR-001` and success criteria `SC-001`, and `/speckit.analyze` uses an explicit identifier as the key when one is present. to-openspec writes the project's R-IDs as the key instead, so commits, tests and `traceability-matrix` keep matching. A comment under `## Requirements` says so. Do not renumber to `FR-nnn`: an `FR-040` does not match `R-040` in the trace.
 

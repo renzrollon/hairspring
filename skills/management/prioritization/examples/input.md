@@ -20,7 +20,7 @@ Notes the user pasted, collected 2026-10-30 to 2026-11-02:
 | R-061 | Expiry reminder before points expire | 3 | 6 | 3 | 2 |
 | R-063 | Second approver for large adjustments | 2 | 8 | 2 | 1 |
 
-Command run after writing `requirements/priorities.csv`:
+Command run after writing `requirements/priorities.csv` (with the agreed weights in its first `Weights` row):
 
 ```sh
 python3 <skill-dir>/scripts/prioritize.py requirements/priorities.csv --method wiegers --weights benefit=2,penalty=1,cost=1,risk=0.5 --out requirements/priorities.csv
