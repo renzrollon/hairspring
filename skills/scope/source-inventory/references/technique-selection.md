@@ -21,7 +21,7 @@
 | Kind | Categories |
 | --- | --- |
 | `stakeholder` | `individual`, `user group`, `organization` |
-| `document` | `regulation`, `policy`, `contract`, `terms`, `standard`, `specification`, `process description`, `runbook`, `ticket export`, `feedback`, `report`, `legacy documentation` |
+| `document` | `regulation`, `policy`, `contract`, `terms`, `standard`, `specification`, `process description`, `runbook`, `ticket export`, `feedback`, `report`, `legacy documentation`, `elicitation record` (a workshop or observation write-up under `requirements/elicitation/`) |
 | `system` | `system in operation`, `predecessor`, `neighboring system`, `competitor product` |
 
 ## 3. Technique by source

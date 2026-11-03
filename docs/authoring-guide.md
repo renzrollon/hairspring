@@ -136,6 +136,7 @@ The canonical layout is in `re-templates/references/workspace-layout.md`. In sho
 - **Pipes in tables.** Escape `|` inside table cells as `\|`, including inside code spans.
 - **Mermaid.** Use the subset that renders on GitHub; read [`docs/mermaid-notes.md`](mermaid-notes.md) before writing a new diagram type.
 - **File names.** Never name a bundled file `metadata.json`: `npx skills` drops it on install.
+- **Enum values** in CSV registers are lowercase tokens; multi-word values are hyphenated (`document-analysis`, `system-archaeology`), so scripts can match them exactly.
 
 ## 6. Minimum schema (inline fallback)
 

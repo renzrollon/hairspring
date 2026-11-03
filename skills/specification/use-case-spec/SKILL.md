@@ -53,11 +53,11 @@ A requirement list says what the system must do; it does not say in which order 
 | File | Shape | Consumed by |
 | --- | --- | --- |
 | `requirements/models/uc-<name>.md` | `assets/use-case.md` | `user-story-refiner`, `testability-check`, `requirements-review`, `traceability-matrix` |
-| `requirements/requirements.csv` (appended draft rows) | schema columns, default `ID,Type,Text,Source,Priority,Status,Rationale` | `requirement-linter`, `testability-check` |
+| `requirements/requirements.csv` (appended draft rows) | `assets/requirements.csv` | `requirement-linter`, `testability-check` |
 
 ## Procedure
 
-1. **Read the workspace.** Load `requirements/schema.json` (else the default columns, and say so in the output), `context.md`, `stakeholders.md`, `glossary.md`, `requirements.csv`, and every `models/uc-*.md`. If the use case already exists, update it in place; when you renumber steps, update every extension reference. If another file already covers the goal under another name, say so and stop.
+1. **Read the workspace.** Load `requirements/schema.json` (else the default columns in `assets/requirements.csv`, and say so in the output), `context.md`, `stakeholders.md`, `glossary.md`, `requirements.csv`, and every `models/uc-*.md`. If the use case already exists, update it in place; when you renumber steps, update every extension reference. If another file already covers the goal under another name, say so and stop.
 
 2. **Name the goal and check the level.** The name is a verb and an object from the primary actor's view: `Redeem voucher`, not `Voucher processing`. The slug is kebab-case: `uc-redeem-voucher`. Apply the level tests in `references/form-guide.md` (summary, user goal, subfunction). A name like "Manage X", "Maintain X" or a list of create/read/update/delete operations is not one goal: list the goals hidden in it, ask which one to write now, and wait. In non-interactive mode, write no file; return the candidate goals and stop.
 

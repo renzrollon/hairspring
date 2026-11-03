@@ -37,17 +37,17 @@
 
 ### Functional Requirements
 
-- **{R-ID}**: <Text of a Type=F row, obligation verb upper-cased>
+- **{R-ID}**: {Text of a Type=F row, obligation verb upper-cased}
 
 ### Constraints
 
-- **{R-ID}**: <Text of a Type=C row, obligation verb upper-cased>
+- **{R-ID}**: {Text of a Type=C row, obligation verb upper-cased}
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **{R-ID}**: <Text of a Type=Q row, obligation verb upper-cased; or "No quality requirement was selected for this feature.">
+- **{R-ID}**: {Text of a Type=Q row, obligation verb upper-cased; or "No quality requirement was selected for this feature."}
 
 ## Assumptions
 

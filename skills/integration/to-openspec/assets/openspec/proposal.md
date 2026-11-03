@@ -18,11 +18,11 @@
 
 ### Modified Capabilities
 
-- <`<existing-capability>`: {which requirement changes} ({R-ID}), or "None">
+- {`existing-capability`: which requirement changes (R-ID), or "None"}
 
 ## Constraints and Quality Requirements
 
-<Every selected Type=Q and Type=C row, text verbatim. They restrict the whole change.>
+{Every selected Type=Q and Type=C row, text verbatim. They restrict the whole change.}
 
 | ID | Type | Requirement | Source | Verification |
 | --- | --- | --- | --- | --- |
@@ -37,12 +37,12 @@
 
 | ID | Reason |
 | --- | --- |
-| {R-ID} | <Status=draft / lint error {rule} / open TBD / no scenario source> |
+| {R-ID} | {open-tbd in Text / not-agreed (Status=draft) / no-scenario-source (written by the script); lint error rule (added by the skill)} |
 
-<Or the single line "None." when the gate left nothing out.>
+{Or the single line "None." when the gate left nothing out.}
 
 ## Traceability
 
 | ID | Type | Priority | Status | Source | Lands in |
 | --- | --- | --- | --- | --- | --- |
-| {R-ID} | {F/Q/C} | {Priority} | {Status}[; exception: {finding}, approved by {name} {date}] | {Source} | <specs/{capability}/spec.md, or proposal.md>; tasks {N.M} |
+| {R-ID} | {F/Q/C} | {Priority} | {Status}{; exception: finding, approved by name date} | {Source} | {specs/capability/spec.md, or proposal.md}; tasks {N.M} |

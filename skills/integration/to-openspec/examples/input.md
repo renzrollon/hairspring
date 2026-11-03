@@ -33,10 +33,10 @@ R-043 (`draft`, owner of voucher printing is open decision D-02) is not selected
 ## Commands
 
 ```bash
-python3 <skill-dir>/scripts/to_openspec.py add-voucher-redemption --status agreed --target openspec
+python3 <skill-dir>/scripts/to_openspec.py add-voucher-redemption --ids R-040,R-041,R-042,R-085,R-100 --target openspec --skip-blocked
 openspec validate add-voucher-redemption --strict --no-interactive
 ```
 
-Capability: no `cap:` tags, so the script uses the change name without `add-`: `voucher-redemption`. The user confirmed the `## Why` text in step 6.
+Capability: no `cap:` tags, so the script uses the change name without `add-`: `voucher-redemption`. In step 6 the user confirmed the `## Why` text, the capability bullet, `## Purpose` and `## Impact`; every other line of the expected files is script output (`--date 2026-11-03` reproduces them).
 
 Expected result: `expected-output/openspec/changes/add-voucher-redemption/`. The same selection with `--target spec-kit` and the name `001-voucher-redemption` gives `expected-output/specs/001-voucher-redemption/spec.md`.

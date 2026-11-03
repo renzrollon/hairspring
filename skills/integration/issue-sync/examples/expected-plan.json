@@ -4,75 +4,88 @@
   "target": "LOY",
   "network": false,
   "generated": "2026-11-03T09:12:00Z",
+  "apply": false,
   "actions": [
     {
       "id": "R-040",
-      "action": "create-or-match",
       "issue": null,
       "title": "R-040: Issue voucher on redemption request",
       "status": "agreed",
       "tracker_status": "To Do",
-      "reason": "no tracker reference in Links; push matches a title starting with 'R-040: ' before creating"
+      "action": "create-or-match",
+      "status_text": "agreed -> To Do",
+      "reason": "no tracker reference in Links; push matches a title starting with 'R-040: ' before creating",
+      "body": "<!-- re-skills:begin -->\n**R-040** · F functional · priority must · register status at last push: agreed\n\n> WHEN a member with at least 500 posted points requests a voucher in the customer mobile app, the loyalty service shall issue a voucher worth SGD 1 per 100 points redeemed.\n\n| Attribute | Value |\n| --- | --- |\n| Source | S-01 (programme T&C draft v3) |\n| Rationale | Redemption is why members collect points; the minimum and the rate are programme rules in S-01. |\n| Verification | test |\n| Owner | SH-01 Mei Tan |\n\n**Acceptance criteria**\n\n- R-040.AC1: Given a member with 1,250 posted points, when the member requests a voucher for 1,000 points in the customer mobile app, then the loyalty service issues a voucher worth SGD 10 and the member's posted balance is 250 points.\n\n**Trace**\n\n- Register: `requirements/requirements.csv` (R-040)\n- Sources: S-01\n- Decisions and links: none\n- Tests and code: not traced yet\n\n_Managed by re-skills issue-sync. Change the requirement in `requirements/requirements.csv` and push again: edits inside this block are overwritten. Discuss outside the block or in comments._\n<!-- re-skills:end -->"
     },
     {
       "id": "R-041",
-      "action": "update",
       "issue": "jira:LOY-77",
       "title": "R-041: Validate voucher at checkout",
       "status": "agreed",
       "tracker_status": null,
-      "reason": "refresh title and managed block; tracker owns status"
+      "action": "update",
+      "status_text": "agreed -> (tracker owns status)",
+      "reason": "refresh title and managed block; tracker owns status",
+      "body": "<!-- re-skills:begin -->\n**R-041** · F functional · priority must · register status at last push: agreed\n\n> WHEN the POS sends a voucher validation request for a voucher in state Issued, the loyalty service shall return the voucher value to the POS.\n\n| Attribute | Value |\n| --- | --- |\n| Source | S-02 (TillPoint interface spec v2.1) |\n| Rationale | Cashiers apply a voucher only after the loyalty service has confirmed it. |\n| Verification | test |\n| Owner | SH-01 Mei Tan |\n\n**Acceptance criteria**\n\n- none recorded\n\n**Trace**\n\n- Register: `requirements/requirements.csv` (R-041)\n- Sources: S-02\n- Decisions and links: none\n- Tests and code: not traced yet\n\n_Managed by re-skills issue-sync. Change the requirement in `requirements/requirements.csv` and push again: edits inside this block are overwritten. Discuss outside the block or in comments._\n<!-- re-skills:end -->"
     },
     {
       "id": "R-042",
-      "action": "create-or-match",
       "issue": null,
       "title": "R-042: Reject redemption below minimum",
       "status": "agreed",
       "tracker_status": "To Do",
-      "reason": "no tracker reference in Links; push matches a title starting with 'R-042: ' before creating"
+      "action": "create-or-match",
+      "status_text": "agreed -> To Do",
+      "reason": "no tracker reference in Links; push matches a title starting with 'R-042: ' before creating",
+      "body": "<!-- re-skills:begin -->\n**R-042** · F functional · priority must · register status at last push: agreed\n\n> IF a member with fewer than 500 posted points requests a voucher, THEN the loyalty service shall reject the request with a response that states the 500-point minimum.\n\n| Attribute | Value |\n| --- | --- |\n| Source | S-01 (programme T&C draft v3) |\n| Rationale | Members need to know why a redemption failed; unexplained failures drive support tickets (S-03). |\n| Verification | test |\n| Owner | SH-01 Mei Tan |\n\n**Acceptance criteria**\n\n- R-042.AC1: Given a member with 480 posted points, when the member requests a voucher, then the loyalty service rejects the request and the response states the 500-point minimum.\n\n**Trace**\n\n- Register: `requirements/requirements.csv` (R-042)\n- Sources: S-01\n- Decisions and links: none\n- Tests and code: not traced yet\n\n_Managed by re-skills issue-sync. Change the requirement in `requirements/requirements.csv` and push again: edits inside this block are overwritten. Discuss outside the block or in comments._\n<!-- re-skills:end -->"
     },
     {
       "id": "R-043",
-      "action": "skip",
       "issue": null,
       "title": "R-043: Print remaining balance on receipt",
       "status": "draft",
       "tracker_status": null,
+      "action": "skip",
+      "status_text": "draft",
       "reason": "Status=draft; name it in --ids to push it"
     },
     {
       "id": "R-044",
-      "action": "move-on-board",
       "issue": "jira:LOY-78",
       "title": "R-044: Send voucher code by SMS",
       "status": "withdrawn",
       "tracker_status": null,
+      "action": "move-on-board",
+      "status_text": "withdrawn -> (manual)",
       "reason": "withdrawn in the register; push does not touch it; close LOY-78 by hand with the reason (RDR-003)"
     },
     {
       "id": "R-085",
-      "action": "create-or-match",
       "issue": null,
       "title": "R-085: Voucher validation response time at peak",
       "status": "agreed",
       "tracker_status": "To Do",
-      "reason": "no tracker reference in Links; push matches a title starting with 'R-085: ' before creating"
+      "action": "create-or-match",
+      "status_text": "agreed -> To Do",
+      "reason": "no tracker reference in Links; push matches a title starting with 'R-085: ' before creating",
+      "body": "<!-- re-skills:begin -->\n**R-085** · Q quality requirement · priority must · register status at last push: agreed\n\n> WHILE the POS load is at most 9000 purchases per minute across stores, the loyalty service shall answer 95% of voucher validation requests within 300 ms.\n\n| Attribute | Value |\n| --- | --- |\n| Source | I-02 (Arjun Pillai SH-02); peak load SH-08 |\n| Rationale | Checkout must not get slower (SH-02); 9000 purchases per minute is last year's year-end peak (SH-08). |\n| Verification | test |\n| Owner | SH-02 Arjun Pillai |\n\n**Acceptance criteria**\n\n- none recorded\n\n**Trace**\n\n- Register: `requirements/requirements.csv` (R-085)\n- Sources: SH-02, SH-08, I-02\n- Decisions and links: none\n- Tests and code: not traced yet\n\n_Managed by re-skills issue-sync. Change the requirement in `requirements/requirements.csv` and push again: edits inside this block are overwritten. Discuss outside the block or in comments._\n<!-- re-skills:end -->"
     },
     {
       "id": "R-100",
-      "action": "create-or-match",
       "issue": null,
       "title": "R-100: Use TillPoint voucher validation interface v2.1",
       "status": "agreed",
       "tracker_status": "To Do",
-      "reason": "no tracker reference in Links; push matches a title starting with 'R-100: ' before creating"
+      "action": "create-or-match",
+      "status_text": "agreed -> To Do",
+      "reason": "no tracker reference in Links; push matches a title starting with 'R-100: ' before creating",
+      "body": "<!-- re-skills:begin -->\n**R-100** · C constraint · priority must · register status at last push: agreed\n\n> The loyalty service shall implement the voucher validation call as defined in the TillPoint POS loyalty interface spec v2.1 (S-02).\n\n| Attribute | Value |\n| --- | --- |\n| Source | S-02; SH-09 POS vendor |\n| Rationale | The POS vendor fixes the interface for this release; the till software does not change. |\n| Verification | inspection |\n| Owner | SH-08 Wei Jie Chua |\n\n**Acceptance criteria**\n\n- none recorded\n\n**Trace**\n\n- Register: `requirements/requirements.csv` (R-100)\n- Sources: S-02, SH-09\n- Decisions and links: none\n- Tests and code: not traced yet\n\n_Managed by re-skills issue-sync. Change the requirement in `requirements/requirements.csv` and push again: edits inside this block are overwritten. Discuss outside the block or in comments._\n<!-- re-skills:end -->"
     }
   ],
   "summary": {
     "create-or-match": 4,
     "update": 1,
-    "move-on-board": 1,
-    "skip": 1
+    "skip": 1,
+    "move-on-board": 1
   }
 }

@@ -25,4 +25,4 @@
 
 ## MODIFIED Requirements
 
-<Only for R-IDs already in openspec/specs/{capability}/spec.md: copy the existing header exactly and write the full block. Delete this section when empty.>
+{Only for R-IDs already in openspec/specs/capability/spec.md: copy the existing header exactly and write the full block. Delete this section when empty.}

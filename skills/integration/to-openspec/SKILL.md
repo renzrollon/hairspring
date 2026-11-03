@@ -6,12 +6,12 @@ description: >-
   spec-kit specs/<feature>/spec.md. Functional requirements become SHALL requirements with
   WHEN/THEN scenarios from their acceptance criteria, quality requirements and constraints go into
   the proposal, and every R-ID stays in headings, scenarios and tasks so the trace survives
-  implementation. Gated: only agreed or explicitly selected rows, and no lint errors or TBDs without
-  your OK. Started explicitly with /to-openspec. Use when a reviewed set is ready to build, when
-  someone says "hand this to OpenSpec", "make an OpenSpec proposal", "export to spec-kit", or before
-  /opsx:apply or /speckit.plan on requirements kept in requirements/. Not for writing or fixing
-  requirement text (requirement-phrasing), for reviewing the set first (requirements-review), or for
-  tracker tickets (issue-sync).
+  implementation. Gated: only agreed or explicitly selected rows, and no lint errors or TBDs
+  without your OK. Started explicitly with /to-openspec. Use when a reviewed set is ready to
+  build, when someone says "hand this to OpenSpec", "make an OpenSpec proposal", "export to
+  spec-kit", or before /opsx:apply or /speckit.plan on requirements kept in requirements/. Not for
+  writing or fixing requirement text (requirement-phrasing), for reviewing the set first
+  (requirements-review), or for tracker tickets (issue-sync) or ReqIF exchange (reqif-bridge).
 license: MIT
 compatibility: Python 3.9+ optional for scripts/to_openspec.py; the OpenSpec CLI is optional for validation. Works without either.
 disable-model-invocation: true
@@ -75,10 +75,15 @@ This skill never edits `requirements/requirements.csv`, never writes `openspec/s
    | No scenario source: no acceptance criterion and no `WHEN`/`IF`/`WHILE`/`WHERE` clause | `stories/*.md` | leave the row out; run `testability-check` or suggest `/user-story-refiner` |
    | Text longer than 500 characters | count | warn; suggest splitting with `requirement-phrasing` |
 
-   Show the gate result as a table (ID, check, finding, action). A blocked row goes across only when the user approves that ID by name ("hand off R-050 with its TBD"). Never fix the text here, and never replace a `TBD` with a value.
+   The script checks TBD, status and scenario source itself, but it does not lint: the lint check is yours. Show the gate result as a table (ID, check, finding, action). A blocked row goes across only when the user approves that ID by name ("hand off R-050 with its TBD"). Never fix the text here, and never replace a `TBD` with a value.
 4. **Choose capabilities (OpenSpec only).** One `specs/<capability>/spec.md` per durable behavior (`voucher-redemption`, not `add-voucher-endpoint`). If `openspec/specs/` exists, list its capabilities (`openspec list --specs`, or the folder names) and reuse an existing path. The script takes the capability from a `cap:<name>` entry in the `Tags` column, else from the change name without its leading verb. Propose `cap:` tags when the selection spans more than one behavior, and add them only with the user's OK.
-5. **Generate.** Run `python3 <skill-dir>/scripts/to_openspec.py <change> --ids <gated IDs> --target openspec` (or `re-lint openspec ...`; `--target spec-kit` for spec-kit; `--out DIR` if the toolkit lives below the repo root). Exit code `1` means the script refused and wrote nothing: read each finding. If it refused a row the user approved by ID, re-run with the override the script names in its message; never use an override for a row nobody approved. Without `--force` the script refuses to overwrite an existing change folder; show the user what differs and ask, and never use `--force` on a change whose `tasks.md` has ticked boxes. Manual fallback without Python: copy the files in `assets/` and fill them using the mapping table in `references/openspec-format.md` (or `references/spec-kit-format.md`).
-6. **Fill the human parts.** Replace the generated `## Why` with one or two sentences the user confirms (50 to 1,000 characters), check the generated `## Purpose` of each new capability (at least 50 characters), and delete the "draft" note from the generated comment once the user has confirmed. Write `## Impact` from the interfaces in `context.md` and the sources cited. Do not add requirements, scenarios, numbers or design choices that are not in the register.
+5. **Generate.** Run `re-lint openspec <change> --ids <IDs> --target openspec` (or `python3 <skill-dir>/scripts/to_openspec.py ...`, same flags; `--target spec-kit` for spec-kit; `--out DIR` if the toolkit lives below the repo root; `--capability NAME` to put every functional requirement in one capability). `<IDs>` is the selection without the lint-blocked rows and without blocked rows nobody approved.
+   - Add `--skip-blocked` so the script leaves out, and lists under "Not in this change", any row its own gate still blocks. Without it, exit `1` means the script refused and wrote nothing; its table names each finding.
+   - For rows the user approved by ID, add `--allow-tbd` (open placeholder) or `--allow-draft` (draft or proposed). These apply to every selected row, which is why unapproved blocked rows must not be in `<IDs>`. Never use an override for a row nobody approved.
+   - The script never sees the rows you dropped, so add each one to "Not in this change" by hand (`| R-047 | lint error weak-word |`).
+   - Without `--force` the script refuses to overwrite an existing change folder; show the user what differs and ask, and never use `--force` on a change whose `tasks.md` has ticked boxes.
+   - Manual fallback without Python: copy the files in `assets/` and fill them using the mapping table in `references/openspec-format.md` (or `references/spec-kit-format.md`).
+6. **Fill the human parts.** Replace the generated `## Why` with one or two sentences the user confirms (50 to 1,000 characters), rewrite the generated capability bullet and `## Purpose` of each new capability in plain words (Purpose at least 50 characters), append `, approved by <name> <date>` to every `exception:` Status cell in "Traceability", and delete the "draft" note from the generated comment once the user has confirmed. Write `## Impact` from the interfaces in `context.md` and the sources cited. Do not add requirements, scenarios, numbers or design choices that are not in the register.
 7. **Validate.** If the OpenSpec CLI is installed, run `openspec validate <change> --strict --no-interactive` and fix structure only (headings, bullets, lengths), never meaning. Without the CLI, run the checklist in `references/openspec-format.md`. For spec-kit, check the mandatory sections listed in `references/spec-kit-format.md`.
 8. **Show and hand off.** Show the file tree and a trace table (R-ID, file, heading or task number). End with what went across, what was left out and why, and the next command for the coding agent.
 
@@ -98,7 +103,7 @@ This skill never edits `requirements/requirements.csv`, never writes `openspec/s
 
 ## Non-interactive mode
 
-Use `--status agreed`. Leave every row that fails the gate out and list it under "Not in this change" in `proposal.md` with the reason. Never use `--force`. Keep the generated `## Why` and mark it for review. End with the IDs handed off, the IDs left out with their reasons, and the validation result.
+Select the `agreed` rows, drop the lint-blocked ones, and run with `--ids <rest> --skip-blocked`; add the lint-blocked rows to "Not in this change" by hand with the reason. Never use `--force`, `--allow-tbd` or `--allow-draft`. Keep the generated `## Why` and mark it for review. End with the IDs handed off, the IDs left out with their reasons, and the validation result.
 
 ## References
 

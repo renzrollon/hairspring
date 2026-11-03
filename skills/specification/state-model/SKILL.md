@@ -50,11 +50,11 @@ Status-driven behavior breaks in the cells nobody thought about: a return that a
 | File | Shape | Consumed by |
 | --- | --- | --- |
 | `requirements/models/state-<entity>.md` | `assets/state-model.md` | `testability-check`, `requirements-review`, `traceability-matrix` |
-| `requirements/requirements.csv` (appended `WHILE` rows) | schema columns, default `ID,Type,Text,Source,Priority,Status,Rationale` | `requirement-linter`, `testability-check` |
+| `requirements/requirements.csv` (appended `WHILE` rows) | `assets/requirements.csv` | `requirement-linter`, `testability-check` |
 
 ## Procedure
 
-1. **Read the workspace.** Load `requirements/schema.json` (else the default columns and say so), `glossary.md`, `requirements.csv`, `models/domain-model.md`, and an existing `models/state-<entity>.md` (update it in place; keep transition numbers `T1..Tn`). The entity name is its glossary term; the slug is kebab-case (`PointsTransaction` becomes `state-points-transaction.md`). One entity per file.
+1. **Read the workspace.** Load `requirements/schema.json` (else the default columns in `assets/requirements.csv`, and say so), `glossary.md`, `requirements.csv`, `models/domain-model.md`, and an existing `models/state-<entity>.md` (update it in place; keep transition numbers `T1..Tn`). The entity name is its glossary term; the slug is kebab-case (`PointsTransaction` becomes `state-points-transaction.md`). One entity per file.
 2. **List the states.** A state is a business condition in which the entity reacts differently to at least one event. Use glossary words, PascalCase identifiers. Technical conditions (`RETRYING`, `is_deleted`, status code `3`, queue lag) are not business states: ask what business condition they stand for, or leave them out and say why. Mark the initial state and every final state. Fill the States table with meaning and source.
 3. **List the events.** One name per thing that happens to the entity: a message (`returnReceived`), an actor decision, a time event (`returnWindowElapsed`). camelCase, with who sends it and the source. The creating event goes on `[*] --> Initial` and is not a matrix column. Durations and limits you were not given are `TBD` plus an open question.
 4. **Draw the transitions.** Read `references/state-diagram-syntax.md`. One line per transition: `From --> To : event [guard] / action`. Guards are business conditions; when every transition for one state and event is guarded, add an `[else]` transition or say what happens otherwise in the matrix. An event that does something without a state change is a self-transition (one per state: Mermaid draws only one; a second reaction usually means a separate state). Composite states, `<<choice>>`, fork and join are not supported by the checker: flatten them.

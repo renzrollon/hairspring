@@ -56,7 +56,7 @@ Sections re-skills adds (ignored by the OpenSpec parser, read by people and agen
 
 - `## Constraints and Quality Requirements`: table `ID | Type | Requirement | Source | Verification` with every Q and C row, text verbatim.
 - `## Not in this change`: table `ID | Reason` for every row left out by the gate (status, lint error, `TBD`, no scenario source), or `None.`. Rows not selected at all (for example drafts outside `--status agreed`) are not listed.
-- `## Traceability`: table `ID | Type | Priority | Status | Source | Lands in` for every row that went across. A row that crossed as an approved exception has `; exception: <finding>, approved by <name> <date>` in its Status cell.
+- `## Traceability`: table `ID | Type | Priority | Status | Source | Lands in` for every row that went across. A row that crossed as an approved exception has `; exception: <finding>` in its Status cell (written by the script); the skill appends `, approved by <name> <date>`.
 
 Archive warns when a change holds more than 10 requirement deltas; split larger hand-offs into several changes.
 

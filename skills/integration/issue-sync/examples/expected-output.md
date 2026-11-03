@@ -6,15 +6,15 @@ Tracker: jira project LOY · Command: plan · Network: no · Generated: 2026-11-
 
 | ID | Action | Issue | Title | Status | Notes |
 | --- | --- | --- | --- | --- | --- |
-| R-040 | create-or-match | - | R-040: Issue voucher on redemption request | agreed -> To Do | no tracker reference; matched by title before creating |
-| R-041 | update | jira:LOY-77 | R-041: Validate voucher at checkout | agreed -> (tracker owns status) | title and managed block refreshed |
-| R-042 | create-or-match | - | R-042: Reject redemption below minimum | agreed -> To Do | no tracker reference; matched by title before creating |
-| R-043 | skip | - | R-043: Print remaining balance on receipt | draft | not selected: draft; name it in --ids to push it |
-| R-044 | move-on-board | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> (manual) | not pushed; close LOY-78 by hand with the reason (RDR-003) |
-| R-085 | create-or-match | - | R-085: Voucher validation response time at peak | agreed -> To Do | no tracker reference; matched by title before creating |
-| R-100 | create-or-match | - | R-100: Use TillPoint voucher validation interface v2.1 | agreed -> To Do | no tracker reference; matched by title before creating |
+| R-040 | create-or-match | - | R-040: Issue voucher on redemption request | agreed -> To Do | no tracker reference in Links; push matches a title starting with 'R-040: ' before creating |
+| R-041 | update | jira:LOY-77 | R-041: Validate voucher at checkout | agreed -> (tracker owns status) | refresh title and managed block; tracker owns status |
+| R-042 | create-or-match | - | R-042: Reject redemption below minimum | agreed -> To Do | no tracker reference in Links; push matches a title starting with 'R-042: ' before creating |
+| R-043 | skip | - | R-043: Print remaining balance on receipt | draft | Status=draft; name it in --ids to push it |
+| R-044 | move-on-board | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> (manual) | withdrawn in the register; push does not touch it; close LOY-78 by hand with the reason (RDR-003) |
+| R-085 | create-or-match | - | R-085: Voucher validation response time at peak | agreed -> To Do | no tracker reference in Links; push matches a title starting with 'R-085: ' before creating |
+| R-100 | create-or-match | - | R-100: Use TillPoint voucher validation interface v2.1 | agreed -> To Do | no tracker reference in Links; push matches a title starting with 'R-100: ' before creating |
 
-Summary: 4 create-or-match, 1 update, 1 move-on-board, 1 skip (push)
+Summary: 4 create-or-match, 1 update, 1 skip, 1 move-on-board (push)
 
 Nothing has been written. To apply: `push --tracker jira --ids R-040,R-041,R-042,R-085,R-100 --apply`.
 
@@ -33,8 +33,8 @@ Tracker: jira project LOY · Command: pull dry run · Network: read-only · Gene
 | R-040 | unchanged | jira:LOY-81 | R-040: Issue voucher on redemption request | agreed -> In Progress (agreed) | |
 | R-041 | update | jira:LOY-77 | R-041: Validate voucher at checkout | agreed -> Done (implemented) | written with --apply |
 | R-042 | update | jira:LOY-82 | R-042: Reject redemption below minimum | agreed -> Done (implemented) | written with --apply |
-| R-044 | conflict-lifecycle | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> In Progress | withdrawn on 2026-10-31 (RDR-003) but the card is active; owner: SH-01 Mei Tan |
-| R-085 | unmapped | jira:LOY-83 | R-085: Voucher validation response time at peak | agreed -> In Review | "In Review" is not in issues.status_map; add it with attribute-schema |
+| R-044 | conflict-lifecycle | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> In Progress (agreed) | withdrawn in the register but the issue maps to agreed; a person decides |
+| R-085 | unmapped | jira:LOY-83 | R-085: Voucher validation response time at peak | agreed -> In Review | 'In Review' is not in issues.status_map.jira; add it with attribute-schema |
 | R-100 | unchanged | jira:LOY-84 | R-100: Use TillPoint voucher validation interface v2.1 | agreed -> To Do (agreed) | |
 
 Summary: 2 update, 2 unchanged, 2 not written (pull)

@@ -112,7 +112,7 @@ Rows are also appended to `requirements/requirements.csv`; that file wins if the
 | R-068 | WHILE, WHEN | WHILE a points transaction is OnHold, WHEN the POS sends a return for its purchase, the loyalty service shall reverse the transaction without changing the member's redeemable balance. | Cell OnHold x returnReceived (T7) | new |
 | R-063 | WHILE, WHEN | WHILE a points transaction is Posted, WHEN the POS sends a return for its purchase, the loyalty service shall deduct the transaction's points from the member's redeemable balance. | Cell Posted x returnReceived (T8) | new |
 | R-064 | WHILE, WHEN | WHILE a points transaction is Expired, WHEN the POS sends a return for its purchase, the loyalty service shall leave the member's points balance unchanged. | Cell Expired x returnReceived (ignored) | new |
-| R-025 | IF, THEN | (existing) Fraud hold keeps the points from being posted until release. | T3, T4, T5; cell OnHold x returnWindowElapsed | existing |
+| R-025 | IF, THEN | IF the fraud engine places a hold on a purchase, THEN the loyalty service shall keep the points of that purchase in pending state until the fraud engine releases the hold. | T3, T4, T5; cell OnHold x returnWindowElapsed | existing (rewording proposed in Q6) |
 
 ## Open questions
 
