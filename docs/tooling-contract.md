@@ -60,7 +60,7 @@ Public API every module uses:
 ```text
 re-lint check [PATH ...] [--schema FILE] [--format text|json|github|sarif]
               [--fail-on error|warning|info] [--disable RULE[,RULE]] [--enable RULE[,RULE]]
-              [--only-ids R-001,R-002] [--changed-only BASE_REF]
+              [--only-ids R-001,R-002] [--changed-only BASE_REF] [--list-rules]
 ```
 
 - Default paths: `<workspace>/requirements.csv` plus Markdown tables under `<workspace>/` whose `ID` column holds requirement IDs.
@@ -143,7 +143,7 @@ Wiegers: `priority = (benefit*wb + penalty*wp) / (cost*wc + risk*wr)` on relativ
 
 ```text
 re-lint reqif export [--out FILE] [--ids ...] [--title TEXT]
-re-lint reqif import FILE [--diff] [--apply]
+re-lint reqif import FILE [--diff] [--apply] [--add-columns] [--allow-invalid] [--cr CR-nnn] [--format md|json]
 ```
 
 Minimal ReqIF 1.2 with one `SPEC-OBJECT-TYPE` and `ATTRIBUTE-DEFINITION-STRING` per CSV column; `IDENTIFIER` is the requirement ID so round-trips merge cleanly. `import --diff` prints a requirement-level diff against the workspace; `--apply` writes changes into `requirements.csv`. Full-fidelity tool exchange can use the `reqif` library from strictdoc instead.
@@ -151,7 +151,8 @@ Minimal ReqIF 1.2 with one `SPEC-OBJECT-TYPE` and `ATTRIBUTE-DEFINITION-STRING` 
 ### `re-lint openspec` (vendored as `to_openspec.py`)
 
 ```text
-re-lint openspec CHANGE_NAME [--ids R-001,R-002 | --status agreed] [--target openspec|spec-kit] [--out DIR] [--force]
+re-lint openspec CHANGE_NAME [--ids R-001 R-002 ... | --status agreed ...] [--target openspec|spec-kit] [--out DIR]
+                 [--capability NAME] [--allow-tbd] [--allow-draft] [--skip-blocked] [--force] [--date YYYY-MM-DD] [--title TEXT]
 ```
 
 OpenSpec: writes `openspec/changes/<change>/proposal.md`, `tasks.md`, and `specs/<capability>/spec.md` with `### Requirement:` blocks, `SHALL` text and `#### Scenario:` blocks (WHEN/THEN) taken from acceptance criteria. spec-kit: writes `specs/<change>/spec.md`. Every requirement keeps its ID as an anchor (`<!-- R-012 -->` and in the heading).
@@ -159,12 +160,28 @@ OpenSpec: writes `openspec/changes/<change>/proposal.md`, `tasks.md`, and `specs
 ### `re-lint issues` (vendored as `issue_sync.py`)
 
 ```text
-re-lint issues plan  --tracker github|jira|ado [--ids ...]          # what push would do, JSON + table; no network
-re-lint issues push  --tracker github|jira|ado [--ids ...] [--apply]
-re-lint issues pull  --tracker github|jira|ado [--apply]            # refresh Status in requirements.csv from the tracker
+re-lint issues plan  --tracker github|jira|ado [--ids ID ...] [--status S ...]   # what push would do, JSON + table; no network
+re-lint issues push  --tracker github|jira|ado [--ids ID ...] [--apply]
+re-lint issues pull  --tracker github|jira|ado [--ids ID ...] [--apply]           # refresh Status in requirements.csv from the tracker
 ```
 
 Dry run unless `--apply`. GitHub uses the `gh` CLI; Jira uses `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `JIRA_PROJECT`; Azure DevOps uses `ADO_ORG_URL`, `ADO_PROJECT`, `ADO_PAT`. Issue title is `<ID>: <Title or first 80 chars of Text>`; the body carries the text, attributes and trace links in a fenced block delimited by `<!-- re-skills:begin -->` / `<!-- re-skills:end -->` so re-syncs replace only that block. Status mapping is configurable under `schema.json` → `issues.status_map`.
+
+## Behavior details (the package is the source of truth)
+
+Where this contract and `re-lint <command> --help` differ, the help text wins; fix this file in the same PR.
+
+| Command | Behavior |
+| --- | --- |
+| all | Every command accepts `--workspace DIR` and `--schema FILE`. If a renamed workspace has no `schema.json`, the schema is read from `requirements/schema.json` at the repo root. List options take space-separated values (`--ids R-001 R-002`), except `--only-ids`, `--disable` and `--enable`, which take a comma list. |
+| `check` | Text output prints a `hint:` line under each finding and a summary line. `lint.severity` accepts `off`. Markdown tables get the full rule set only when the header has every required column; other tables with `ID` and `Text` get the text rules plus `register-drift`. The default scan skips `changes/`, `decisions/` and `reviews/`. Only an all-caps `IF` requires `THEN`. |
+| `trace build` | `--code-glob` / `--test-glob` replace the schema globs. Files under `openspec/` yield `mentioned-in` rows (ToType `code`) that never count as implementation. Lower-case `r012` counts only inside test names. `--no-git` skips the git log. `gaps.json` entries are `{kind, id, file, line, detail}`. |
+| `prioritize` | A `Weights` row in the CSV sets the weights (the `--weights` flag overrides it). Scores have 3 decimals; equal scores share a rank. |
+| `views` | View keys: `title`, `description`, `filter`, `columns`, `group_by`, `sort_by`. Filter values: a list, `{"not": [...]}`, `"empty"` (also matches `TBD`), `{"contains": "..."}`, `{"has": true}`. A column may be `A\|B` (first non-empty). |
+| `baseline` | `text_sha256` hashes whitespace-normalized text; `git_commit` is `null` outside git. |
+| `reqif import` | Values outside the schema enums are held back unless `--allow-invalid`. A Text change on an agreed/implemented/verified requirement bumps `Version` and sets `proposed` unless `--cr CR-nnn`. Files with `<!DOCTYPE` are refused. Rows are never deleted. Exit 1 when differences exist. |
+| `openspec` | TBD, draft/proposed and scenario-less rows block the run (exit 1, nothing written) unless `--allow-tbd` / `--allow-draft`, or `--skip-blocked` leaves them out. Capability: `--capability`, else a `cap:<name>` tag, else the change name without its leading verb. An existing change folder needs `--force`. |
+| `issues pull` | Writes only direct lifecycle transitions; never sets `agreed`, and sets `verified` only with trace or `Links` evidence; everything else is reported as needing a human. GitHub `closed` with reason `not planned` maps to `rejected`. `push` never pushes withdrawn rows, never creates duplicates, and records tracker references (`jira:LOY-81`) in `Links`. |
 
 ## GitHub Action (`action.yml` at the repo root)
 
