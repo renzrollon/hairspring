@@ -52,3 +52,44 @@ jobs:
           else
             echo "examples/loyalty-points/requirements/requirements.csv not present; skipped"
           fi
+
+  packaging:
+    name: Packaging and spec conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Codex sidecar files are current
+        run: python tools/gen_agent_files.py --check
+
+      - name: Skills conform to the agentskills.io spec (extension keys stripped)
+        run: |
+          pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+          python tools/build_dist.py --validate --require-validator
+
+      - name: Installer works for every agent
+        run: |
+          tmp="$(mktemp -d)"
+          python install.py --agent all --project "$tmp"
+          for d in .claude/skills .agents/skills .github/skills .cursor/skills; do
+            test -f "$tmp/$d/requirement-phrasing/SKILL.md"
+            test ! -d "$tmp/$d/requirement-phrasing/evals"
+          done
+          python install.py --agent all --project "$tmp" --uninstall
+          test -z "$(ls -A "$tmp/.claude/skills")"
+
+      - name: Plugin manifests are valid JSON and list existing folders
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          for p in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+                    ".cursor-plugin/plugin.json", ".cursor-plugin/marketplace.json"]:
+              data = json.loads(pathlib.Path(p).read_text())
+              for s in data.get("skills", []):
+                  assert pathlib.Path(s).is_dir(), f"{p}: {s} does not exist"
+          print("manifests ok")
+          PY

@@ -13,8 +13,8 @@
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Issue voucher on redemption request (Priority: P1)
-
 <!-- R-040 -->
+
 WHEN a member with at least 500 posted points requests a voucher in the customer mobile app, the loyalty service SHALL issue a voucher worth SGD 1 per 100 points redeemed. (R-040)
 
 **Why this priority**: Redemption is why members collect points; the minimum and the rate are programme rules in S-01.
@@ -28,8 +28,8 @@ WHEN a member with at least 500 posted points requests a voucher in the customer
 ---
 
 ### User Story 2 - Validate voucher at checkout (Priority: P1)
-
 <!-- R-041 -->
+
 WHEN the POS sends a voucher validation request for a voucher in state Issued, the loyalty service SHALL return the voucher value to the POS. (R-041)
 
 **Why this priority**: Cashiers apply a voucher only after the loyalty service has confirmed it.
@@ -43,8 +43,8 @@ WHEN the POS sends a voucher validation request for a voucher in state Issued, t
 ---
 
 ### User Story 3 - Reject redemption below minimum (Priority: P1)
-
 <!-- R-042 -->
+
 IF a member with fewer than 500 posted points requests a voucher, THEN the loyalty service SHALL reject the request with a response that states the 500-point minimum. (R-042)
 
 **Why this priority**: Members need to know why a redemption failed; unexplained failures drive support tickets (S-03).
