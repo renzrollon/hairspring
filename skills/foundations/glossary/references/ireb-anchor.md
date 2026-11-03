@@ -20,5 +20,5 @@
 
 ## What this skill deliberately leaves out
 
-- Modelling the relationships and attributes of business objects: `domain-model`.
+- Modeling the relationships and attributes of business objects: `domain-model`.
 - Eliciting the meaning of a term from a stakeholder: `clarifying-questions` via `re-interview`.

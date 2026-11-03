@@ -1,14 +1,15 @@
 ---
 name: re-setup
 description: >-
-  Configures a repository for the re-skills catalogue in one short interview (at most 8 questions,
+  Configures a repository's requirements workspace in one short interview (at most 8 questions,
   each with a recommended answer): picks the RE process facets (linear or iterative, prescriptive
   or explorative, customer-specific or market-oriented), the work products to keep, the change
   authority, the ID scheme, the attribute schema and a Definition of Ready, then writes
-  requirements/README.md and requirements/schema.json. Use once per repo when someone types
-  /re-setup, "set up requirements for this repo" or "how much process do we need", when a team
-  starts a new service, tender or product and wants every re-skills skill to follow one process,
-  and again when the process changes (for example a fixed-price contract becomes an agile product).
+  requirements/README.md and requirements/schema.json. Use when a repo has no requirements/
+  folder yet, when someone types /re-setup, "set up requirements for this repo" or "how much
+  process do we need", when a team starts a new service, tender or product and wants every
+  re-skills skill to follow one process, and again when the process changes (for example a
+  fixed-price contract becomes an agile product).
   Not for adding attributes, lifecycle states or audience views to an existing schema (use
   attribute-schema), for defining domain terms (glossary) or for scoping the system
   (system-context).
@@ -28,7 +29,7 @@ metadata:
 
 # RE setup
 
-Every other skill writes to `requirements/` and reads `requirements/schema.json`. If nobody decides up front how much process the team needs, the catalogue produces either ceremony nobody reads or notes nobody can trace. This skill asks about the three process facets and the criticality of the system, derives the work products to keep, who may change an agreed requirement, the ID scheme, the attribute schema and a Definition of Ready (DoR), and writes them to `requirements/README.md` and `requirements/schema.json`. Target: under 10 minutes, at most 8 questions, two rounds.
+Every other skill writes to `requirements/` and reads `requirements/schema.json`. If nobody decides up front how much process the team needs, the skills produce either ceremony nobody reads or notes nobody can trace. This skill asks about the three process facets and the criticality of the system, derives the work products to keep, who may change an agreed requirement, the ID scheme, the attribute schema and a Definition of Ready (DoR), and writes them to `requirements/README.md` and `requirements/schema.json`. Target: under 10 minutes, at most 8 questions, two rounds.
 
 ## When not to use
 
@@ -56,7 +57,7 @@ Every other skill writes to `requirements/` and reads `requirements/schema.json`
 
 ## Procedure
 
-1. **Read the workspace.** Look for `requirements/` (or the `workspace` named in an existing `schema.json`). If `schema.json` exists, this is a re-run: load it and apply step 7. List the IDs already in use per kind (`re-ids list`, or search the workspace for each prefix). Load the defaults from `assets/schema.json`; if the vendored copy is missing, use `re-templates/assets/schema.json`.
+1. **Read the workspace.** Look for `requirements/` (or the `workspace` named in an existing `schema.json`). If `schema.json` exists, this is a re-run: load it and apply step 7. List the IDs already in use per kind (`re-lint ids list`, or search the workspace for each prefix). Load the defaults from `assets/schema.json`; if the vendored copy is missing, use `re-templates/assets/schema.json`.
 2. **Skim the repo before asking.** Read only the top-level `README*`, `CONTRIBUTING*`, the `docs/` index, `.github/`, tracker config, and files whose names contain contract, tender, rfp, sow, compliance, audit or regulation. Read `references/process-facets.md` and note evidence for each facet with `file:line`. Evidence sets the recommended answer; it never replaces the answer.
 3. **Ask batch A: facets (4 questions).** Follow `re-interview` in batch mode: one numbered message, each question with its recommended answer and the evidence behind it, so the user can reply `yes` or `defaults`. If the user started with `/re-setup defaults` or says "use your recommendations", ask nothing: take the recommended answers for batches A and B, record them as `defaults accepted by <name>, <date>`, and list them in the final message for review.
 

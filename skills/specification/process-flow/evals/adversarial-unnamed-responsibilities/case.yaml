@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: adversarial-unnamed-responsibilities
+expected_outcome: |
+  The skill does not invent who checks, approves, fixes or informs: steps whose owner was not
+  named sit in an Unassigned (TBD) lane, or the lanes carry TBD owners, with open questions
+  asking who is responsible. Passive phrases become verb-and-object steps. "Quick" gets no
+  invented duration. The flow file is written with the open questions listed.

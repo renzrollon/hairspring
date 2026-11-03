@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-040,F,"IF a redemption request asks for fewer than 500 points, THEN the loyalty service shall reject the request.",S-01,must,agreed,Programme terms minimum.
+R-041,F,"WHEN the loyalty service issues a voucher, the loyalty service shall set the voucher value to SGD 1 per 100 redeemed points.",S-01,must,agreed,Programme terms.
+R-042,F,The loyalty service shall issue each voucher with a unique voucher code.,S-02,must,draft,POS interface needs a unique code.

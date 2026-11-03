@@ -16,7 +16,7 @@
 - Treats uncertainty as a first-class result: grey zones on either boundary are logged as open decisions with an owner, not settled by whoever draws the picture.
 - Builds the context diagram from a table of data flows, so the model stays consistent with its text and can be reviewed row by row.
 - Keeps the system a black box and names external actors by role, so the model shows the environment and its interfaces, not the solution.
-- Starts from evidence in the repository and confirms it with people, which is cheaper than an open-ended interview and surfaces forgotten neighbours such as batch jobs and extracts.
+- Starts from evidence in the repository and confirms it with people, which is cheaper than an open-ended interview and surfaces forgotten neighbors such as batch jobs and extracts.
 
 ## What this skill deliberately leaves out
 

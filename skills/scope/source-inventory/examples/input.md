@@ -28,4 +28,4 @@ S-07,Arjun Pillai (SH-02),stakeholder,,,,,,,,
 - `requirements/stakeholders.md` (the `stakeholder-map` example): named representatives for SH-01 to SH-08; representative `TBD` for SH-09 (TillPoint integration manager), SH-10 (members), SH-11 (legal counsel) and SH-12 (fraud analyst). Availability: SH-03 not in month-end week; SH-04 fortnightly privacy clinic; SH-05 TBD; SH-06 daily stand-up; SH-07 Wednesday afternoons.
 - `requirements/elicitation/interview-head-of-loyalty.md` records interview I-01 with Mei Tan on 2026-10-27; `requirements/elicitation/interview-store-operations-lead.md` records the store visit and interview I-02 with Arjun Pillai on 2026-10-30.
 - `requirements/requirements.csv`: R-023 to R-027 cite `S-06 (LOY-118)` in Source; the rationale of R-023 cites S-03.
-- `requirements/context.md` lists Relay CRM, the fraud engine, the notification provider and the data warehouse as neighbouring systems; no documentation for their interfaces is named anywhere.
+- `requirements/context.md` lists Relay CRM, the fraud engine, the notification provider and the data warehouse as neighboring systems; no documentation for their interfaces is named anywhere.

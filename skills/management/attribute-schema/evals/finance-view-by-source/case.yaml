@@ -3,7 +3,7 @@ name: finance-view-by-source
 expected_outcome: |
   A new kebab-case view is defined under views in requirements/schema.json (created from the
   default if missing). Its selective filter matches Source cells that cite S-01 or S-05, including
-  the messy cells "SH-07, S-01" and "S-05 (DRP-2024 §4.2)", for example with a regex, and it
+  the messy cells "SH-07, S-01" and "S-05 (DRP-2024 §4.2)", for example with a "has" condition, and it
   excludes withdrawn rows. It groups by Status. The view is generated as Markdown and CSV under
   requirements/views/ and holds exactly R-002, R-041, R-060, R-061, R-100 and R-103.
 context:

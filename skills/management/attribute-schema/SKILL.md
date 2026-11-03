@@ -59,15 +59,15 @@ Attributes make a requirement manageable: status says where it stands, priority 
 4. **Change the lifecycle.** Update `attributes.enums.Status` and `lifecycle.transitions` together, then run the lifecycle checks in `references/attributes-and-lifecycle.md`.
 5. **Show, then write.** Show the JSON diff. After confirmation (or directly in non-interactive mode), write `schema.json`: 2-space indent, existing key order, trailing newline. If the user wants the new column filled in `requirements.csv`, add it after the existing columns, propose a value per row, and write after confirmation. Unknown values are `TBD`.
 6. **Validate.** Run `re-lint check` (rules `missing-attribute` and `invalid-enum`), or the `requirement-linter` skill. Without either, check by hand that every required cell is filled and every enum cell holds an allowed value or `TBD`. Report the failing rows with `file:line`. Do not change their values without the owner.
-7. **Define views.** Turn the audience's need into a view definition: a selective `filter`, projective `columns`, an aggregating `group_by`, and `sort`. Use the format in `references/views-format.md`. Start from a built-in in `assets/views.json` when it is close. Write the definition under `schema.json` → `views.<name>`, with a kebab-case name.
-8. **Generate views.** Run `python3 <skill-dir>/scripts/views.py` to write all views, or `python3 <skill-dir>/scripts/views.py --view <name>` for one; `re-lint views` takes the same arguments. Add `--format csv` for spreadsheet users. The output goes to `requirements/views/<name>.md`. Without Python, apply the filter, columns and counts by hand and fill `assets/view.md`; write "built manually" in the Source field.
+7. **Define views.** Turn the audience's need into a view definition: a selective `filter`, projective `columns`, an aggregating `group_by`, and `sort_by`. Use only the keys and conditions in `references/views-format.md`; any other key makes the script stop. Start from a built-in in `assets/views.json` when it is close. Write the definition under `schema.json` → `views.<name>`, with a kebab-case name, and put the audience in `description`.
+8. **Generate views.** Run `python3 <skill-dir>/scripts/views.py` to write all views, or `python3 <skill-dir>/scripts/views.py --view <name> [<name> ...]` for some (`--list` shows them); `re-lint views` takes the same arguments. Fix any column the script warns about. Add `--format csv` for spreadsheet users. The output goes to `requirements/views/<name>.md`. Without Python, apply the filter, columns and counts by hand and fill `assets/view.md`; write "built manually" in the Source field.
 9. **Report.** List the schema keys you changed, the validation findings, and each view file with its row count.
 
 ## Quality checks
 
 - [ ] `schema.json` is valid JSON. `lifecycle.initial` and every transition target are `Status` values, every `Status` has a transitions entry, and `withdrawn` has no outgoing transitions.
 - [ ] No enum value or column that rows use was removed or renamed without an agreed migration. ID prefixes and digits are unchanged.
-- [ ] Every view names only columns that exist in the register or in the schema, and every view file matches `assets/view.md`.
+- [ ] Every view uses only the documented keys and names only columns that exist in the register or the schema (no warnings from the script), and every view file matches `assets/view.md`.
 - [ ] Validation findings are reported, not silently fixed.
 
 ## Hand-offs

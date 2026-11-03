@@ -41,7 +41,7 @@ classDiagram
 | Enumeration | `<<enumeration>>` as the first line inside `{ }` | For a fixed value set, typically the states from `state-model`. Not checked against the glossary. |
 | Association | `A "1" --> "0..*" B : label` | The arrow gives the reading direction of the label ("Member holds PointsTransaction"), not navigability. Both multiplicities always. |
 | Composition | `Voucher "1" *-- "1..*" VoucherLine : contains` | Only when the part cannot exist without the whole. Rare in business models. |
-| Generalization | `Adjustment --|> PointsTransaction` | Only when the subtype adds its own attributes or associations, and a source says "an X is a kind of Y". |
+| Generalization | `Adjustment --\|> PointsTransaction` | Only when the subtype adds its own attributes or associations, and a source says "an X is a kind of Y". |
 
 Multiplicities, always quoted: `"1"`, `"0..1"`, `"0..*"`, `"1..*"`, `"n..m"` with sourced numbers, or `"TBD"` with an open question. Never `"*"` alone (write `"0..*"`): readers argue about whether it includes zero.
 

@@ -5,8 +5,9 @@ description: >-
   representative, goals, influence, interest, engagement, availability and source; a
   power/interest quadrant as a Mermaid quadrantChart; and a gap check against a role checklist
   (operations, security, legal, support, data protection, finance, fraud, audit, external system
-  owners, ...). Writes requirements/stakeholders.md. Use at kick-off and before planning
-  interviews or workshops, when someone types /stakeholder-map, asks "who do we need to talk to?",
+  owners, ...). Writes requirements/stakeholders.md. Use when a project kicks off or before
+  interviews or workshops are planned, when someone types /stakeholder-map, asks "who do we need
+  to talk to?",
   "who are the stakeholders?" or "who signs this off?", or has a roster, invite list, org chart,
   RACI or CODEOWNERS file to turn into a map. Not for the system's external actors and interfaces
   (use system-context), for registering stakeholders, documents and systems as sources with an
@@ -28,7 +29,7 @@ metadata:
 
 # Stakeholder map
 
-A requirement nobody asked for is usually a stakeholder nobody asked. This skill turns whatever the team has (a roster, an invite list, an org chart, the actors in `context.md`) into a stakeholder inventory with named representatives, rates influence and interest by explicit rules, plots the power/interest quadrant, and checks the result against a role checklist so the usual gaps (fraud, legal, data protection, the owners of neighbouring systems) show up before elicitation starts. It writes `requirements/stakeholders.md`.
+A requirement nobody asked for is usually a stakeholder nobody asked. This skill turns whatever the team has (a roster, an invite list, an org chart, the actors in `context.md`) into a stakeholder inventory with named representatives, rates influence and interest by explicit rules, plots the power/interest quadrant, and checks the result against a role checklist so the usual gaps (fraud, legal, data protection, the owners of neighboring systems) show up before elicitation starts. It writes `requirements/stakeholders.md`.
 
 ## When not to use
 
@@ -69,7 +70,7 @@ A requirement nobody asked for is usually a stakeholder nobody asked. This skill
 
 - [ ] The stakeholder table has exactly the columns `ID | Role | Representative | Goals | Influence | Interest | Engagement | Availability | Source`.
 - [ ] Every Representative is a named person from the inputs or `TBD`; no name was invented.
-- [ ] Influence and Interest are `high`, `low` or `TBD`; Engagement matches the rule for every row.
+- [ ] Influence and Interest are `high`, `low` or `TBD`; Engagement matches the rule for every row that is not `retired`.
 - [ ] Every plotted point belongs to a row with both ratings known and lies inside that row's quadrant; every row with both ratings known is plotted.
 - [ ] Every checklist role whose trigger applies is covered, added with `TBD`, or has an open question.
 - [ ] SH-IDs are unique; existing IDs were not renumbered.

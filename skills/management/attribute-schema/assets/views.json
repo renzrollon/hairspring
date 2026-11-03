@@ -1,31 +1,22 @@
 {
   "views": {
     "po": {
-      "title": "Product owner: scope by status and priority",
-      "audience": "",
-      "filter": { "Status": { "not": ["withdrawn", "rejected"] } },
-      "columns": ["ID", "Title", "Text", "Priority", "Status", "Owner"],
-      "group_by": ["Status"],
-      "sort": ["Priority", "ID"]
+      "title": "Product owner view: functional requirements and stories",
+      "filter": { "Type": ["F", ""] },
+      "columns": ["ID", "Title|Text", "Status", "Priority"],
+      "group_by": "Status"
     },
     "architect": {
-      "title": "Architect: agreed quality requirements and constraints",
-      "audience": "",
-      "filter": { "Type": ["Q", "C"], "Status": ["agreed", "implemented", "verified"] },
-      "columns": ["ID", "Type", "Title", "Text", "Source", "Status", "Risk", "Rationale"],
-      "group_by": ["Type"],
-      "sort": ["Type", "ID"]
+      "title": "Architect view: quality requirements and constraints (agreed or proposed)",
+      "filter": { "Type": ["Q", "C"], "Status": ["agreed", "proposed"] },
+      "columns": ["ID", "Type", "Text", "Status", "Priority", "Rationale"],
+      "group_by": "Type"
     },
     "qa": {
-      "title": "QA: requirements without a verification method",
-      "audience": "",
-      "filter": {
-        "Status": { "not": ["withdrawn", "rejected"] },
-        "Verification": { "not": ["test", "inspection", "analysis", "demonstration"] }
-      },
-      "columns": ["ID", "Type", "Text", "Status", "Priority", "Verification"],
-      "group_by": ["Type"],
-      "sort": ["Priority", "ID"]
+      "title": "QA view: requirements without a verification method",
+      "filter": { "Verification": { "empty": true }, "Status": { "not": ["withdrawn", "rejected"] } },
+      "columns": ["ID", "Type", "Text", "Status", "Priority"],
+      "group_by": "Type"
     }
   }
 }

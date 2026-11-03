@@ -21,7 +21,7 @@ Keep the candidate when, in addition, at least one holds: a requirement or story
 | One sentence: broader category, then what sets the term apart | "Voucher: used at checkout." | "A code worth a fixed amount in SGD that a member receives for redeemed points and applies at checkout." |
 | No circularity | "Points transaction: a transaction involving points." | "One entry in a member's points ledger that adds or removes points, linked to the purchase, redemption, expiry, reversal or adjustment that caused it." |
 | No example as the definition | "Tier: e.g. Silver, Gold." | `TBD` plus an open question, until someone defines tiers |
-| No requirement or rule value inside | "Points: expire after 12 months." | "Points: the unit of the programme's reward balance." The expiry period goes to a requirement candidate |
+| No requirement or rule value inside | "Points: expire after 12 months." | "Points: the unit of the program's reward balance." The expiry period goes to a requirement candidate |
 | Use other glossary terms, spelled as in their rows | "client", "user", "customer" for the same person | "member" everywhere |
 | Say what it is not, when people confuse it | | "Not the POS sale itself; see Purchase." (in `Homonym notes`) |
 

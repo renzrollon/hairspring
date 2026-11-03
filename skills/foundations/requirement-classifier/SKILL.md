@@ -2,11 +2,10 @@
 name: requirement-classifier
 description: >-
   Classifies requirement-like statements with the concern test as functional (F), quality (Q) or
-  constraint (C), and flags what is not a requirement: facts, present-tense descriptions and
-  `will` statements, goals, and solutions in disguise (a technology or design choice nobody
-  outside the team mandated). Adds flags for compound or vague statements, a first Kano guess
-  (dissatisfier, satisfier, delighter) and the skill each statement goes to next, appended to
-  requirements/classification.md as a fixed table. Use when a PRD section, ticket, transcript,
+  constraint (C), and flags what is not a requirement: facts, `will` statements, goals, and
+  solutions in disguise (a technology choice nobody outside the team mandated). Adds flags for
+  compound or vague statements, a first Kano guess (dissatisfier, satisfier, delighter) and the
+  skill each statement goes to next, appended to requirements/classification.md as a fixed table. Use when a PRD section, ticket, transcript,
   interview capture, candidates.csv or pasted list mixes requirements with facts and design ideas,
   when someone asks "is this a requirement?", "functional or non-functional?", "which of these are
   NFRs?" or "sort these", and before requirement-phrasing, quality-requirements or

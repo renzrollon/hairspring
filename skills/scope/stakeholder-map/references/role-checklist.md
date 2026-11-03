@@ -20,8 +20,8 @@ Check every role in the first table. Check a role in the second table when its t
 | Support or service desk | Users can contact someone about the system | Lookups, corrections, audit of manual changes |
 | Security | Authentication, money or anything convertible to money, internet exposure, personal data | Access control, abuse cases, logging |
 | Data protection | The system processes personal data | Purpose, retention, consent, data subject requests |
-| Legal | Terms and conditions, contracts, licences, consumer law apply | Terms the system must enforce, notices |
-| Compliance or regulator liaison | A licence, a regulator or a reporting duty applies | Reports, record keeping, evidence |
+| Legal | Terms and conditions, contracts, licenses, consumer law apply | Terms the system must enforce, notices |
+| Compliance or regulator liaison | A license, a regulator or a reporting duty applies | Reports, record keeping, evidence |
 | Finance | Money, value, a liability, billing or accounting | Booking rules, reconciliation, month-end |
 | Fraud or risk | Value can be gained by abuse (payments, points, vouchers, credit) | Detection rules, holds, limits, review queues |
 | Audit, internal or external | Financial reporting or an audit retention policy applies | Trails, evidence, retention |

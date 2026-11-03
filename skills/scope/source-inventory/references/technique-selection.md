@@ -22,7 +22,7 @@
 | --- | --- |
 | `stakeholder` | `individual`, `user group`, `organization` |
 | `document` | `regulation`, `policy`, `contract`, `terms`, `standard`, `specification`, `process description`, `runbook`, `ticket export`, `feedback`, `report`, `legacy documentation` |
-| `system` | `system in operation`, `predecessor`, `neighbouring system`, `competitor product` |
+| `system` | `system in operation`, `predecessor`, `neighboring system`, `competitor product` |
 
 ## 3. Technique by source
 
@@ -59,7 +59,7 @@
 | Value | Set when |
 | --- | --- |
 | `planned` | Registered, technique chosen, nothing elicited yet (the default) |
-| `in progress` | Elicitation has started: an interview is scheduled, a document is being analysed |
+| `in progress` | Elicitation has started: an interview is scheduled, a document is being analyzed |
 | `elicited` | A work product shows it: an `I-nn` record, rows in `candidates.csv` or `requirements.csv` citing the source. Put the evidence in Notes |
 | `unavailable` | The person cannot be reached or the document cannot be accessed; say why in Notes |
 | `retired` | No longer used (superseded version, left the company); keep the row, give the reason |

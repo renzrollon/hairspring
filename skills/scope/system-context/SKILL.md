@@ -6,10 +6,10 @@ description: >-
   is ignored), names the grey zones on each, draws a Mermaid context diagram (C4 context or
   PlantUML on request) and writes a context table of external actors, systems, interfaces and data
   flows. Every unresolved boundary question becomes an open decision D-nn with options, a
-  recommendation and an owner. Writes requirements/context.md. Use at kick-off, before elicitation
-  or design, when someone types /system-context, asks "what is in scope?", "what does this system
-  talk to?" or "draw the context diagram", or when a migration, integration or new service needs
-  its boundary agreed. Not for the people behind each actor (use stakeholder-map), for the
+  recommendation and an owner. Writes requirements/context.md. Use when a project kicks off or
+  before elicitation or design starts, when someone types /system-context, asks "what is in
+  scope?", "what does this system talk to?" or "draw the context diagram", or when a migration,
+  integration or new service needs its boundary agreed. Not for the people behind each actor (use stakeholder-map), for the
   internal architecture of the system (a container or component view), or for listing documents
   to elicit from (source-inventory).
 license: MIT

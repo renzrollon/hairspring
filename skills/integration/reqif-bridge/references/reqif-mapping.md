@@ -15,42 +15,41 @@ The XML namespace stays `.../20110401/reqif.xsd` and `REQ-IF-VERSION` stays `1.0
 ```text
 REQ-IF  xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd"  xml:lang="en"
   THE-HEADER
-    REQ-IF-HEADER  IDENTIFIER="rs-header-<title-slug>-<YYYYMMDDTHHMMSSZ>"
-      COMMENT          (optional)  export note: keep IDENTIFIERs unchanged
+    REQ-IF-HEADER  IDENTIFIER="rs-header"
+      COMMENT          (optional)  Exported by re-lint reqif from <workspace>/requirements.csv
       CREATION-TIME    xsd:dateTime, UTC
-      REPOSITORY-ID    (optional)  <workspace>/requirements.csv
-      REQ-IF-TOOL-ID   re-lint reqif <version>
+      REQ-IF-TOOL-ID   re-lint (re-skills)
       REQ-IF-VERSION   1.0 (fixed by the schema)
-      SOURCE-TOOL-ID   re-skills
+      SOURCE-TOOL-ID   re-lint (re-skills)
       TITLE            --title
   CORE-CONTENT
     REQ-IF-CONTENT                 children in this order:
       DATATYPES
-        DATATYPE-DEFINITION-STRING  IDENTIFIER="rs-dt-string"  LONG-NAME="String"  MAX-LENGTH (required)
+        DATATYPE-DEFINITION-STRING  IDENTIFIER="rs-dt-string"  LONG-NAME="String"  MAX-LENGTH="32000" (required; raised if a value is longer)
       SPEC-TYPES
         SPEC-OBJECT-TYPE  IDENTIFIER="rs-sot-requirement"  LONG-NAME="Requirement"
           SPEC-ATTRIBUTES
-            ATTRIBUTE-DEFINITION-STRING  IDENTIFIER="rs-ad-<column, lower case>"  LONG-NAME="<column>"
+            ATTRIBUTE-DEFINITION-STRING  IDENTIFIER="rs-ad-<column as written>"  LONG-NAME="<column>"
               TYPE / DATATYPE-DEFINITION-STRING-REF  rs-dt-string
             ... one per exported CSV column, in schema column order
-        SPECIFICATION-TYPE  IDENTIFIER="rs-st-specification"  LONG-NAME="Requirements specification"
+        SPECIFICATION-TYPE  IDENTIFIER="rs-st-specification"  LONG-NAME="Requirements Specification"
       SPEC-OBJECTS
         SPEC-OBJECT  IDENTIFIER="<R-ID>"
+          TYPE / SPEC-OBJECT-TYPE-REF  rs-sot-requirement
           VALUES
             ATTRIBUTE-VALUE-STRING  THE-VALUE="<cell>"
               DEFINITION / ATTRIBUTE-DEFINITION-STRING-REF  rs-ad-<column>
             ... one per non-empty cell
-          TYPE / SPEC-OBJECT-TYPE-REF  rs-sot-requirement
-      SPEC-RELATIONS               (empty)
       SPECIFICATIONS
-        SPECIFICATION  IDENTIFIER="rs-spec-<title-slug>"  LONG-NAME="<title>"
+        SPECIFICATION  IDENTIFIER="rs-specification"  LONG-NAME="<title>"
           TYPE / SPECIFICATION-TYPE-REF  rs-st-specification
           CHILDREN
             SPEC-HIERARCHY  IDENTIFIER="rs-sh-<R-ID>"
               OBJECT / SPEC-OBJECT-REF  <R-ID>
             ... one per exported row, register order, flat
-      SPEC-RELATION-GROUPS         (empty)
 ```
+
+`SPEC-RELATIONS` and `SPEC-RELATION-GROUPS` are optional and left out. Inside `SPEC-OBJECT` the schema allows `TYPE` and `VALUES` in any order.
 
 Every element that has an `IDENTIFIER` also needs `LAST-CHANGE` (`xsd:dateTime`). The bridge writes the export time, in UTC, everywhere.
 
@@ -86,6 +85,7 @@ Values go in the `THE-VALUE` XML attribute, escaped (`&amp;`, `&lt;`, `&gt;`, `&
 | An attribute definition absent from the file | the column is left as it is (not cleared) |
 | An attribute defined but with no value on one object | the cell is reported as `changed-attribute` (cleared), for review |
 | Hierarchy, relations, tool extensions | ignored; the number of `SPEC-RELATION` elements is reported |
+| `.reqifz` | the `.reqif` inside the archive is read; attachments are ignored |
 
 ## Import diff classes
 
@@ -94,8 +94,8 @@ Values go in the `THE-VALUE` XML attribute, escaped (`&amp;`, `&lt;`, `&gt;`, `&
 | `unchanged` | every mapped value equals the register | - |
 | `changed-text` | `Text` differs | yes (then the lifecycle rule for agreed rows) |
 | `changed-attribute` | another column differs and the new value is valid for the schema | yes |
-| `invalid-value` | the new value is outside the schema enums (`Status=Accepted`) | no |
-| `new-object` | no R-ID found | yes, as a `draft` row with the next free ID; Source `reqif:<file>#<IDENTIFIER>` |
+| `invalid-value` | the new value is outside the schema enums (`Status=Accepted`) | must not be; if the script lists it as an ordinary change, do not run `--apply` |
+| `new-object` | no R-ID found (some versions of the script report these as skipped objects "without a requirement ID") | yes, as a `draft` row with the next free ID; Source `reqif:<file>#<IDENTIFIER>`. If the script only reports them as skipped, add accepted ones by hand through `re-ids` |
 | `missing-object` | a register row exported earlier is not in the file | no (never deleted) |
 | `unmapped-attribute` | an attribute matches no column (`Vendor comment`) | no; shown verbatim |
 | `xhtml-flattened` | a value arrived as XHTML; formatting was dropped | flag on the row; the text counts as `changed-text` only if it differs after flattening |
@@ -103,8 +103,8 @@ Values go in the `THE-VALUE` XML attribute, escaped (`&amp;`, `&lt;`, `&gt;`, `&
 ## Structure checklist (without a validator)
 
 - [ ] Root `REQ-IF` with the ReqIF namespace; `THE-HEADER` before `CORE-CONTENT`.
-- [ ] Header children in the order `COMMENT`, `CREATION-TIME`, `REPOSITORY-ID`, `REQ-IF-TOOL-ID`, `REQ-IF-VERSION` (`1.0`), `SOURCE-TOOL-ID`, `TITLE`.
-- [ ] `REQ-IF-CONTENT` children in the order `DATATYPES`, `SPEC-TYPES`, `SPEC-OBJECTS`, `SPEC-RELATIONS`, `SPECIFICATIONS`, `SPEC-RELATION-GROUPS`.
+- [ ] Header children in the order `COMMENT`, `CREATION-TIME`, `REPOSITORY-ID` (if present), `REQ-IF-TOOL-ID`, `REQ-IF-VERSION` (`1.0`), `SOURCE-TOOL-ID`, `TITLE`.
+- [ ] `REQ-IF-CONTENT` children in the order `DATATYPES`, `SPEC-TYPES`, `SPEC-OBJECTS`, `SPEC-RELATIONS` (if present), `SPECIFICATIONS`, `SPEC-RELATION-GROUPS` (if present).
 - [ ] Every `IDENTIFIER` is unique and every element with one has a `LAST-CHANGE` date-time.
 - [ ] Every `...-REF` names an existing `IDENTIFIER`.
 - [ ] `DATATYPE-DEFINITION-STRING` has `MAX-LENGTH`, and no value is longer.

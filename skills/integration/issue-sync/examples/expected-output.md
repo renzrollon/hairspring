@@ -10,19 +10,19 @@ Tracker: jira project LOY · Command: plan · Network: no · Generated: 2026-11-
 | R-041 | update | jira:LOY-77 | R-041: Validate voucher at checkout | agreed -> (tracker owns status) | title and managed block refreshed |
 | R-042 | create-or-match | - | R-042: Reject redemption below minimum | agreed -> To Do | no tracker reference; matched by title before creating |
 | R-043 | skip | - | R-043: Print remaining balance on receipt | draft | not selected: draft; name it in --ids to push it |
-| R-044 | move-on-board | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> (manual) | comment with the reason (RDR-003); move the card to your closed column by hand |
+| R-044 | move-on-board | jira:LOY-78 | R-044: Send voucher code by SMS | withdrawn -> (manual) | not pushed; close LOY-78 by hand with the reason (RDR-003) |
 | R-085 | create-or-match | - | R-085: Voucher validation response time at peak | agreed -> To Do | no tracker reference; matched by title before creating |
 | R-100 | create-or-match | - | R-100: Use TillPoint voucher validation interface v2.1 | agreed -> To Do | no tracker reference; matched by title before creating |
 
 Summary: 4 create-or-match, 1 update, 1 move-on-board, 1 skip (push)
 
-Nothing has been written. To apply: `push --tracker jira --ids R-040,R-041,R-042,R-044,R-085,R-100 --apply`.
+Nothing has been written. To apply: `push --tracker jira --ids R-040,R-041,R-042,R-085,R-100 --apply`.
 
 The body of each issue follows `assets/issue-body.md`; the one for R-040 is in `expected-issue-body.md`. On Jira the two marker lines are visible as plain text.
 
 ## Day 1: after "yes, apply"
 
-> Created LOY-81 (R-040), LOY-82 (R-042), LOY-83 (R-085), LOY-84 (R-100). Updated LOY-77 (R-041). Commented on LOY-78 (R-044, withdrawn per RDR-003): please move it to your closed column, I did not change its status. Nothing was deleted. `requirements.csv`: `Links` now holds jira:LOY-81, jira:LOY-82, jira:LOY-83, jira:LOY-84; no other cell changed. Next: run `traceability-matrix` after the first commits that cite these IDs.
+> Created LOY-81 (R-040), LOY-82 (R-042), LOY-83 (R-085), LOY-84 (R-100). Updated LOY-77 (R-041). LOY-78 (R-044, withdrawn per RDR-003) was not touched: please close it with that reason. Nothing was deleted. `requirements.csv`: `Links` now holds jira:LOY-81, jira:LOY-82, jira:LOY-83, jira:LOY-84; no other cell changed. Next: run `traceability-matrix` after the first commits that cite these IDs.
 
 ## Day 8: `pull --tracker jira` (dry run)
 

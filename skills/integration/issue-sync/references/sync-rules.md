@@ -6,7 +6,7 @@ Two-way sync only works if each fact has one owner. These rules decide who wins 
 
 - **One issue per requirement ID.** Primary match: the issue title starts with `<ID>: ` (the exact ID, a colon, a space). Secondary match: the tracker reference in the row's `Links` column.
 - **Title:** `<ID>: <Title>`, or `<ID>: ` plus the first 80 characters of `Text` when the row has no `Title`.
-- **Tracker reference in `Links`** (space-separated, written by `push --apply`): `github:<owner>/<repo>#<number>`, `jira:<ISSUE-KEY>`, `ado:<work-item-id>`.
+- **Tracker reference in `Links`** (space-separated): `github:<owner>/<repo>#<number>`, `jira:<ISSUE-KEY>`, `ado:<work-item-id>`. `push --apply` records it where the script supports that; otherwise add it after the push (show the diff first).
 - `plan` has no network, so a row without a tracker reference is `create-or-match`: `push` searches for a title starting with `<ID>: ` and updates that issue if it exists. It never creates a second issue for the same ID.
 
 ## Field ownership (the conflict rule)
@@ -15,7 +15,7 @@ Two-way sync only works if each fact has one owner. These rules decide who wins 
 | --- | --- | --- | --- |
 | Title, `Text`, `Type`, `Priority`, `Source`, `Rationale`, other attributes, trace links | `requirements.csv` | writes the title and replaces the managed block | never copies them back; a title or block edited in the tracker is reported as `text-drift` |
 | Workflow status (`agreed` → `implemented` → `verified`) | tracker | sets nothing after create; a new issue starts in the tracker's initial state | writes `Status` through `issues.status_map`, guarded by the table below |
-| Lifecycle decisions (`withdrawn`, `rejected`, `deferred`) | `requirements.csv` | adds a comment with the reason; on GitHub closes the issue as "not planned"; on Jira and Azure DevOps reports `move-on-board` (no workflow transition is guessed) | never overwrites these statuses; reports `conflict-lifecycle` |
+| Lifecycle decisions (`withdrawn`, `rejected`, `deferred`) | `requirements.csv` | never pushed; a linked issue is listed as `move-on-board` so a person closes it with the reason (on GitHub: close as "not planned"); no workflow transition is guessed | never overwrites these statuses; reports `conflict-lifecycle` |
 | Text outside the managed block, comments, assignee, labels, sprint, estimates | tracker | never touched | never read |
 | Existence | nobody deletes | never deletes an issue | never deletes a row; an issue titled with an ID missing from the register is reported as `orphan-issue` |
 
@@ -29,11 +29,13 @@ Two-way sync only works if each fact has one owner. These rules decide who wins 
 | `jira` | `To Do` → `agreed`; `In Progress` → `agreed`; `Done` → `implemented` |
 | `ado` | `New` → `agreed`; `Active` → `agreed`; `Resolved` → `implemented`; `Closed` → `verified` |
 
+GitHub issues closed as "not planned" are looked up under the key `closed:not_planned`; add it (for example `"closed:not_planned": "deferred"`) or they are skipped. They never fall back to `closed`, which means implemented.
+
 The Azure DevOps defaults follow the Agile process. Scrum (`New`, `Approved`, `Committed`, `Done`) and Basic (`To Do`, `Doing`, `Done`) projects, and Jira boards with extra columns (`In Review`), need their own entries: add them with `attribute-schema` or by editing `issues.status_map`. A status missing from the map is reported as `unmapped`, never guessed.
 
 ## Pull guard rules
 
-For each linked row, `pull` maps the tracker status and classifies the result. `--apply` writes only `update` rows.
+For each linked row, `pull` maps the tracker status and classifies the result. Only `update` rows may be written. Some versions of the script accept any forward move along `draft` → `proposed` → `agreed` → `implemented` → `verified`; review its dry run against this table and never apply a row the table does not mark as written.
 
 | Class | When | Example | Written |
 | --- | --- | --- | --- |

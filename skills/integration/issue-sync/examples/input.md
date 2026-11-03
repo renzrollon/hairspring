@@ -20,7 +20,7 @@ Commands, in order:
 ```bash
 python3 <skill-dir>/scripts/issue_sync.py plan --tracker jira
 # user reviews the plan and answers "yes, apply"
-python3 <skill-dir>/scripts/issue_sync.py push --tracker jira --ids R-040,R-041,R-042,R-044,R-085,R-100 --apply
+python3 <skill-dir>/scripts/issue_sync.py push --tracker jira --ids R-040,R-041,R-042,R-085,R-100 --apply
 ```
 
 Day 8, 2026-11-10. The board has moved on. Wei Jie types:

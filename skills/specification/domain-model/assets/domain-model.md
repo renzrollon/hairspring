@@ -20,7 +20,7 @@ classDiagram
   class OtherObject {
     attributeName: Type
   }
-  BusinessObject "1" --> "0..*" OtherObject : verb phrase
+  BusinessObject "TBD" --> "TBD" OtherObject : verb phrase
 ```
 
 ## Classes
@@ -33,7 +33,7 @@ classDiagram
 
 | From | Multiplicity | Association | Multiplicity | To | Source |
 | --- | --- | --- | --- | --- | --- |
-| BusinessObject | 1 | verb phrase | 0..* | OtherObject | {R-ID or rule; TBD: Qn} |
+| BusinessObject | {multiplicity or TBD} | verb phrase | {multiplicity or TBD} | OtherObject | {R-ID or rule; TBD: Qn} |
 
 ## Glossary cross-check
 

@@ -13,48 +13,48 @@
   <CORE-CONTENT>
     <REQ-IF-CONTENT>
       <DATATYPES>
-        <DATATYPE-DEFINITION-STRING IDENTIFIER="rs-dt-string" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="String" MAX-LENGTH="100000"/>
+        <DATATYPE-DEFINITION-STRING IDENTIFIER="rs-dt-string" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="String" MAX-LENGTH="32000"/>
         <DATATYPE-DEFINITION-XHTML IDENTIFIER="vendor-dt-rich-text" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Rich Text"/>
       </DATATYPES>
       <SPEC-TYPES>
         <SPEC-OBJECT-TYPE IDENTIFIER="rs-sot-requirement" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Requirement">
           <SPEC-ATTRIBUTES>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-id" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="ID">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-ID" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="ID">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-type" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Type">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Type" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Type">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="rs-ad-text" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Text">
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="rs-ad-Text" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Text">
               <TYPE>
                 <DATATYPE-DEFINITION-XHTML-REF>vendor-dt-rich-text</DATATYPE-DEFINITION-XHTML-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-XHTML>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-source" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Source">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Source" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Source">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-priority" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Priority">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Priority" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Priority">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-status" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Status">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Status" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Status">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-rationale" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Rationale">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Rationale" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Rationale">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
             </ATTRIBUTE-DEFINITION-STRING>
-            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-title" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Title">
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="rs-ad-Title" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Title">
               <TYPE>
                 <DATATYPE-DEFINITION-STRING-REF>rs-dt-string</DATATYPE-DEFINITION-STRING-REF>
               </TYPE>
@@ -66,24 +66,24 @@
             </ATTRIBUTE-DEFINITION-STRING>
           </SPEC-ATTRIBUTES>
         </SPEC-OBJECT-TYPE>
-        <SPECIFICATION-TYPE IDENTIFIER="rs-st-specification" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Requirements specification"/>
+        <SPECIFICATION-TYPE IDENTIFIER="rs-st-specification" LAST-CHANGE="2026-11-03T09:12:00Z" LONG-NAME="Requirements Specification"/>
       </SPEC-TYPES>
       <SPEC-OBJECTS>
         <SPEC-OBJECT IDENTIFIER="R-041" LAST-CHANGE="2026-11-12T13:58:02+08:00">
           <VALUES>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="R-041">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-id</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-ID</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="F">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Type</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-XHTML>
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-Text</ATTRIBUTE-DEFINITION-XHTML-REF>
               </DEFINITION>
               <THE-VALUE>
                 <xhtml:div>WHEN the POS sends a voucher validation request for a voucher in state Issued, the loyalty service shall return the voucher value <xhtml:b>and the voucher expiry date</xhtml:b> to the POS.</xhtml:div>
@@ -91,27 +91,27 @@
             </ATTRIBUTE-VALUE-XHTML>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="S-02 (TillPoint interface spec v2.1)">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-source</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Source</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="must">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-priority</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Priority</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="agreed">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-status</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Status</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Cashiers apply a voucher only after the loyalty service has confirmed it.">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-rationale</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Rationale</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Validate voucher at checkout">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Title</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="TillPoint v2.2 shows the voucher expiry on the till screen, so we need it in the response.">
@@ -128,17 +128,17 @@
           <VALUES>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="R-085">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-id</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-ID</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Q">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Type</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-XHTML>
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-Text</ATTRIBUTE-DEFINITION-XHTML-REF>
               </DEFINITION>
               <THE-VALUE>
                 <xhtml:div>WHILE the POS load is at most 9000 purchases per minute across stores, the loyalty service shall answer 95% of voucher validation requests within 300 ms.</xhtml:div>
@@ -146,27 +146,27 @@
             </ATTRIBUTE-VALUE-XHTML>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="I-02 (Arjun Pillai SH-02); peak load SH-08">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-source</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Source</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="must">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-priority</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Priority</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Accepted">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-status</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Status</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Checkout must not get slower (SH-02); 9000 purchases per minute is last year's year-end peak (SH-08).">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-rationale</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Rationale</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Voucher validation response time at peak">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Title</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
           </VALUES>
@@ -178,12 +178,12 @@
           <VALUES>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="F">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-type</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Type</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-XHTML>
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-text</ATTRIBUTE-DEFINITION-XHTML-REF>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>rs-ad-Text</ATTRIBUTE-DEFINITION-XHTML-REF>
               </DEFINITION>
               <THE-VALUE>
                 <xhtml:div>The loyalty service shall log each voucher validation request with the store ID and the result.</xhtml:div>
@@ -191,7 +191,7 @@
             </ATTRIBUTE-VALUE-XHTML>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Log voucher validation requests">
               <DEFINITION>
-                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-title</ATTRIBUTE-DEFINITION-STRING-REF>
+                <ATTRIBUTE-DEFINITION-STRING-REF>rs-ad-Title</ATTRIBUTE-DEFINITION-STRING-REF>
               </DEFINITION>
             </ATTRIBUTE-VALUE-STRING>
             <ATTRIBUTE-VALUE-STRING THE-VALUE="Needed for our store reconciliation report.">
@@ -206,7 +206,7 @@
         </SPEC-OBJECT>
       </SPEC-OBJECTS>
       <SPECIFICATIONS>
-        <SPECIFICATION IDENTIFIER="rs-spec-voucher-redemption" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Voucher redemption">
+        <SPECIFICATION IDENTIFIER="rs-specification" LAST-CHANGE="2026-11-12T14:05:31+08:00" LONG-NAME="Voucher redemption">
           <TYPE>
             <SPECIFICATION-TYPE-REF>rs-st-specification</SPECIFICATION-TYPE-REF>
           </TYPE>

@@ -6,20 +6,26 @@ A view is a saved query on the requirement register for one audience. It has thr
 - **Projective**: a column subset (`columns`). Example: ID, Text and Status only.
 - **Aggregating**: counts per group (`group_by`). Example: how many requirements per Status.
 
-`re-lint views` (vendored: `scripts/views.py`) reads `schema.json` → `views` plus the built-in views, and writes `<workspace>/views/<name>.md` (or `.csv` with `--format csv`).
+`re-lint views` (vendored: `scripts/views.py`) reads the built-in views plus `schema.json` → `views`, and writes `<workspace>/views/<name>.md` (or `.csv` with `--format csv`).
+
+```text
+re-lint views [--view NAME ...] [--out DIR] [--format md|csv] [--stdout] [--list]
+```
+
+With no `--view`, every view is written. `--view po architect` and `--view po --view architect` both work. `--list` shows the available views; `--stdout` prints them instead of writing files.
 
 ## Shape
 
 ```json
 {
   "views": {
-    "architect": {
-      "title": "Architect: agreed quality requirements and constraints",
-      "audience": "SH-05 Lena Koh, SH-08 Wei Jie Chua",
-      "filter": { "Type": ["Q", "C"], "Status": ["agreed", "implemented", "verified"] },
-      "columns": ["ID", "Type", "Title", "Text", "Source", "Status", "Risk", "Rationale"],
-      "group_by": ["Type"],
-      "sort": ["Type", "ID"]
+    "finance-sources": {
+      "title": "Finance: requirements from the programme terms and the retention policy",
+      "description": "For SH-03 Grace Lim",
+      "filter": { "Source": { "has": ["S-01", "S-05"] }, "Status": { "not": ["withdrawn", "rejected"] } },
+      "columns": ["ID", "Type", "Title|Text", "Source", "Status", "Priority"],
+      "group_by": "Status",
+      "sort_by": "Status"
     }
   }
 }
@@ -27,53 +33,52 @@ A view is a saved query on the requirement register for one audience. It has thr
 
 | Key | Part | Type | Default when omitted | Meaning |
 | --- | --- | --- | --- | --- |
-| `title` | none | string | the view name | Heading of the view file |
-| `audience` | none | string | empty | Who reads it (names, SH-IDs) |
+| `title` | none | string | `View: <name>` | Heading of the view file |
+| `description` | none | string | none | Free text for readers of `schema.json`, such as the audience. It is not rendered |
 | `filter` | selective | object: column → condition | every row | All conditions must hold (AND) |
-| `columns` | projective | array of column names | `attributes.columns` | Output columns, in order. `ID` is put first when it is not listed |
-| `group_by` | aggregating | array of 1 or 2 column names | no counts section | Count table over the filtered rows |
-| `sort` | none | array of column names; a `-` prefix means descending | `["ID"]` | Row order of the detail table |
+| `columns` | projective | non-empty array of column specs | every column of the register | Output columns, in order. `A|B` shows `A`, or `B` when `A` is empty; the header is `A` |
+| `group_by` | aggregating | a column name, or an array of names | no counts section | Count table over the filtered rows, one row per value or per combination |
+| `sort_by` | none | one column name | requirement ID order | Row order of the detail table |
 
-View names are kebab-case (`po`, `architect`, `finance-retention`). The name is also the file name.
+Any other key, a wrong type, or a name that is not letters, digits, `-` and `_` makes the script exit with `2` and an exact message. View names become file names; use kebab-case (`po`, `architect`, `finance-sources`).
 
 ## Filter conditions
 
 | Form | Matches when the cell ... | Example |
 | --- | --- | --- |
-| `"value"` | equals the value | `"Type": "Q"` |
-| `["a", "b"]` | equals one of the values | `"Status": ["agreed", "implemented"]` |
-| `{"not": ["a", "b"]}` | equals none of the values (empty cells match) | `"Status": {"not": ["withdrawn", "rejected"]}` |
-| `{"empty": true}` | is empty, or the column does not exist | `"Owner": {"empty": true}` |
-| `{"empty": false}` | is not empty | `"Links": {"empty": false}` |
-| `{"regex": "<pattern>"}` | contains a match (Python `re.search`, case-sensitive) | `"Source": {"regex": "\\bS-05\\b"}` |
+| `"value"` or `["a", "b"]` | equals one of the values, ignoring case. `""` in the list matches an empty cell | `"Type": ["Q", "C"]` |
+| `{"not": ["a", "b"]}` | equals none of the values (an empty cell matches) | `"Status": {"not": ["withdrawn", "rejected"]}` |
+| `{"empty": true}` | is empty, `TBD` or `TBC`, or the column does not exist | `"Verification": {"empty": true}` |
+| `{"empty": false}` | holds a real value | `"Owner": {"empty": false}` |
+| `{"contains": "text"}` | contains the text, ignoring case | `"Text": {"contains": "voucher"}` |
+| `{"has": "tag"}` or `{"has": ["a", "b"]}` | holds at least one of the tokens; the cell is split on spaces, commas and semicolons | `"Source": {"has": ["S-01", "S-05"]}` |
 
 Rules:
 
-- Cells are compared after trimming whitespace. Comparison is case-sensitive.
-- `TBD` is a value, not an empty cell. To catch "no verification method", empty and `TBD` alike, use `{"not": [<allowed values>]}`.
-- A filter on a column the register does not have treats every cell as empty.
-- There are no implicit filters. Withdrawn and rejected rows appear unless the view excludes them.
+- Conditions on different columns are combined with AND. To get an OR within one column, use a value list or `has` with a list.
+- `has` is the right test for cells that hold several IDs or tags (`Source` = `SH-07, S-01`, `Links`, `Tags`). `contains` matches substrings, so `S-01` also matches `S-010`.
+- `TBD` counts as empty for `{"empty": ...}`, so "no verification method yet" catches both empty cells and `TBD`.
+- A column the register does not have reads as empty everywhere. The script warns on stderr when a view names a column that is in neither the register nor the schema, which is how you catch typos.
 
-## Columns, counts and order
+## Counts, columns and order
 
-- **Missing columns.** A listed column that the register lacks is left out of the table and named in the header field "Columns not in the register". That way an optional column that is not in use yet does not produce an empty column.
-- **One group-by column.** The counts table has the rows `| <column> | Count |` plus a final `Total` row. Enum columns list every enum value in enum order, including zero counts. Other columns list the values found, in sorted order, with `(empty)` for empty cells.
-- **Two group-by columns.** The counts table has one row per combination that occurs, `| <col1> | <col2> | Count |`, sorted by the first column and then the second, plus `Total`.
-- **Sorting.** Enum columns sort in enum order (`must`, `should`, `could`, `wont`); other columns sort as text. Ties fall back to `ID`.
-- **Rows read.** The script reads every requirement row of `requirements.csv` and `stories/*.md`, the same files `re-lint check` reads.
+- **Counts** (`group_by`): a table `| <column(s)> | Count |`, one row per value or combination that occurs. Rows are sorted by count, highest first, then by value. Empty cells count as `(empty)`. Values with a count of zero are not listed.
+- **Columns**: a listed column that the register does not have shows as an empty column (with the warning above).
+- **Sorting**: an enum column (`Priority`, `Status`, `Type`, `Risk`, or any column in `attributes.enums`) sorts in schema order (`must`, `should`, `could`, `wont`). Other columns sort as text, ignoring case. Rows with equal values stay in ID order.
+- **Rows read**: every requirement row of `requirements.csv` and `stories/*.md`. On a duplicate ID, `requirements.csv` wins.
 
 ## Built-in views
 
-These apply when `schema.json` has no view of the same name. A view in `schema.json` with a built-in's name replaces that built-in completely; nothing is merged. Copy the definition from `assets/views.json` and edit it.
+These are always available. A view in `schema.json` with a built-in's name replaces that built-in completely; nothing is merged. `assets/views.json` holds the three definitions, ready to copy and edit.
 
-| Name | Audience | Filter | Columns | Group by | Sort |
-| --- | --- | --- | --- | --- | --- |
-| `po` | Product owner | Status not `withdrawn`, `rejected` | ID, Title, Text, Priority, Status, Owner | Status | Priority, ID |
-| `architect` | Architects | Type `Q` or `C`; Status `agreed`, `implemented`, `verified` | ID, Type, Title, Text, Source, Status, Risk, Rationale | Type | Type, ID |
-| `qa` | Testers | Status not `withdrawn`, `rejected`; Verification not one of `test`, `inspection`, `analysis`, `demonstration` | ID, Type, Text, Status, Priority, Verification | Type | Priority, ID |
+| Name | Filter | Columns | Group by |
+| --- | --- | --- | --- |
+| `po` | Type `F` or empty | ID, Title (or Text), Status, Priority | Status |
+| `architect` | Type `Q` or `C`; Status `agreed` or `proposed` | ID, Type, Text, Status, Priority, Rationale | Type |
+| `qa` | Verification empty or `TBD`; Status not `withdrawn` or `rejected` | ID, Type, Text, Status, Priority | Type |
 
 ## Output
 
-- `--format md` (default): `<workspace>/views/<name>.md` in the shape of `assets/view.md`. It has a header table (audience, definition, the filter as text, columns, group-by, source files, generated date), then `## Counts` (only with `group_by`), then `## Requirements` with the detail table.
-- `--format csv`: `<workspace>/views/<name>.csv`, holding the projected columns of the filtered rows, sorted, without counts.
+- `--format md` (default) writes `<workspace>/views/<name>.md` in the shape of `assets/view.md`: the title; a line saying the file is generated; the filter as text; the row count; `## Counts` (only with `group_by`); and `## Requirements` with the detail table, or `None.`.
+- `--format csv` writes `<workspace>/views/<name>.csv`: the projected columns of the filtered, sorted rows, without counts.
 - Views are generated files. Change the definition in `schema.json` and regenerate; never edit a view file by hand.

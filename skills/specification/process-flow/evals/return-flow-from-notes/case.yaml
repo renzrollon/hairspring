@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: return-flow-from-notes
+expected_outcome: |
+  requirements/models/flow-<name>.md (name about returns) has a Mermaid flowchart with one
+  subgraph lane per role or system (member or cashier at the till, loyalty service, support),
+  the refund and the points reversal on parallel branches, labeled decision outcomes, and the
+  support review of unmatched returns drawn as a separate exception flow referenced from the main
+  flow. Steps link R-062 to R-066, the readability counts are recorded, and the open points
+  (for example a return after redemption) are listed as open questions.
+context:
+  scaffold_script: place-files.sh

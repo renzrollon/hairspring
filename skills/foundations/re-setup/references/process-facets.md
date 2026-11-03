@@ -30,7 +30,7 @@ Mixed cases are normal. Take the stricter rule wherever two rules disagree, and 
 | --- | --- |
 | Iterative delivery, prescriptive contract | Keep stories and a backlog; also keep baselines per release and change requests for anything inside the signed scope. Change authority: the change control board for the signed scope, the product owner inside it |
 | Market-oriented product with one launch customer | Treat the launch customer as customer-specific for this release; log "when do we switch to market-oriented?" as an open question |
-| Explorative discovery inside a linear programme | Explorative until the programme's requirements gate, then prescriptive; record the gate date as an open question if unknown |
+| Explorative discovery inside a linear program | Explorative until the program's requirements gate, then prescriptive; record the gate date as an open question if unknown |
 
 ## 3. Work products kept
 

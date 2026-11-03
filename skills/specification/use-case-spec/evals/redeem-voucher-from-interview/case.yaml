@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: redeem-voucher-from-interview
+expected_outcome: |
+  requirements/models/uc-redeem-voucher.md follows the use case form with a 3 to 9 step main
+  success scenario free of conditions and UI words, a minimal guarantee, alternatives and
+  exceptions that each end explicitly, a Mermaid use case diagram with the use case inside a
+  system-boundary subgraph and actors outside, and an activity diagram. The fraud hold is an
+  exception linked to a requirement. Existing R-040 to R-042 stay unchanged, new draft rows start
+  at R-043 citing I-01, and the voucher expiry period is TBD with an open issue.
+context:
+  scaffold_script: place-files.sh

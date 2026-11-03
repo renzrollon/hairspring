@@ -4,11 +4,11 @@
 
 | Look in | What it tells you | Typical evidence |
 | --- | --- | --- |
-| `README*`, `docs/architecture*`, ADRs | Purpose, named neighbours, decisions about ownership | "The CRM receives a nightly summary" |
+| `README*`, `docs/architecture*`, ADRs | Purpose, named neighbors, decisions about ownership | "The CRM receives a nightly summary" |
 | OpenAPI, AsyncAPI, GraphQL, `.proto` files | Interfaces the system offers and their consumers | `paths: /members/{id}/balance` |
 | HTTP clients, SDK wrappers, message producers and consumers | Systems the system calls or listens to | `FraudClient`, topic `pos.purchases` |
 | Configuration and `.env.example` | External endpoints and credentials by name | `CRM_BASE_URL`, `NOTIFY_API_KEY`, `WAREHOUSE_SFTP_HOST` |
-| `docker-compose*`, Helm charts, infrastructure code | Neighbouring services and managed services | a `fraud-mock` container, an SFTP bucket |
+| `docker-compose*`, Helm charts, infrastructure code | Neighboring services and managed services | a `fraud-mock` container, an SFTP bucket |
 | Scheduled-job definitions (cron, CronJob, workflow schedules) | Batch flows in and out | `0 2 * * *` export job |
 | Identity and access configuration | Who signs in and through which provider | an OIDC client for the admin console |
 | Support runbooks, ticket exports | Manual workarounds and the tools people use | "agents adjust points in the back office" |
