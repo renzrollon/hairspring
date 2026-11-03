@@ -13,6 +13,13 @@ One source tree serves every agent ([ADR 0005](adr/0005-agents-supported.md)). W
 | Copilot coding agent (github.com) | `.github/skills/`, `.agents/skills/`, `.claude/skills/` in the repo | dotfiles repo `.copilot/skills` | picked automatically | not documented |
 | Cursor | `.cursor/skills/`, `.agents/skills/` (also reads `.claude/skills`) | `~/.cursor/skills/` | `/name` in Agent chat | documented; a forum report says it is ignored under `.agents/skills`, so install into `.cursor/skills` |
 
+**Verified install runs (2026-11-03):**
+
+- **Claude Code 2.1.317:** `claude plugin install re-skills@hairspring` loads all 38 skills.
+- **Codex CLI 0.166.0:** after `install.py --agent codex`, the model's implicit catalog lists the 18 model-invoked skills and primitives. The 20 user-invoked skills are absent, as intended, and run only via `$name`.
+- **Copilot CLI 1.0.105:** after `install.py --agent copilot`, `copilot skill list` shows all 38 project skills.
+- **Cursor:** not run.
+
 Two rules follow from this table:
 
 1. **Install flat.** VS Code and Claude Code look exactly one level deep (`<folder>/<skill>/SKILL.md`). The repo keeps skills in stage folders, so always install through one of the methods below. They flatten the folders; copying `skills/` by hand does not work.
