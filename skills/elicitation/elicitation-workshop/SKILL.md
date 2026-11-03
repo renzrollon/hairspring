@@ -6,7 +6,7 @@ description: >-
   paradox, 6-3-5 brainwriting, six thinking hats, morphological matrix, story mapping),
   facilitation notes, a parking lot, and a capture template that lands ideas as classified
   candidates with Kano tags in requirements/candidates.csv. Writes
-  requirements/elicitation/workshop-<slug>.md. Use when several stakeholders should generate,
+  requirements/elicitation/workshop-{slug}.md. Use when several stakeholders should generate,
   combine or structure ideas together ("plan a workshop to find delighters", "run a story mapping
   session", "brainstorm what members want") or when a workshop board export must be captured. Not
   for one-to-one interviews (use interview-guide), validating findings at scale

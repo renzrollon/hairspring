@@ -4,7 +4,7 @@ description: >-
   Asks the smallest set of questions whose answers would change the design before you implement
   a vague ticket, feature request or task: at most 7, grouped boundary / functional / quality /
   constraint, each with a recommended answer. The Q&A goes to
-  requirements/elicitation/questions-<topic>.md and every answer becomes a requirement in
+  requirements/elicitation/questions-{topic}.md and every answer becomes a requirement in
   requirements/requirements.csv with the person and date as source. Use when a task leaves out who,
   which data, how much, how fast, which errors or which limits ("add export to CSV", "make it
   faster", "add notifications", "support SSO", "add an endpoint for X"), when you are about to

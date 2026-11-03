@@ -5,7 +5,7 @@ description: >-
   method choice, site and timing, a consent note, a capture template (task, trigger, steps,
   workaround, dissatisfier, frequency observed vs reported), a same-day debrief script, and a
   synthesis that lands each workaround as a dissatisfier candidate in requirements/candidates.csv.
-  Writes requirements/elicitation/observation-<slug>.md. Use when people cannot easily describe
+  Writes requirements/elicitation/observation-{slug}.md. Use when people cannot easily describe
   their work, interviews keep missing steps, or you suspect workarounds ("shadow the cashiers at
   peak", "watch how support handles a dispute", "apprentice with ops for a day"), or when field
   notes must be written up. Not for asking stakeholders directly (use interview-guide), mining

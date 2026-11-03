@@ -4,7 +4,7 @@ description: >-
   Designs a questionnaire that confirms or quantifies findings across many stakeholders: one
   hypothesis per question, closed or open by rule, labeled scales, a pilot, and an analysis plan
   whose cut-offs are agreed before fielding. Writes
-  requirements/elicitation/questionnaire-<slug>/ with questionnaire.md, form-import.csv (a
+  requirements/elicitation/questionnaire-{slug}/ with questionnaire.md, form-import.csv (a
   tool-neutral item list, with an Apps Script path for Google Forms and a Quick import path for
   Microsoft Forms) and analysis.csv, which a bundled script fills from the response export. Use
   when interview or observation findings must be checked with a larger group ("survey the

@@ -105,6 +105,14 @@ def test_description_rules(vc, catalogue):
     assert "limit is 1024" in messages and '"Use when' in messages and '"Not for' in messages
 
 
+def test_description_rejects_xml_like_tags(vc, catalogue):
+    catalogue.skill("tagged")
+    path = catalogue.root / "skills/specification/tagged/SKILL.md"
+    path.write_text(path.read_text().replace("Use when", "Writes notes-<slug>.md. Use when", 1))
+    found = codes(vc, catalogue)
+    assert any("XML-like tags" in m and "<slug>" in m for m in found["error:description"])
+
+
 def test_license_and_compatibility(vc, catalogue):
     catalogue.skill("apache", extra_keys="compatibility: Python 3.9+\n")
     path = catalogue.root / "skills/specification/apache/SKILL.md"

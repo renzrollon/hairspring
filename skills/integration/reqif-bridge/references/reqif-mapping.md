@@ -94,8 +94,8 @@ Values go in the `THE-VALUE` XML attribute, escaped (`&amp;`, `&lt;`, `&gt;`, `&
 | `unchanged` | every mapped value equals the register | - |
 | `changed-text` | `Text` differs | yes (then the lifecycle rule for agreed rows) |
 | `changed-attribute` | another column differs and the new value is valid for the schema | yes |
-| `invalid-value` | the new value is outside the schema enums (`Status=Accepted`) | must not be; if the script lists it as an ordinary change, do not run `--apply` |
-| `new-object` | no R-ID found (some versions of the script report these as skipped objects "without a requirement ID") | yes, as a `draft` row with the next free ID; Source `reqif:<file>#<IDENTIFIER>`. If the script only reports them as skipped, add accepted ones by hand through `re-ids` |
+| `invalid-value` | the new value is outside the schema enums (`Status=Accepted`) | no: held back (`--allow-invalid` would write it; this skill never passes it) |
+| `new-object` | no R-ID found | yes, as a `draft` row with the next free ID; Source `reqif:<file>#<IDENTIFIER>`; empty required cells `TBD` |
 | `missing-object` | a register row exported earlier is not in the file | no (never deleted) |
 | `unmapped-attribute` | an attribute matches no column (`Vendor comment`) | no; shown verbatim |
 | `xhtml-flattened` | a value arrived as XHTML; formatting was dropped | flag on the row; the text counts as `changed-text` only if it differs after flattening |

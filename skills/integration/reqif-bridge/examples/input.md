@@ -27,4 +27,4 @@ The vendor returns `vendor-return.reqif`. Their tool turned `Text` into a rich-t
 python3 <skill-dir>/scripts/reqif_bridge.py import vendor-return.reqif --diff
 ```
 
-Expected report: `expected-import-diff.md`, saved as `requirements/exports/import-diff-2026-11-12.md`. Nothing is written to `requirements.csv` until each row has a decision.
+Expected report: `expected-import-diff.md`, saved as `requirements/exports/import-diff-2026-11-12.md`. It is the script output (exit `1`: the file differs) with the four Recommendation cells refined in step 6. Nothing is written to `requirements.csv` until each row has a decision.

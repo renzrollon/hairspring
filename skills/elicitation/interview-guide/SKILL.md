@@ -4,7 +4,7 @@ description: >-
   Prepares a role-tailored stakeholder interview and processes its notes: goals, warm-up, an
   open-to-closed question funnel, quality probes based on the ISO/IEC 25010 characteristics,
   constraint probes, confirmation and close, plus a capture sheet and a post-interview summary,
-  all in requirements/elicitation/interview-<role>.md under an I-nn interview ID. After the
+  all in requirements/elicitation/interview-{role}.md under an I-nn interview ID. After the
   interview it turns the notes into summary rows and appends them to requirements/candidates.csv
   for requirement-classifier. Use when you plan to interview a stakeholder ("prepare an interview
   with the finance controller", "what should I ask the store ops lead") or have interview notes or

@@ -607,6 +607,10 @@ def check_frontmatter(skill: Skill) -> None:
     else:
         if len(desc) > 1024:
             skill.error("description", f"description is {len(desc)} characters; the limit is 1024")
+        tags = re.findall(r"<[^<>]*>", desc)
+        if tags:
+            skill.error("description", f"description contains XML-like tags {tags[:3]}; Claude rejects them "
+                                       "and GitHub hides them. Write {placeholder} instead")
         if "Use when" not in desc:
             near = re.search(r"\bUse\b[^.;]{0,80}?\bwhen\b", desc, re.I)
             found = f' (found "{near.group(0)}"; start the trigger sentence with "Use when")' if near else ""
