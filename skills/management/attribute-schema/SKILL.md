@@ -4,7 +4,7 @@ description: >-
   Defines and validates the requirement attributes, enum values and lifecycle states in
   requirements/schema.json, and generates audience views of the register with the bundled views
   script (re-lint views): selective (row filter), projective (column subset) and aggregating
-  (group-by counts), written to requirements/views/<name>.md. Built-in views: po, architect, qa.
+  (group-by counts), written to requirements/views/{name}.md. Built-in views: po, architect, qa.
   Use when a team wants a new attribute (component, release, owner, risk), a new status or
   lifecycle rule, a check that rows only use allowed values, or a view for one audience ("show the
   architect the agreed quality requirements", "what has no verification method", "a finance view

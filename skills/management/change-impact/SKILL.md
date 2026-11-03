@@ -6,12 +6,12 @@ description: >-
   relatively (T-shirt sizes with assumptions, never invented hours); drafts the request for the
   repo's change authority (Change Control Board, or a backlog item for the product owner); records
   the decision; only then updates the requirements (Version +1, status rule, CR link). Writes
-  requirements/changes/CR-nnn-<slug>.md; without a trace matrix it searches the repo and states
-  the lower coverage. Started explicitly with /change-impact. Use when a stakeholder asks to change
-  agreed behavior ("raise the limit", "expire after 18 months"), a contract or regulation changes,
-  or someone asks "what does this change touch?". Not for a defect
-  where code misses an agreed requirement (fix the code), new scope with no requirement yet
-  (clarifying-questions), or choosing between conflicting positions (conflict-to-decision).
+  requirements/changes/CR-nnn-{slug}.md; without a trace matrix it searches the repo and states
+  the lower coverage. Started explicitly with /change-impact. Use when a stakeholder asks to
+  change agreed behavior ("raise the limit", "expire after 18 months"), a contract or regulation
+  changes, or someone asks "what does this change touch?". Not for a defect where code misses an
+  agreed requirement (fix the code), new scope with no requirement yet (clarifying-questions), or
+  choosing between conflicting positions (conflict-to-decision).
 license: MIT
 compatibility: Python 3.9+ optional for scripts/trace_matrix.py; works without it.
 disable-model-invocation: true

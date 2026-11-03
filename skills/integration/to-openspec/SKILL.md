@@ -2,8 +2,8 @@
 name: to-openspec
 description: >-
   Hands agreed requirements to coding agents as an OpenSpec change folder
-  (openspec/changes/<change>/ with proposal.md, tasks.md and specs/<capability>/spec.md) or as a
-  spec-kit specs/<feature>/spec.md. Functional requirements become SHALL requirements with
+  (openspec/changes/{change}/ with proposal.md, tasks.md and specs/{capability}/spec.md) or as a
+  spec-kit specs/{feature}/spec.md. Functional requirements become SHALL requirements with
   WHEN/THEN scenarios from their acceptance criteria, quality requirements and constraints go into
   the proposal, and every R-ID stays in headings, scenarios and tasks so the trace survives
   implementation. Gated: only agreed or explicitly selected rows, and no lint errors or TBDs

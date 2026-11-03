@@ -12,3 +12,4 @@ S-10,Lena Koh (SH-05),stakeholder,individual,-,requirements/stakeholders.md,SH-0
 S-11,Daniel Ng (SH-06),stakeholder,individual,-,requirements/stakeholders.md,SH-06,interview; observation,medium,planned,Analyze S-03 first; observe agents making adjustments to find the workarounds.
 S-12,Priya Raman (SH-07),stakeholder,individual,-,requirements/stakeholders.md,SH-07,interview,medium,planned,Campaign rules and the 18-month expiry request; medium because SH-07 influence is TBD.
 S-13,Wei Jie Chua (SH-08),stakeholder,individual,-,requirements/stakeholders.md,SH-08,interview,high,planned,"Platform constraints, operability, cost and the year-end peak."
+S-14,PRD excerpt: Redeem points at checkout (draft),document,specification,draft (2026-11-03),inputs/prd-redeem-at-checkout.md,SH-01,document-analysis,medium,elicited,"Written by the platform-team engineer from the brief and LOY-118; not reviewed by SH-01. Classified in requirements/classification.md (batch 2026-11-03)."

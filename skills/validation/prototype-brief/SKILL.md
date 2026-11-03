@@ -1,17 +1,18 @@
 ---
 name: prototype-brief
 description: >-
-  Writes a brief for a prototype that validates named requirements before they are built: hypotheses
-  tied to R-IDs, kind (throwaway or evolutionary) and fidelity (paper, mock-up, native),
-  participants, tasks, measures with thresholds agreed in advance, stop criteria, and how results
-  flow back as validated, changed or dropped requirements. Writes
-  requirements/elicitation/prototype-<slug>.md; run it again after the sessions to record results
-  and propose requirement updates, applied only after confirmation. Started explicitly by the user:
-  /prototype-brief. Use when stakeholders are unsure a requirement is right, when a UI flow, wording
-  or risky integration needs user feedback before it is built, or for "should we prototype this?",
-  "validate these requirements with users", "plan a usability test". Not for building or designing
-  the prototype, for reviewing written requirements (requirements-review), for generating new ideas
-  (elicitation-workshop), or for verifying built software (testability-check).
+  Writes a brief for a prototype that validates named requirements before they are built:
+  hypotheses tied to R-IDs, kind (throwaway or evolutionary) and fidelity (paper, mock-up,
+  native), participants, tasks, measures with thresholds agreed in advance, stop criteria, and how
+  results flow back as validated, changed or dropped requirements. Writes
+  requirements/elicitation/prototype-{slug}.md; run it again after the sessions to record results
+  and propose requirement updates, applied only after confirmation. Started explicitly by the
+  user: /prototype-brief. Use when stakeholders are unsure a requirement is right, when a UI flow,
+  wording or risky integration needs user feedback before it is built, or for "should we prototype
+  this?", "validate these requirements with users", "plan a usability test". Not for building or
+  designing the prototype, for reviewing written requirements (requirements-review), for
+  generating new ideas (elicitation-workshop), or for verifying built software
+  (testability-check).
 license: MIT
 disable-model-invocation: true
 argument-hint: "[R-IDs or topic to validate; or 'record <slug>' after the sessions]"

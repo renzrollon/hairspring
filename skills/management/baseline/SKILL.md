@@ -3,7 +3,7 @@ name: baseline
 description: >-
   Cuts a named requirements baseline with re-lint baseline create: a manifest of every requirement
   ID with version, status, type, priority and a text hash, saved as
-  requirements/baselines/<name>.json, optionally with git tag req-<name>. Diffs two baselines, or
+  requirements/baselines/{name}.json, optionally with git tag req-{name}. Diffs two baselines, or
   a baseline against the working register (added, changed, status-changed, withdrawn, removed),
   and writes requirement release notes in which every change cites its change request or decision
   record, and changes without one are flagged as uncontrolled. Started explicitly with /baseline.
