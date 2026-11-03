@@ -73,7 +73,7 @@
 - **Then** TBD (Q1: the sale completes without the discount and the voucher stays Issued, or the cashier retries)
 - **Flag:** blocked by Q1 (behavior at the till when the service is slow or down)
 
-**Notes:** Source S-14 · Priority TBD · Depends on none · Constraints S-02 (TillPoint POS loyalty interface spec v2.1), S-05 · Open questions Q1, Q6 · Business rules R-013, R-014, R-015, R-016
+**Notes:** Source S-14 · Priority TBD · Depends on none · Constraints S-02 (TillPoint POS loyalty interface spec v2.1), S-05 · Open questions Q1, Q6 · Business rules R-013, R-014, R-015, R-016, R-038, R-039
 <!-- paste-end R-024 -->
 
 **INVEST**
@@ -127,7 +127,7 @@
 - **Then** the service issues no voucher
 - **And** the member's points balance still shows 1,250 posted points
 
-**Notes:** Source S-14 · Priority TBD · Depends on R-024 · Constraints S-02 · Open questions Q2, Q6 · Business rules R-013, R-014
+**Notes:** Source S-14 · Priority TBD · Depends on R-024 · Constraints S-02 · Open questions Q2, Q6 · Business rules R-013, R-014, R-038
 <!-- paste-end R-025 -->
 
 **INVEST**

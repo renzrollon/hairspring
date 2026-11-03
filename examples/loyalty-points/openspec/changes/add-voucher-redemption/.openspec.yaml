@@ -1,0 +1,4 @@
+schema: spec-driven
+created: 2026-11-03
+x-re-skills-source: requirements/requirements.csv
+x-re-skills-ids: [R-013, R-014, R-015, R-038, R-039]

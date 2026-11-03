@@ -1,0 +1,55 @@
+{
+  "summary": {
+    "requirements": 39,
+    "in_scope": 39,
+    "retired": 0,
+    "with_source": 39,
+    "with_decision": 3,
+    "with_code_or_commit": 6,
+    "with_test": 8,
+    "without_tests": 2,
+    "without_source": 0,
+    "tests_citing_unknown_or_retired": 0,
+    "code_citing_unknown_or_retired": 0,
+    "agreed_without_implementation": 2,
+    "links": 90
+  },
+  "gaps": [
+    {
+      "kind": "requirement-without-test",
+      "id": "R-015",
+      "file": "requirements/requirements.csv",
+      "line": 16,
+      "detail": "status agreed, verification test, no verified-by link",
+      "status": "agreed",
+      "text": "IF the TillPoint POS asks the loyalty service to validate a voucher that is already applied, THEN the loyalty service shall reject the request."
+    },
+    {
+      "kind": "requirement-without-test",
+      "id": "R-039",
+      "file": "requirements/requirements.csv",
+      "line": 40,
+      "detail": "status agreed, verification test, no verified-by link",
+      "status": "agreed",
+      "text": "IF the TillPoint POS asks the loyalty service to validate a voucher code that does not exist, THEN the loyalty service shall reject the request as not found."
+    },
+    {
+      "kind": "agreed-without-implementation",
+      "id": "R-015",
+      "file": "requirements/requirements.csv",
+      "line": 16,
+      "detail": "status agreed, no code reference or commit citing it",
+      "status": "agreed",
+      "text": "IF the TillPoint POS asks the loyalty service to validate a voucher that is already applied, THEN the loyalty service shall reject the request."
+    },
+    {
+      "kind": "agreed-without-implementation",
+      "id": "R-039",
+      "file": "requirements/requirements.csv",
+      "line": 40,
+      "detail": "status agreed, no code reference or commit citing it",
+      "status": "agreed",
+      "text": "IF the TillPoint POS asks the loyalty service to validate a voucher code that does not exist, THEN the loyalty service shall reject the request as not found."
+    }
+  ]
+}

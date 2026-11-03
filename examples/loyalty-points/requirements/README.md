@@ -113,18 +113,26 @@ A requirement or story is ready for implementation when:
 
 ## Story template
 
+`user-story-refiner` writes each story in this shape to `requirements/stories/<epic-slug>.md`, with INVEST and Definition of Ready results below it.
+
 ```markdown
-### <R-nnn>: <short title>
+## {R-nnn}: {short title}
 
-As a <role, spelled as in glossary.md>, I want <capability>, so that <benefit>.
+**Story:** As a {role, spelled as in glossary.md}, I want {goal}, so that {benefit}.
 
-| AC | Given | When | Then |
-| --- | --- | --- | --- |
-| <R-nnn>.AC1 | <precondition> | <trigger> | <observable result> |
-| <R-nnn>.AC2 | <precondition> | <unwanted event: error, timeout, invalid input or abuse> | <observable result> |
+**Acceptance criteria**
 
-Source: <S-nn, SH-nn or I-nn> · Priority: <must / should / could / wont> · Status: draft · Links: <D-nn, RDR-nnn, CR-nnn or none>
-DoR: <ready, or the first item of the Definition of Ready that fails>
+**{R-nnn}.AC1: {short name}** _(happy path)_
+- **Given** {state before the trigger}
+- **When** {one trigger}
+- **Then** {observable outcome}
+
+**{R-nnn}.AC2: {short name}** _(unwanted behavior)_
+- **Given** {state}
+- **When** {error, timeout, invalid input or abuse}
+- **Then** {observable outcome}
+
+**Notes:** Source {S-nn, SH-nn or I-nn} · Priority {must / should / could / wont} · Depends on {R-IDs or none} · Constraints {R-IDs, source IDs or none} · Open questions {question numbers or none}
 ```
 
 ## Open questions
@@ -141,4 +149,5 @@ DoR: <ready, or the first item of the Definition of Ready that fails>
 | Date | Change | By |
 | --- | --- | --- |
 | 2026-11-03 | Initial setup (non-interactive, all facets `assumed`): iterative, explorative, customer-specific, PDPA and DRP-2024; `Verification` column added (criticality named) | Platform-team engineer (sample loop) |
+| 2026-11-03 | Story template updated to the newer `re-setup` asset (Given/When/Then bullets, matching `user-story-refiner`); the skill changed during the sample run | Platform-team engineer (sample loop) |
 | 2026-11-03 | Trace settings for a workspace nested inside the `re-skills` repo: `trace.code_globs` = `src/**`, `trace.test_globs` = `tests/**`, both relative to `examples/loyalty-points/` (run `re-lint trace build --repo examples/loyalty-points --workspace examples/loyalty-points/requirements`); `trace.scan_git_log` = `false`, because the enclosing repo's commits are about the catalogue, not this service, and would add false `mentioned-in` links. For the same reason, allocate IDs with `re-lint ids next --no-git --workspace examples/loyalty-points/requirements` | Platform-team engineer (sample loop) |
