@@ -1,50 +1,38 @@
-# Requirement release notes: <OLD> → <NEW>
+# Requirement release notes: <OLD> -> <NEW>
 
-| Field | Value |
-| --- | --- |
-| From | <OLD> (created <YYYY-MM-DD>, commit <sha7>) |
-| To | <NEW> (created <YYYY-MM-DD>, commit <sha7>) |
-| Purpose of <NEW> | <manifest message> |
-| Generated | YYYY-MM-DD |
-| Command | `re-lint baseline notes <OLD> <NEW>` |
+- From: `<OLD>` (<created>, <commit>) - <manifest message>
+- To: `<NEW>` (<created>, <commit>) - <manifest message>
 
-## Summary
-
-| Class | Count |
-| --- | --- |
-| Added | |
-| Changed | |
-| Status changed | |
-| Withdrawn | |
-| Removed | |
-| Uncontrolled changes | |
+Summary: <n> added, <n> changed, <n> status changed, <n> withdrawn, <n> removed.
 
 ## Added
 
-| ID | Type | Priority | Status | Text | Decision / CR |
-| --- | --- | --- | --- | --- | --- |
+- **<ID>** <Title or Text> (<Type>, <Priority>). Decision: <CR-/RDR- IDs from Links>
 
 ## Changed
 
-| ID | What changed | Version | Text now | Decision / CR |
-| --- | --- | --- | --- | --- |
+- **<ID>** <Title or Text> (<Type>, <Priority>): <text; Version a -> b; Priority a -> b; ...>. Decision: <...>
 
-## Status changed
+## Status changes
 
-| ID | Status | Decision / CR | Note |
-| --- | --- | --- | --- |
+- **<ID>** <Title or Text> (<Type>, <Priority>): Status <a> -> <b>
 
 ## Withdrawn
 
-| ID | Reason | Decision / CR |
-| --- | --- | --- |
+- **<ID>** <Title or Text> (<Type>, <Priority>): Status <a> -> withdrawn. Rationale: <...>. Decision: <...>
 
-## Removed
+## Removed from the register
 
-| ID | Last version in <OLD> | Action |
-| --- | --- | --- |
+- **<ID>** (<Type>, <Priority>)
 
-## Uncontrolled changes
+<!-- Everything above is written by `re-lint baseline notes`; sections with no entries are left out. The review below is added by the baseline skill. -->
+
+## Review: decision links found in changes/ and decisions/
+
+| ID | Class | Decision / CR | Found in |
+| --- | --- | --- | --- |
+
+## Review: uncontrolled changes
 
 Changes to requirements that were agreed or later in <OLD> and have no change request or decision record.
 

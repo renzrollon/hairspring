@@ -3,16 +3,16 @@
 `re-lint baseline` (vendored: `scripts/baseline.py`) has three commands:
 
 ```text
-re-lint baseline create NAME [--message TEXT] [--tag]   # writes <workspace>/baselines/NAME.json; --tag adds git tag req-NAME
-re-lint baseline diff OLD NEW [--format md|json]        # OLD/NEW: baseline names or manifest files; NEW may be "working"
-re-lint baseline notes OLD NEW                          # requirement release notes in Markdown, on stdout
+re-lint baseline create NAME [--message TEXT] [--tag] [--force]   # writes <workspace>/baselines/NAME.json
+re-lint baseline diff OLD NEW [--format md|json]                  # OLD/NEW: baseline names or manifest files; NEW may be "working"
+re-lint baseline notes OLD NEW [--out FILE]                       # requirement release notes in Markdown
 ```
 
 ## Names
 
-- Use lowercase letters, digits, `.`, `-` and `_`, starting with a letter or digit (`v1.0-contract`, `2026-q1-release`).
-- A name is used once. If `baselines/<name>.json` exists, choose another name. A corrected baseline is a new baseline (`v1.0.1-contract`), never an overwrite.
-- The git tag, when asked for, is `req-<name>` and is created locally. Pushing it is a separate, explicit step for the user.
+- Letters, digits, `.`, `-` and `_`, starting with a letter or digit (`v1.0-contract`, `2026-q1-release`).
+- A name is used once. `create` refuses an existing name unless `--force` is given. This skill never passes `--force`: a contract, a release or an audit may already refer to that baseline, and a correction is a new baseline (`v1.0.1-contract`).
+- `--tag` also creates the lightweight git tag `req-<name>` on `HEAD`, and refuses when that tag exists. Pushing it is a separate, explicit step for the user.
 
 ## Manifest (`requirements/baselines/<name>.json`)
 
@@ -35,37 +35,40 @@ Template: `assets/baseline.json`.
 | --- | --- |
 | `name` | The baseline name |
 | `created` | UTC time, ISO 8601 with seconds and `Z` |
-| `git_commit` | Full SHA of `HEAD` when the baseline was cut, or `""` outside a git repository |
+| `git_commit` | Full SHA of `HEAD` when the workspace is in a git repository, otherwise `null`. The script warns when the workspace has uncommitted changes |
 | `message` | Purpose, who approved it, and the date. Ask for it; do not make it up |
-| `requirements` | One entry per requirement row in `requirements.csv` and `stories/*.md`, withdrawn and rejected rows included, sorted by the ID's number |
-| `ID`, `Status`, `Type`, `Priority` | The cell values as strings |
-| `Version` | The `Version` cell as a string, or `"1"` when the column is missing or the cell is empty |
-| `text_sha256` | Lowercase hex SHA-256 of the UTF-8 `Text` cell after trimming leading and trailing whitespace. No other normalization: changing a comma counts as a change |
+| `requirements` | One entry per requirement row in `requirements.csv` and `stories/*.md` (withdrawn and rejected included; `requirements.csv` wins on a duplicate ID), sorted by ID |
+| `ID`, `Version`, `Status`, `Type`, `Priority` | The cell values as strings. `Version` is empty when the register has no `Version` column |
+| `text_sha256` | Lowercase hex SHA-256 of the UTF-8 `Text` after whitespace normalization: runs of spaces, tabs and newlines become one space, and leading and trailing whitespace is dropped. A changed comma counts as a change; reflowed whitespace does not |
 
-The file is JSON with 2-space indentation, non-ASCII characters kept as is, and a trailing newline. Once written, it is never edited.
+The file is never edited after it is written.
 
-Manual fallback (no Python): compute each hash with `printf '%s' "<text>" | sha256sum`, or `shasum -a 256` on macOS, and fill the template.
+Manual fallback (no Python): normalize the whitespace of each `Text`, then hash it with `printf '%s' "<text>" | sha256sum` (or `shasum -a 256` on macOS), and fill the template.
 
 ## Diff classes
 
-Each ID that differs between OLD and NEW appears in exactly one class. Precedence is top to bottom:
+Each ID that differs between OLD and NEW appears in exactly one class. The first match wins:
 
 | Class | Rule |
 | --- | --- |
-| `removed` | The ID is in OLD but not in NEW. The row was deleted, which breaks "never delete a requirement row". Report it as an error |
-| `added` | The ID is in NEW but not in OLD |
-| `withdrawn` | NEW `Status` is `withdrawn` and OLD `Status` was not |
-| `changed` | `text_sha256`, `Type`, `Priority` or `Version` differ. A status change on the same row is shown in the detail |
+| `added` | The ID is in NEW only |
+| `removed` | The ID is in OLD only. The row was deleted, which breaks "never delete a requirement row". Treat it as an error |
+| `withdrawn` | `Status` became `withdrawn` |
+| `changed` | `text_sha256`, `Version`, `Type` or `Priority` differ. A status change on the same row is listed with it |
 | `status-changed` | Only `Status` differs |
 
 `working` as NEW means the current register, read the same way as for `create`.
 
 ## Release notes (`requirements/baselines/<NEW>-notes.md`)
 
-Template: `assets/release-notes.md`. `notes OLD NEW` prints the notes, and the skill saves them under this name. Notes against `working` are a preview: show them in the message and do not save them.
+Template: `assets/release-notes.md`. The file has two parts.
 
-- **Text shown.** Added and changed rows show the text from the current register. If the current text's hash differs from the NEW manifest's hash, the notes add `(text has changed since <NEW>)`.
-- **Decision / CR column.** Every row cites the change request or decision record that allowed the change. Look in this order: the `CR-`/`RDR-` IDs in the row's `Links` cell (the script fills these); then `requirements/changes/CR-*.md` and `requirements/decisions/RDR-*.md` files that name the ID (the skill searches these); otherwise write `none found`. Never invent a link.
-- **Uncontrolled changes.** A row is an uncontrolled change when its Decision / CR is `none found`, its OLD status was `agreed`, `implemented` or `verified`, and its class is `changed` or `withdrawn`. Changing an agreed requirement bypassed the change authority. List every such row, and recommend `/change-impact` to document it after the fact.
-- **Status changes to `agreed`** do not need a CR. Cite who agreed and when (from `Owner`, `Rationale` or a decision record) in the Note column.
-- **Removed rows** are listed with the action "restore the row with Status `withdrawn`".
+**Generated part.** `notes OLD NEW --out <file>` writes this part. It has the From/To lines, a summary of the counts, and one bullet section per class that has entries. Each bullet shows the ID, the `Title` (or `Text`) from the current register, Type and Priority, and what changed. `Decision:` lists the `CR-` and `RDR-` IDs in the row's `Links` cell. Withdrawn rows also show their `Rationale`. If a text changed again after NEW, a note at the end says so. Never edit this part by hand; rerun the command instead.
+
+**Review part.** The skill appends this part:
+
+- **Decision links found in changes/ and decisions/.** For every changed, status-changed or withdrawn row without a `Decision:`, search `requirements/changes/CR-*.md` and `requirements/decisions/RDR-*.md` for the ID. Record what you find, or `none found`, and where you looked. Never invent a link. A status change to `agreed` needs no CR: cite who agreed it and when (from `Owner`, `Rationale` or a decision record).
+- **Uncontrolled changes.** List every `changed` or `withdrawn` row that has no decision link and was `agreed`, `implemented` or `verified` in OLD. Changing an agreed requirement bypassed the change authority. Recommend `/change-impact` to document each one after the fact.
+- **Removed rows.** List them as errors, with the action "restore the row with Status `withdrawn`".
+
+Notes against `working` are a preview: show them in the message, and do not save them.

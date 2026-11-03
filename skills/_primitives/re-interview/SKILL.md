@@ -5,8 +5,8 @@ description: >-
   time (or one prioritized batch), W-questions, a recommended answer, paraphrase to confirm, and the
   answer recorded with its source. Use whenever a re-skills skill needs information from a person
   (clarifying-questions, interview-guide, system-context, quality-requirements, conflict-to-decision,
-  and others), or when running without a human and questions must be logged instead of guessed. Not
-  a user-facing interview script (that is interview-guide).
+  and others), or when running without a human and questions must be logged instead of guessed.
+  Not for preparing a live stakeholder interview (use interview-guide).
 license: MIT
 user-invocable: false
 metadata:
@@ -52,10 +52,6 @@ Questions are expensive for the person answering them. Ask only what changes the
 6. **Record.** Every answer carries who answered and when: `PO 2026-11-03`, a stakeholder ID (`SH-02`) or an interview ID (`I-03`). Write it where the calling skill says (usually a new or updated row via `re-ids`).
 7. **Stop.** Stop when the remaining questions would not change the work product, or the person asks to stop. List what is still open.
 
-## Non-interactive mode
-
-When no person can answer (CI, autonomous agent run, the user said "don't ask"), do not guess. Write each unanswered question into the work product as an open question with an owner role, put `TBD` in the affected field, and finish the rest of the work.
-
 ## Quality checks
 
 - [ ] Every question would change something if answered differently.
@@ -66,6 +62,10 @@ When no person can answer (CI, autonomous agent run, the user said "don't ask"),
 
 - **Next:** back to the calling skill with the recorded answers.
 - **Feeds back to:** `glossary` when an answer introduces or redefines a term.
+
+## Non-interactive mode
+
+When no person can answer (CI, autonomous agent run, the user said "don't ask"), do not guess. Write each unanswered question into the work product as an open question with an owner role, put `TBD` in the affected field, and finish the rest of the work.
 
 ## References
 

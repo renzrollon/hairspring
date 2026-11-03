@@ -4,8 +4,8 @@ description: >-
   Syncs requirements/requirements.csv with GitHub Issues, Jira or Azure DevOps in both directions:
   push creates or updates one issue per requirement, with the R-ID in the title and the text,
   attributes and trace links in a managed block of the body; pull refreshes the Status column from
-  the board. Dry run first: plan shows every create, update, close and status change, and nothing
-  is written to the tracker or the register without --apply after you review it. Never deletes
+  the board. Dry run first: plan shows every create, update and status change, and nothing is
+  written to the tracker or the register without --apply after you review it. Never deletes
   issues, never prints tokens. Started explicitly with /issue-sync. Use when someone says "push
   these requirements to Jira", "create GitHub issues for the agreed requirements", "sync status from
   the board", "refresh requirement status from Azure DevOps", or when an agreed set needs tickets.
@@ -61,7 +61,7 @@ Teams plan work in a tracker and keep requirements in the register. When the two
 4. **Plan.** Run `python3 <skill-dir>/scripts/issue_sync.py plan --tracker <tracker> [--ids <IDs>]` (or `re-lint issues plan ...`). Show the table in the shape of `assets/plan.md`, adding what the script output leaves out from the register (the action per row from `Links` and `Status`, the skipped and `move-on-board` rows), and explain each action in one line. `create-or-match` means push will search the tracker for an issue titled `<ID>: ` first and update it rather than create a duplicate.
 5. **Push after review.** Ask "Apply this plan?" and wait for an explicit yes. Then run `python3 <skill-dir>/scripts/issue_sync.py push --tracker <tracker> --ids <the IDs in the plan> --apply`, passing the plan's IDs so nothing outside the reviewed plan is written. To see how `create-or-match` rows resolve before deciding, run the same command without `--apply` first: it reads the tracker but writes nothing. Report the issue keys created and updated.
 6. **Pull after review.** Run `python3 <skill-dir>/scripts/issue_sync.py pull --tracker <tracker>` (dry run). Classify every proposed `Status` change with the guard rules in `references/sync-rules.md` and show the result. If every proposed change is an `update` under those rules, run it again with `--apply` after the user approves. If any is not (for example `draft` to `implemented`, `agreed` without a named person, `verified` without evidence), do not apply it: write only the clean rows, with `--ids` where the installed script accepts it on `pull`, or by editing those `Status` cells after showing the diff. Conflicts go to their owner; never resolve one by editing the tracker or the register yourself.
-7. **Report.** List issues created, updated and closed; `Status` changes written; conflicts still open, each with an owner role; issues reported as orphans or missing. Recommend the next step.
+7. **Report.** List issues created and updated, issues left for a person to close; `Status` changes written; conflicts still open, each with an owner role; issues reported as orphans or missing. Recommend the next step.
 
 No Python, or an agent with its own tracker integration (for example an MCP server for GitHub or Jira): follow `references/tracker-integration.md`, which applies the same plan-then-apply rules by hand.
 
@@ -69,7 +69,7 @@ No Python, or an agent with its own tracker integration (for example an MCP serv
 
 - [ ] A plan or dry run was shown and the user approved it before any `--apply`; the `--apply` call used exactly the plan's IDs.
 - [ ] No token value appears in the output, in a file, in an issue body or in the chat.
-- [ ] No issue was deleted; issues of withdrawn, rejected or deferred requirements were closed or flagged with a comment.
+- [ ] No issue was deleted; issues of withdrawn, rejected or deferred requirements were listed as `move-on-board` for a person to close, with the reason.
 - [ ] Every issue title starts with `<ID>: `; every body has one managed block between `<!-- re-skills:begin -->` and `<!-- re-skills:end -->`, and text outside it is untouched.
 - [ ] `requirements.csv` changed only in `Status` (pull) and tracker references in `Links` (push); each status change is an allowed lifecycle transition, and none set `agreed` without a named person.
 - [ ] Every conflict is listed with an owner role instead of being resolved by a guess.

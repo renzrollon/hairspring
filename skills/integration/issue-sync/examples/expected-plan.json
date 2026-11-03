@@ -72,7 +72,6 @@
   "summary": {
     "create-or-match": 4,
     "update": 1,
-    "close": 0,
     "move-on-board": 1,
     "skip": 1
   }

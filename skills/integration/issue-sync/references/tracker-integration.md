@@ -9,7 +9,7 @@ Every rule in `sync-rules.md` still applies: one issue per ID, the same title an
 1. **Plan locally.** If Python runs, `python3 <skill-dir>/scripts/issue_sync.py plan --tracker <tracker>` still works (no network). Otherwise build the plan by hand: select rows as in step 3 of `SKILL.md`, write each title (`<ID>: <Title>`) and each body from `assets/issue-body.md`.
 2. **Resolve matches.** With the integration's search or list operation, look in the target repository or project for issues whose title starts with `<ID>: `. Found: `update` (record the key). Not found: `create`. Found more than one: `conflict`, do not touch either.
 3. **Show the plan** in the shape of `assets/plan.md` and wait for an explicit yes.
-4. **Apply.** For `create`: create the issue with the title and body. For `update`: read the current body, replace only the text between `<!-- re-skills:begin -->` and `<!-- re-skills:end -->`, write it back, and update the title. For lifecycle closes: add a comment with the reason; close on GitHub as "not planned"; on Jira and Azure DevOps ask the user to move the card. Never call a delete operation.
+4. **Apply.** For `create`: create the issue with the title and body. For `update`: read the current body, replace only the text between `<!-- re-skills:begin -->` and `<!-- re-skills:end -->`, write it back, and update the title. For `move-on-board` rows (withdrawn, rejected or deferred requirements with an issue): ask the user to close the issue; close it yourself (on GitHub as "not planned") only if they ask you to, with the reason as a comment. Never call a delete operation.
 5. **Record references.** Show the `Links` additions (`jira:LOY-81`) as a diff, then write them to `requirements.csv` after the user agrees.
 
 ## Pull
