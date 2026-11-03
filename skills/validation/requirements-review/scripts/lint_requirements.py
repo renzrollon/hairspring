@@ -714,12 +714,15 @@ def _workspace_files(ws: Path) -> Tuple[List[Path], List[Path], List[Path]]:
     return registers, markdown, details
 
 
-def collect_inputs(paths: Sequence[str], schema_path: Optional[str]) -> Tuple[Inputs, Dict]:
+def collect_inputs(paths: Sequence[str], schema_path: Optional[str],
+                   workspace: Optional[str] = None) -> Tuple[Inputs, Dict]:
     if schema_path and not Path(schema_path).is_file():
         raise UsageError(f"--schema: file not found: {schema_path}")
+    if workspace and not Path(workspace).is_dir():
+        raise UsageError(f"--workspace: folder not found: {workspace}")
     if not paths:
         schema = reqio.load_schema(path=schema_path) if schema_path else None
-        ws = reqio.find_workspace(".", schema=schema)
+        ws = Path(workspace).resolve() if workspace else reqio.find_workspace(".", schema=schema)
         if schema is None:
             schema = workspace_schema(ws)
         registers, markdown, details = _workspace_files(ws)
@@ -1252,13 +1255,13 @@ def format_rules() -> str:
 
 def lint(paths: Sequence[str] = (), schema_path: Optional[str] = None,
          disable: Sequence[str] = (), enable: Sequence[str] = (),
-         only_ids: Sequence[str] = (), changed_only: Optional[str] = None
-         ) -> Tuple[List[Finding], "Checker"]:
+         only_ids: Sequence[str] = (), changed_only: Optional[str] = None,
+         workspace: Optional[str] = None) -> Tuple[List[Finding], "Checker"]:
     """Lint ``paths`` (default: the workspace) and return ``(findings, checker)``.
 
     Raises :class:`UsageError` for usage or schema problems and ``ValueError`` for parse errors.
     """
-    inputs, schema = collect_inputs(paths, schema_path)
+    inputs, schema = collect_inputs(paths, schema_path, workspace)
     config = build_config(schema, disable, enable)
     checker = Checker(schema, config, inputs)
     checker.run()
@@ -1301,6 +1304,9 @@ def build_parser() -> argparse.ArgumentParser:
                              "<workspace>/requirements.csv plus Markdown tables under the workspace")
     parser.add_argument("--schema", metavar="FILE",
                         help="schema.json to use (default: <workspace>/schema.json, else built-in defaults)")
+    parser.add_argument("--workspace", metavar="DIR",
+                        help="workspace folder to lint when no PATH is given (default: <repo root>/requirements, "
+                             "or the schema's workspace)")
     parser.add_argument("--format", choices=("text", "json", "github", "sarif"), default="text",
                         help="output format: text (default), json, github (Actions annotations), sarif")
     parser.add_argument("--fail-on", choices=("error", "warning", "info"), default="error",
@@ -1326,7 +1332,8 @@ def run(args: argparse.Namespace) -> int:
         findings, checker = lint(
             paths=args.paths, schema_path=args.schema,
             disable=_split_rules(args.disable), enable=_split_rules(args.enable),
-            only_ids=_split_rules(args.only_ids), changed_only=args.changed_only)
+            only_ids=_split_rules(args.only_ids), changed_only=args.changed_only,
+            workspace=getattr(args, "workspace", None))
     except UsageError as exc:
         sys.stderr.write(f"re-lint: error: {exc}\n")
         return 2

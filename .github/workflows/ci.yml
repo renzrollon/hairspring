@@ -45,13 +45,12 @@ jobs:
       - name: Generated catalogue docs are current
         run: python tools/validate_catalogue.py --check-docs
 
-      - name: Lint the sample project
+      - name: Sample project passes its own gates
         run: |
-          if [ -f examples/loyalty-points/requirements/requirements.csv ]; then
-            re-lint check examples/loyalty-points/requirements/requirements.csv --fail-on error --format github
-          else
-            echo "examples/loyalty-points/requirements/requirements.csv not present; skipped"
-          fi
+          re-lint check --workspace examples/loyalty-points/requirements --fail-on error --format github
+          pytest -q examples/loyalty-points/tests
+          re-lint trace build --repo examples/loyalty-points --workspace examples/loyalty-points/requirements --no-git --out "$RUNNER_TEMP/trace"
+          re-lint trace gaps --workspace examples/loyalty-points/requirements --trace "$RUNNER_TEMP/trace/trace.csv"
 
   packaging:
     name: Packaging and spec conformance

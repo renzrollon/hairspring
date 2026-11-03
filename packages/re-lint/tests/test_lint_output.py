@@ -23,6 +23,18 @@ def check(argv, capsys):
 
 # ---------------------------------------------------------------- exit codes and --fail-on
 
+def test_workspace_option_lints_a_nested_workspace(workspace, capsys):
+    workspace.write("examples/demo/requirements/requirements.csv",
+                    "ID,Type,Text,Source,Priority,Status,Rationale\n"
+                    "R-001,F,The app shall show the balance quickly.,PO,must,draft,Why.\n")
+    workspace.register([make_row()])  # the root workspace is clean
+    assert check([], capsys).code == 0
+    nested = check(["--workspace", str(workspace.root / "examples/demo/requirements")], capsys)
+    assert nested.code == 1 and "weak-word" in nested.out
+    missing = check(["--workspace", str(workspace.root / "nope")], capsys)
+    assert missing.code == 2 and "--workspace" in missing.err
+
+
 def test_clean_register_exits_0(workspace, capsys):
     workspace.register([make_row()])
     result = check([], capsys)

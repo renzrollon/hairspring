@@ -78,7 +78,7 @@ Every skill example and eval in `re-skills` uses this fictional project, so outp
 
 ## Requirement ID ranges used in skill examples
 
-Skill examples are independent snapshots; use any free IDs, but prefer these ranges so examples read as one project:
+These ranges apply only to the per-skill `examples/` and `evals/` snapshots, so those read as one project. A real workspace, including the full loop in `examples/loyalty-points/requirements/`, allocates IDs with `re-ids` (highest number in use + 1) and never encodes the area in the number.
 
 | Range | Area |
 | --- | --- |
