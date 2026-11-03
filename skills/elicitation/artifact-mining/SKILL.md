@@ -92,4 +92,4 @@ Append the rows directly, never set `keep` beyond the table's rule, and end with
 - `references/candidates-columns.md`: every column of `candidates.csv`, its allowed values and location formats. Read it before writing the first row.
 - `references/mining-signals.md`: what to look for in code, SQL, config, API contracts, documents, tickets and logs, with loyalty-points examples. Read it at step 3.
 - `references/ireb-anchor.md`: handbook section and glossary terms this skill applies.
-- `examples/`: the legacy points-posting procedure (S-04) checked against the programme terms (S-01), and the eight candidates it yields.
+- `examples/`: the legacy points-posting procedure (S-04) checked against the program terms (S-01), and the eight candidates it yields.

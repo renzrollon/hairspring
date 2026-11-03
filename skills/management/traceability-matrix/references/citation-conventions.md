@@ -6,13 +6,14 @@ The tracer only finds links that someone wrote down. These conventions take seco
 
 | Where | Form it finds | Example |
 | --- | --- | --- |
-| Any scanned file or commit message | The literal ID, word-bounded | `R-041`, `R-041.AC2` (counts as `R-041`) |
-| Test function names | `r_041` or `R041` inside the name | `test_r_041_rejects_below_minimum`, `TestR041_RejectsBelowMinimum` |
+| Any scanned file or commit message | The literal ID, word-bounded | `R-041`; `R-041.AC2` links acceptance criterion 2 of R-041 |
+| Test function names | `r_041`, `r041` or `R041` inside a name that starts with `test` | `test_r_041_rejects_below_minimum`, `TestR041_RejectsBelowMinimum` |
+| Test markers and tags | `R041` (upper case, no underscore), only for registered IDs | `@pytest.mark.R041` |
 | Commit messages | The literal ID anywhere in the subject or body | `feat(redeem): reject redemptions below minimum (R-041)` |
 
 It does not recognize `R-41` (the ID has too few digits for the schema), `REQ-041`, `#R041` in a branch name, or ranges such as `R-041..R-045`, which link only the two ends. Write every ID out.
 
-Which files count as code and which as tests comes from `schema.json` → `trace.code_globs` / `trace.test_globs`. A file outside both is not scanned. Add globs there, or pass `--code-glob` / `--test-glob`.
+Which files count as code and which as tests comes from `schema.json` → `trace.code_globs` / `trace.test_globs`. A file outside both is not scanned. Add globs there, or pass `--code-glob` / `--test-glob` (these replace the schema globs for that run, so list the existing ones too).
 
 ## Commits and pull requests
 

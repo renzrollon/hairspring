@@ -2,18 +2,19 @@
 
 ## 1. From trace links to an impact set
 
-`re-lint trace impact R-041 [R-060 ...] --format md` (vendored: `scripts/trace_matrix.py impact ...`) reads `requirements/trace/trace.csv` and lists every node linked to the given IDs, in both directions. Turn each one into a row of the CR impact table:
+`re-lint trace impact R-041 [R-060 ...] --format md` (vendored: `scripts/trace_matrix.py impact ...`) reads `requirements/trace/trace.csv` and the `Links` column. It follows them breadth-first: from the requirement to its artifacts (hop 1), then to other requirements that share a decision, code file or test (hop 2). `--depth 1|2|3` sets the hops; the default is 2. Sources and commits are listed but not followed further. Turn each section of the output into rows of the CR impact table:
 
-| `trace.csv` type | Impact kind in the CR | Usual impact |
+| Output section | Impact kind in the CR | Usual impact |
 | --- | --- | --- |
-| `requirement` (seed) | requirement | text change, new, or withdraw |
-| `requirement` (via `linked-to`) | requirement | review: does it still hold after the change? |
-| `source`, `stakeholder`, `interview` | source | the source document must change (terms, contract), or the person must be informed |
-| `decision`, `adr` | decision | review: is the decision still valid? A superseded decision needs a new record |
-| `code` | code | re-implement |
-| `test` | test | update the expected values, or add a test |
-| `commit` | (evidence only) | shows where the old behavior was built; not an impact row of its own |
-| `change` | change | an earlier CR on the same requirement; read it, because it may hold a constraint |
+| Requirements, hop 0 (the seeds) | requirement | text change, new, or withdraw |
+| Requirements, hop 2 (share a decision, code file or test with a seed, or are named in `Links`) | requirement | review: does it still hold after the change? Shared code is where side effects hide |
+| Decisions | decision | review: is the decision still valid? A superseded decision needs a new record |
+| Code | code | re-implement |
+| Tests | test | update the expected values, or add a test |
+| Sources | source | the source document must change (terms, contract), or the person must be informed |
+| Commits | (evidence only) | shows where the old behavior was built; not an impact row of its own |
+
+Earlier change requests on the same requirement are not in `trace.csv`. Find them through the `Links` cell (`CR-nnn`) and `requirements/changes/`, and read them, because they may hold a constraint.
 
 Then add what the trace cannot show. Search for the seed IDs in these places and confirm each hit:
 

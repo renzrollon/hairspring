@@ -2,17 +2,16 @@
 name: constraints-register
 description: >-
   Records constraints (technical, legal or regulatory, organizational, cultural, environmental)
-  with source, rationale, who mandates them, expiry and review date, and separates them from
-  design decisions: a constraint restricts the solution space because someone outside the team
-  mandates it; a choice the team made itself is a design decision for an ADR. Writes Type C rows
-  to requirements/requirements.csv and their details to requirements/constraints.csv. Use whenever
-  a statement says the solution must use, run on, comply with, integrate through, stay in, or be
-  live by something, or names a regulation, contract, licence, policy, platform standard, vendor
-  interface, deadline or budget; when someone says "we have to use X", "legal says", "the platform
-  team requires", "data must stay in"; and when another skill finds a mandate. Not for quality
-  targets such as latency or availability (quality-requirements), technology choices the team made
-  itself (record an ADR), or contradictions between constraints and requirements
-  (conflict-detector).
+  with source, rationale, mandator, expiry and review date, and separates them from design
+  decisions: a constraint restricts the solution space because someone outside the team mandates
+  it; a choice the team made itself is a design decision for an ADR. Writes Type C rows to
+  requirements/requirements.csv and details to requirements/constraints.csv. Use whenever a
+  statement says the solution must use, run on, comply with, integrate through, stay in, or be
+  live by something, or cites a regulation, contract, license, policy, platform standard, vendor
+  interface, deadline or budget; when someone says "we have to use X", "legal says", "the
+  platform team requires", "data must stay in"; and when another skill finds a mandate. Not for
+  quality targets like latency (quality-requirements), the team's own technology choices (record
+  an ADR), or contradictions between constraints and requirements (conflict-detector).
 license: MIT
 metadata:
   stage: specification
@@ -31,7 +30,7 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 
 ## When not to use
 
-- A quality target (response time, availability, encryption strength) with no outside mandate: `quality-requirements`.
+- A quality target (response time, availability, encryption strength) with no outside mandate: suggest `/quality-requirements`.
 - A technology or architecture choice the team made itself: an ADR for the architect, not a requirement.
 - A constraint that contradicts another constraint or a requirement: `conflict-detector`.
 
@@ -54,17 +53,17 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 ## Procedure
 
 1. **Read the workspace.** Locate `requirements/` (or the `workspace` in `schema.json`). Read `schema.json` (else the default columns `ID,Type,Text,Source,Priority,Status,Rationale`; say so), `requirements.csv` and `constraints.csv` (existing constraints: update, don't duplicate), `sources.csv` and `stakeholders.md` (mandators and source IDs).
-2. **Spot candidates.** Look for "must use / run on / comply with / integrate through / only in / not allowed / by <date> / within <budget>", and for named laws, regulations, standards, contracts, licences, policies, vendors and platforms.
+2. **Spot candidates.** Look for "must use / run on / comply with / integrate through / only in / not allowed / by <date> / within <budget>", and for named laws, regulations, standards, contracts, licenses, policies, vendors and platforms.
 3. **Apply the mandate test.** Ask in order; the first "no" decides. Worked cases are in `references/constraint-kinds.md`.
 
    | # | Question | If no |
    | --- | --- | --- |
-   | 1 | Does it restrict *how* the solution may be built, run or delivered (technology, location, interface, process, date, money), rather than *what* it does or *how well*? | A function: `requirement-phrasing`. A quality target: `quality-requirements` |
+   | 1 | Does it restrict *how* the solution may be built, run or delivered (technology, location, interface, process, date, money), rather than *what* it does or *how well*? | A function: `requirement-phrasing`. A quality target: suggest `/quality-requirements` |
    | 2 | Does someone outside the team mandate it (law, regulator, contract, customer, vendor, enterprise or platform standard, management)? Name them. | Design decision: report it as an ADR candidate; write no row |
    | 3 | Is the team unable to change it alone? | Design decision: ADR candidate |
 
    **No mandator, no constraint.** If the mandator is unknown, ask "Who requires this? What happens if we don't?" following `re-interview`. In non-interactive mode, report it as "unconfirmed: design decision unless a mandator is named", with the open question, and write no row.
-4. **Categorize.** `technical`, `legal`, `organizational`, `cultural` or `environmental` (definitions and examples in `references/constraint-kinds.md`). Contracts, licences and regulations are `legal`; deadlines, budgets, staffing and mandated processes are `organizational`.
+4. **Categorize.** `technical`, `legal`, `organizational`, `cultural` or `environmental` (definitions and examples in `references/constraint-kinds.md`). Contracts, licenses and regulations are `legal`; deadlines, budgets, staffing and mandated processes are `organizational`.
 5. **Phrase it.** One constraint per sentence with `shall`, naming the system and the restriction: "The loyalty service shall run on the shared Kubernetes platform." Apply the `requirement-phrasing` rules: no weak words, no `will`, no compound sentences. The mandate goes in the columns, not in the sentence.
 6. **Fill the details.** One `constraints.csv` row per constraint (columns in `assets/constraints.csv`):
 
@@ -98,7 +97,7 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 ## Hand-offs
 
 - **Next:** `conflict-detector` when a constraint contradicts another constraint or a requirement; `requirement-linter` on the new rows; `traceability-matrix` so constraints trace to their mandate sources; report ADR candidates to the architect.
-- **Feeds back to:** `source-inventory` when a mandate document has no source ID; `quality-requirements` with quality targets found; `clarifying-questions` with unknown mandators and dates; `change-impact` when a constraint changes or expires.
+- **Feeds back to:** `source-inventory` when a mandate document has no source ID; `clarifying-questions` with unknown mandators and dates; suggest `/quality-requirements` for quality targets found and `/change-impact` when a constraint changes or expires.
 
 ## References
 

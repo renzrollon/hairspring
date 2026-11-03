@@ -33,7 +33,7 @@ A starting point; move time to the blocks that matter for the goals. Always keep
 
 | Role | Open with | Narrow on | Quality focus | Constraint focus |
 | --- | --- | --- | --- | --- |
-| Product owner / head of programme | Goals, members, success measures | Programme rules, campaigns, priorities | Interaction capability, flexibility | Contracts, marketing rules |
+| Product owner / head of program | Goals, members, success measures | Program rules, campaigns, priorities | Interaction capability, flexibility | Contracts, marketing rules |
 | Store or field operations | A shift, the checkout, peaks | Offline cases, cashier steps, training | Performance efficiency, reliability, interaction capability | Store hardware and network, vendor release windows |
 | Finance | Month-end, liability, audits | Calculation rules, reconciliations, corrections | Functional suitability (correctness), security (accountability) | Accounting and audit rules, retention |
 | Customer support | Typical contacts, lookups, adjustments | Reasons, approvals, escalations | Interaction capability, performance efficiency, security (who sees what) | Data protection, approval policies |

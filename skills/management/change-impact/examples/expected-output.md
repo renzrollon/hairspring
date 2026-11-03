@@ -30,7 +30,7 @@ Many members hold between 300 and 499 posted points and never redeem (Priya Rama
 | # | Item | Kind | Impact | Evidence | Found by |
 | --- | --- | --- | --- | --- | --- |
 | 1 | R-041 | requirement | text change | requirements/requirements.csv:7 | trace |
-| 2 | S-01 programme terms, draft v3 | source | update document: the terms state the 500-point minimum | trace.csv: S-01 source-of R-041 | trace |
+| 2 | S-01 programme terms, draft v3 | source | update document: the terms state the 500-point minimum | trace.csv: R-041 derives-from S-01 (requirements/requirements.csv:7) | trace |
 | 3 | src/loyalty/redeem.py | code | re-implement: `MIN_REDEMPTION_POINTS` | src/loyalty/redeem.py:12, src/loyalty/redeem.py:13 | trace, search |
 | 4 | tests/test_redeem.py::test_r_041_rejects_below_minimum | test | re-test: new boundary values (299 rejected, 300 accepted) | tests/test_redeem.py:9 | trace |
 | 5 | Customer mobile app, redeem screen copy | interface | update: "Redeem from 500 points" | requirements/context.md (customer mobile app); requester's email | user |

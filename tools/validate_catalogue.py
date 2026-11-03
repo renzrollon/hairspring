@@ -608,9 +608,14 @@ def check_frontmatter(skill: Skill) -> None:
         if len(desc) > 1024:
             skill.error("description", f"description is {len(desc)} characters; the limit is 1024")
         if "Use when" not in desc:
-            skill.error("description", 'description must say "Use when ..." (the triggers)')
+            near = re.search(r"\bUse\b[^.;]{0,80}?\bwhen\b", desc, re.I)
+            found = f' (found "{near.group(0)}"; start the trigger sentence with "Use when")' if near else ""
+            skill.error("description", f'description must say "Use when ..." (the triggers){found}')
         if "Not for" not in desc:
-            skill.error("description", 'description must say "Not for ..." (the nearest neighbour to use instead)')
+            near = re.search(r"\bNot\s+(?:a|an|the|to|meant|intended)\b[^.;]{0,30}", desc, re.I)
+            found = f' (found "{near.group(0)}"; write "Not for ...")' if near else ""
+            skill.error("description", 'description must say "Not for ..." (the nearest neighbour to use '
+                                       f'instead){found}')
     if fm.get("license") != "MIT":
         skill.error("license", f"license must be MIT (got {fm.get('license')!r})")
     if "compatibility" in fm:

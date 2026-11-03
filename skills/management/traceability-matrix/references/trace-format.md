@@ -1,64 +1,72 @@
 # Trace files: format and gap kinds
 
-`re-lint trace build` (vendored as `scripts/trace_matrix.py build`) writes three files to `<workspace>/trace/`: `trace.csv`, `trace.md` and `gaps.json`. This page fixes their shape. When you build the files by hand (no Python), follow it exactly, so that `change-impact` and CI can read them.
+`re-lint trace build` (vendored as `scripts/trace_matrix.py build`) writes three files to `<workspace>/trace/`: `trace.csv`, `trace.md` and `gaps.json`. This page describes their shape. When you build the files by hand (no Python), follow it exactly, so that `change-impact` and CI can read them.
 
 ## `trace.csv`
 
-Header: `From,FromType,To,ToType,Relation,Evidence`. There is one row per distinct link (`From`, `To`, `Relation`). Rows are sorted by `From`, then `To`, then `Relation`. The file has LF line endings, UTF-8 and minimal quoting. It has no timestamps, so a rebuild with no changes gives an identical file.
+Header: `From,FromType,To,ToType,Relation,Evidence`. Every row starts at a requirement and points to one artifact. There is one row per distinct (`From`, `To`, `Relation`), sorted by the requirement number, then `To`, then `Relation`. The file has LF line endings, UTF-8 and minimal quoting. It has no timestamps, so a rebuild with no changes gives an identical file.
 
-Links point downstream along the chain source → requirement → decision/ADR → code → test. Read a row as "From *Relation* To".
-
-| Relation | FromType | ToType | Found in |
+| `ToType` | `Relation` | `To` | Found in |
 | --- | --- | --- | --- |
-| `source-of` | `source` (`S-nn`), `stakeholder` (`SH-nn`), `interview` (`I-nn`) | `requirement` | The `Source` cell of the requirement row, `sources.csv` |
-| `linked-to` | `requirement` | `requirement` | The `Links` cell of the requirement row |
-| `decided-by` | `requirement` | `decision` (`RDR-nnn`), `adr` (file path) | `decisions/*.md`, ADR folders, or `Links` |
-| `changed-by` | `requirement` | `change` (`CR-nnn`) | `changes/CR-*.md`, or `Links` |
-| `implemented-by` | `requirement` | `code` (file path), `commit` (7-character SHA) | Code files under the code globs; `git log` messages |
-| `verified-by` | `requirement` | `test` (`path::test name`, or the path when no name is found) | Test files under the test globs |
+| `source` | `derives-from` | A source, stakeholder or interview ID (`S-01`, `SH-02`, `I-03`), or the `Source` text when it holds no ID | The `Source` cell of the requirement row; `sources.csv` rows that cite the requirement |
+| `decision` | `decided-by` | `RDR-nnn` for files named `RDR-nnn-*.md` and for decision IDs in `Links`; the repo-relative path for other ADR files | `requirements/decisions/`, the ADR folders in `schema.json` → `trace.adr_dirs`, and the `Links` cell |
+| `code` | `implemented-by` | Repo-relative file path | Files under the code globs, and code paths in `Links` |
+| `test` | `verified-by` | `path::test name`, or the path when no test name is found nearby | Files under the test globs, and test paths in `Links` |
+| `commit` | `mentioned-in` | Short commit hash | `git log` subjects and bodies (when `trace.scan_git_log` is true) |
 
 Column rules:
 
-- **From / To**: an ID exactly as registered (`R-041`, `S-01`, `RDR-007`), a repo-relative path with forward slashes, or a short commit SHA. A `Source` cell with no ID (for example `PO 2026-11-03`) is kept as text, with FromType `source`.
-- **Evidence**: where the link was found. Use `path:line` for files and registers (`requirements/requirements.csv:7`, `tests/test_redeem.py:9`), or `git:<sha7>` for a commit, with ` (#NNN)` appended when the subject ends with a PR number. When a link is found in several places, Evidence holds the first one, in this order: register, decision or ADR file, code, test, git.
-- Only registered requirement IDs appear in `trace.csv`, withdrawn and rejected ones included. Citations of unknown IDs appear only in the gap report.
-- A file that matches a test glob is a test file, even when it also matches a code glob (`internal/redeem/rules_test.go`). Files that match neither are not scanned. Globs are matched against the repo-relative path from the repo root, so `src/**` does not match `web/src/x.ts`. `--code-glob` and `--test-glob` add to the globs in `schema.json` → `trace`; they do not replace them.
+- **From**: the requirement ID as cited. It keeps an acceptance-criterion suffix (`R-041.AC2`) when the citation names one. `FromType` is always `requirement`.
+- **Evidence**: `path:line` where the link was found (`requirements/requirements.csv:7`, `tests/test_redeem.py:9`), or the short hash for a commit.
+- **Unknown IDs** cited in code or tests still get a row, so the gap report has evidence. `trace gaps` flags them.
+- **IDs of other kinds** in `Links` (`CR-`, `CF-`, `R-`) produce no row. `trace impact` reads them from the register instead.
+
+Which files are scanned:
+
+- A file under a decision folder is a decision, a file matching a test glob is a test, and any other file matching a code glob is code, in that order. `internal/redeem/rules_test.go` is therefore a test.
+- Globs are matched against the repo-relative path. `**` spans folders, and a pattern without `/` matches at any depth, so `src/**` does not match `web/src/x.ts`.
+- `--code-glob` and `--test-glob` **replace** the globs in `schema.json` for that run. Pass every glob you need, or add the extra ones to `schema.json` → `trace` so CI sees them too.
+- Files under the workspace (`requirements/`) and `openspec/` are not scanned as code. Neither are binary files, dependency folders (`node_modules`, `vendor`, `.venv`, ...) or files larger than `--max-bytes`.
+- In test files, the test-name forms `test_r_041_...`, `TestR041_...` and `r041` count inside identifiers that start with `test`. Elsewhere in a test file, only `R-041` and the marker spelling `R041` count. Set `"trace": {"test_name_forms": false}` to accept only `R-041`.
 
 Example rows (loyalty-points):
 
 ```csv
 From,FromType,To,ToType,Relation,Evidence
-R-041,requirement,3f9c2ab,commit,implemented-by,git:3f9c2ab (#212)
+R-041,requirement,3f9c2ab,commit,mentioned-in,3f9c2ab
+R-041,requirement,S-01,source,derives-from,requirements/requirements.csv:7
 R-041,requirement,src/loyalty/redeem.py,code,implemented-by,src/loyalty/redeem.py:12
 R-041,requirement,tests/test_redeem.py::test_r_041_rejects_below_minimum,test,verified-by,tests/test_redeem.py:9
-S-01,source,R-041,requirement,source-of,requirements/requirements.csv:7
 ```
+
+The reader also accepts hand-built rows in the upstream direction (`S-01,source,R-041,requirement,source-of,...`) and the types `adr`, `change`, `stakeholder`, `interview`, and normalizes them. When you write rows by hand, use the form above anyway.
 
 ## `trace.md`
 
-Use these sections, in this order (template: `assets/trace.md`):
+The sections come in this order (template: `assets/trace.md`):
 
-1. **Header table**: generated date, commit, command, files read, globs used.
-2. **Coverage summary**: the fixed rows in the template. The counts include requirements of every status except `withdrawn` and `rejected`.
-3. **Graph**: one Mermaid `graph LR` with sources, requirements, decisions/ADRs, code files and test files. Code and tests are grouped per file, and commits are left out of the graph (they stay in `trace.csv`). Node IDs have the punctuation removed (`R041["R-041"]`). Requirements with a gap get `class ... gap`, and retired requirements get `class ... retired`.
-4. **Gaps**: one table per gap kind below, always present. Write `None.` when a table is empty.
-5. **Unlinked (informational)**: tests and code files that cite no requirement. They are listed for review and do not count as gaps.
+1. **Header table**: generated date, commit, command, files read, and globs used. A line under it says the file is generated.
+2. **Coverage summary**: the fixed rows in the template. The counts are for requirements of every status except `withdrawn` and `rejected`, plus the register size and the number of links.
+3. **Graph**: one Mermaid `graph LR` of requirements, sources, decisions, code files and test files. Code and tests are grouped per file, and commits are left out. Node IDs have the punctuation removed (`R041["R-041"]`, `srcloyaltyredeempy[["src/loyalty/redeem.py"]]`). Requirements with a gap get `class ... gap`, retired ones get `class ... retired`. Above `--max-graph-edges` links, the graph is cut and a note says so.
+4. **Gaps**: one table per gap kind below, always present. An empty table shows `None.`.
+5. **Matrix**: one row per requirement with its sources, decisions, code, tests and commits.
+6. **Commits citing requirement IDs**: short hash and subject. This section appears only when commits were found.
 
-## Gap kinds (`gaps.json` → `kind`)
+## Gap kinds (`gaps.json` → `gaps[].kind`)
 
 | Kind | Reported when | trace.md table |
 | --- | --- | --- |
-| `requirement-without-test` | Status is `agreed`, `implemented` or `verified`; `Verification` is empty or `test`; no `verified-by` link | Requirements without tests |
-| `requirement-without-source` | `Source` is empty or `TBD`, or cites an `S-`/`SH-`/`I-` ID that is not registered | Requirements without a source |
+| `requirement-without-test` | Status `agreed`, `implemented` or `verified`; `Verification` empty or `test`; no `verified-by` link | Requirements without tests |
+| `requirement-without-source` | `Source` empty or `TBD`, or citing an `S-`/`SH-` ID missing from `sources.csv` / `stakeholders.md` (when those files exist) | Requirements without a source |
+| `agreed-without-implementation` | Status `agreed`, `implemented` or `verified`, and no code link and no commit citing the ID | Agreed or later requirements without an implementation reference |
 | `test-cites-unknown-id`, `test-cites-retired-id` | A test cites an ID that is not in the register, or one whose status is `withdrawn` or `rejected` | Tests citing unknown or retired IDs |
-| `code-cites-unknown-id`, `code-cites-retired-id` | The same check, for code files. Commit messages are history that nobody can fix, so they never produce these gaps | Code citing unknown or retired IDs |
-| `agreed-without-implementation` | Status is `agreed`, `implemented` or `verified`, and there is no `implemented-by` link | Agreed or later requirements without an implementation reference |
-| `test-without-requirement` (info) | A test function under the test globs whose name, docstring and annotations cite no ID | Unlinked (informational) |
-| `code-without-requirement` (info) | A file under the code globs that cites no ID | Unlinked (informational) |
+| `code-cites-unknown-id`, `code-cites-retired-id` | The same check for code files | Code citing unknown or retired IDs |
 
-Each `gaps.json` entry has these fields: `kind`, `severity` (`gap` or `info`), `id` (empty for unlinked items), `file`, `line`, `detail`. `trace gaps --fail-on-gaps` exits `1` when there is at least one entry with severity `gap`. Entries with severity `info` never fail the gate: a new repository has many unlinked files, and blocking a release on them teaches people to add citations that mean nothing.
+Commit messages are history that nobody can fix, so they never produce a gap. `gaps.json` is `{"summary": {...}, "gaps": [{"kind", "id", "file", "line", "detail", ...}]}`. `trace gaps --fail-on-gaps` exits with `1` when any gap is reported. `--only KIND ...` limits the run to some kinds, and `--status S ...` changes which statuses the requirement-level gaps apply to.
 
-If the script you run does not report unlinked items, find them yourself. List the test functions and code files under the globs that appear in no `trace.csv` row.
+## Unlinked files (the skill checks these, not the script)
+
+The tracer does not report tests or code that cite no requirement. List them yourself: the test functions and code files under the globs that appear in no `trace.csv` row. Report them as informational in the final message, never as gaps. A new repository has many of them, and pressure to link them produces citations that mean nothing.
 
 ## Triage (what the skill adds on top of the script)
 
@@ -71,4 +79,4 @@ If the script you run does not report unlinked items, find them yourself. List t
 | `draft` / `proposed` without a test | informational | none yet | none |
 | Test or code cites a retired ID | stale citation | Delete or retarget the test or code; never reactivate the requirement just to clear the gap | developer + requirement owner |
 | Test or code cites an unknown ID | stale citation | Fix the typo, or register the requirement through `requirement-phrasing` | developer |
-| Test or code file cites no requirement | informational | Ask whether a requirement is missing (then `requirement-phrasing`) or only the citation is missing. Helpers, glue code and tests of the test setup stay unlinked | tech lead |
+| Test or code file cites no requirement | informational | Ask whether a requirement is missing (then `requirement-phrasing`) or only the citation is missing. Helpers and glue code stay unlinked | tech lead |

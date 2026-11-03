@@ -20,7 +20,7 @@
 | Reliability | core | relevant | "A sale is never blocked by loyalty" (SH-02); no lost transactions (SH-08); fraud engine outages (SH-05) | R-083, R-084, R-085 |
 | Security | core | relevant | Authentication, encryption on the wire (SH-05); adjustment records cannot be edited (SH-03) | R-086, R-087, R-088 |
 | Maintainability | core | relevant | Monthly campaigns each need a release today (SH-01 for SH-07) | R-089 |
-| Flexibility | core | relevant, covered | Growth in load is part of the capacity question Q3; no other platform or replacement concern raised | covered by R-082 |
+| Flexibility | core | relevant | Growth in load is part of the capacity question Q3; no other platform or replacement concern raised | covered by R-082 |
 | Safety | rare | not relevant | No physical process or hardware is controlled (SH-08, 2026-11-03) | none |
 
 ## Quality requirements

@@ -57,6 +57,24 @@ def test_example_is_valid():
     assert code == 0
 
 
+@pytest.mark.parametrize(
+    "skill, target",
+    [
+        ("interview-guide", "interview-support-lead.md"),
+        ("elicitation-workshop", "workshop-redemption-delighters.md"),
+        ("observation-protocol", "observation-tampines-evening-checkout.md"),
+    ],
+)
+def test_capture_examples_land_valid_candidates(tmp_path: Path, skill: str, target: str):
+    """The skills that append to candidates.csv use the same header, and their quotes are real."""
+    examples = SKILL.parent / skill / "examples"
+    assert (SKILL.parent / skill / "assets" / "candidates.csv").read_text(encoding="utf-8") == HEADER
+    elicitation = tmp_path / "requirements" / "elicitation"
+    elicitation.mkdir(parents=True)
+    (elicitation / target).write_text((examples / "expected-output.md").read_text(encoding="utf-8"), encoding="utf-8")
+    assert cc.main([str(examples / "expected-candidates.csv"), "--root", str(tmp_path)]) == 0
+
+
 def test_valid_row_with_whitespace_and_gap(repo: Path):
     _write(repo, 'CAN-001,Earning is capped at 5000 points.,F,system-archaeology,S-04,legacy/post.sql:3-4,'
                  '"IF v_points > 5000 THEN ... v_points := 5000;",confirm,Legacy-only rule.,Mei Tan (SH-01),,\n')

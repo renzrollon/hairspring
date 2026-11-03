@@ -59,7 +59,7 @@ Trace links answer what an auditor and a tester both ask: where did this require
 ## Procedure
 
 1. **Read the workspace.** Locate `requirements/` (or the `workspace` in `requirements/schema.json`). Read `schema.json` → `trace` (`code_globs`, `test_globs`, `adr_dirs`, `scan_git_log`); if it is missing, the defaults apply, and you say so in the final message. List the repo's top-level folders. If code or tests sit outside the globs (`web/__tests__/`, `modules/`), note the extra globs for step 2.
-2. **Build.** Run `python3 <skill-dir>/scripts/trace_matrix.py build` (or `re-lint trace build`). Add one `--code-glob G` or `--test-glob G` per extra folder from step 1; they add to the globs in `schema.json`. Add `--since <rev>` only to limit the commit-message scan on a very long history. Exit code 2 means a usage or parse error: fix the cause and run again. Never hand-edit `trace.csv` after a script run; change the inputs and rebuild.
+2. **Build.** Run `python3 <skill-dir>/scripts/trace_matrix.py build` (or `re-lint trace build`). For extra folders from step 1, pass `--code-glob` / `--test-glob`. These replace the `schema.json` globs for the run, so list the existing globs too, and propose adding the new ones to `schema.json` → `trace` so CI sees them. Add `--since <rev>` only to limit the commit-message scan on a very long history. Exit code 2 means a usage or parse error: fix the cause and run again. Never hand-edit `trace.csv` after a script run; change the inputs and rebuild.
    Without Python: search the repository for the ID forms in `references/citation-conventions.md`, then fill `assets/trace.csv` and `assets/trace.md` by hand, and write "built manually" in the trace.md header.
 3. **Read the gaps.** Run `python3 <skill-dir>/scripts/trace_matrix.py gaps --format json` and read the coverage summary in `trace/trace.md`. The gap kinds and their meaning are in `references/trace-format.md`.
 4. **Triage.** Sort every gap into one of these, using the requirement's `Status` and `Verification`:
@@ -68,14 +68,14 @@ Trace links answer what an auditor and a tester both ask: where did this require
    - **Not a test gap:** verification is `inspection`, `analysis` or `demonstration`. The evidence belongs in `Links`, not in a test.
    - **Informational:** `draft` or `proposed` requirements. No test is expected yet.
    - **Stale citation:** a test or code cites a withdrawn, rejected or unknown ID. The cause is an obsolete test, a typo (`R-41`), or a requirement nobody registered. Ask the requirement owner which one it is. Never reactivate a requirement to silence a gap.
-   - **Unlinked (informational):** a test or code file cites no requirement. Ask whether a requirement is missing (then `requirement-phrasing`) or only the citation is missing. Helpers and glue code stay unlinked.
+   - **Unlinked (informational):** a test or code file under the globs appears in no `trace.csv` row. The script does not report these; find them yourself. Ask whether a requirement is missing (then `requirement-phrasing`) or only the citation is missing. Helpers and glue code stay unlinked.
 5. **Explain the conventions when coverage is low.** If most requirements have no code or test link, the team is probably not citing IDs yet. Show the short convention block from `references/citation-conventions.md` for the repo's languages. Add an ID to an existing test only when the user confirms that the test really checks that requirement.
 6. **Report.** End with the coverage counts (copied from `trace.md`), the triaged gaps (fix-first items at the top), and a draft issue list with one row per gap: `Title` (`<ID>: <gap>`), `Evidence`, `Owner role`. Recommend `/issue-sync`, or the team's tracker, to file them. See `references/ci-and-issues.md`.
 7. **Set up CI (only when asked).** Copy `assets/trace-gate.yml` to `.github/workflows/requirements-trace.yml`. The nightly run reports gaps. A release tag fails on gaps. Explain both in two lines, and read `references/ci-and-issues.md` for the variants.
 
 ## Quality checks
 
-- [ ] `trace/trace.csv` has the header `From,FromType,To,ToType,Relation,Evidence`, and every row has Evidence (`path:line` or `git:<sha>`).
+- [ ] `trace/trace.csv` has the header `From,FromType,To,ToType,Relation,Evidence`, and every row has Evidence (`path:line`, or a short hash for a commit).
 - [ ] Every link comes from the script or from a search hit you can cite. No link is inferred from file names or guessed.
 - [ ] No test, code file or requirement was edited to close a gap unless the user confirmed that it reflects reality.
 - [ ] No requirement `Status` was changed. Only the owner sets `verified`, and only with evidence.

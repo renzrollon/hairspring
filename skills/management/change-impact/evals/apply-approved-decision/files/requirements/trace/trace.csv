@@ -1,9 +1,9 @@
 From,FromType,To,ToType,Relation,Evidence
+R-040,requirement,S-01,source,derives-from,requirements/requirements.csv:2
 R-040,requirement,src/loyalty/redeem.py,code,implemented-by,src/loyalty/redeem.py:7
 R-040,requirement,tests/test_redeem.py::test_r_040_voucher_value,test,verified-by,tests/test_redeem.py:12
+R-041,requirement,S-01,source,derives-from,requirements/requirements.csv:3
 R-041,requirement,src/loyalty/redeem.py,code,implemented-by,src/loyalty/redeem.py:3
 R-041,requirement,tests/test_redeem.py::test_r_041_accepts_minimum,test,verified-by,tests/test_redeem.py:8
 R-041,requirement,tests/test_redeem.py::test_r_041_rejects_below_minimum,test,verified-by,tests/test_redeem.py:4
-S-01,source,R-040,requirement,source-of,requirements/requirements.csv:2
-S-01,source,R-041,requirement,source-of,requirements/requirements.csv:3
-S-02,source,R-042,requirement,source-of,requirements/requirements.csv:4
+R-042,requirement,S-02,source,derives-from,requirements/requirements.csv:4

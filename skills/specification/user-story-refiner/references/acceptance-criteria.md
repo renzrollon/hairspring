@@ -15,7 +15,7 @@ Given/When/Then comes from behavior-driven development (Dan North) and the Gherk
 
 | Line | Rule |
 | --- | --- |
-| Label | `<story ID>.AC<n>: <short name>` in bold, then the kind in italics: `_(happy path)_`, `_(alternative)_` or `_(unwanted behavior)_` |
+| Label | `<story ID>.AC<n>: <short name>` in bold, then the kind in italics: `_(happy path)_`, `_(alternative)_` or `_(unwanted behavior)_`. A removed criterion keeps its label with `_(withdrawn)_` and loses its steps; its ID is never reused |
 | Given | The state before the trigger, with concrete values (balances, statuses, roles). Several facts may be joined with `And` lines |
 | When | Exactly one trigger: one action by one actor, or one event |
 | Then | An outcome someone outside the code can observe: what a screen, receipt, API response, message or record shows. No internal method calls |

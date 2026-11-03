@@ -1,8 +1,8 @@
 ---
 name: clarifying-questions
 description: >-
-  Before you implement a vague ticket, feature request or task, ask the smallest set of questions
-  whose answers would change the design: at most 7, grouped boundary / functional / quality /
+  Asks the smallest set of questions whose answers would change the design before you implement
+  a vague ticket, feature request or task: at most 7, grouped boundary / functional / quality /
   constraint, each with a recommended answer. The Q&A goes to
   requirements/elicitation/questions-<topic>.md and every answer becomes a requirement in
   requirements/requirements.csv with the person and date as source. Use when a task leaves out who,
@@ -60,7 +60,7 @@ An agent that guesses a requirement ships the guess. This skill finds the few un
 4. **Shape each question** with the `re-interview` primitive in batch mode: one topic, a W-word, closed with options when the options are known. Order the groups Boundary, Functional, Quality, Constraint. Fill *Why it matters* (the design choice the answer decides) and *Recommended answer* (the option you would build, with a short reason). A number in a recommended answer must come from the task, the repo or a cited source; otherwise recommend an option that needs no number, or write "no recommendation: needs a business value".
 5. **Write, then ask.** Create `requirements/elicitation/questions-<topic>.md` from `assets/questions.md` (`<topic>`: kebab-case ticket key plus subject, for example `loy-131-csv-export`) with every *Answer* `TBD`. Then ask in one message: the numbered batch, grouped, each question with its recommended answer, ending "Reply per number: ok, or your answer." When a question belongs to someone other than the user (security, data protection, finance), say who. Stop and wait.
 6. **Record answers.** Paraphrase any ambiguous answer and confirm it. Fill *Answer*; set *Source* to the person and date (`Mei Tan (SH-01) 2026-11-03`; `PO 2026-11-03` if you only know the role; a relayed answer names the person who gave it). "ok" means that person accepted the recommended answer. An unanswered question keeps `TBD` and `owner: <person or role>` in *Source*.
-7. **Turn answers into requirements.** For every answer that adds or changes behavior, a quality target or a constraint, write one requirement per sentence with the `requirement-phrasing` skill (if it is not installed: an EARS pattern, `shall`, no weak words, and a vague answer such as "a few seconds" stays `TBD` plus a follow-up question). Allocate IDs with `re-ids`. Set `Source` from step 6, `Status=draft`, `Priority` only if someone stated it (else `TBD`), and a one-sentence `Rationale`. Show the rows, then append them to `requirements.csv` and put their IDs in *Becomes*. An answer that confirms an existing requirement cites that ID; a boundary answer that leaves scope open becomes a `D-nn` for `system-context`.
+7. **Turn answers into requirements.** For every answer that adds or changes behavior, a quality target or a constraint, write one requirement per sentence with the `requirement-phrasing` skill (if it is not installed: an EARS pattern, `shall`, no weak words). A vague answer such as "a few seconds" puts `TBD` in the text and a follow-up question in the file. Allocate IDs with `re-ids`. Set `Source` from step 6, `Status=draft`, `Priority` only if someone stated it (else `TBD`), and a one-sentence `Rationale`. Show the rows, then append them to `requirements.csv` and put their IDs in *Becomes*. An answer that confirms an existing requirement cites that ID; a boundary answer that leaves scope open becomes a `D-nn` for `system-context`.
 8. **Proceed on what is known.** Implement only what answers and stated assumptions cover. An assumption is allowed only when it is cheap to reverse: add it under *Assumptions* (A1, A2, ... with its question number) and repeat it in the PR description or final message. Questions on security, personal data, money, legal duties or destructive data changes are *blocking*: build only the most restrictive option (least exposed, deleted, paid or granted), recorded as an assumption, or leave that part out.
 
 ## Quality checks
@@ -70,7 +70,7 @@ An agent that guesses a requirement ships the guess. This skill finds the few un
 - [ ] No number in a recommended answer was invented.
 - [ ] Every recorded answer names a person (or role) and an ISO date; no recommended answer was recorded without that person's "ok".
 - [ ] New rows have all attributes, `Status=draft` and the answer's source; `requirement-linter` (or `re-lint check --only-ids <new IDs>`) reports no errors.
-- [ ] Every assumption is labelled, points to its question, and takes the most restrictive option when its question is blocking.
+- [ ] Every assumption is labeled, points to its question, and takes the most restrictive option when its question is blocking.
 
 ## Hand-offs
 

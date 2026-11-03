@@ -1,11 +1,11 @@
 # Volere-structured option: mapping sheet
 
-<!-- The Volere Requirements Specification Template is licensed (commercial licence, free for academic use; https://www.volere.org). re-skills does not include its text or its section list. Use this option only with a section list the user takes from their own licensed copy. Delete these comments in the output. -->
+<!-- The Volere Requirements Specification Template is licensed (commercial license, free for academic use; https://www.volere.org). re-skills does not include its text or its section list. Use this option only with a section list the user takes from their own licensed copy. Delete these comments in the output. -->
 
 ## How to use it
 
 1. Ask the user for the section list of their licensed Volere template (numbers and titles, pasted or as a file path). Without it, stop this option and offer the 29148 SRS outline or the arc42 chapter instead. Never reconstruct the sections from memory.
-2. Copy the user's section titles into the output in their order, as `## <number> <title>`. Use only the titles; leave out any guidance text their copy contains unless the user tells you their licence allows reproduction.
+2. Copy the user's section titles into the output in their order, as `## <number> <title>`. Use only the titles; leave out any guidance text their copy contains unless the user tells you their license allows reproduction.
 3. Map each work product to the user's sections with the table below. When no section of their copy matches, put the content in the closest section and record the mapping in the header table's `Mapping notes` row.
 4. Keep the re-skills header table, contents list, requirement blocks and appendices exactly as in the other outlines.
 

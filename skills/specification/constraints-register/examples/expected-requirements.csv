@@ -1,6 +1,6 @@
 ID,Type,Text,Source,Priority,Status,Rationale
 R-100,C,The loyalty service shall exchange purchase events and voucher validation calls with the POS as defined in the TillPoint POS loyalty interface spec v2.1.,S-02; SH-08 2026-11-03,must,draft,The POS vendor does not change the interface before TillPoint v2.2 (SH-08).
-R-101,C,The loyalty service shall stay outside the PCI DSS cardholder data environment.,SH-05 2026-11-03,must,draft,Security architecture keeps the loyalty service out of PCI DSS scope because it never needs card numbers (SH-05).
+R-101,C,The loyalty service shall stay outside the PCI DSS cardholder data environment.,SH-05 2026-11-03,TBD,draft,Security architecture keeps the loyalty service out of PCI DSS scope because it never needs card numbers (SH-05).
 R-102,C,The loyalty service shall retain each points transaction record for 7 years.,S-05 (DRP-2024); SH-03 2026-11-02,must,draft,Finance needs transaction records for audit under the retention policy DRP-2024.
 R-103,C,The loyalty service shall store member personal data only in data centers located in Singapore.,S-05 (DRP-2024); SH-04 2026-11-03,must,draft,The data protection officer requires member personal data to stay in Singapore under DRP-2024.
 R-104,C,The loyalty service shall run on the shared Kubernetes platform.,SH-08 2026-11-03,must,draft,Platform team standard for every new service; no exceptions in 2026 (SH-08).

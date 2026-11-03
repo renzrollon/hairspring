@@ -25,7 +25,7 @@ The first `section` row gives the form its title and introduction text; later `s
 
 - Branching and skip logic, quizzes and scoring, answer validation rules, images, file uploads.
 - Grid or matrix questions: use one `scale` row per statement; it also keeps one hypothesis per question.
-- Labels on the middle points of a Google Forms linear scale. If every point must be labelled, use `single` with the labels as options, and analyze it with `share:<option>`.
+- Labels on the middle points of a Google Forms linear scale. If every point must be labeled, use `single` with the labels as options, and analyze it with `share:<option>`.
 
 ## Google Forms: build the form with Apps Script
 

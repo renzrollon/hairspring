@@ -25,7 +25,7 @@ Command: `/change-impact` with this email pasted:
 python3 <skill-dir>/scripts/trace_matrix.py impact R-041 --format md
 ```
 
-Linked nodes returned for R-041: `S-01` (source-of), `src/loyalty/redeem.py` (implemented-by, `src/loyalty/redeem.py:12`), `3f9c2ab` (implemented-by, commit), `tests/test_redeem.py::test_r_041_rejects_below_minimum` (verified-by, `tests/test_redeem.py:9`).
+Output for R-041 (depth 2): no other requirement at hop 2. Code: `src/loyalty/redeem.py` (`src/loyalty/redeem.py:12`). Tests: `tests/test_redeem.py::test_r_041_rejects_below_minimum` (`tests/test_redeem.py:9`). Sources: `S-01` (`requirements/requirements.csv:7`). Commits: `3f9c2ab`. Decisions: none.
 
 A repository search for `500`, `minimum` and `MIN_REDEMPTION` found one more hit about this rule: `src/loyalty/redeem.py:13 MIN_REDEMPTION_POINTS = 500`. Other hits for `500` were unrelated and were discarded.
 

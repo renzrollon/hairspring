@@ -2,7 +2,7 @@
 name: questionnaire-builder
 description: >-
   Designs a questionnaire that confirms or quantifies findings across many stakeholders: one
-  hypothesis per question, closed or open by rule, labelled scales, a pilot, and an analysis plan
+  hypothesis per question, closed or open by rule, labeled scales, a pilot, and an analysis plan
   whose cut-offs are agreed before fielding. Writes
   requirements/elicitation/questionnaire-<slug>/ with questionnaire.md, form-import.csv (a
   tool-neutral item list, with an Apps Script path for Google Forms and a Quick import path for
@@ -65,7 +65,7 @@ All three sit under `requirements/elicitation/`.
 2. **Frame it.** If the purpose, population, recruitment, owner or form tool is missing, ask in one batch through the `re-interview` primitive. If the population size is unknown, write `TBD`; never estimate it.
 3. **Write the hypotheses.** One testable statement per finding (`H1`, `H2`, ...) with its source (I-nn, CAN-nnn, R-nnn, S-nn). Split any finding that holds two topics. An exploratory open question gets its own `H` marked "Explore".
 4. **Agree the analysis before fielding.** For each hypothesis ask the owner for the metric, the threshold that counts as support, and the minimum number of answers (MinN), using `references/question-design.md`. Record who agreed and when. Whatever is not agreed stays `TBD`; never fill a threshold yourself.
-5. **Write the questions.** One question per row, each serving exactly one hypothesis; closed when the options are known, open when the respondents' words matter; scales labelled and in one direction per scale type; no double-barrelled, leading, loaded or absolute wording; no jargon. Make items optional where "don't know" is a legitimate answer.
+5. **Write the questions.** One question per row, each serving exactly one hypothesis; closed when the options are known, open when the respondents' words matter; scales labeled and in one direction per scale type; no double-barrelled, leading, loaded or absolute wording; no jargon. Make items optional where "don't know" is a legitimate answer.
 6. **Check privacy.** Collect no personal data unless a hypothesis needs it. If the request asks for identifiers (national ID, staff or card numbers) or contact data, leave them out, say why, and name the data protection owner who would have to approve them.
 7. **Write the three files.** `questionnaire.md` from `assets/questionnaire.md` (hypotheses, questions, introduction text, privacy, pilot, analysis plan, empty results); `form-import.csv` with one row per item in the column format of `references/form-import-format.md`; `analysis.csv` with one row per closed item (and one `themes` row per open item), plan columns filled and result columns empty. Show them and tell the user how to build the form in their tool, including that neither tool imports the CSV natively.
 8. **Pilot.** Recommend the pilot steps in the file; after the pilot, update wording in both `questionnaire.md` and `form-import.csv` and set `Status=piloted`.
@@ -78,7 +78,7 @@ All three sit under `requirements/elicitation/`.
 ## Quality checks
 
 - [ ] Every closed question cites exactly one hypothesis; every hypothesis has a source.
-- [ ] No question is double-barrelled, leading, loaded or absolute; scales are labelled.
+- [ ] No question is double-barrelled, leading, loaded or absolute; scales are labeled.
 - [ ] Thresholds and MinN were agreed by a named person before fielding, or are `TBD`; none was invented.
 - [ ] No personal data is collected without a named approval.
 - [ ] `form-import.csv` and `analysis.csv` have exactly the asset headers; titles are unique; IDs match across the three files.

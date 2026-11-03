@@ -24,8 +24,6 @@ Members collect points to redeem them, and today they cannot turn points into a 
 
 ## Constraints and Quality Requirements
 
-These restrict the whole change.
-
 | ID | Type | Requirement | Source | Verification |
 | --- | --- | --- | --- | --- |
 | R-085 | Q | WHILE the POS load is at most 9000 purchases per minute across stores, the loyalty service shall answer 95% of voucher validation requests within 300 ms. | I-02 (Arjun Pillai SH-02); peak load SH-08 | test |
@@ -39,16 +37,14 @@ These restrict the whole change.
 
 ## Not in this change
 
-| ID | Reason |
-| --- | --- |
-| R-043 | Status=draft; who prints the voucher at the POS is open decision D-02 |
+None.
 
 ## Traceability
 
 | ID | Type | Priority | Status | Source | Lands in |
 | --- | --- | --- | --- | --- | --- |
-| R-040 | F | must | agreed | S-01 (programme T&C draft v3) | specs/voucher-redemption/spec.md; task 1.1 |
-| R-041 | F | must | agreed | S-02 (TillPoint interface spec v2.1) | specs/voucher-redemption/spec.md; task 1.2 |
-| R-042 | F | must | agreed | S-01 (programme T&C draft v3) | specs/voucher-redemption/spec.md; task 1.3 |
-| R-085 | Q | must | agreed | I-02 (Arjun Pillai SH-02); peak load SH-08 | proposal.md; task 2.1 |
-| R-100 | C | must | agreed | S-02; SH-09 POS vendor | proposal.md; task 2.2 |
+| R-040 | F | must | agreed | S-01 (programme T&C draft v3) | specs/voucher-redemption/spec.md; tasks 1.1 |
+| R-041 | F | must | agreed | S-02 (TillPoint interface spec v2.1) | specs/voucher-redemption/spec.md; tasks 1.2 |
+| R-042 | F | must | agreed | S-01 (programme T&C draft v3) | specs/voucher-redemption/spec.md; tasks 1.3 |
+| R-085 | Q | must | agreed | I-02 (Arjun Pillai SH-02); peak load SH-08 | proposal.md; tasks 2.1 |
+| R-100 | C | must | agreed | S-02; SH-09 POS vendor | proposal.md; tasks 2.2 |

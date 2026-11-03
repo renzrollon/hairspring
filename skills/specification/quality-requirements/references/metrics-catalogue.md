@@ -8,7 +8,7 @@ Metric ideas per sub-characteristic (ISO/IEC 25010:2023 names, US spelling elsew
 | --- | --- | --- | --- |
 | time behaviour | Response time of a named operation in ms at a stated percentile (p95, p99); end-to-end latency from event to visible result | Load level, payload size, network (store network, mobile data), time window | Load test with a production-like profile before release; latency percentiles from production monitoring |
 | resource utilization | CPU, memory, storage, battery or mobile data used per operation or per hour | Device class, OS version, background or foreground | Profiling on reference devices; resource dashboards |
-| capacity | Maximum sustained rate (events per minute, requests per second) or volume (members, transactions) with no loss and the time-behaviour target still met | Duration of the peak, data volume, growth period | Load test ramping to the rate and holding it; intake rate and backlog during real peaks |
+| capacity | Maximum sustained rate (events per minute, requests per second) or volume (members, transactions) with no loss and the time behaviour target still met | Duration of the peak, data volume, growth period | Load test ramping to the rate and holding it; intake rate and backlog during real peaks |
 
 ## Reliability
 
@@ -58,7 +58,7 @@ Metric ideas per sub-characteristic (ISO/IEC 25010:2023 names, US spelling elsew
 | Sub-characteristic | Metric | Typical condition | Measurement method |
 | --- | --- | --- | --- |
 | adaptability | Platforms, devices or environments supported without code changes | Named OS versions, browsers, regions | Compatibility test matrix |
-| scalability | Load handled after adding resources, with the time-behaviour target still met | Growth period, resource added | Scaling test; cost per unit of load |
+| scalability | Load handled after adding resources, with the time behaviour target still met | Growth period, resource added | Scaling test; cost per unit of load |
 | installability | Time or steps to install, update or roll back in a target environment | Environment, update channel (store, firmware) | Timed installation; deployment pipeline records |
 | replaceability | Effort to replace a named product or component | Product replaced | Migration rehearsal |
 

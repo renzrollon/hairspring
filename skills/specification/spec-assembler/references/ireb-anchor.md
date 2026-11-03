@@ -13,7 +13,7 @@
 ## How this skill applies the practice
 
 - Treats the specification as a documentation structure over existing work products, not as a new place to write requirements: every requirement is copied verbatim from the single register, so the document and the register cannot drift.
-- Offers three structures for three audiences (a formal SRS for procurement and audits, an arc42 chapter for architecture documentation, a Volere-structured document for organizations that hold its licence) and keeps every section of the chosen structure, so gaps are visible instead of silently missing.
+- Offers three structures for three audiences (a formal SRS for procurement and audits, an arc42 chapter for architecture documentation, a Volere-structured document for organizations that hold its license) and keeps every section of the chosen structure, so gaps are visible instead of silently missing.
 - Adds selective and aggregating views (scope by status, counts by type, status and priority) so each reader sees the state of the set at a glance.
 - Carries the trace links into the document, backward to sources and forward to decisions, code and tests where they exist.
 - Turns every unknown it meets into an open issue with an owner, instead of filling it in.

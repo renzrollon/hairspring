@@ -12,7 +12,7 @@ Lets members turn posted points into vouchers in the customer mobile app and let
 <!-- R-040 -->
 WHEN a member with at least 500 posted points requests a voucher in the customer mobile app, the loyalty service SHALL issue a voucher worth SGD 1 per 100 points redeemed.
 
-#### Scenario: R-040.AC1 The member requests a voucher for 1,000 points
+#### Scenario: R-040.AC1 Member requests a voucher for 1,000 points
 - **GIVEN** a member with 1,250 posted points
 - **WHEN** the member requests a voucher for 1,000 points in the customer mobile app
 - **THEN** the loyalty service issues a voucher worth SGD 10 and the member's posted balance is 250 points
@@ -23,13 +23,13 @@ WHEN the POS sends a voucher validation request for a voucher in state Issued, t
 
 #### Scenario: R-041 main case (derived from the requirement text)
 - **WHEN** the POS sends a voucher validation request for a voucher in state Issued
-- **THEN** the loyalty service shall return the voucher value to the POS
+- **THEN** the loyalty service SHALL return the voucher value to the POS.
 
 ### Requirement: R-042 Reject redemption below minimum
 <!-- R-042 -->
 IF a member with fewer than 500 posted points requests a voucher, THEN the loyalty service SHALL reject the request with a response that states the 500-point minimum.
 
-#### Scenario: R-042.AC1 The member requests a voucher
+#### Scenario: R-042.AC1 Member requests a voucher
 - **GIVEN** a member with 480 posted points
 - **WHEN** the member requests a voucher
 - **THEN** the loyalty service rejects the request and the response states the 500-point minimum
