@@ -10,7 +10,7 @@ import sys
 import pytest
 
 from relint_helpers import SRC, make_row, run_cli
-from re_lint import tracing
+from re_lint import cli, tracing
 
 HEADER = ["ID", "Type", "Text", "Source", "Priority", "Status", "Rationale", "Title", "Verification", "Links"]
 
@@ -282,3 +282,18 @@ def test_runs_standalone_next_to_reqio(tmp_path):
     proc = subprocess.run([sys.executable, str(tmp_path / "trace_matrix.py"), "--help"],
                           cwd=tmp_path, capture_output=True, text=True)
     assert proc.returncode == 0 and "build" in proc.stdout, proc.stderr
+
+
+@pytest.mark.parametrize("argv, usage", [
+    (["trace", "build", "--help"], "usage: re-lint trace build"),
+    (["baseline", "notes", "--help"], "usage: re-lint baseline notes"),
+    (["reqif", "import", "--help"], "usage: re-lint reqif import"),
+    (["issues", "pull", "--help"], "usage: re-lint issues pull"),
+    (["views", "--help"], "usage: re-lint views"),
+    (["prioritize", "--help"], "usage: re-lint prioritize"),
+    (["openspec", "--help"], "usage: re-lint openspec"),
+])
+def test_subcommand_usage_follows_the_caller(argv, usage, capsys):
+    # cli.py sets parser.prog after build_parser(); nested subcommands must follow it.
+    result = run_cli(cli, argv, capsys)
+    assert result.code == 0 and result.out.startswith(usage), result.out[:80]

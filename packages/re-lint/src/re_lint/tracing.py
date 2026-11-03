@@ -142,6 +142,20 @@ class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
 
+class _Parser(argparse.ArgumentParser):
+    """Keeps subcommand usage in step with ``prog``, even when a caller sets it after
+    ``build_parser()`` (``re-lint`` does: ``parser.prog = "re-lint <command>"``)."""
+
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+        if name == "prog":
+            for action in getattr(self, "_actions", []):
+                if isinstance(action, argparse._SubParsersAction):
+                    action._prog_prefix = value
+                    for choice, sub in action.choices.items():
+                        sub.prog = f"{value} {choice}"
+
+
 # --------------------------------------------------------------------------- shared helpers
 
 
@@ -1162,8 +1176,7 @@ def _common(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="trace_matrix.py",
+    parser = _Parser(
         description="Build the trace matrix (source -> requirement -> decision -> code -> test, plus "
                     "commits), report coverage gaps and follow change impact.",
         epilog="Exit codes: 0 ok, 1 gaps with --fail-on-gaps, 2 usage or parse error. "

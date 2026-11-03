@@ -76,6 +76,20 @@ class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
 
+class _Parser(argparse.ArgumentParser):
+    """Keeps subcommand usage in step with ``prog``, even when a caller sets it after
+    ``build_parser()`` (``re-lint`` does: ``parser.prog = "re-lint <command>"``)."""
+
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+        if name == "prog":
+            for action in getattr(self, "_actions", []):
+                if isinstance(action, argparse._SubParsersAction):
+                    action._prog_prefix = value
+                    for choice, sub in action.choices.items():
+                        sub.prog = f"{value} {choice}"
+
+
 # --------------------------------------------------------------------------- helpers
 
 
@@ -516,8 +530,7 @@ def _common(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="reqif_bridge.py",
+    parser = _Parser(
         description="Exchange requirements with DOORS, Polarion, Jama and other ReqIF tools: export "
                     "requirements.csv as ReqIF 1.2, import a ReqIF file and diff or merge it.",
         epilog="Exit codes: 0 ok, 2 usage or parse error. Full-fidelity exchange (relations, nested "

@@ -795,7 +795,6 @@ def cmd_openspec(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="to_openspec.py",
         description="Hand agreed requirements to coding agents: write an OpenSpec change folder "
                     "(proposal.md, tasks.md, specs/<capability>/spec.md) or a spec-kit spec.md, keeping "
                     "every R-ID as an anchor.",

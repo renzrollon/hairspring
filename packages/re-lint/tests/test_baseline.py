@@ -92,6 +92,15 @@ def test_tag_needs_git(workspace, capsys):
     plain = run_cli(baseline, ["create", "v1"], capsys)
     assert plain.code == 0
     assert json.loads((workspace.ws / "baselines" / "v1.json").read_text())["git_commit"] is None
+    notes = run_cli(baseline, ["notes", "v1", "working"], capsys).out
+    assert "(no git commit)" not in notes and ", no git commit)" in notes and "no git commi)" not in notes
+
+
+def test_notes_show_the_short_commit(repo, capsys):
+    run_cli(baseline, ["create", "v1"], capsys)
+    head = repo.git("rev-parse", "HEAD").strip()
+    notes = run_cli(baseline, ["notes", "v1", "working"], capsys).out
+    assert f", git {head[:12]})" in notes
 
 
 def _evolve(ws):

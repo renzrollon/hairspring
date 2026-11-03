@@ -69,6 +69,20 @@ class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
 
+class _Parser(argparse.ArgumentParser):
+    """Keeps subcommand usage in step with ``prog``, even when a caller sets it after
+    ``build_parser()`` (``re-lint`` does: ``parser.prog = "re-lint <command>"``)."""
+
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+        if name == "prog":
+            for action in getattr(self, "_actions", []):
+                if isinstance(action, argparse._SubParsersAction):
+                    action._prog_prefix = value
+                    for choice, sub in action.choices.items():
+                        sub.prog = f"{value} {choice}"
+
+
 # --------------------------------------------------------------------------- helpers
 
 
@@ -274,10 +288,11 @@ def render_notes(diff: Dict, old: Dict, new: Dict, reqs: Dict, decision_prefixes
         if name == WORKING:
             out.append(f"- {label}: the working register (not a baseline)")
         else:
-            commit = manifest.get("git_commit") or "no git commit"
+            commit = manifest.get("git_commit")
+            where = f"git {str(commit)[:12]}" if commit else "no git commit"
             created = manifest.get("created") or "unknown date"
             msg = f" - {manifest['message']}" if manifest.get("message") else ""
-            out.append(f"- {label}: `{name}` ({created}, {str(commit)[:12]}){msg}")
+            out.append(f"- {label}: `{name}` ({created}, {where}){msg}")
     out += ["", f"Summary: {summary}.", ""]
     decision_re = re.compile(r"(?<![A-Za-z0-9_-])(?:" + "|".join(re.escape(p) for p in decision_prefixes) + r")\d+")
 
@@ -396,8 +411,7 @@ def _common(parser: argparse.ArgumentParser) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="baseline.py",
+    parser = _Parser(
         description="Cut named requirement baselines (manifest + optional git tag), diff two baselines "
                     "or a baseline against the working register, and write release notes.",
         epilog="OLD/NEW: a baseline name, a manifest path, or 'working'. Exit codes: 0 ok, 2 usage error.",

@@ -332,7 +332,6 @@ def cmd_prioritize(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="prioritize.py",
         description="Rank items with Wiegers' weighted benefit/penalty/cost/risk method or WSJF, and flag "
                     "near-ties so nobody over-reads small score differences.",
         epilog=(

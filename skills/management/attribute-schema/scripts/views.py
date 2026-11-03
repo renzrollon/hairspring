@@ -369,7 +369,6 @@ def cmd_views(args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="views.py",
         description="Write audience views of the requirement register: selective (filter), projective "
                     "(columns) and aggregating (group_by counts). Built-in views: po, architect, qa; "
                     "custom views come from schema.json 'views'.",

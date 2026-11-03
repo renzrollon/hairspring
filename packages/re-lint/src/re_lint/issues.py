@@ -76,6 +76,20 @@ class UsageError(Exception):
     """A problem the user can fix (exit 2)."""
 
 
+class _Parser(argparse.ArgumentParser):
+    """Keeps subcommand usage in step with ``prog``, even when a caller sets it after
+    ``build_parser()`` (``re-lint`` does: ``parser.prog = "re-lint <command>"``)."""
+
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+        if name == "prog":
+            for action in getattr(self, "_actions", []):
+                if isinstance(action, argparse._SubParsersAction):
+                    action._prog_prefix = value
+                    for choice, sub in action.choices.items():
+                        sub.prog = f"{value} {choice}"
+
+
 class TrackerError(Exception):
     """A tracker call failed (reported per item; exit 1)."""
 
@@ -834,8 +848,7 @@ def _report(args: argparse.Namespace, report: List[Dict], headers: Sequence[str]
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        prog="issue_sync.py",
+    parser = _Parser(
         description="Sync requirements with GitHub Issues (gh CLI), Jira Cloud or Azure DevOps: plan offline, "
                     "push issues (title '<ID>: <Title>', managed body block) and pull Status back.",
         epilog="Dry run unless --apply. Jira: JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN, JIRA_PROJECT. "
