@@ -10,7 +10,7 @@ Defaults below come from `re-templates/assets/schema.json`. A repo's `requiremen
 | acceptance criterion | `<R-ID>.AC` | n | `R-031.AC2` | `user-story-refiner` | `stories/*.md` |
 | `source` | `S-` | 2 | `S-04` | `source-inventory` | `sources.csv` |
 | `stakeholder` | `SH-` | 2 | `SH-07` | `stakeholder-map` | `stakeholders.md` |
-| `interview` | `I-` | 2 | `I-03` | `interview-guide`, `clarifying-questions` | `elicitation/` |
+| `interview` | `I-` | 2 | `I-03` | `interview-guide`, `clarifying-questions` (any recorded elicitation conversation) | `elicitation/` |
 | `candidate` | `CAN-` | 3 | `CAN-041` | `artifact-mining`, capture templates | `candidates.csv` |
 | `conflict` | `CF-` | 2 | `CF-02` | `conflict-detector` | `conflicts.md` |
 | `decision` | `RDR-` | 3 | `RDR-007` | `conflict-to-decision` | `decisions/` |
@@ -24,6 +24,7 @@ Rules:
 2. Never reuse an ID, including withdrawn and rejected ones. Never renumber to close gaps.
 3. Cite IDs verbatim in commits (`feat: export CSV (R-041)`), test names (`test_r_041_export_masks_pii`) and docs, so `traceability-matrix` can find them.
 4. In test function names, the ID may appear as `r_041` or `R041`; the tracer normalizes these.
+5. Workshops and observation sessions are cited as `Source` by their work product and date (`workshop-onboarding-ideas 2026-11-05`, `observation-cashier-shadowing 2026-11-06`); register the session in `sources.csv` if it will be cited often.
 
 ## Requirement attributes
 
@@ -76,4 +77,9 @@ stateDiagram-v2
 
 - `agreed` needs a named person in `Source`, `Owner` or a decision record. An agent never sets it on its own.
 - `verified` needs evidence: a passing test, an inspection record or a demonstration note referenced in `Links` or `trace/trace.csv`.
-- A text change on an `agreed` requirement increments `Version` and moves it back to `proposed`, unless a change request (`CR-nnn`) approved it.
+- A text change on an `agreed` requirement increments `Version` and moves it back to `proposed`, unless a change request (`CR-nnn`) approved it. An empty `Version` counts as 1.
+- An approved change request moves affected `implemented` or `verified` requirements back to `agreed` (the new text still has to be built and verified).
+
+## Change request statuses
+
+`CR-nnn` files carry their own status: `draft → submitted → approved | rejected | deferred`, then `applied` once the affected requirements were updated. Only the change authority named in `requirements/README.md` (`process.change_authority` in `schema.json`) approves.

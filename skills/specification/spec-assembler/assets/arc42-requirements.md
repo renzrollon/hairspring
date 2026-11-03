@@ -1,16 +1,16 @@
-# <System>: Requirements chapter (arc42-aligned)
+# {System}: Requirements chapter (arc42-aligned)
 
 <!-- Outline: the requirements-related sections of the arc42 template (section titles and numbers only; arc42 by Dr. Peter Hruschka and Dr. Gernot Starke, https://arc42.org, CC BY-SA 4.0). Numbers 1, 2, 3, 10 and 12 match arc42 so the sections can be merged into an existing arc42 document. Appendices A to C are re-skills additions. Fill per references/assembly-rules.md; delete these comments in the output. -->
 
 | Field | Value |
 | --- | --- |
 | Structure | arc42-aligned requirements chapter (arc42 sections 1, 2, 3, 10, 12) |
-| Version | <baseline name from requirements/baselines/, or working copy> |
-| Date | <YYYY-MM-DD> |
-| Requirements included | <Status values in scope>; <n> requirements (F <n>, Q <n>, C <n>); <n> excluded (<statuses>) |
-| Assembled from | <every workspace file read, repo-relative> |
+| Version | {baseline name from requirements/baselines/, or working copy} |
+| Date | {YYYY-MM-DD} |
+| Requirements included | {Status values in scope}; {n} requirements (F {n}, Q {n}, C {n}); {n} excluded ({statuses}) |
+| Assembled from | {every workspace file read, repo-relative} |
 | Text source | Requirement text is copied verbatim from requirements/requirements.csv; on any difference, requirements.csv wins |
-| Open issues | <n>, see [Appendix C Open issues](#appendix-c-open-issues) |
+| Open issues | {n}, see [Appendix C Open issues](#appendix-c-open-issues) |
 
 ## Contents
 
@@ -34,7 +34,7 @@
 
 ### 1.1 Requirements overview
 
-<!-- One bold group label per stories file ("**<Epic title>** (`requirements/stories/<slug>.md`)"), then its stories as requirement blocks with acceptance criteria; then "**Other functional requirements**" with the remaining Type F blocks in ID order. Level-4 headings are reserved for requirement blocks. -->
+<!-- One bold group label per stories file ("**{Epic title}** (`requirements/stories/<slug>.md`)"), then its stories as requirement blocks with acceptance criteria; then "**Other functional requirements**" with the remaining Type F blocks in ID order. Level-4 headings are reserved for requirement blocks. -->
 
 ### 1.2 Quality goals
 
@@ -84,4 +84,4 @@
 
 | # | Issue | Affects | Owner | Produced by |
 | --- | --- | --- | --- | --- |
-| 1 | <requirement with TBD, open question, or missing work product> | <R-IDs or section> | <owner from the work product, or TBD> | <skill or file> |
+| 1 | {requirement with TBD, open question, or missing work product} | {R-IDs or section} | {owner from the work product, or TBD} | {skill or file} |

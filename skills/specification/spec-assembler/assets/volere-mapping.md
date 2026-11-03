@@ -30,5 +30,5 @@
 
 | Field | Value |
 | --- | --- |
-| Structure | Volere-structured, from <organization>'s licensed Volere template copy, edition <edition as given by the user> |
-| Mapping notes | <work products placed in a closest-match section, or none> |
+| Structure | Volere-structured, from {organization}'s licensed Volere template copy, edition {edition as given by the user} |
+| Mapping notes | {work products placed in a closest-match section, or none} |

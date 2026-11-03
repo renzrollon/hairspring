@@ -1,6 +1,6 @@
-# ReqIF import diff: <file name>
+# ReqIF import diff: {file name}
 
-Reviewed: <YYYY-MM-DD> · File: `<path>` · From: <SOURCE-TOOL-ID> / <REQ-IF-TOOL-ID>, created <CREATION-TIME> · Compared with: `<workspace>/requirements.csv` and the export `<workspace>/exports/<export file>` (or "no matching export found")
+Reviewed: {YYYY-MM-DD} · File: `<path>` · From: {SOURCE-TOOL-ID} / {REQ-IF-TOOL-ID}, created {CREATION-TIME} · Compared with: `<workspace>/requirements.csv` and the export `<workspace>/exports/<export file>` (or "no matching export found")
 
 Command: `reqif_bridge.py import <file> --diff` · Nothing has been written to the register.
 
@@ -8,26 +8,26 @@ Command: `reqif_bridge.py import <file> --diff` · Nothing has been written to t
 
 | Class | Count |
 | --- | --- |
-| changed-text | <n> |
-| changed-attribute | <n> |
-| invalid-value | <n> |
-| new-object | <n> |
-| missing-object | <n> |
-| unmapped-attribute | <n> |
-| xhtml-flattened | <n> |
-| unchanged | <n> |
+| changed-text | {n} |
+| changed-attribute | {n} |
+| invalid-value | {n} |
+| new-object | {n} |
+| missing-object | {n} |
+| unmapped-attribute | {n} |
+| xhtml-flattened | {n} |
+| unchanged | {n} |
 
 ## Changes to decide
 
 | # | ID or object | Class | Attribute | Register value | File value | Recommendation | Decision (who, date) |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | <R-ID or IDENTIFIER> | <class> | <column> | <current value> | <value in the file> | <accept / reject / change request / ask the customer> | <open> |
+| 1 | {R-ID or IDENTIFIER} | {class} | {column} | {current value} | {value in the file} | {accept / reject / change request / ask the customer} | {open} |
 
 ## Read only (not imported)
 
 | # | ID or object | Class | Detail |
 | --- | --- | --- | --- |
-| 1 | <R-ID or IDENTIFIER> | <unmapped-attribute / xhtml-flattened / not exported> | <attribute name and value verbatim, or what was dropped> |
+| 1 | {R-ID or IDENTIFIER} | {unmapped-attribute / xhtml-flattened / not exported} | {attribute name and value verbatim, or what was dropped} |
 
 ## Next
 

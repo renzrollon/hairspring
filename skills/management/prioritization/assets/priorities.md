@@ -1,11 +1,11 @@
-# Prioritization: <goal>
+# Prioritization: {goal}
 
 | Field | Value |
 | --- | --- |
 | Date | YYYY-MM-DD |
-| Decision this serves | <release scope, next increment, MVP cut> |
-| Decision-maker | <name (stakeholder ID)> |
-| Technique | <MoSCoW \| Top-10 \| Kano \| Wiegers \| WSJF>, because <reason> |
+| Decision this serves | {release scope, next increment, MVP cut} |
+| Decision-maker | {name (stakeholder ID)} |
+| Technique | <MoSCoW \| Top-10 \| Kano \| Wiegers \| WSJF>, because {reason} |
 | Matrix | requirements/priorities.csv |
 | Command | <exact re-lint prioritize command, or "ad hoc, no script"> |
 
@@ -15,7 +15,7 @@
 | --- | --- | --- |
 | Goal | | |
 | Constraint | | |
-| Fixed item | <ID: must without scoring, because ...> | |
+| Fixed item | {ID: must without scoring, because ...} | |
 
 ## 2. Criteria
 
@@ -29,7 +29,7 @@
 
 ## 4. Items
 
-Level of abstraction: <epics \| features \| requirements \| stories>. Items: <count> from <file or list>.
+Level of abstraction: <epics \| features \| requirements \| stories>. Items: {count} from {file or list}.
 
 | Excluded item | Reason |
 | --- | --- |

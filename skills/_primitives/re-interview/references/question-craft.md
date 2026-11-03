@@ -38,8 +38,8 @@
 Inside the calling skill's work product:
 
 ```markdown
-| # | Group | Question | Recommended answer | Answer | Source | Becomes |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | Boundary | Is the points-expiry batch in scope? | Yes, we own it | Out of scope; data platform owns it | PO 2026-11-03 | D-01 closed |
-| 2 | Quality | How fast must a new balance show in the app? | Within 5 s | TBD | owner: PO | open |
+| # | Group | Question | Why it matters | Recommended answer | Answer | Source | Becomes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Boundary | Is the points-expiry batch in scope? | Decides who builds and runs expiry | Yes, we own it | Out of scope; data platform owns it | PO 2026-11-03 | D-01 closed |
+| 2 | Quality | How fast must a new balance show in the app? | Drives sync vs async posting | Within 5 s | TBD | owner: PO | open |
 ```

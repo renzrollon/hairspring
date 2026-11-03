@@ -1,29 +1,29 @@
-# Requirement release notes: <OLD> -> <NEW>
+# Requirement release notes: {OLD} -> {NEW}
 
-- From: `<OLD>` (<created>, <commit>) - <manifest message>
-- To: `<NEW>` (<created>, <commit>) - <manifest message>
+- From: `<OLD>` ({created}, {commit}) - {manifest message}
+- To: `<NEW>` ({created}, {commit}) - {manifest message}
 
-Summary: <n> added, <n> changed, <n> status changed, <n> withdrawn, <n> removed.
+Summary: {n} added, {n} changed, {n} status changed, {n} withdrawn, {n} removed.
 
 ## Added
 
-- **<ID>** <Title or Text> (<Type>, <Priority>). Decision: <CR-/RDR- IDs from Links>
+- **{ID}** {Title or Text} ({Type}, {Priority}). Decision: {CR-/RDR- IDs from Links}
 
 ## Changed
 
-- **<ID>** <Title or Text> (<Type>, <Priority>): <text; Version a -> b; Priority a -> b; ...>. Decision: <...>
+- **{ID}** {Title or Text} ({Type}, {Priority}): <text; Version a -> b; Priority a -> b; ...>. Decision: <...>
 
 ## Status changes
 
-- **<ID>** <Title or Text> (<Type>, <Priority>): Status <a> -> <b>
+- **{ID}** {Title or Text} ({Type}, {Priority}): Status <a> -> <b>
 
 ## Withdrawn
 
-- **<ID>** <Title or Text> (<Type>, <Priority>): Status <a> -> withdrawn. Rationale: <...>. Decision: <...>
+- **{ID}** {Title or Text} ({Type}, {Priority}): Status <a> -> withdrawn. Rationale: <...>. Decision: <...>
 
 ## Removed from the register
 
-- **<ID>** (<Type>, <Priority>)
+- **{ID}** ({Type}, {Priority})
 
 <!-- Everything above is written by `re-lint baseline notes`; sections with no entries are left out. The review below is added by the baseline skill. -->
 
@@ -34,7 +34,7 @@ Summary: <n> added, <n> changed, <n> status changed, <n> withdrawn, <n> removed.
 
 ## Review: uncontrolled changes
 
-Changes to requirements that were agreed or later in <OLD> and have no change request or decision record.
+Changes to requirements that were agreed or later in {OLD} and have no change request or decision record.
 
-| ID | Class | Status in <OLD> | Next step |
+| ID | Class | Status in {OLD} | Next step |
 | --- | --- | --- | --- |

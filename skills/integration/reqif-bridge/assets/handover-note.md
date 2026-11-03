@@ -1,8 +1,8 @@
-# Requirements exchange: <title>
+# Requirements exchange: {title}
 
-To: <customer tool admin> · From: <name, role> · Date: <YYYY-MM-DD>
+To: {customer tool admin} · From: {name, role} · Date: {YYYY-MM-DD}
 
-**File:** `<file name>.reqif`: ReqIF 1.2, UTF-8, <n> requirements in one specification ("<title>"), one object type "Requirement", every attribute a plain string.
+**File:** `<file name>.reqif`: ReqIF 1.2, UTF-8, {n} requirements in one specification ("{title}"), one object type "Requirement", every attribute a plain string.
 
 **Attributes** (please map them in your import):
 
@@ -11,7 +11,7 @@ To: <customer tool admin> · From: <name, role> · Date: <YYYY-MM-DD>
 | ID | our requirement ID, also the object IDENTIFIER | ReqIF.ForeignID | do not change |
 | Title | short name | ReqIF.Name | free text |
 | Text | the requirement statement | ReqIF.Text | plain text |
-| <column> | <meaning> | <target> | <values from schema.json enums, or free text> |
+| {column} | {meaning} | {target} | {values from schema.json enums, or free text} |
 
 **For a clean round-trip, please:**
 

@@ -36,10 +36,12 @@ requirements/
   trace/trace.md               traceability-matrix  Coverage summary, Mermaid graph, gap report
   changes/CR-nnn-<slug>.md     change-impact        Change request with impact set, options, recommendation, decision
   priorities.csv               prioritization       Items, criteria scores, weights, score, rank, tie flags
-  views/<view>.md              attribute-schema     Selective, projective and aggregating views per audience
+  priorities.md                prioritization       Run record: goal, scorers, who agreed the weights and when, disputed items
+  views/<view>.md|.csv         attribute-schema     Selective, projective and aggregating views per audience
   baselines/<name>.json        baseline             Manifest of requirement IDs, versions, hashes at a point in time
-  spec/spec.md                 spec-assembler       Assembled specification (SRS / Volere-structured / arc42-aligned chapter)
-  exports/                     reqif-bridge         .reqif exports and import diffs
+  baselines/<name>-notes.md    baseline             Requirement release notes since the previous baseline
+  spec/spec.md, spec/spec.docx spec-assembler       Assembled specification (SRS / Volere-structured / arc42-aligned chapter)
+  exports/                     reqif-bridge         .reqif exports and import-diff-<date>.md reports
 openspec/changes/<change>/     to-openspec          OpenSpec change folder (outside requirements/ because OpenSpec expects it there)
 ```
 
@@ -52,11 +54,30 @@ openspec/changes/<change>/     to-openspec          OpenSpec change folder (outs
 5. **Diagrams sit next to the text they illustrate**, as fenced `mermaid` blocks inside the Markdown work product.
 6. **Missing workspace is not a blocker.** If `requirements/` does not exist, create only the files the current skill emits, use the default schema, and recommend `/re-setup` in the final message.
 
+## Register columns
+
+CSV registers have a fixed header. The owning skill's `assets/` holds the template; this table is the summary.
+
+| File | Columns (in order) |
+| --- | --- |
+| `requirements.csv` | `ID,Type,Text,Source,Priority,Status,Rationale` then optional `Title,Owner,Version,Stability,Risk,Verification,Kano,Links,Tags` |
+| `sources.csv` | `ID,Source,Kind,Category,Version,Location,Contact,Technique,Relevance,Status,Notes` |
+| `candidates.csv` | `ID,Statement,Type,Technique,Source,Location,Quote,Disposition,Reason,Owner,Kano,Requirement` |
+| `constraints.csv` | `ID,Title,Category,Mandated by,Mandate reference,Expires,Review by,Negotiable,If violated,Affects,Open question` |
+| `verification.csv` | `ID,Text,Method,Criterion,Test idea,Level,Verifiable,Question,Basis` |
+| `priorities.csv` (Wiegers) | `ID,Title,Benefit,Penalty,Cost,Risk,Score,Rank,Tie` (WSJF and ad hoc variants in the `prioritization` assets) |
+| `trace/trace.csv` | `From,FromType,To,ToType,Relation,Evidence` |
+
+**Key columns in Markdown work products.** Only registers (`requirements.csv`, and CSV detail registers keyed by requirement ID) use a column named `ID` for requirement IDs. Markdown reports and models refer to requirements in a column named `Requirement` (or `R-ID` in model tables), so `re-lint` does not mistake a report table for a register. `re-lint check` also skips `changes/`, `decisions/` and `reviews/` by default.
+
+**Columns other skills update.** `testability-check` sets `Verification`; `issue-sync` refreshes `Status` and appends tracker references to `Links`; `conflict-to-decision` updates the status of the conflict in `conflicts.md` and adds `RDR-nnn` to the affected requirements' `Links`; `change-impact` increments `Version` (an empty `Version` counts as 1).
+
 ## Templates in `assets/`
 
 | File | Used by |
 | --- | --- |
 | `schema.json` | `re-setup`, `attribute-schema`, every script (`DEFAULT_SCHEMA`) |
 | `requirements.csv` | every skill that emits requirements |
+| `candidates.csv` | `artifact-mining`, `interview-guide`, `elicitation-workshop`, `observation-protocol` (each keeps an identical copy; a test enforces it) |
 
 Skill-specific templates live in each skill's own `assets/` folder.

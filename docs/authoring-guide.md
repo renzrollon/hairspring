@@ -129,6 +129,14 @@ Optional sections, after `Hand-offs`: `## Non-interactive mode`, `## Pitfalls`, 
 
 The canonical layout is in `re-templates/references/workspace-layout.md`. In short: everything lives under `requirements/` at the repo root; `requirements/requirements.csv` is the single register of requirement statements (F, Q and C). Detail work products (`quality-requirements.md`, `constraints.csv`, `verification.csv`, stories, models) reference requirement IDs and may echo the text for readability; when they do, `requirements.csv` wins.
 
+### 5.1 Table and template conventions
+
+- **Placeholders** in asset templates are written `{like-this}`. GitHub's Markdown renderer strips unknown `<tags>` outside code, so `<role>` would vanish when someone browses the template. Inside code fences and inline code, `<like-this>` is fine.
+- **Key columns.** Only registers use a column named `ID` for requirement IDs. Markdown reports and models name it `Requirement` (or `R-ID` in model tables), so `re-lint` never mistakes a report for a register.
+- **Pipes in tables.** Escape `|` inside table cells as `\|`, including inside code spans.
+- **Mermaid.** Use the subset that renders on GitHub; read [`docs/mermaid-notes.md`](mermaid-notes.md) before writing a new diagram type.
+- **File names.** Never name a bundled file `metadata.json`: `npx skills` drops it on install.
+
 ## 6. Minimum schema (inline fallback)
 
 Every skill that emits requirements can rely on this even when `requirements/schema.json` does not exist:
