@@ -64,7 +64,7 @@ def test_create_refuses_to_overwrite_and_validates_names(repo, capsys):
     again = run_cli(baseline, ["create", "v1"], capsys)
     assert again.code == 2 and "immutable" in again.err
     assert run_cli(baseline, ["create", "v1", "--force"], capsys).code == 0
-    for bad in ("../x", "-v1", "a..b", "working", "v1.lock"):
+    for bad in ("../x", "v 1", "a..b", "working", "v1.lock", "v1."):
         assert run_cli(baseline, ["create", bad], capsys).code == 2, bad
 
 

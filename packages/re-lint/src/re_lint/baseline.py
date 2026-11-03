@@ -293,11 +293,12 @@ def render_notes(diff: Dict, old: Dict, new: Dict, reqs: Dict, decision_prefixes
         text = f"- **{e['ID']}**" + (f" {_md_cell(label)}" if label else "") + (f" ({attrs})" if attrs else "")
         if e["class"] in ("changed", "status-changed", "withdrawn"):
             text += ": " + "; ".join(_describe(c) for c in e["changes"])
+        extras = []
         if e["class"] == "withdrawn" and row is not None and row.get_str("Rationale"):
-            text += f". Rationale: {_md_cell(row.get_str('Rationale'))}"
+            extras.append(f"Rationale: {_md_cell(row.get_str('Rationale')).rstrip('.')}")
         if decisions:
-            text += f". Decision: {', '.join(decisions)}"
-        return text
+            extras.append(f"Decision: {', '.join(decisions)}")
+        return text + ("".join(f". {x}" for x in extras))
 
     titles = {"added": "Added", "changed": "Changed", "status-changed": "Status changes",
               "withdrawn": "Withdrawn", "removed": "Removed from the register"}
