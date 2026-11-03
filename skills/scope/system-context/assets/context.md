@@ -6,7 +6,7 @@ Last updated {YYYY-MM-DD} by {name or role}. Status: draft.
 
 ## System boundary
 
-What the system does or owns (`inside`), what another system or team does (`outside: <owner>`), and what is not decided yet (`grey zone: D-nn`).
+What the system does or owns (`inside`), what another system or team does (`outside: owner`), and what is not decided yet (`grey zone: D-nn`).
 
 | Capability or responsibility | Side | Source |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ One row per data flow. Direction: `in` = to the system, `out` = from the system,
 
 | ID | Question | Options | Recommended | Owner | Status |
 | --- | --- | --- | --- | --- | --- |
-| {D-nn} | {boundary question} | <(a) ...; (b) ...> | {option and why} | {role or SH-nn} | {open / decided: answer (who, date) / RDR-nnn} |
+| {D-nn} | {boundary question} | {(a) ...; (b) ... (one option is "outside")} | {option and why} | {role or SH-nn} | {open / decided: answer (who, date) / RDR-nnn} |
 
 ## Questions and answers
 

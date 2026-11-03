@@ -5,7 +5,7 @@ description: >-
   flowchart with one subgraph per responsible role or system (PlantUML activity optional),
   showing actions, decisions with labeled outcomes, parallel branches and who does each step.
   Long exception paths become separate flows by a fixed readability rule. Writes
-  requirements/models/flow-<name>.md with lane, step and decision tables linked to requirement
+  requirements/models/flow-{name}.md with lane, step and decision tables linked to requirement
   IDs. Use when work passes between people, teams or systems (refunds, returns, approvals,
   onboarding, month-end), when someone asks "who does what", "draw the process", "what happens
   after X", "where can this go wrong", or when a ticket or use case hides hand-overs between
@@ -30,9 +30,9 @@ Defects in processes sit at the hand-overs: a step nobody owns, a decision with 
 
 ## When not to use
 
-- One primary actor pursuing one goal with the system (main scenario, extensions): `use-case-spec`.
+- One primary actor pursuing one goal with the system (main scenario, extensions): suggest `/use-case-spec`.
 - Which states one entity passes through and what each event does in each state: `state-model`.
-- What is inside the system and which external systems and people it talks to: `system-context`.
+- What is inside the system and which external systems and people it talks to: suggest `/system-context`.
 - The business objects and their relationships: `domain-model`.
 
 ## Inputs
@@ -74,8 +74,8 @@ Defects in processes sit at the hand-overs: a step nobody owns, a decision with 
 
 ## Hand-offs
 
-- **Next:** `requirement-phrasing` with the Requirement candidates; `testability-check` (each path from start to end is a test scenario); `requirements-review` for the set.
-- **Feeds back to:** `clarifying-questions` with unassigned lanes and `TBD` branches; `state-model` when a decision is really "which state is the entity in"; `stakeholder-map` when a lane has no named representative; `glossary` with new terms.
+- **Next:** `requirement-phrasing` with the Requirement candidates; `testability-check` (each path from start to end is a test scenario); suggest `/requirements-review` for the set.
+- **Feeds back to:** `clarifying-questions` with unassigned lanes and `TBD` branches; `state-model` when a decision is really "which state is the entity in"; suggest `/stakeholder-map` when a lane has no named representative; `glossary` with new terms.
 
 ## Non-interactive mode
 

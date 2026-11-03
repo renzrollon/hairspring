@@ -11,7 +11,7 @@ ID,Statement,Type,Technique,Source,Location,Quote,Disposition,Reason,Owner,Kano,
 | `ID` | yes | `CAN-` + 3 digits (schema `ids.candidate`) | Allocated with `re-ids --kind candidate`. Never reused, never renumbered. |
 | `Statement` | yes | One sentence | What the system does or must do, in domain words and glossary terms. No table, column, class or queue names. Numbers only if they are in the quote. |
 | `Type` | yes | `F`, `Q`, `C`, `TBD` | First guess. `requirement-classifier` decides when unsure. |
-| `Technique` | yes | `document-analysis`, `system-archaeology`, `feedback-analysis`, `interview`, `workshop`, `observation`, `questionnaire` | How the candidate was found. |
+| `Technique` | yes | `document-analysis`, `system-archaeology`, `feedback-analysis`, `interview`, `workshop`, `observation`, `questionnaire` | How the candidate was found. The same tokens as `Technique` in `sources.csv`; a source planned as `apprenticing` yields `observation`, one planned as `reuse` yields `document-analysis`. |
 | `Source` | yes | `S-nn`, `I-nn`, `SH-nn`, or a person or role and ISO date | The source register ID when there is one. |
 | `Location` | yes | See below | Where the quote is. Repo-relative, forward slashes. |
 | `Quote` | yes | Verbatim text, a few lines at most | Whitespace may be collapsed; `...` marks a gap; personal data masked as `[name]`, `[email]`, `[phone]`, `[nric]`, `[card]`, `[address]`, `[member]` or `[redacted]`. |

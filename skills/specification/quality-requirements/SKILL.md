@@ -10,7 +10,8 @@ description: >-
   secure must it be", at project kick-off, before a design or architecture review, or when tickets
   say fast, scalable, secure, reliable, auditable or user-friendly. Not for one sentence that
   already has its target (use requirement-phrasing), mandates such as regulations, platforms or
-  deadlines (constraints-register), or functional behavior questions (clarifying-questions).
+  deadlines (constraints-register), checking that existing ones are verifiable
+  (testability-check), or functional behavior questions (clarifying-questions).
 license: MIT
 disable-model-invocation: true
 argument-hint: "[system or part, notes file] [planguage]"
@@ -31,7 +32,7 @@ Quality requirements are the class elicitation under-collects and the one that d
 
 ## When not to use
 
-- One statement whose target a stakeholder already gave ("balance visible within <n> seconds"): `requirement-phrasing`.
+- One statement whose target a stakeholder already gave ("balance visible within {n} seconds"): `requirement-phrasing`.
 - Mandates from outside the team (regulation, platform standard, interface spec, deadline): `constraints-register`.
 - Questions about functional behavior before implementing: `clarifying-questions`.
 - Checking whether existing quality requirements are verifiable: `testability-check`.
@@ -89,7 +90,7 @@ Quality requirements are the class elicitation under-collects and the one that d
 
 - [ ] The *Walkthrough* has all nine 2023 characteristics (including interaction capability, flexibility and safety), each with a decision and a reason; "usability" and "portability" are not used as characteristic names.
 - [ ] Every requirement has metric, target, condition and measurement method; every unknown is `TBD` with an open question and owner.
-- [ ] Every number in a *Target* came from a named person or source; baselines sit in *Condition*, labelled as baselines.
+- [ ] Every number in a *Target* came from a named person or source; baselines sit in *Condition*, labeled as baselines.
 - [ ] One target and one `shall` per requirement; no weak words left in `Text`.
 - [ ] Every requirement has a *Driver* value; every `yes` and `TBD` has a reason.
 - [ ] `requirements.csv` rows are Type Q, `draft`, with `Source`; the target in each `Text` matches the *Target* column.

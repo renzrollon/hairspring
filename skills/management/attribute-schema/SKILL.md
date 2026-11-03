@@ -10,7 +10,8 @@ description: >-
   architect the agreed quality requirements", "what has no verification method", "a finance view
   of the S-05 requirements"), or before spec-assembler needs attribute views. Not for allocating
   IDs or filling attributes on new rows (re-ids), wording checks (requirement-linter), first-time
-  repository setup (re-setup), or mapping tracker statuses (issue-sync).
+  repository setup (re-setup), mapping tracker statuses (issue-sync), or freezing and comparing
+  versions of the set (baseline).
 license: MIT
 compatibility: Python 3.9+ optional for scripts/views.py; works without it.
 metadata:
@@ -60,7 +61,7 @@ Attributes make a requirement manageable: status says where it stands, priority 
 5. **Show, then write.** Show the JSON diff. After confirmation (or directly in non-interactive mode), write `schema.json`: 2-space indent, existing key order, trailing newline. If the user wants the new column filled in `requirements.csv`, add it after the existing columns, propose a value per row, and write after confirmation. Unknown values are `TBD`.
 6. **Validate.** Run `re-lint check` (rules `missing-attribute` and `invalid-enum`), or the `requirement-linter` skill. Without either, check by hand that every required cell is filled and every enum cell holds an allowed value or `TBD`. Report the failing rows with `file:line`. Do not change their values without the owner.
 7. **Define views.** Turn the audience's need into a view definition: a selective `filter`, projective `columns`, an aggregating `group_by`, and `sort_by`. Use only the keys and conditions in `references/views-format.md`; any other key makes the script stop. Start from a built-in in `assets/views.json` when it is close. Write the definition under `schema.json` → `views.<name>`, with a kebab-case name, and put the audience in `description`.
-8. **Generate views.** Run `python3 <skill-dir>/scripts/views.py` to write all views, or `python3 <skill-dir>/scripts/views.py --view <name> [<name> ...]` for some (`--list` shows them); `re-lint views` takes the same arguments. Fix any column the script warns about. Add `--format csv` for spreadsheet users. The output goes to `requirements/views/<name>.md`. Without Python, apply the filter, columns and counts by hand and fill `assets/view.md`; write "built manually" in the Source field.
+8. **Generate views.** Run `re-lint views` (or `python3 <skill-dir>/scripts/views.py`, same arguments) to write all views, or add `--view <name> [<name> ...]` for some (`--list` shows them). Fix any column the script warns about. Add `--format csv` for spreadsheet users. The output goes to `requirements/views/<name>.md`. Without Python, apply the filter, columns and counts by hand and fill `assets/view.md`; write "built manually" in the Source field.
 9. **Report.** List the schema keys you changed, the validation findings, and each view file with its row count.
 
 ## Quality checks

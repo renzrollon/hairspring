@@ -35,11 +35,11 @@
 
 ## Recording format
 
-Inside the calling skill's work product:
+Inside the calling skill's work product (the same columns as `clarifying-questions`' `assets/questions.md`). *Source* is the person and date once answered, `owner: <role>` while open; *Becomes* names the ID the answer turned into, or `open`.
 
 ```markdown
 | # | Group | Question | Why it matters | Recommended answer | Answer | Source | Becomes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Boundary | Is the points-expiry batch in scope? | Decides who builds and runs expiry | Yes, we own it | Out of scope; data platform owns it | PO 2026-11-03 | D-01 closed |
-| 2 | Quality | How fast must a new balance show in the app? | Drives sync vs async posting | Within 5 s | TBD | owner: PO | open |
+| 2 | Quality | How fast must a new balance show in the app? | Drives sync vs async posting | No recommendation: needs a business value | TBD | owner: PO | open |
 ```

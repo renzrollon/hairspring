@@ -2,7 +2,7 @@
 
 ## Before / after
 
-| Original | Rewritten | Pattern | ID |
+| Original | Rewritten | Pattern | Requirement |
 | --- | --- | --- | --- |
 | "the app should quickly show the new balance" | WHEN the loyalty service posts points for a purchase, the customer mobile app shall display the updated points balance on the member's next balance request. | Event-driven | R-023 |
 | ("quickly") | WHEN the loyalty service posts points for a purchase, the updated balance shall be available to the customer mobile app within TBD seconds. | Event-driven, quality | R-024 |

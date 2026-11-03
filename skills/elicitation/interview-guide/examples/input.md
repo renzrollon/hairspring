@@ -34,4 +34,4 @@ read-back: phone/card lookup yes, receipt search yes, reason list yes, NRIC yes 
 close: talk to Grace about the threshold; read the support playbook "Loyalty cases v4"
 ```
 
-The expected output is the interview file after run 2 (`expected-output.md`) and the rows appended to `requirements/candidates.csv` (`expected-candidates.csv`).
+The expected output is the interview file `requirements/elicitation/interview-support-lead.md` after run 2 (`expected-output.md`) and the rows appended to `requirements/candidates.csv` (`expected-candidates.csv`).

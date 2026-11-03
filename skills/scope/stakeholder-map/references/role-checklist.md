@@ -41,4 +41,4 @@ Check every role in the first table. Check a role in the second table when its t
 | `yes` | The trigger applies and nobody covers it | Add a row with Representative `TBD`; open question to the person who can name one |
 | `unclear` | Nobody can say yet whether the trigger applies or whether an existing row covers it | Open question only |
 
-Below the table, one line: "Not applicable (trigger not found in the inputs): <roles>."
+Below the table, one line: "Not applicable (trigger not found in the inputs): {roles}."

@@ -13,7 +13,7 @@ metadata:
   stage: primitives
   invocation: primitive
   priority: P0
-  ireb-anchor: "CPRE FL Handbook 1.2 §6.5"
+  ireb-anchor: "CPRE FL Handbook 1.2 §6.5, §6.3"
   inputs-from: "re-templates"
   outputs-to: "requirement-linter, traceability-matrix"
   work-product: "IDs and attribute-complete rows in any register"
@@ -44,10 +44,10 @@ IDs and attributes from the first requirement: every emitted row gets a unique, 
 
 ## Procedure
 
-1. **Get the next IDs.** Run `python3 <skill-dir>/scripts/re_ids.py next --kind <kind> --count <n>` (or `re-lint ids next ...` if the package is installed). Kinds and default prefixes are in `references/id-scheme.md`.
-2. **Manual fallback.** Without Python: search every file under `requirements/` (and commit messages if you can) for the prefix, take the highest number including withdrawn IDs, add one, pad to the schema digits.
+1. **Get the next IDs.** Run `python3 <skill-dir>/scripts/re_ids.py next --kind <kind> --count <n>` from the repo root (or `re-lint ids next --kind <kind> --count <n>` if the package is installed). It prints one ID per line. Kinds: `requirement` (default), `source`, `stakeholder`, `interview`, `candidate`, `conflict`, `decision`, `open-decision`, `change`, `finding`; prefixes and digits are in `references/id-scheme.md`. `re_ids.py list --kind <kind>` shows the IDs already in use with their `file:line`.
+2. **Manual fallback.** Without Python: search every file under `requirements/` (and commit messages if you can) for the prefix, take the highest number including withdrawn IDs and IDs that are only cited, add one, pad to the schema digits.
 3. **Fill the attributes.** Every requirement row needs `ID, Type, Text, Source, Priority, Status, Rationale`. Unknown values are `TBD`, never a guess; add the open question to the calling skill's output.
-4. **Validate before saving.** Run `python3 <skill-dir>/scripts/re_ids.py check <file>`. Fix duplicates and pattern errors before handing off.
+4. **Validate before saving.** Run `python3 <skill-dir>/scripts/re_ids.py check <file>`. Exit code 1 lists duplicates, malformed IDs or empty required attributes: fix them before handing off. Exit code 2 means the file or `schema.json` could not be parsed.
 
 ## Quality checks
 

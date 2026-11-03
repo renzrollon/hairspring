@@ -13,6 +13,7 @@ Header: `From,FromType,To,ToType,Relation,Evidence`. Every row starts at a requi
 | `code` | `implemented-by` | Repo-relative file path | Files under the code globs, and code paths in `Links` |
 | `test` | `verified-by` | `path::test name`, or the path when no test name is found nearby | Files under the test globs, and test paths in `Links` |
 | `commit` | `mentioned-in` | Short commit hash | `git log` subjects and bodies (when `trace.scan_git_log` is true) |
+| `code` | `mentioned-in` | Repo-relative path of an OpenSpec file | Files under `openspec/` (hand-offs written by `to-openspec`). A mention is not an implementation reference and never closes or opens a gap |
 
 Column rules:
 
@@ -26,7 +27,7 @@ Which files are scanned:
 - A file under a decision folder is a decision, a file matching a test glob is a test, and any other file matching a code glob is code, in that order. `internal/redeem/rules_test.go` is therefore a test.
 - Globs are matched against the repo-relative path. `**` spans folders, and a pattern without `/` matches at any depth, so `src/**` does not match `web/src/x.ts`.
 - `--code-glob` and `--test-glob` **replace** the globs in `schema.json` for that run. Pass every glob you need, or add the extra ones to `schema.json` → `trace` so CI sees them too.
-- Files under the workspace (`requirements/`) and `openspec/` are not scanned as code. Neither are binary files, dependency folders (`node_modules`, `vendor`, `.venv`, ...) or files larger than `--max-bytes`.
+- Files under the workspace (`requirements/`) are not scanned as code. Files under `openspec/` are scanned for mentions only (`code`, `mentioned-in`). Binary files, dependency folders (`node_modules`, `vendor`, `.venv`, ...) and files larger than `--max-bytes` are skipped.
 - In test files, the test-name forms `test_r_041_...`, `TestR041_...` and `r041` count inside identifiers that start with `test`. Elsewhere in a test file, only `R-041` and the marker spelling `R041` count. Set `"trace": {"test_name_forms": false}` to accept only `R-041`.
 
 Example rows (loyalty-points):
@@ -49,7 +50,7 @@ The sections come in this order (template: `assets/trace.md`):
 2. **Coverage summary**: the fixed rows in the template. The counts are for requirements of every status except `withdrawn` and `rejected`, plus the register size and the number of links.
 3. **Graph**: one Mermaid `graph LR` of requirements, sources, decisions, code files and test files. Code and tests are grouped per file, and commits are left out. Node IDs have the punctuation removed (`R041["R-041"]`, `srcloyaltyredeempy[["src/loyalty/redeem.py"]]`). Requirements with a gap get `class ... gap`, retired ones get `class ... retired`. Above `--max-graph-edges` links, the graph is cut and a note says so.
 4. **Gaps**: one table per gap kind below, always present. An empty table shows `None.`.
-5. **Matrix**: one row per requirement with its sources, decisions, code, tests and commits.
+5. **Matrix**: one row per requirement with its sources, decisions, code, tests, commits and specs (`openspec/` mentions).
 6. **Commits citing requirement IDs**: short hash and subject. This section appears only when commits were found.
 
 ## Gap kinds (`gaps.json` → `gaps[].kind`)

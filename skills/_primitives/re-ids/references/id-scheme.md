@@ -10,7 +10,7 @@ Defaults below come from `re-templates/assets/schema.json`. A repo's `requiremen
 | acceptance criterion | `<R-ID>.AC` | n | `R-031.AC2` | `user-story-refiner` | `stories/*.md` |
 | `source` | `S-` | 2 | `S-04` | `source-inventory` | `sources.csv` |
 | `stakeholder` | `SH-` | 2 | `SH-07` | `stakeholder-map` | `stakeholders.md` |
-| `interview` | `I-` | 2 | `I-03` | `interview-guide`, `clarifying-questions` (any recorded elicitation conversation) | `elicitation/` |
+| `interview` | `I-` | 2 | `I-03` | `interview-guide` (`clarifying-questions` answers cite the person and date instead) | `elicitation/interview-*.md` |
 | `candidate` | `CAN-` | 3 | `CAN-041` | `artifact-mining`, capture templates | `candidates.csv` |
 | `conflict` | `CF-` | 2 | `CF-02` | `conflict-detector` | `conflicts.md` |
 | `decision` | `RDR-` | 3 | `RDR-007` | `conflict-to-decision` | `decisions/` |

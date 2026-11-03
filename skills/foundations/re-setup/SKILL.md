@@ -51,13 +51,13 @@ Every other skill writes to `requirements/` and reads `requirements/schema.json`
 
 | File | Shape | Consumed by |
 | --- | --- | --- |
-| `requirements/README.md` | `assets/README.md` | people; `change-impact` (change authority), `user-story-refiner` (DoR, story template) |
-| `requirements/schema.json` | `assets/schema.json` with `process`, `ids`, `attributes` and `definition_of_ready` set | every skill and script |
+| `requirements/README.md` | `assets/README.md` | people; `change-impact` (change authority) |
+| `requirements/schema.json` | `assets/schema.json` with `process`, `ids`, `attributes` and `definition_of_ready` set | every skill and script; `user-story-refiner` reads `definition_of_ready` |
 | `requirements/requirements.csv`, header only, only if missing | `re-templates/assets/requirements.csv` | every emitting skill |
 
 ## Procedure
 
-1. **Read the workspace.** Look for `requirements/` (or the `workspace` named in an existing `schema.json`). If `schema.json` exists, this is a re-run: load it and apply step 7. List the IDs already in use per kind (`re-lint ids list`, or search the workspace for each prefix). Load the defaults from `assets/schema.json`; if the vendored copy is missing, use `re-templates/assets/schema.json`.
+1. **Read the workspace.** Look for `requirements/` (or the `workspace` named in an existing `schema.json`). If `schema.json` exists, this is a re-run: load it and apply step 7. List the IDs already in use per kind with the `re-ids` primitive (`re_ids.py list`, or `re-lint ids list`; without either, search the workspace for each prefix). Load the defaults from `assets/schema.json`; if the vendored copy is missing, use `re-templates/assets/schema.json`.
 2. **Skim the repo before asking.** Read only the top-level `README*`, `CONTRIBUTING*`, the `docs/` index, `.github/`, tracker config, and files whose names contain contract, tender, rfp, sow, compliance, audit or regulation. Read `references/process-facets.md` and note evidence for each facet with `file:line`. Evidence sets the recommended answer; it never replaces the answer.
 3. **Ask batch A: facets (4 questions).** Follow `re-interview` in batch mode: one numbered message, each question with its recommended answer and the evidence behind it, so the user can reply `yes` or `defaults`. If the user started with `/re-setup defaults` or says "use your recommendations", ask nothing: take the recommended answers for batches A and B, record them as `defaults accepted by <name>, <date>`, and list them in the final message for review.
 
@@ -86,8 +86,8 @@ Every other skill writes to `requirements/` and reads `requirements/schema.json`
    - Enum values may be added. A value may be removed or renamed only when no existing row uses it.
    - Only a named person moves a requirement to `agreed`; no facet changes that.
 7. **Re-run rules.** When `schema.json` exists: show a key-by-key diff (old → new) and write only after confirmation. Keep every key the user or `attribute-schema` added (`views`, `lint`, `issues`, custom ID kinds). Keep README Open questions that are still open and add a row to Setup history.
-8. **Write.** Fill `assets/README.md` exactly (same headings, same columns; the Story template section only when stories are kept) and save it as `requirements/README.md`. Copy the default schema, set `process.lifecycle`, `process.approach`, `process.target`, `process.change_authority`, `ids`, `attributes` and `definition_of_ready`, and save it as `requirements/schema.json` (2-space indent, template key order). Create `requirements/requirements.csv` with the header only if it does not exist (`re-templates`). Create no other files.
-9. **Verify.** Parse `schema.json` as JSON (`python3 -m json.tool requirements/schema.json`, or any JSON parser). If `re-lint` is installed, run `re-lint ids check`: exit code 2 means the schema is broken. Compare the README's DoR list with `definition_of_ready` item by item.
+8. **Write.** Fill `assets/README.md` exactly (same headings, same columns; the Story template block only when stories are kept, else its one-line "Not used" form) and save it as `requirements/README.md`. Copy the default schema, set `process.lifecycle`, `process.approach`, `process.target`, `process.change_authority`, `ids`, `attributes` and `definition_of_ready`, and save it as `requirements/schema.json` (2-space indent, template key order). Create `requirements/requirements.csv` with the header only if it does not exist (`re-templates`). Create no other files.
+9. **Verify.** Parse `schema.json` as JSON (`python3 -m json.tool requirements/schema.json`, or any JSON parser). Then run the `re-ids` check (`python3 <re-ids skill-dir>/scripts/re_ids.py check`, or `re-lint ids check`): exit code 2 means the schema or a register cannot be parsed. Compare the README's DoR list with `definition_of_ready` item by item.
 10. **Report.** Final message: the four facet choices in one line, the change authority, the files written, the open questions, and the next step.
 
 ## Quality checks

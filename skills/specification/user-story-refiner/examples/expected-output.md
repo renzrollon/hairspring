@@ -218,4 +218,4 @@
 | Q3 | What voucher validation time at the till keeps checkout from getting slower at peak? | Measure today's checkout time first; run `/quality-requirements` | SH-02 Arjun Pillai | quality requirement, not yet written | open |
 | Q4 | When do vouchers expire, and what happens to the points of an expired voucher? | Same as points (12 months, S-01 draft) | SH-01 Mei Tan | expiry criteria, not yet written | deferred |
 | Q5 | Do points returned by a cancelled voucher keep their original expiry date? | Keep the original date | SH-03 Grace Lim | R-042.AC1 | open |
-| Q6 | Must a support agent give a reason code when cancelling a voucher, as for points adjustments? | Yes, the same reason codes | SH-06 Daniel Ng | R-042 | open |
+| Q6 | Must a support agent give a reason code when canceling a voucher, as for points adjustments? | Yes, the same reason codes | SH-06 Daniel Ng | R-042 | open |

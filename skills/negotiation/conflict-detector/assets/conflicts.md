@@ -4,15 +4,15 @@
 
 | Field | Value |
 | --- | --- |
-| Last scan | YYYY-MM-DD |
-| Scanned | requirements/requirements.csv ({n} requirements; withdrawn and rejected skipped)<, other files> |
+| Last scan | {YYYY-MM-DD} |
+| Scanned | requirements/requirements.csv ({n} requirements; withdrawn and rejected skipped){, other files read} |
 | Schema | requirements/schema.json \| defaults (no schema.json found) |
 
 ## Register
 
 | ID | Subject | Kind | Requirements | Stakeholders | Type | Recommended technique | Route | Status | Decision |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| CF-nn | {subject in glossary terms} | {kind} | R-nnn, R-nnn | SH-nn, SH-nn | {type} | {technique}; aid: {analysis aid} | /conflict-to-decision CF-nn \| escalate to {role} | open | |
+| CF-nn | {subject in glossary terms} | {kind} | R-nnn, R-nnn | SH-nn, SH-nn | {type} | {technique}; aid: {analysis aid} | /conflict-to-decision CF-nn \| escalate to {role} | {open \| escalated} | |
 
 Kind: `contradiction` | `overlap` | `inconsistent conditions` | `differing level of detail` | `priority disagreement`.
 Type: `subject matter` | `data` | `interest` | `value` | `relationship` | `structural`.
@@ -32,14 +32,16 @@ Status: `open` | `escalated` | `resolved` | `not-a-conflict`. Decision: `RDR-nnn
 - **Recommended technique:** {technique}, because {reason}. Analysis aid: {aid}.
 - **Route:** /conflict-to-decision CF-nn; decision-makers: {names or roles, or TBD} | escalate to {role}
 - **Open questions:** {question} (owner: {role}) | none
-- **Status:** open
+- **Status:** {open \| escalated}
 
 ## Checked, not a conflict
 
 | Requirements | Looked like | Why not a conflict |
 | --- | --- | --- |
+| R-nnn, R-nnn | {what made it look like a conflict} | {reason: different subjects, different scopes, agreed refinement, wording defect} |
 
 ## Open questions
 
 | # | Question | Owner | Affects |
 | --- | --- | --- | --- |
+| Q1 | {question, with a recommended answer where one exists} | {SH-nn name, or role} | {CF-nn} |

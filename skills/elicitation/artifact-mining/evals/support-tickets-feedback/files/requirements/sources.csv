@@ -1,2 +1,2 @@
-ID,Source,Kind,Technique
-S-03,"Support ticket export, loyalty category, 2026 H1 (support/loyalty-tickets-2026h1.csv)",document,feedback-analysis
+ID,Source,Kind,Category,Version,Location,Contact,Technique,Relevance,Status,Notes
+S-03,"Support ticket export, loyalty category",document,ticket export,2026 H1,support/loyalty-tickets-2026h1.csv,SH-06,feedback-analysis,medium,planned,Exported by the support lead; contains member personal data.

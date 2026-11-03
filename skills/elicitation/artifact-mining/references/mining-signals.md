@@ -41,7 +41,7 @@ A contract owned by another party (the POS vendor's interface spec, S-02) is an 
 - Terms and conditions, contracts, regulations, policies: each clause with an obligation ("must", "shall", "may not", "within n days") is a candidate; regulations and contracts often give `C`.
 - Specs and PRDs: separate requirements from facts ("the POS will be upgraded in March" is context) and from solutions ("use Redis").
 - Runbooks and operating procedures: manual steps people perform to keep the old system right are needs the new system may have to cover; they are `confirm` until an owner says so.
-- Drafts: a clause marked draft or "to be confirmed" makes its candidates `confirm`, owner = whoever must confirm it.
+- Drafts: a clause marked "draft" or "to be confirmed" on its own makes its candidates `confirm`, owner = whoever must confirm it. A whole document labeled draft ("terms draft v3") still backs `keep` while it is the version in use; say "draft" in `Reason`.
 
 ## Tickets, support logs, reviews (feedback analysis)
 

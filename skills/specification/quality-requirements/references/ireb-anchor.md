@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §1.2 Kinds of requirements (quality requirements); §4.2 Elicitation of requirements (ISO/IEC 25010 as a checklist) |
-| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Quality requirement; Functional requirement; Constraint; Stakeholder; Requirements source |
 | Quality criteria touched | verifiable, unambiguous, adequate (single requirement); complete (set) |
 | Other standards | ISO/IEC 25010:2023, clause "Product quality model" (title only; characteristic and sub-characteristic names only); Planguage (Tom Gilb, *Competitive Engineering*, 2005) |

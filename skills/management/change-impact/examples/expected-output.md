@@ -86,7 +86,7 @@ Option A, if Finance accepts the liability effect (Q1). It is one rule change wi
 
 Applied: no (requirement rows are changed only after an approved decision)
 
-| ID | Change | Text before | Text after | Version | Status |
+| Requirement | Change | Text before | Text after | Version | Status |
 | --- | --- | --- | --- | --- | --- |
 | R-041 | text change (option A, proposed) | IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason "below minimum". | IF a member requests a redemption of fewer than 300 posted points, THEN the loyalty service shall reject the redemption with the reason "below minimum". | 1 → 2 (column to be added) | implemented → agreed (re-implement and re-verify) |
 

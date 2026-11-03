@@ -45,7 +45,7 @@
 | 1 | Member | Asks to redeem a number of points. | none: actor step |
 | 2 | Loyalty service | Checks that the amount is at least the minimum (BR2) and within the member's redeemable balance (BR3). | R-040, new: R-043 |
 | 3 | Loyalty service | Sends the redemption to the fraud engine for scoring. | new: R-044 |
-| 4 | Fraud engine | Returns a score with no hold. | none: supporting actor step |
+| 4 | Fraud engine | Returns a score with no hold. | none: actor step |
 | 5 | Loyalty service | Issues a single-use voucher worth SGD 1 per 100 points (BR1), deducts the points and returns the voucher code. | R-041, R-042, new: R-045, R-046 |
 | 6 | Member | Shows the voucher code to the cashier at checkout. | none: actor step (printing is open decision D-02, Q7) |
 | 7 | Cashier | Scans the voucher code at the POS. | none: actor step |
@@ -69,13 +69,13 @@ Extensions after which the goal is abandoned; the minimal guarantee holds.
 
 | Ref | Condition | Step | Action | Requirements |
 | --- | --- | --- | --- | --- |
-| 2c | The requested points are not a multiple of 100 (BR1) | 2c1 | TBD (Q1): reject, round down, or allow? Use case ends until answered. | none until Q1 |
+| 2c | The requested points are not a multiple of 100 (BR1) | 2c1 | TBD (Q1: reject, round down or allow); use case ends in failure. | none until Q1 |
 | 4a | The fraud engine places a hold on the redemption | 4a1 | Loyalty service issues no voucher and leaves the member's points balance unchanged. | new: R-049 |
-| 4a | | 4a2 | Member is told the redemption cannot be completed now (what may be said: Q2); use case ends in failure. | none: app step |
+| 4a | | 4a2 | Loyalty service tells the member that the redemption cannot be completed now (wording: Q2); use case ends in failure. | none until Q2 |
 | 4b | The fraud engine does not answer within TBD seconds (Q3) | 4b1 | TBD (Q3); use case ends in failure. | none until Q3 |
 | 8a | The voucher is not in state Issued (already Applied, Expired or Cancelled) or its code is unknown | 8a1 | Loyalty service rejects the validation with the reason. | new: R-050 |
 | 8a | | 8a2 | Cashier completes the sale without the discount; use case ends in failure. | none: actor step |
-| 8b | The POS cannot reach the loyalty service | 8b1 | TBD (Q5): complete the sale without the discount and keep the voucher Issued? Use case ends in failure. | none until Q5 |
+| 8b | The POS cannot reach the loyalty service | 8b1 | TBD (Q5: complete the sale without the discount and keep the voucher Issued); use case ends in failure. | none until Q5 |
 
 ## Business rules
 

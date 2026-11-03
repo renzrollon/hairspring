@@ -1,8 +1,8 @@
-ID,Source,Kind
-S-01,"Harbourline Rewards programme terms and conditions, draft v3",document
-S-02,TillPoint POS loyalty interface spec v2.1,document
-S-03,"Support ticket export, last 6 months (loyalty category)",document
-S-04,Legacy loyalty module: stored procedures and nightly batch scripts,system
-S-05,Singapore PDPA and the data retention policy DRP-2024,document
-S-06,"Mei Tan (SH-01), kick-off interview I-01",stakeholder
-S-07,"Arjun Pillai (SH-02), store visit and interview I-02",stakeholder
+ID,Source,Kind,Category,Version,Location,Contact,Technique,Relevance,Status,Notes
+S-01,"Harbourline Rewards programme terms and conditions, draft v3",document,terms,draft v3,SharePoint: Loyalty/Terms/draft-v3,SH-01,document analysis,high,planned,Binding for members once published; the draft can still change.
+S-02,TillPoint POS loyalty interface spec v2.1,document,specification,v2.1,docs/vendor/tillpoint-loyalty-interface-v2.1.pdf,SH-09,document analysis,high,planned,Purchase event and voucher validation call.
+S-03,"Support ticket export, last 6 months (loyalty category)",document,ticket export,2026-05 to 2026-10,data/support/loyalty-tickets-2026-05-to-10.csv,SH-06,feedback analysis,medium,planned,1240 tickets.
+S-04,Legacy loyalty module: stored procedures and nightly batch scripts,system,system in operation,TBD,LOYALTY_PROD database; repo pos-backoffice/loyalty-batch,TBD,system archaeology,high,planned,The system being replaced.
+S-05,Singapore PDPA and the data retention policy DRP-2024,document,regulation; policy,TBD,PDPA: Singapore Statutes Online; DRP-2024: intranet policy library,SH-04,document analysis,high,planned,DRP-2024 is owned by Finance (SH-03).
+S-06,"Mei Tan (SH-01), kick-off interview I-01",stakeholder,individual,-,stakeholder SH-01,SH-01,interview,high,elicited,Interview I-01 on 2026-10-27.
+S-07,"Arjun Pillai (SH-02), store visit and interview I-02",stakeholder,individual,-,stakeholder SH-02,SH-02,observation; interview,high,elicited,Store visit and interview I-02 on 2026-10-30.

@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "workspace": "requirements",
+  "process": {
+    "lifecycle": "iterative",
+    "approach": "explorative",
+    "target": "customer-specific",
+    "change_authority": "product-owner"
+  },
+  "ids": {
+    "requirement": {
+      "prefix": "R-",
+      "digits": 3
+    },
+    "source": {
+      "prefix": "S-",
+      "digits": 2
+    },
+    "stakeholder": {
+      "prefix": "SH-",
+      "digits": 2
+    },
+    "interview": {
+      "prefix": "I-",
+      "digits": 2
+    },
+    "candidate": {
+      "prefix": "CAN-",
+      "digits": 3
+    },
+    "conflict": {
+      "prefix": "CF-",
+      "digits": 2
+    },
+    "decision": {
+      "prefix": "RDR-",
+      "digits": 3
+    },
+    "open-decision": {
+      "prefix": "D-",
+      "digits": 2
+    },
+    "change": {
+      "prefix": "CR-",
+      "digits": 3
+    },
+    "finding": {
+      "prefix": "F-",
+      "digits": 2
+    }
+  },
+  "attributes": {
+    "columns": [
+      "ID",
+      "Type",
+      "Text",
+      "Source",
+      "Priority",
+      "Status",
+      "Rationale",
+      "Verification"
+    ],
+    "required": [
+      "ID",
+      "Type",
+      "Text",
+      "Source",
+      "Priority",
+      "Status",
+      "Rationale"
+    ],
+    "optional": [
+      "Title",
+      "Owner",
+      "Version",
+      "Stability",
+      "Risk",
+      "Kano",
+      "Links",
+      "Tags"
+    ],
+    "enums": {
+      "Type": [
+        "F",
+        "Q",
+        "C"
+      ],
+      "Priority": [
+        "must",
+        "should",
+        "could",
+        "wont"
+      ],
+      "Status": [
+        "draft",
+        "proposed",
+        "agreed",
+        "implemented",
+        "verified",
+        "deferred",
+        "rejected",
+        "withdrawn"
+      ],
+      "Stability": [
+        "stable",
+        "volatile",
+        "unknown"
+      ],
+      "Risk": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "Verification": [
+        "test",
+        "inspection",
+        "analysis",
+        "demonstration"
+      ],
+      "Kano": [
+        "dissatisfier",
+        "satisfier",
+        "delighter",
+        "indifferent"
+      ]
+    }
+  },
+  "lifecycle": {
+    "initial": "draft",
+    "transitions": {
+      "draft": [
+        "proposed",
+        "rejected",
+        "withdrawn"
+      ],
+      "proposed": [
+        "agreed",
+        "draft",
+        "rejected",
+        "deferred",
+        "withdrawn"
+      ],
+      "agreed": [
+        "implemented",
+        "deferred",
+        "withdrawn",
+        "proposed"
+      ],
+      "implemented": [
+        "verified",
+        "agreed",
+        "withdrawn"
+      ],
+      "verified": [
+        "agreed",
+        "withdrawn"
+      ],
+      "deferred": [
+        "proposed",
+        "withdrawn"
+      ],
+      "rejected": [
+        "draft"
+      ],
+      "withdrawn": []
+    }
+  },
+  "lint": {
+    "disable": [],
+    "severity": {},
+    "extra_weak_words": [],
+    "allow_words": []
+  },
+  "trace": {
+    "code_globs": [
+      "src/**"
+    ],
+    "test_globs": [
+      "tests/**"
+    ],
+    "adr_dirs": [
+      "docs/adr",
+      "doc/adr",
+      "adr",
+      "docs/decisions"
+    ],
+    "scan_git_log": false
+  },
+  "issues": {
+    "status_map": {
+      "github": {
+        "open": "agreed",
+        "closed": "implemented"
+      },
+      "jira": {
+        "To Do": "agreed",
+        "In Progress": "agreed",
+        "Done": "implemented"
+      },
+      "ado": {
+        "New": "agreed",
+        "Active": "agreed",
+        "Resolved": "implemented",
+        "Closed": "verified"
+      }
+    }
+  },
+  "views": {},
+  "definition_of_ready": [
+    "Has an ID, type, source, priority and rationale",
+    "Passes re-lint check with no errors",
+    "Has a verification method and a measurable acceptance criterion",
+    "Open questions are resolved or explicitly deferred with an owner",
+    "Dependencies and constraints are named",
+    "Is written as a story with a benefit and acceptance criteria, one of them for unwanted behavior",
+    "States the assumption it tests and how the team will learn whether the assumption holds",
+    "Is agreed by a named customer representative",
+    "Cites the regulation, policy or contract clause in Source or Links where one applies",
+    "Requirements touching personal data or audit evidence are reviewed by the compliance or data protection role"
+  ]
+}

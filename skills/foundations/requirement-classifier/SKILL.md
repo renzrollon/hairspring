@@ -3,15 +3,15 @@ name: requirement-classifier
 description: >-
   Classifies requirement-like statements with the concern test as functional (F), quality (Q) or
   constraint (C), and flags what is not a requirement: facts, `will` statements, goals, and
-  solutions in disguise (a technology choice nobody outside the team mandated). Adds flags for
-  compound or vague statements, a first Kano guess (dissatisfier, satisfier, delighter) and the
-  skill each statement goes to next, appended to requirements/classification.md as a fixed table. Use when a PRD section, ticket, transcript,
-  interview capture, candidates.csv or pasted list mixes requirements with facts and design ideas,
-  when someone asks "is this a requirement?", "functional or non-functional?", "which of these are
+  solutions in disguise (a technology choice nobody outside the team mandated). Adds compound and
+  vague flags, a first Kano guess and the skill each statement goes to next, appended as a fixed
+  table to requirements/classification.md. Use when a PRD section, ticket, transcript, interview
+  capture, candidates.csv or pasted list mixes requirements with facts and design ideas, when
+  someone asks "is this a requirement?", "functional or non-functional?", "which of these are
   NFRs?" or "sort these", and before requirement-phrasing, quality-requirements or
   constraints-register so every statement lands in the right place. Not for rewriting statements
-  into EARS (use requirement-phrasing), for eliciting missing values (clarifying-questions) or for
-  ranking (prioritization).
+  into EARS (use requirement-phrasing), for eliciting missing values (use clarifying-questions) or
+  for ranking (use prioritization).
 license: MIT
 metadata:
   stage: foundations
@@ -56,7 +56,7 @@ Mixed input is the norm: a PRD paragraph holds a business rule, a performance wi
 3. **Record where each came from.** `Source`: a source ID (`S-06`), interview (`I-02`), person and date, or `file:line`. `Ref`: the statement's existing ID (`CAN-012`, `R-020`), else `-`.
 4. **Apply the concern test.** Read `references/concern-test.md` and ask its four questions in order: is it something the system must make true (else `fact`, `goal` or `unclear`)? Does someone outside the team restrict the solution or the process (`C`), or is it a design choice nobody mandated (`solution`)? Is the concern how well (`Q`, name the quality characteristic)? Otherwise it is behavior (`F`). Use the tie-breakers in the reference; write the deciding concern in a few words in `Concern`.
 5. **Flag.** Add every flag from the fixed list in the reference that applies (`will`, `rule`, `compound`, `weak-word`, `missing-value`, `mandate-unconfirmed`, ...). A `will` statement is a fact until its source says it is binding; never upgrade it yourself.
-6. **Guess Kano.** Only for `requirement` rows of type F or Q; `-` for everything else. Use the signals in the reference. It is a guess: say so in the column header, and do not use it to set `Priority`.
+6. **Guess Kano.** Only for `requirement` rows of type F or Q; `-` for everything else. Use the signals in the reference. It is a guess: never use it to set `Priority`.
 7. **Route.** Fill `Next` from the routing table in the reference. A `solution` row names the architect (role or `SH-nn`) and gets an open question about the need behind it. Write the type of that need in `Type` if you can tell it, else `TBD`.
 8. **Log open questions.** One row per `unclear`, `goal`, `missing-value`, `mandate-unconfirmed` or `will` whose binding level is unknown, each with an owner role or `SH-nn`.
 9. **Show, then write.** Show the batch table and the summary line. After confirmation (or directly in non-interactive mode), append the batch to `requirements/classification.md` using `assets/classification.md` exactly.

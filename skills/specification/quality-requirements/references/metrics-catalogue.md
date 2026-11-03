@@ -75,4 +75,4 @@ Metric ideas per sub-characteristic (ISO/IEC 25010:2023 names, US spelling elsew
 
 ## Writing the condition
 
-A target without a condition cannot be tested. Always state at least one of: the load or volume, the environment (network, device, region), the time window (store trading hours, a calendar month, the year-end sale), and what is excluded (announced maintenance). Values in the condition need a source too; a past measurement is labelled "baseline".
+A target without a condition cannot be tested. Always state at least one of: the load or volume, the environment (network, device, region), the time window (store trading hours, a calendar month, the year-end sale), and what is excluded (announced maintenance). Values in the condition need a source too; a past measurement is labeled "baseline".

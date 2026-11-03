@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: pr-changed-rows
+expected_outcome: |
+  Asked to check a branch before a pull request, without the word "lint", the agent runs the
+  requirement linter (re-lint check or lint_requirements.py) on the rows changed versus HEAD. It
+  reports the weak-word error on the new R-021 ("quickly") and the failing exit code, proposes a
+  rewrite with a TBD target and a question for the owner, and does not present the unchanged
+  R-018 ("all members") as a finding of this change. No file is changed.
+context:
+  scaffold_script: place-files.sh

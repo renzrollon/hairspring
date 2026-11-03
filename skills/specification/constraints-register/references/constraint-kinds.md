@@ -39,7 +39,7 @@ Illustrations are on the sample project; they become constraints only when the n
 | Column | Rule |
 | --- | --- |
 | `Expires` | Only a date or event the mandator stated. `none` means the mandator said it does not lapse; unknown is `TBD` |
-| `Review by` | When to ask the mandator whether the constraint still holds. Use a stated date, a stated event ("before the v2.2 upgrade"; give the date if the event has one), or `TBD` |
+| `Review by` | When to ask the mandator whether the constraint still holds. Use a stated date, or the date of a stated event ("before the v2.2 upgrade": the upgrade's date). If the event has no date yet, write `TBD` and name the event in the open question |
 | Overdue | `Review by` earlier than today: report *review overdue*. `Expires` earlier than today: report *expired* and ask the owner whether to withdraw the row |
 | Format | ISO 8601 (`2026-12-31`) |
 

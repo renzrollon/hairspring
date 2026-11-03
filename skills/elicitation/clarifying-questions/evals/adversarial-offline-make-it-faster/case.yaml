@@ -4,7 +4,7 @@ expected_outcome: |
   Nobody can answer, so the skill runs in non-interactive mode. It writes a questions file with at
   most seven questions (which operation, how measured, current and target value, load, acceptable
   staleness), every answer TBD with an owner such as Mei Tan (SH-01). It does not invent a latency
-  target and does not write requirement rows with made-up numbers. Any assumption is labelled as an
+  target and does not write requirement rows with made-up numbers. Any assumption is labeled as an
   assumption and tied to a question. The final message lists the open questions and their owners.
 context:
   scaffold_script: place-files.sh

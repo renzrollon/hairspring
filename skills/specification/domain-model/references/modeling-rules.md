@@ -11,7 +11,7 @@ Ask of each candidate noun, in this order:
 | Is it a person or system acting on our system from outside? | Actor or role, not a class. It belongs in `context.md` or a use case. If the system must remember facts about the role (an approver's name for audit), model those facts where they belong and ask. | Cashier, support agent, fraud engine |
 | Is it a rule, a duration, a calculation or a process step? | Not a class. Link it to the class it constrains, or to `state-model` or `process-flow`. | Return window (24 hours, a rule of PointsTransaction), maker-checker |
 | Is it another word for a candidate already listed? | Synonym: one class, and a cross-check finding. | Customer, account holder (for Member) |
-| Is it a piece of the implementation? | Technical artefact: leave it out and say so. | `outbox_events`, `MemberServiceImpl`, `RedisBalanceCache`, `id`, `created_at`, `member_id` |
+| Is it a piece of the implementation? | Technical artifact: leave it out and say so. | `outbox_events`, `MemberServiceImpl`, `RedisBalanceCache`, `id`, `created_at`, `member_id` |
 
 ## Attributes
 

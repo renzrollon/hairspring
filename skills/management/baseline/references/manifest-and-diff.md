@@ -63,7 +63,7 @@ Each ID that differs between OLD and NEW appears in exactly one class. The first
 
 Template: `assets/release-notes.md`. The file has two parts.
 
-**Generated part.** `notes OLD NEW --out <file>` writes this part. It has the From/To lines, a summary of the counts, and one bullet section per class that has entries. Each bullet shows the ID, the `Title` (or `Text`) from the current register, Type and Priority, and what changed. `Decision:` lists the `CR-` and `RDR-` IDs in the row's `Links` cell. Withdrawn rows also show their `Rationale`. If a text changed again after NEW, a note at the end says so. Never edit this part by hand; rerun the command instead.
+**Generated part.** `notes OLD NEW --out <file>` writes this part. It has the From/To lines (name, created time, `git` and the first 12 characters of the commit, or `no git commit`, and the message), a summary of the counts, and one bullet section per class that has entries. Each bullet shows the ID, the `Title` (or `Text`) from the current register, Type and Priority, and what changed. `Decision:` lists the `CR-` and `RDR-` IDs in the row's `Links` cell. Withdrawn rows also show their `Rationale`. If a text changed again after NEW, a note at the end says so. Never edit this part by hand; rerun the command instead.
 
 **Review part.** The skill appends this part:
 

@@ -3,7 +3,7 @@ name: validate-interview-findings
 expected_outcome: |
   A folder requirements/elicitation/questionnaire-*/ holds questionnaire.md, form-import.csv and
   analysis.csv with the asset headers. Each finding is one hypothesis with a source; each closed
-  question serves exactly one hypothesis; scales are labelled; there is one open question. The
+  question serves exactly one hypothesis; scales are labeled; there is one open question. The
   agreed cut-offs and MinN 40 are recorded with who agreed and when; finding 4 has threshold TBD
   because nothing was agreed. The form collects no personal data, and the final message explains
   how to build the form in Google Forms without claiming a native CSV import.

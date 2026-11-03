@@ -1,0 +1,13 @@
+ticket_id,created,category,channel,summary
+T-48801,2026-05-04,loyalty,app,Bought groceries this morning but the app still shows my old points balance. Where are my points?
+T-48812,2026-05-19,loyalty,phone,Customer [name] says points from Saturday's purchase are missing from the app.
+T-48840,2026-06-02,loyalty,store,Cashier could not redeem my coupon at the till; the till said voucher not found.
+T-48877,2026-06-21,loyalty,app,My points expired and nobody told me. I would have used them.
+T-48903,2026-07-08,loyalty,email,I returned an item and now my balance is zero; I had other points before the return.
+T-48925,2026-07-26,loyalty,app,Points still pending after two days? The app says pending but does not say when they will be added.
+T-48950,2026-08-11,loyalty,phone,Member asks to delete all their data and purchase history from the rewards programme.
+T-48968,2026-08-30,loyalty,store,The e-voucher I redeemed in the app would not scan at checkout; queue behind me was annoyed.
+T-48991,2026-09-14,loyalty,email,Receipt shows a purchase but no points were added; please adjust my account. Receipt [redacted].
+T-49012,2026-09-29,loyalty,app,Expired points: please give me a reminder before the points expire next time.
+T-49034,2026-10-12,loyalty,phone,Customer [name] asks why the app balance and the receipt show different points.
+T-49050,2026-10-27,loyalty,email,Missing points after buying at a store last week; agent asked for a photo of the receipt to adjust.

@@ -3,15 +3,15 @@ name: baseline
 description: >-
   Cuts a named requirements baseline with re-lint baseline create: a manifest of every requirement
   ID with version, status, type, priority and a text hash, saved as
-  requirements/baselines/<name>.json, optionally with git tag req-<name>. Diffs two baselines, or a
-  baseline against the working register (added, changed, status-changed, withdrawn, removed), and
-  writes requirement release notes in which every change cites its change request or decision
+  requirements/baselines/<name>.json, optionally with git tag req-<name>. Diffs two baselines, or
+  a baseline against the working register (added, changed, status-changed, withdrawn, removed),
+  and writes requirement release notes in which every change cites its change request or decision
   record, and changes without one are flagged as uncontrolled. Started explicitly with /baseline.
   Use when a release, contract signature, audit or vendor hand-over needs a frozen set ("freeze
   the requirements", "what changed since v1.0", "requirement release notes"), or when a customer
-  asks which requirement versions a delivery covers. Not for scoping one pending change (change-impact),
-  test coverage (traceability-matrix), or exporting requirements to a customer's tool
-  (reqif-bridge).
+  asks which requirement versions a delivery covers. Not for scoping one pending change
+  (change-impact), test coverage (traceability-matrix), exporting requirements to a customer's
+  tool (reqif-bridge), or adding attributes or lifecycle states (attribute-schema).
 license: MIT
 compatibility: Python 3.9+ optional for scripts/baseline.py; works without it.
 disable-model-invocation: true
@@ -68,15 +68,15 @@ A baseline is the agreed state of the requirements at one point in time: the thi
    - **Status mix:** count the rows by status. A release or contract baseline normally holds requirements that are `agreed` or later. List the `draft` and `proposed` rows and ask whether to cut anyway; the manifest records statuses, so it stays honest either way.
    - **Uncommitted changes (in a git repository):** run `git status --porcelain -- requirements/`. If the register has uncommitted changes, ask the user to commit first, because the manifest's `git_commit` must point at the content it describes.
    - **Deleted rows:** if an ID in the latest baseline is missing from the register, stop. Requirement rows are never deleted; restore the row with Status `withdrawn`.
-5. **Cut.** Run `python3 <skill-dir>/scripts/baseline.py create NAME --message "<message>"` (or `re-lint baseline create ...`). Add `--tag` only when the user asks for a git tag. It creates the local tag `req-NAME`; pushing it (`git push origin req-NAME`) is the user's decision, so say so. Outside a git repository, `git_commit` is `null`; say so. Without Python, write the manifest by hand from `assets/baseline.json`, following `references/manifest-and-diff.md`.
+5. **Cut.** Run `re-lint baseline create NAME --message "<message>"` (or `python3 <skill-dir>/scripts/baseline.py create ...`, same arguments). Add `--tag` only when the user asks for a git tag. It creates the local tag `req-NAME`; pushing it (`git push origin req-NAME`) is the user's decision, so say so. Outside a git repository, `git_commit` is `null`; say so. Without Python, write the manifest by hand from `assets/baseline.json`, following `references/manifest-and-diff.md`.
 6. **Check the manifest.** `name`, `created`, `git_commit` and `message` must be present, with one entry per register row, withdrawn rows included. Compare the entry count with the register.
 
 **Diff and notes**
 
 7. **Resolve OLD and NEW.** Each is a baseline name or a manifest path; NEW may also be `working`, the current register. If NEW is a release that has no baseline yet, offer to cut it first (steps 3 to 6).
-8. **Diff.** Run `python3 <skill-dir>/scripts/baseline.py diff OLD NEW --format json` (or `--format md` to show the user). The classes are added, changed, status-changed, withdrawn and removed; they are defined in `references/manifest-and-diff.md`.
-9. **Write the notes.** Run `python3 <skill-dir>/scripts/baseline.py notes OLD NEW --out requirements/baselines/<NEW>-notes.md`. This writes the generated part of `assets/release-notes.md`. Notes against `working` are a preview: show them and do not save them. Without Python, fill the generated part from the diff by hand.
-10. **Add the review part.** Append the review sections of `assets/release-notes.md` under the generated part; do not edit the generated bullets. For every changed, status-changed or withdrawn row without a `Decision:`, search `changes/CR-*.md` and `decisions/RDR-*.md` for the ID, and record what you find or `none found`. Never invent a link. List the `changed` and `withdrawn` rows that still have none and were `agreed` or later in OLD under "Uncontrolled changes", ask the user about them, and recommend `/change-impact` to document each one after the fact. List removed rows as errors, with the action "restore as withdrawn".
+8. **Diff.** Run `re-lint baseline diff OLD NEW --format json` (or `baseline.py diff ...`) (or `--format md` to show the user). The classes are added, changed, status-changed, withdrawn and removed; they are defined in `references/manifest-and-diff.md`.
+9. **Write the notes.** Run `re-lint baseline notes OLD NEW --out requirements/baselines/<NEW>-notes.md` (or `baseline.py notes ...`). This writes the generated part of `assets/release-notes.md`. Notes against `working` are a preview: show them and do not save them. Without Python, fill the generated part from the diff by hand.
+10. **Add the review part.** Append the comment line and the review sections of `assets/release-notes.md` under the generated part; do not edit the generated bullets. For every changed, status-changed or withdrawn row without a `Decision:`, search `changes/CR-*.md` and `decisions/RDR-*.md` for the ID, and record what you find or `none found`. Never invent a link. List the `changed` and `withdrawn` rows that still have none and were `agreed` or later in OLD under "Uncontrolled changes", ask the user about them, and recommend `/change-impact` to document each one after the fact. List removed rows as errors, with the action "restore as withdrawn".
 11. **Report.** Give the counts per class, the uncontrolled changes, and the paths of the files written.
 
 ## Quality checks

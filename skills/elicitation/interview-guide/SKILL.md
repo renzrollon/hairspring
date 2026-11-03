@@ -75,7 +75,7 @@ An unprepared interview collects whatever the stakeholder happens to mention, mo
 
 7. **Fill the capture sheet.** From the notes or transcript, one row per statement (`C1`, `C2`, ...) in the speaker's words, with a kind tag and any follow-up. Record only what is in the notes.
 8. **Write the summary.** One row per point (`S1`, `S2`, ...): the statement in glossary terms, a kind guess (`F`, `Q`, `C`, `fact`, `solution`, `term`), the capture rows it rests on, whether it was confirmed in block 6, and the open question if any. A vague quality ("instant", "secure") stays vague with an open question; never add a number nobody said. For a solution idea, record the need behind it if the speaker stated one, else an open question.
-9. **Land the candidates.** For each `F`, `Q` or `C` row, append a row to `requirements/candidates.csv` (create it from `assets/candidates.csv` if missing): IDs from `re-ids` (`--kind candidate`), `Technique=interview`, `Source=I-nn`, `Location=requirements/elicitation/interview-<role>.md#C<n>`, `Quote` copied from that capture row. `Disposition=keep` when the interviewee stated it within their own authority and confirmed it; otherwise `confirm` with the owner whose authority it is (a Finance rule relayed by support is confirmed by Finance). Facts stay in the summary as context; terms go to `glossary`. Put each CAN-ID in the summary's *Candidate* column. Show the rows, then write. If `artifact-mining` is installed, run its `check_candidates.py` on the file.
+9. **Land the candidates.** For each `F`, `Q` or `C` row, append a row to `requirements/candidates.csv` (create it from `assets/candidates.csv` if missing): IDs from `re-ids` (`--kind candidate`), `Technique=interview`, `Source=I-nn`, `Location=requirements/elicitation/interview-<role>.md#C<n>`, `Quote` copied from that capture row. `Disposition=keep` when the interviewee stated it within their own authority and confirmed it; otherwise `confirm` with the owner whose authority it is (a Finance rule relayed by support is confirmed by Finance). A row that confirms an existing requirement gets `R-nnn (existing)` instead of a candidate. Facts stay in the summary as context; terms go to `glossary`. Put each CAN-ID in the summary's *Candidate* column. Show the rows, then write. If `artifact-mining` is installed, run `python3 <artifact-mining skill-dir>/scripts/check_candidates.py requirements/candidates.csv --root .` from the repo root and fix every error; otherwise check by hand that each quote is in its capture row.
 10. **Close the loop.** Set `Status=summarized`, list open questions with owners, and recommend sending the summary to the interviewee for confirmation.
 
 ## Quality checks
@@ -84,14 +84,14 @@ An unprepared interview collects whatever the stakeholder happens to mention, mo
 - [ ] Questions run open before closed; none is leading, double, or a solution question.
 - [ ] Quality probes cover 3 to 5 characteristics chosen for the role; constraint probes are present.
 - [ ] Capture rows hold only what the notes say; no number, name or date was added.
-- [ ] Every summary row of kind F, Q or C has a candidate ID; every candidate cites `I-nn` and a `#C<n>` location whose quote is in the capture sheet.
+- [ ] Every summary row of kind F, Q or C has a CAN-ID or `R-nnn (existing)`; every candidate cites `I-nn` and a `#C<n>` location whose quote is in the capture sheet.
 - [ ] Every `confirm` has an owner; open questions have owners.
 
 ## Hand-offs
 
 - **Next:** `requirement-classifier` on the new CAN-IDs, then `requirement-phrasing`.
 - **Next:** `quality-requirements` when several summary rows are vague quality statements.
-- **Feeds back to:** `glossary` with `term` rows; `source-inventory` to register the interview as a source; `stakeholder-map` with people named in the close; suggest `/conflict-to-decision` when the interviewee contradicts an agreed requirement.
+- **Feeds back to:** `glossary` with `term` rows; `source-inventory` to register the interview as a source; suggest `/stakeholder-map` for people named in the close; `conflict-detector` when the interviewee contradicts an agreed requirement or another stakeholder.
 
 ## Non-interactive mode
 
@@ -102,7 +102,7 @@ Phase A: fill unknown fields with `TBD`, list them as open questions at the top 
 - Recording or taking notes without consent: ask at the start of block 1, and write the answer in the header.
 - Letting the interview become a design meeting: park solution talk in the capture sheet as `solution` and return to the need.
 - Interviewing one role and treating the result as the requirements: list who else to ask in the close.
-- Being asked to steer the interviewee to a preferred answer: write neutral questions instead, say so in the final message, and when stakeholders' positions differ, record it as a conflict for `conflict-detector` (resolution: `/conflict-to-decision`).
+- Being asked to steer the interviewee to a preferred answer: write neutral questions instead, say so in the final message, and when stakeholders' positions differ, hand the conflict to `conflict-detector` (resolution: `/conflict-to-decision`).
 
 ## References
 

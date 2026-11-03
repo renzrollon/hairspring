@@ -2,10 +2,11 @@
 name: re-templates
 description: >-
   Shared asset library for the re-skills catalogue: the default requirements/schema.json, the
-  requirements.csv header and the workspace layout that says which skill owns which file under
-  requirements/. Use when another re-skills skill needs to create a work product, check where a file
-  belongs, or fall back to defaults because requirements/schema.json does not exist yet. Not for
-  configuring a repo interactively (that is re-setup) or for editing attributes (attribute-schema).
+  requirements.csv and candidates.csv headers, and the workspace layout that says which skill owns
+  which file under requirements/ and which columns each register has. Use when another re-skills
+  skill needs to create a work product, check where a file belongs or what its columns are, or fall
+  back to defaults because requirements/schema.json does not exist yet. Not for configuring a repo
+  interactively (use re-setup) or for adding attributes and views (use attribute-schema).
 license: MIT
 user-invocable: false
 metadata:
@@ -41,12 +42,13 @@ The single place where the catalogue's file shapes are defined, so every skill w
 | --- | --- | --- |
 | `requirements/schema.json` | `assets/schema.json` | every skill and script |
 | `requirements/requirements.csv` | `assets/requirements.csv` header | every emitting skill |
+| `requirements/candidates.csv` | `assets/candidates.csv` header | `artifact-mining`, `interview-guide`, `elicitation-workshop`, `observation-protocol` |
 
 ## Procedure
 
 1. **Find the workspace.** Look for `requirements/schema.json` from the repo root. If it names another `workspace`, use that folder.
 2. **Resolve defaults.** If `schema.json` is missing, use `assets/schema.json` as is. If it exists, values in it win over the defaults key by key.
-3. **Place the file.** Look up the work product in `references/workspace-layout.md`, create parent folders, and start new files from the matching template (`assets/requirements.csv`, or the emitting skill's own `assets/`).
+3. **Place the file.** Look up the work product in `references/workspace-layout.md`, create parent folders, and start new files from the matching template (`assets/requirements.csv`, `assets/candidates.csv`, or the emitting skill's own `assets/`). If the workspace does not exist, create only the files the calling skill emits and recommend `/re-setup` in its final message.
 4. **Keep the column order.** When writing CSV, use `attributes.columns` then any optional columns already present, LF line endings, UTF-8, and quote only fields that need it.
 
 ## Quality checks
@@ -63,4 +65,4 @@ The single place where the catalogue's file shapes are defined, so every skill w
 ## References
 
 - `references/workspace-layout.md`: every work product, its path and its owning skill. Read it before creating any file under `requirements/`.
-- `assets/schema.json`: the default schema (IDs, attributes, enums, lifecycle, lint, trace, issue mapping, Definition of Ready).
+- `assets/schema.json`: the default schema (IDs, attributes, enums, lifecycle, lint, trace, issue mapping, Definition of Ready). `re-setup` and `attribute-schema` carry vendored copies; change this file, never a copy.

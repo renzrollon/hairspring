@@ -117,17 +117,17 @@ None.
 
 ## Matrix
 
-| Requirement | Status | Sources | Decisions | Code | Tests | Commits |
-| --- | --- | --- | --- | --- | --- | --- |
-| R-001 | verified | `S-02` |  | `src/loyalty/earn.py` | `tests/test_earn.py::test_r_001_creates_pending_transaction` | `a7d01e4` |
-| R-002 | implemented | `S-01` |  | `src/loyalty/earn.py` | `tests/test_earn.py::test_r_002_rounds_down_per_transaction` |  |
-| R-003 | agreed | `S-01` |  |  |  |  |
-| R-005 | agreed | `S-01` |  |  |  |  |
-| R-022 | withdrawn | `S-06` | `RDR-002` | `src/loyalty/notify.py` | `tests/test_notify.py::test_r_022_sms_after_posting` |  |
-| R-041 | implemented | `S-01` |  | `src/loyalty/redeem.py` | `tests/test_redeem.py::test_r_041_rejects_below_minimum` | `3f9c2ab` |
-| R-045 | not in register |  |  |  | `tests/test_redeem.py::test_r_045_partial_redemption` |  |
-| R-080 | proposed | `SH-02` | `docs/adr/0003-voucher-validation-cache.md` |  |  |  |
-| R-100 | agreed | `S-05` | `RDR-001` |  |  |  |
+| Requirement | Status | Sources | Decisions | Code | Tests | Commits | Specs |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| R-001 | verified | `S-02` |  | `src/loyalty/earn.py` | `tests/test_earn.py::test_r_001_creates_pending_transaction` | `a7d01e4` |  |
+| R-002 | implemented | `S-01` |  | `src/loyalty/earn.py` | `tests/test_earn.py::test_r_002_rounds_down_per_transaction` |  |  |
+| R-003 | agreed | `S-01` |  |  |  |  |  |
+| R-005 | agreed | `S-01` |  |  |  |  |  |
+| R-022 | withdrawn | `S-06` | `RDR-002` | `src/loyalty/notify.py` | `tests/test_notify.py::test_r_022_sms_after_posting` |  |  |
+| R-041 | implemented | `S-01` |  | `src/loyalty/redeem.py` | `tests/test_redeem.py::test_r_041_rejects_below_minimum` | `3f9c2ab` |  |
+| R-045 | not in register |  |  |  | `tests/test_redeem.py::test_r_045_partial_redemption` |  |  |
+| R-080 | proposed | `SH-02` | `docs/adr/0003-voucher-validation-cache.md` |  |  |  |  |
+| R-100 | agreed | `S-05` | `RDR-001` |  |  |  |  |
 
 ## Commits citing requirement IDs
 

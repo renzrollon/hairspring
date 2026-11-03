@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | System | {system under development, or the part walked through} |
-| System type | <web API or service \| mobile app \| batch or data pipeline \| embedded \| internal tool; one per part> |
+| System type | {web API or service \| mobile app \| batch or data pipeline \| embedded \| internal tool; one per part} |
 | Quality model | ISO/IEC 25010:2023 product quality model (characteristic and sub-characteristic names only) |
 | Walkthrough | {YYYY-MM-DD}, {people and stakeholder IDs}, quality-requirements |
 | Sources | {source IDs, interview IDs, people and dates} |
@@ -13,7 +13,7 @@
 
 | Characteristic | Tailoring | Decision | Reason | Requirements |
 | --- | --- | --- | --- | --- |
-| Functional suitability | <core \| check \| rare> | <relevant \| not relevant \| TBD> | {one line with source} | <R-nnn, ... \| covered by ... \| none> |
+| Functional suitability | {core \| check \| rare} | {relevant \| not relevant \| TBD} | {one line with source} | {R-nnn, ... \| covered by ... \| none} |
 | Performance efficiency | | | | |
 | Compatibility | | | | |
 | Interaction capability | | | | |
@@ -31,7 +31,7 @@
 
 | Requirement | Sub-characteristic | Metric | Target | Condition | Measurement method | Driver | Open question |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| R-nnn | {name} | {what, unit, statistic} | <value with source \| TBD> | <load, environment, window; baselines labelled> | {how and when measured} | <yes \| no \| TBD> | <Qn \| none> |
+| R-nnn | {name} | {what, unit, statistic} | {value with source \| TBD} | {load, environment, window; baselines labeled} | {how and when measured} | {yes \| no \| TBD} | {Qn \| none} |
 
 ## Architecture drivers
 
@@ -43,13 +43,13 @@
 
 | Concern | Source | Outcome | Routed to |
 | --- | --- | --- | --- |
-| "{quoted concern}" | {source} | <quality requirement R-nnn \| function \| constraint \| design decision \| not measurable yet> | {skill, person, or Qn} |
+| "{quoted concern}" | {source} | {quality requirement R-nnn \| function \| constraint \| design decision \| not measurable yet} | {skill, person, or Qn} |
 
 ## Open questions
 
 | # | Question | Recommended answer | Owner | Affects | Status |
 | --- | --- | --- | --- | --- | --- |
-| Q1 | {one question} | <a reference to look up or an answer to confirm; never an invented number> | {stakeholder ID and name, or role} | {R-nnn} | <open \| answered \| deferred> |
+| Q1 | {one question} | {a reference to look up or an answer to confirm; never an invented number} | {stakeholder ID and name, or role} | {R-nnn} | {open \| answered \| deferred} |
 
 ## Planguage specifications
 

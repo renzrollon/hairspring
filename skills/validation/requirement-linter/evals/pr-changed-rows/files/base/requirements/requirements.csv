@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-018,F,"The loyalty service shall show all members their points history in the customer mobile app.",S-06,should,proposed,Members ask support for their history (S-03).
+R-020,F,"WHEN the member opens the balance screen, the customer mobile app shall display the posted points balance.",S-06,must,agreed,Members check their balance after paying.

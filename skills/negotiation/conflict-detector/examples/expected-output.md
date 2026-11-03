@@ -105,7 +105,7 @@ Status: `open` | `escalated` | `resolved` | `not-a-conflict`. Decision: `RDR-nnn
 
 | # | Question | Owner | Affects |
 | --- | --- | --- | --- |
-| 1 | Who represents legal counsel for the retention decision? | SH-01 Mei Tan | CF-02 |
-| 2 | Should the Redeem button show at exactly 500 posted points? Recommended: yes, matching S-01. | SH-07 Priya Raman | CF-03 |
-| 3 | Do adjustments above 5,000 points post without a second approver today, and should they? Recommended: no. | SH-06 Daniel Ng | CF-04 |
-| 4 | Are "support console" and "admin console" one system? | SH-08 Wei Jie Chua | CF-04, glossary |
+| Q1 | Who represents legal counsel for the retention decision? | SH-01 Mei Tan | CF-02 |
+| Q2 | Should the Redeem button show at exactly 500 posted points? Recommended: yes, matching S-01. | SH-07 Priya Raman | CF-03 |
+| Q3 | Do adjustments above 5,000 points post without a second approver today, and should they? Recommended: no. | SH-06 Daniel Ng | CF-04 |
+| Q4 | Are "support console" and "admin console" one system? | SH-08 Wei Jie Chua | CF-04, glossary |

@@ -4,7 +4,7 @@ description: >-
   Builds the state machine of one business entity as a Mermaid stateDiagram-v2 (states, events,
   guards, actions), checks it for unreachable states, dead ends and missing transitions with a
   state x event matrix in which every cell is explicit, and emits one EARS WHILE requirement per
-  state-dependent behavior. Writes requirements/models/state-<entity>.md and appends draft rows to
+  state-dependent behavior. Writes requirements/models/state-{entity}.md and appends draft rows to
   requirements/requirements.csv. Use when an entity has a lifecycle or a status field (payment,
   voucher, points transaction, order, application), when requirements say "only while", "once it
   is posted", "after it expires", when someone asks "what states can X be in" or "what happens if
@@ -31,7 +31,7 @@ Status-driven behavior breaks in the cells nobody thought about: a return that a
 ## When not to use
 
 - Work passes between several roles, teams or systems: `process-flow`.
-- One actor pursuing one goal, with alternatives and exceptions: `use-case-spec`.
+- One actor pursuing one goal, with alternatives and exceptions: suggest `/use-case-spec`.
 - You do not yet know which entities exist or how they relate: `domain-model` first, then model the entity whose status drives behavior.
 - The lifecycle of requirements themselves (draft, agreed, ...): already defined in `re-ids`.
 
@@ -75,7 +75,7 @@ Status-driven behavior breaks in the cells nobody thought about: a return that a
 
 ## Hand-offs
 
-- **Next:** `requirement-linter` on the new rows; `testability-check` (each transition and each matrix cell is a test case); `requirements-review` for the set.
+- **Next:** `requirement-linter` on the new rows; `testability-check` (each transition and each matrix cell is a test case); suggest `/requirements-review` for the set.
 - **Feeds back to:** `clarifying-questions` with every `TBD` cell; `glossary` with new state and event names; `domain-model` when a state needs an attribute; `conflict-detector` when two sources disagree on a transition (for example a final state that one source reopens); `requirement-phrasing` for transitions no requirement covers.
 
 ## Non-interactive mode

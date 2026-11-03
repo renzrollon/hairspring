@@ -37,7 +37,7 @@
 | --- | --- | --- | --- | --- |
 | {group} | {people in the requirements} | {n} \| TBD | {name} \| TBD | {mix, constraints} |
 
-Consent and data: <participant codes P1 to Pn instead of names; what is recorded; who keeps it; when it is deleted>.
+Consent and data: {participant codes P1 to Pn instead of names; what is recorded; who keeps it; when it is deleted}.
 
 ## Tasks
 
@@ -54,12 +54,12 @@ Consent and data: <participant codes P1 to Pn instead of names; what is recorded
 ## Stop criteria
 
 - Time box: {from the user} | TBD
-- Stop early when: <enough evidence; repeated blocker>
-- Stop and escalate when: <prototype wired to production systems or data; safety, privacy or fraud concern>
+- Stop early when: {enough evidence; repeated blocker}
+- Stop and escalate when: {prototype wired to production systems or data; safety, privacy or fraud concern}
 
 ## Results
 
-{Pending: filled after the sessions.}
+Pending: filled after the sessions.
 
 | H | Requirements | Evidence | Outcome | Notes |
 | --- | --- | --- | --- | --- |
@@ -68,14 +68,14 @@ Outcome: `validated` | `changed` | `dropped` | `inconclusive`.
 
 ## Flow back to requirements
 
-{Pending: filled after the sessions.}
+Pending: filled after the sessions.
 
 | Requirement | Outcome | Proposed change | Confirmed by | Applied |
 | --- | --- | --- | --- | --- |
 
 ## New candidate requirements
 
-{Pending: filled after the sessions.}
+Pending: filled after the sessions.
 
 | Candidate | Evidence | Next step |
 | --- | --- | --- |

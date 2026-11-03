@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The PostgreSQL row has Verdict "requirement" and Type "C"
+In requirements/classification.md, the PostgreSQL row has Verdict "requirement" and Type "C"

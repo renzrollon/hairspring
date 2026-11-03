@@ -13,6 +13,7 @@
 | Tests | test | update the expected values, or add a test |
 | Sources | source | the source document must change (terms, contract), or the person must be informed |
 | Commits | (evidence only) | shows where the old behavior was built; not an impact row of its own |
+| Mentions (OpenSpec and spec hand-offs) | work product | update document: re-export the hand-off with `to-openspec` after the register changes |
 
 Earlier change requests on the same requirement are not in `trace.csv`. Find them through the `Links` cell (`CR-nnn`) and `requirements/changes/`, and read them, because they may hold a constraint.
 

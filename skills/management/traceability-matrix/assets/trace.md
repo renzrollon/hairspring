@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Generated | YYYY-MM-DD |
-| Commit | <short hash, or "not a git repository"> |
+| Commit | {short hash, or "not a git repository"} |
 | Command | `re-lint trace build <flags>` (or "built manually") |
 | Requirements read | {register files} |
 | Code globs | {globs} |
@@ -67,8 +67,8 @@ graph LR
 
 ## Matrix
 
-| Requirement | Status | Sources | Decisions | Code | Tests | Commits |
-| --- | --- | --- | --- | --- | --- | --- |
+| Requirement | Status | Sources | Decisions | Code | Tests | Commits | Specs |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 ## Commits citing requirement IDs
 

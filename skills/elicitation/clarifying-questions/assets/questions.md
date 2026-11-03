@@ -23,7 +23,7 @@
 Group: `Boundary`, `Functional`, `Quality`, `Constraint`, in that order; at most 7 rows per batch, and a follow-up batch continues the numbering.
 Answer: the confirmed answer, `Accepted` (the person said "ok" to the recommended answer), or `TBD`.
 Source: `<name> (SH-nn) YYYY-MM-DD` or `<role> YYYY-MM-DD` once answered; `owner: <person or role>` while open.
-Becomes: `R-nnn` (requirement written), `R-nnn (existing)` (answer confirms it), `D-nn` (open boundary decision), `open`, or `open (blocking)`.
+Becomes: `R-nnn` (requirement written), `R-nnn (existing)` (answer confirms it), `R-nnn (open)` (row written with a `TBD` this question resolves), `D-nn` (open boundary decision), `open`, or `open (blocking)`.
 
 ## Assumptions
 
@@ -31,4 +31,4 @@ Only when work proceeds before an answer. A blocking question takes the most res
 
 | # | Assumption | For question | Reverse by |
 | --- | --- | --- | --- |
-| A1 | {what is built as if it were answered} | <#> | {what changes if the answer differs} |
+| A1 | {what is built as if it were answered} | {question number} | {what changes if the answer differs} |

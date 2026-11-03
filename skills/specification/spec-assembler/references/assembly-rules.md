@@ -54,10 +54,10 @@ Every section of the outline stays in the document, in order. Use exactly one of
 
 | Situation | Write | Open issue |
 | --- | --- | --- |
-| The work product that fills the section does not exist | No content in the workspace. Produced by `<skill>` (`requirements/<file>`). | yes |
+| The work product that fills the section does not exist | No content in the workspace. Produced by `{skill}` (`requirements/{file}`). | yes |
 | The work product exists but nothing in scope maps here | No requirements in this section. | no |
 | Optional supporting content does not exist (3.9, 5.2) | None in the workspace. | no |
-| The user said the section does not apply | Not applicable: <reason> (<person>, <date>). | no |
+| The user said the section does not apply | Not applicable: {reason} ({person}, {date}). | no |
 
 ## 4. Open issues
 

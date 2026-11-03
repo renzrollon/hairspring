@@ -6,11 +6,11 @@
 
 | ID | Source | Technique | Relevance | Status | Change |
 | --- | --- | --- | --- | --- | --- |
-| S-01 | Programme terms and conditions | document analysis | high | planned | completed |
-| S-02 | TillPoint POS loyalty interface spec | document analysis | high | planned | completed |
-| S-03 | Support ticket export | feedback analysis | medium | planned | completed |
-| S-04 | Legacy loyalty module | system archaeology | high | planned | completed; Version and Contact `TBD` |
-| S-05 | PDPA and DRP-2024 | document analysis | high | planned | completed; Version `TBD` |
+| S-01 | Programme terms and conditions | document-analysis | high | planned | completed |
+| S-02 | TillPoint POS loyalty interface spec | document-analysis | high | planned | completed |
+| S-03 | Support ticket export | feedback-analysis | medium | planned | completed |
+| S-04 | Legacy loyalty module | system-archaeology | high | planned | completed; Version and Contact `TBD` |
+| S-05 | PDPA and DRP-2024 | document-analysis | high | planned | completed; Version `TBD` |
 | S-06 | Mei Tan (SH-01) | interview | high | elicited (I-01) | completed |
 | S-07 | Arjun Pillai (SH-02) | observation; interview | high | elicited (I-02) | completed |
 | S-08 to S-13 | Grace Lim, Farid Osman, Lena Koh, Daniel Ng, Priya Raman, Wei Jie Chua | interview, workshop, observation | high or medium | planned | new |

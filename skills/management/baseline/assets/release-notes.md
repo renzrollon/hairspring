@@ -1,7 +1,7 @@
 # Requirement release notes: {OLD} -> {NEW}
 
-- From: `<OLD>` ({created}, {commit}) - {manifest message}
-- To: `<NEW>` ({created}, {commit}) - {manifest message}
+- From: `<OLD>` ({created}, git {commit, first 12 characters}) - {manifest message}
+- To: `<NEW>` ({created}, git {commit, first 12 characters}) - {manifest message}
 
 Summary: {n} added, {n} changed, {n} status changed, {n} withdrawn, {n} removed.
 
@@ -11,15 +11,15 @@ Summary: {n} added, {n} changed, {n} status changed, {n} withdrawn, {n} removed.
 
 ## Changed
 
-- **{ID}** {Title or Text} ({Type}, {Priority}): <text; Version a -> b; Priority a -> b; ...>. Decision: <...>
+- **{ID}** {Title or Text} ({Type}, {Priority}): {text; Version a -> b; Priority a -> b; ...}. Decision: {CR-/RDR- IDs from Links}
 
 ## Status changes
 
-- **{ID}** {Title or Text} ({Type}, {Priority}): Status <a> -> <b>
+- **{ID}** {Title or Text} ({Type}, {Priority}): Status {a} -> {b}
 
 ## Withdrawn
 
-- **{ID}** {Title or Text} ({Type}, {Priority}): Status <a> -> withdrawn. Rationale: <...>. Decision: <...>
+- **{ID}** {Title or Text} ({Type}, {Priority}): Status {a} -> withdrawn. Rationale: {Rationale}. Decision: {CR-/RDR- IDs from Links}
 
 ## Removed from the register
 

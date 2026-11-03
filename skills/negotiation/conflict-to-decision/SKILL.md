@@ -5,7 +5,7 @@ description: >-
   or a described disagreement) with an agreed technique (agreement, compromise, voting, variants,
   overruling), prepared with consider-all-facts, plus-minus-interesting or a decision matrix whose
   weights are agreed before scoring. Writes a Requirements Decision Record,
-  requirements/decisions/RDR-nnn-<slug>.md, with MADR-style headings (constraints, assumptions,
+  requirements/decisions/RDR-nnn-{slug}.md, with MADR-style headings (constraints, assumptions,
   options, chosen resolution and reasons, decision-makers, affected R-IDs and their updates) so it
   can sit next to ADRs, and updates the affected requirements only after the user confirms. Started
   explicitly by the user: /conflict-to-decision CF-01. Use when stakeholders must choose between
@@ -95,7 +95,7 @@ A conflict is resolved when the people with authority have chosen, for reasons o
    | `keep` (chosen as written) | `Links` + `RDR-nnn CF-nn`; `Status` → `agreed` only if the RDR is accepted, else unchanged |
    | `rewrite` (compromise value, narrowed scope) | new `Text` through `requirement-phrasing`, same ID, `Version` + 1 if the column exists; an `agreed` row returns to `proposed` unless the RDR is accepted |
    | `new` (a variant needs its own row) | new ID from `re-ids`, usually the `WHERE` pattern, `Source` = `RDR-nnn`, `Status` `draft` (or `agreed` if the RDR is accepted) |
-   | `reject` / `withdraw` (losing option) | `Status` → `rejected` if the row was never agreed, `withdrawn` if it was; `Links` + `RDR-nnn`; the row stays, `Rationale` unchanged |
+   | `reject` / `withdraw` (losing option) | `Status` → `rejected` if the row was never agreed, `withdrawn` if it was; `Links` + `RDR-nnn CF-nn`; the row stays, `Rationale` unchanged |
 
 10. **Confirm, then apply.** Ask the user which updates to apply (all, some, none). Apply only those to `requirements.csv`, and set `Applied: yes (YYYY-MM-DD)` in the RDR. Set the CF entry in `conflicts.md` to `Status: resolved`, `Decision: RDR-nnn` once the RDR is accepted. Do not apply anything to a requirement that is in a baseline, or when `process.change_authority` is a change control board: suggest `/change-impact` with the RDR as input instead.
 

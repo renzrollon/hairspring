@@ -43,7 +43,7 @@ Adequacy and understandability are graded first. A row with a blocker or major f
 | complete | fail | F-04, F-06 |
 | modifiable | pass | |
 | traceable | pass | |
-| conformant | fail | F-03, F-04 |
+| conformant | fail | F-04 |
 
 ## Findings
 

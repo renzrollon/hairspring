@@ -6,7 +6,7 @@ People describe their work as it should be. Watching them shows it as it is: the
 
 | Method | The observer | Use when | Avoid when |
 | --- | --- | --- | --- |
-| Field observation | Watches and notes; asks only in pauses | Work is fast, customer-facing or must not be disturbed; you need many episodes | The work is mostly in people's heads (decisions, judgement) |
+| Field observation | Watches and notes; asks only in pauses | Work is fast, customer-facing or must not be disturbed; you need many episodes | The work is mostly in people's heads (decisions, judgment) |
 | Apprenticing | Does the work under the guidance of the person who normally does it | Work can be learned in hours, is safe for a novice, and relies on tacit knowledge | Mistakes harm customers, money or safety; the work needs certification |
 | Mixed | Watches first, then tries a few tasks | Most real sessions | |
 
@@ -46,7 +46,7 @@ Same day, while memory is fresh, with each observed person (or the group). Ask o
 
 | Purpose | Ask |
 | --- | --- |
-| Confirm the episode | "I saw you <do X> when <Y happened>. Can you tell me about that?" |
+| Confirm the episode | "I saw you {do X} when {Y happened}. Can you tell me about that?" |
 | Reason | "What would happen if you didn't do that?" |
 | Frequency | "How often does that happen in a normal shift or week?" (record as reported) |
 | Need | "If this worked the way you want, what would be different?" |

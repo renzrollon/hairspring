@@ -6,7 +6,7 @@ Last updated 2026-11-03 by Wei Jie Chua (SH-08). Status: draft.
 
 ## System boundary
 
-What the system does or owns (`inside`), what another system or team does (`outside: <owner>`), and what is not decided yet (`grey zone: D-nn`).
+What the system does or owns (`inside`), what another system or team does (`outside: owner`), and what is not decided yet (`grey zone: D-nn`).
 
 | Capability or responsibility | Side | Source |
 | --- | --- | --- |

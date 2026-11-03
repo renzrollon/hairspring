@@ -23,13 +23,13 @@ quadrantChart
   quadrant-4 Keep informed
 ```
 
-The position inside a quadrant carries no meaning; points are spread only so labels stay readable. Not plotted (a rating is TBD): <SH-IDs, or "none">.
+The position inside a quadrant carries no meaning; points are spread only so labels stay readable. Not plotted (a rating is TBD): {SH-IDs, or none}.
 
 ## Gap check
 
 | Role | Applies because | Covered by | Gap | Action |
 | --- | --- | --- | --- | --- |
-| {checklist role} | <trigger found in the inputs, or "always"> | {SH-nn, or none} | {no / yes / unclear} | {none, row added, or open question number} |
+| {checklist role} | {trigger found in the inputs, or always} | {SH-nn, or none} | {no / yes / unclear} | {none, row added, or open question number} |
 
 Not applicable (trigger not found in the inputs): {roles}.
 

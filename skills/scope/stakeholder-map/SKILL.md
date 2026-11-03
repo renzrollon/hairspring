@@ -7,12 +7,11 @@ description: >-
   (operations, security, legal, support, data protection, finance, fraud, audit, external system
   owners, ...). Writes requirements/stakeholders.md. Use when a project kicks off or before
   interviews or workshops are planned, when someone types /stakeholder-map, asks "who do we need
-  to talk to?",
-  "who are the stakeholders?" or "who signs this off?", or has a roster, invite list, org chart,
-  RACI or CODEOWNERS file to turn into a map. Not for the system's external actors and interfaces
-  (use system-context), for registering stakeholders, documents and systems as sources with an
-  elicitation technique (source-inventory), or for preparing an interview with one stakeholder
-  (interview-guide).
+  to talk to?", "who are the stakeholders?" or "who signs this off?", or has a roster, invite list,
+  org chart, RACI or CODEOWNERS file to turn into a map. Not for the system's external actors and
+  interfaces (use system-context), for registering stakeholders, documents and systems as sources
+  with an elicitation technique (use source-inventory), or for preparing an interview with one
+  stakeholder (use interview-guide).
 license: MIT
 disable-model-invocation: true
 argument-hint: "[roster, invite list, org chart or notes file]"
@@ -56,7 +55,7 @@ A requirement nobody asked for is usually a stakeholder nobody asked. This skill
 
 ## Procedure
 
-1. **Read the workspace.** Load `requirements/schema.json` (defaults if missing), `glossary.md`, `context.md` and `sources.csv`. If `stakeholders.md` exists, update it in place: keep every SH-ID, never renumber or delete a row; a stakeholder who no longer matters gets Engagement `retired (<date>, <reason>)`.
+1. **Read the workspace.** Load `requirements/schema.json` (defaults if missing), `glossary.md`, `context.md` and `sources.csv`. If `stakeholders.md` exists, update it in place: keep every SH-ID, never renumber or delete a row; a stakeholder who no longer matters gets Engagement `retired (YYYY-MM-DD, reason)`.
 2. **Collect candidates.** From the inputs, list every role, person and organization with `file:line` evidence. Add the persons and the owners of external systems from `context.md`. Merge duplicates: one row per stakeholder role. Keep two rows for one person only when they hold two roles with different goals.
 3. **Fill what the evidence gives.** Read `references/mapping-rules.md`. For each row: Role (glossary spelling), Representative (a named person, else `TBD`), Goals (what they want from or fear about the system, one sentence), Influence and Interest (`high`, `low` or `TBD`, by the rules in the reference), Engagement (derived from the two ratings), Availability (how and when they can be reached, else `TBD`), Source.
 4. **Ask for what is missing.** Follow `re-interview` with one batch of at most 7 questions, highest-influence rows first: missing representatives, ratings the rules cannot settle, availability. Give a recommended answer with its evidence. Never invent a person's name, a rating or an availability.
@@ -69,7 +68,7 @@ A requirement nobody asked for is usually a stakeholder nobody asked. This skill
 ## Quality checks
 
 - [ ] The stakeholder table has exactly the columns `ID | Role | Representative | Goals | Influence | Interest | Engagement | Availability | Source`.
-- [ ] Every Representative is a named person from the inputs or `TBD`; no name was invented.
+- [ ] Every Representative is a named person from the inputs, a `proxy:` entry or `TBD`; no name was invented.
 - [ ] Influence and Interest are `high`, `low` or `TBD`; Engagement matches the rule for every row that is not `retired`.
 - [ ] Every plotted point belongs to a row with both ratings known and lies inside that row's quadrant; every row with both ratings known is plotted.
 - [ ] Every checklist role whose trigger applies is covered, added with `TBD`, or has an open question.

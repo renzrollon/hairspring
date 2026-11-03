@@ -55,7 +55,7 @@ Requirements name business objects in passing ("the member's voucher", "the stor
 ## Procedure
 
 1. **Read the workspace.** Load `requirements/schema.json` (else defaults, and say so), `glossary.md`, `requirements.csv`, `context.md`, and an existing `models/domain-model.md` (update it in place; never rename a class without a cross-check finding). Model only what lies inside the system boundary or what the system must remember about its context.
-2. **Collect candidates.** List the nouns in requirement text and the glossary terms. Classify each with the table in `references/modeling-rules.md`: business object (class), attribute, actor or role, rule or process, synonym of another candidate, technical artefact. Only business objects become classes.
+2. **Collect candidates.** List the nouns in requirement text and the glossary terms. Classify each with the table in `references/modeling-rules.md`: business object (class), attribute, actor or role, rule or process, synonym of another candidate, technical artifact. Only business objects become classes.
 3. **Choose the notation.** `classDiagram` by default. `erDiagram` only when the user asks for it or `schema.json` says so; it cannot show an unknown multiplicity, see `references/mermaid-class-er.md`.
 4. **Draw.** Read `references/mermaid-class-er.md`. Class names are glossary terms in PascalCase. Attributes are business facts with business types (`Points`, `Money`, `Date`, `DateTime`, `Text`, `Code`, `Number`, or an enumeration). No technical keys, foreign keys, audit columns, methods, or classes like `MemberService`, `PointsRepository`, `BalanceCache`. Every association has a verb-phrase label and a multiplicity at both ends, each taken from a requirement, a rule or the glossary; unknown is `"TBD"` with an open question. Generalization only when the subtype adds attributes or associations of its own.
 5. **Fill the tables.** Classes (class, glossary term, meaning, key attributes, source) and Associations (from, multiplicity, label, multiplicity, to, source), from `assets/domain-model.md`.
@@ -67,15 +67,15 @@ Requirements name business objects in passing ("the member's voucher", "the stor
 
 - [ ] Every class maps to a glossary term, or has a cross-check finding.
 - [ ] Every association has a label and two multiplicities; each multiplicity has a source or is `TBD` with an open question.
-- [ ] No technical artefacts: no IDs, foreign keys, timestamps for auditing, methods, or service/repository/cache/DTO classes.
+- [ ] No technical artifacts: no IDs, foreign keys, timestamps for auditing, methods, or service/repository/cache/DTO classes.
 - [ ] `check_glossary.py` exits 0, or exits 1 with every finding recorded in the cross-check table.
 - [ ] `requirements/glossary.md` and `requirements/requirements.csv` are unchanged.
 - [ ] The Mermaid block uses only the subset in `references/mermaid-class-er.md`.
 
 ## Hand-offs
 
-- **Next:** `glossary` with the cross-check findings; `state-model` for each class whose status drives behavior (an attribute typed with a state enumeration); `requirements-review` for the set.
-- **Feeds back to:** `requirement-phrasing` when a requirement uses a synonym or an undefined term; `clarifying-questions` with every `TBD` multiplicity; `system-context` when a class turns out to live outside the system boundary.
+- **Next:** `glossary` with the cross-check findings; `state-model` for each class whose status drives behavior (an attribute typed with a state enumeration); suggest `/requirements-review` for the set.
+- **Feeds back to:** `requirement-phrasing` when a requirement uses a synonym or an undefined term; `clarifying-questions` with every `TBD` multiplicity; suggest `/system-context` when a class turns out to live outside the system boundary.
 
 ## Non-interactive mode
 

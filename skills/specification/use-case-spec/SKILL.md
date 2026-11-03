@@ -5,8 +5,8 @@ description: >-
   and interests, preconditions, minimal and success guarantees, trigger, main success scenario,
   alternatives, exceptions, business rules and open issues, plus a Mermaid use case diagram and,
   for branching scenarios, an activity diagram. Every system step links a requirement ID or gets
-  a new draft requirement. Writes requirements/models/uc-<name>.md and appends rows to
-  requirements/requirements.csv. User-invoked: run it explicitly with /use-case-spec <goal>.
+  a new draft requirement. Writes requirements/models/uc-{name}.md and appends rows to
+  requirements/requirements.csv. Started explicitly with /use-case-spec followed by the goal.
   Use when a team needs the end-to-end interaction for one actor goal before splitting stories,
   writing tests or estimating: "write the use case for redeem voucher", "what are the
   alternative flows", "main flow and exceptions for checkout". Not for work across several roles
@@ -74,9 +74,9 @@ A requirement list says what the system must do; it does not say in which order 
 
 4. **Write the main success scenario.** Three to nine steps, numbered. Each step names who acts (the primary actor, a supporting actor, or the system by its name) and one intention: `<actor> <verb> <object>`. No conditions (no "if"), no user-interface or technology words (button, screen, click, field, API, endpoint, table, queue, framework names). "The system validates the request" is not enough: say what it checks and put the rule in Business rules (`BR2`). Step patterns are in `references/form-guide.md`.
 
-5. **Find the extensions.** Walk every step and ask "what can go differently here?". For each condition the actor or system can detect, number it `<step><letter>` (`2a`; `*a` for any step), write its sub-steps (`2a1`, `2a2`), and end it explicitly: `resume at step N`, `use case ends in success`, or `use case ends in failure`. Put it under Alternatives if the goal is still reached, under Exceptions if it is not (the minimal guarantee must hold there). If nobody knows what should happen, write the condition and `TBD (Qn)` under Exceptions until answered.
+5. **Find the extensions.** Walk every step and ask "what can go differently here?". For each condition the actor or system can detect, number it `<step><letter>` (`2a`; `*a` for any step), write its sub-steps (`2a1`, `2a2`), and end it explicitly: `resume at step N`, `use case ends in success`, or `use case ends in failure`. Put it under Alternatives if the goal is still reached, under Exceptions if it is not (the minimal guarantee must hold there). If nobody knows what should happen, write the condition under Exceptions with the action `TBD (Qn); use case ends in failure` until answered.
 
-6. **Link the requirements.** For every step and sub-step the system performs, find existing requirements in `requirements.csv` by meaning, not by wording, and list their IDs. Where none exists, draft one requirement: `WHEN <trigger>, the <system> shall <response>.` for scenario steps, `IF <condition>, THEN the <system> shall <response>.` for exceptions (the `requirement-phrasing` skill has the full pattern set). Allocate IDs with `re-ids` (or `re-lint ids next`). Rows get `Type=F` (or `Q`), `Source` = the source of the step, `Priority` from the input or `TBD`, `Status=draft`, and a `Rationale` naming the use case and step. Steps by actors outside the system get `none: actor step`.
+6. **Link the requirements.** For every step and sub-step the system performs, find existing requirements in `requirements.csv` by meaning, not by wording, and list their IDs. Where none exists, draft one requirement: `WHEN <trigger>, the <system> shall <response>.` for scenario steps, `IF <condition>, THEN the <system> shall <response>.` for exceptions (the `requirement-phrasing` skill has the full pattern set). Allocate IDs with `re-ids` (or `re-lint ids next`). Rows get `Type=F` (or `Q`), `Source` = the source of the step, `Priority` from the input or `TBD`, `Status=draft`, and a `Rationale` naming the use case and step. Steps by the primary or a supporting actor get `none: actor step`; a system step whose response is still `TBD` gets `none until Qn`.
 
 7. **Draw the use case diagram.** Follow `references/diagram-conventions.md`: actors outside a subgraph for the system boundary, the use case as a stadium node inside it, primary actors on the left, supporting actors on the right, plain lines for associations. PlantUML only when the user asks or `schema.json` says so.
 

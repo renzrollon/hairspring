@@ -53,7 +53,7 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 ## Procedure
 
 1. **Read the workspace.** Locate `requirements/` (or the `workspace` in `schema.json`). Read `schema.json` (else the default columns `ID,Type,Text,Source,Priority,Status,Rationale`; say so), `requirements.csv` and `constraints.csv` (existing constraints: update, don't duplicate), `sources.csv` and `stakeholders.md` (mandators and source IDs).
-2. **Spot candidates.** Look for "must use / run on / comply with / integrate through / only in / not allowed / by <date> / within <budget>", and for named laws, regulations, standards, contracts, licenses, policies, vendors and platforms.
+2. **Spot candidates.** Look for "must use / run on / comply with / integrate through / only in / not allowed / by {date} / within {budget}", and for named laws, regulations, standards, contracts, licenses, policies, vendors and platforms.
 3. **Apply the mandate test.** Ask in order; the first "no" decides. Worked cases are in `references/constraint-kinds.md`.
 
    | # | Question | If no |
@@ -75,7 +75,7 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
    | `Mandated by` | The person, role or body outside the team, with a stakeholder ID if one exists | no row (step 3) |
    | `Mandate reference` | The document, clause or statement with its source: `S-05 (DRP-2024)`, `SH-08 2026-11-03 (verbal)` | `TBD` |
    | `Expires` | `YYYY-MM-DD`, `none` (the mandator said it does not expire), or `TBD` | `TBD` |
-   | `Review by` | The date to re-check that the mandate still holds: a date or event the mandator gave | `TBD` |
+   | `Review by` | The date to re-check that the mandate still holds: a date the mandator gave, or the date of an event they named (a contract renewal, a vendor upgrade) | `TBD`, with the event in the open question |
    | `Negotiable` | `no`, `yes` (the mandator can grant an exception), or `TBD` | `TBD` |
    | `If violated` | The consequence: penalty, failed audit, integration failure, contract breach | `TBD` |
    | `Affects` | Space-separated R-IDs, interfaces or components | `TBD` |
@@ -89,7 +89,7 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 
 - [ ] Every Type C row names a mandator outside the team and a mandate reference; nothing was written without a mandator.
 - [ ] Every Type C row in `requirements.csv` has exactly one `constraints.csv` row with the same ID, and vice versa.
-- [ ] `Category` is one of the five values; `Review by` is a date or `TBD`; `Expires` is a date, `none` or `TBD`; every `TBD` is covered by the row's open question.
+- [ ] `Category` is one of the five values; `Review by` is a date (`YYYY-MM-DD`) or `TBD`; `Expires` is a date, `none` or `TBD`; every `TBD` is covered by the row's open question.
 - [ ] No invented dates, clauses or mandators; no ID reused.
 - [ ] Design decisions, quality targets and functions are reported, not written as constraints.
 - [ ] The linter reports no errors on the new rows.
@@ -98,6 +98,10 @@ A constraint is a requirement the team cannot negotiate away on its own: a regul
 
 - **Next:** `conflict-detector` when a constraint contradicts another constraint or a requirement; `requirement-linter` on the new rows; `traceability-matrix` so constraints trace to their mandate sources; report ADR candidates to the architect.
 - **Feeds back to:** `source-inventory` when a mandate document has no source ID; `clarifying-questions` with unknown mandators and dates; suggest `/quality-requirements` for quality targets found and `/change-impact` when a constraint changes or expires.
+
+## Non-interactive mode
+
+Ask nothing. Write rows only for statements whose mandator is named in the input; report the rest as "unconfirmed: design decision unless a mandator is named" with the open question. Unknown dates, references and consequences are `TBD`. End with the IDs written, ADR candidates, rerouted statements, open questions and overdue reviews.
 
 ## References
 

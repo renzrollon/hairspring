@@ -2,16 +2,17 @@
 name: requirement-linter
 description: >-
   Runs the deterministic re-lint checks on requirements/requirements.csv and the Markdown
-  requirement tables under requirements/ (weak words, universal quantifiers, passive voice without
-  an actor, nominalizations, incomplete EARS conditions, missing obligation verb, "will", compound
-  requirements, open TBDs, duplicate or invalid IDs, missing attributes, invalid enum values,
-  unregistered sources, register drift), then explains each finding and proposes a rewrite. The
-  script's exit code is the verdict; the model never overrides it. Use when rows under
-  requirements/ were written or changed, before a commit or PR, when CI's requirements lint fails,
-  when someone asks to "lint" or "check the requirements" or "why did re-lint fail", or to add the
-  lint gate to GitHub Actions or a pre-commit hook. Not for judging adequacy, completeness or the
-  set as a whole (requirements-review), for rewriting statements into EARS (requirement-phrasing),
-  or for verification methods and acceptance criteria (testability-check).
+  requirement tables under requirements/ (weak words, universal quantifiers, passive voice,
+  incomplete EARS conditions, missing obligation verb, compound requirements, open TBDs, duplicate
+  or invalid IDs, missing attributes, invalid enum values, register drift) and explains each
+  finding with a rewrite. The script's exit code is the verdict; the model never overrides it. Use
+  whenever requirement rows are written or edited, on any diff, branch or pull request that
+  touches requirements/ (requirements.csv, stories/*.md), before committing them, when the
+  requirements CI check fails, when someone asks to "lint my requirements", "check my
+  requirements" or "why did re-lint fail", or to add the lint gate to GitHub Actions or a
+  pre-commit hook. Not for judging adequacy, completeness or the set as a whole
+  (requirements-review), rewriting statements into EARS (requirement-phrasing), or verification
+  methods (testability-check).
 license: MIT
 compatibility: Python 3.9+ for scripts/lint_requirements.py (stdlib only) or the re-lint package; manual fallback via references/rules.md.
 metadata:
@@ -54,7 +55,7 @@ Weak words, missing actors, half-written conditions and broken IDs are found fas
 ## Procedure
 
 1. **Locate.** From the repo root, find `requirements/` (or the `workspace` named in `requirements/schema.json`). Run from the repo root so report paths are repo-relative.
-2. **Run.** `python3 <skill-dir>/scripts/lint_requirements.py [PATH ...] [flags]`, or `re-lint check [PATH ...] [flags]` when the package is installed. No PATH = the whole workspace. Without Python: apply `references/rules.md` row by row, report in the same line format, and say the result is manual and has no exit code.
+2. **Run.** `re-lint check [PATH ...] [flags]` when the package is installed, else `python3 <skill-dir>/scripts/lint_requirements.py [PATH ...] [flags]` (same flags). No PATH = the whole workspace. On a branch or pull request, add `--changed-only <base>` (ask for the base if the PR does not name it; `HEAD` for uncommitted edits). Without Python: apply `references/rules.md` row by row, report in the same line format, and say the result is manual and has no exit code.
 
    | Flag | Use it to |
    | --- | --- |

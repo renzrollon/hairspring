@@ -28,7 +28,7 @@
 
 ## 3. Stakeholders
 
-| ID | Name / role | Scores | Decides |
+| Stakeholder | Name / role | Scores | Decides |
 | --- | --- | --- | --- |
 | SH-01 | Mei Tan, Head of Loyalty | Benefit, Penalty (joint session) | yes |
 | SH-07 | Priya Raman, Marketing manager | Benefit, Penalty (joint session) | no |
@@ -56,7 +56,7 @@ Agreed before scoring: yes
 
 ## 6. Result
 
-| Band | Rank | ID | Title | Score | Tie |
+| Band | Rank | Item | Title | Score | Tie |
 | --- | --- | --- | --- | --- | --- |
 | top | 1 | R-063 | Second approver for large adjustments | 1.043 | |
 | top | 2 | R-021 | Points history in the app | 0.856 | |

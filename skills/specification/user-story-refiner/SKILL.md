@@ -1,10 +1,10 @@
 ---
 name: user-story-refiner
 description: >-
-  Rewrites or splits user stories into the Cohn template (As a <role>, I want <goal>, so that
-  <benefit>), proposes vertical slices, runs an INVEST pass/fail table, writes Given/When/Then
+  Rewrites or splits user stories into the Cohn template (As a {role}, I want {goal}, so that
+  {benefit}), proposes vertical slices, runs an INVEST pass/fail table, writes Given/When/Then
   acceptance criteria that always include an unwanted-behavior case, and checks the Definition of
-  Ready. Leaves requirements/stories/<epic-slug>.md (paste-ready Markdown for Jira or GitHub
+  Ready. Leaves requirements/stories/{epic-slug}.md (paste-ready Markdown for Jira or GitHub
   Issues) and one Type F row per story in requirements/requirements.csv. Started explicitly with
   /user-story-refiner. Use when someone says "refine this story", "split this epic", "write
   acceptance criteria", "is this story ready", or brings a ticket, epic or backlog item to
@@ -61,7 +61,7 @@ A story that reaches a sprint without a real benefit, testable acceptance criter
 
    | Statement | It is | Do |
    | --- | --- | --- |
-   | A quality target ("fast", "secure", "within <n> seconds") | quality requirement | Open question; suggest `/quality-requirements`. Do not hide it in an acceptance criterion |
+   | A quality target ("fast", "secure", "within {n} seconds") | quality requirement | Open question; suggest `/quality-requirements`. Do not hide it in an acceptance criterion |
    | A mandate ("must use the TillPoint spec", "PDPA says") | constraint | Run `constraints-register` if installed (else list it); name it under *Constraints* in the story's Notes |
    | A solution or task ("add a Postgres table", "As a developer I want an endpoint") | design decision or task | Not a story. Ask for the user need behind it; route the decision to the architect as an ADR candidate |
    | A fact (`will`, present tense) | context | Not a story; keep it as context |

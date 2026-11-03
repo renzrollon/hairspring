@@ -9,9 +9,9 @@ description: >-
   recommendation and an owner. Writes requirements/context.md. Use when a project kicks off or
   before elicitation or design starts, when someone types /system-context, asks "what is in
   scope?", "what does this system talk to?" or "draw the context diagram", or when a migration,
-  integration or new service needs its boundary agreed. Not for the people behind each actor (use stakeholder-map), for the
-  internal architecture of the system (a container or component view), or for listing documents
-  to elicit from (source-inventory).
+  integration or new service needs its boundary agreed. Not for the people behind each actor (use
+  stakeholder-map), for the internal architecture of the system (a container or component view),
+  or for listing documents to elicit from (use source-inventory).
 license: MIT
 disable-model-invocation: true
 argument-hint: "[system name, notes file or brief]"
@@ -55,7 +55,7 @@ Most late requirements are boundary mistakes: a batch job everyone assumed someo
 
 ## Procedure
 
-1. **Read the workspace.** Load `requirements/schema.json` (defaults if missing), `glossary.md`, `stakeholders.md` and `sources.csv`. If `context.md` exists, update it in place: keep every row number and D-ID, mark an element that disappeared as `removed (<date>, <reason>)` instead of deleting it, and never renumber.
+1. **Read the workspace.** Load `requirements/schema.json` (defaults if missing), `glossary.md`, `stakeholders.md` and `sources.csv`. If `context.md` exists, update it in place: keep every row number and D-ID, mark an element that disappeared as `removed (YYYY-MM-DD, reason)` instead of deleting it, and never renumber.
 2. **Mine the repo before asking.** Read `references/context-checklist.md` section 1 for where to look. List candidate external elements, each with `file:line` evidence and the data that flows. If you can run subagents, mine docs, API specs and configuration in parallel; otherwise one after another. An element needs a data flow or a rule it imposes; an imported library alone is not an element.
 3. **Draft the boundaries.** Sort what you found into: inside (capabilities the system performs or owns), outside (done by another system or team, named), context (external elements that exchange data with the system or impose rules on it), irrelevant (in the environment but deliberately ignored, with the reason). Anything you are unsure about is a grey zone candidate.
 4. **Interview.** Follow `re-interview`: one question at a time with a recommended answer and its evidence, or one batch of at most 7 if the user asks for a batch. Use the patterns in `references/context-checklist.md` section 3, in this order:

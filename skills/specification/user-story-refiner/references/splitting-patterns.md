@@ -1,6 +1,6 @@
 # Splitting patterns and vertical slices
 
-The patterns below follow Richard Lawrence's story-splitting patterns (Humanizing Work), reduced to the seven that cover most backlogs. Examples are on the loyalty-points sample (`examples/loyalty-points/BRIEF.md`).
+The patterns below follow Richard Lawrence's story-splitting patterns (Humanizing Work), reduced to the seven that cover most backlogs. Examples are on the loyalty-points sample project.
 
 ## Rules for every slice
 

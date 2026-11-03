@@ -5,9 +5,9 @@
 | Date | YYYY-MM-DD |
 | Decision this serves | {release scope, next increment, MVP cut} |
 | Decision-maker | {name (stakeholder ID)} |
-| Technique | <MoSCoW \| Top-10 \| Kano \| Wiegers \| WSJF>, because {reason} |
+| Technique | {MoSCoW \| Top-10 \| Kano \| Wiegers \| WSJF}, because {reason} |
 | Matrix | requirements/priorities.csv |
-| Command | <exact re-lint prioritize command, or "ad hoc, no script"> |
+| Command | {exact re-lint prioritize command, or "ad hoc, no script"} |
 
 ## 1. Goals and constraints
 
@@ -24,19 +24,19 @@
 
 ## 3. Stakeholders
 
-| ID | Name / role | Scores | Decides |
+| Stakeholder | Name / role | Scores | Decides |
 | --- | --- | --- | --- |
 
 ## 4. Items
 
-Level of abstraction: <epics \| features \| requirements \| stories>. Items: {count} from {file or list}.
+Level of abstraction: {epics \| features \| requirements \| stories}. Items: {count} from {file or list}.
 
 | Excluded item | Reason |
 | --- | --- |
 
 ## 5. Weights
 
-Agreed before scoring: <yes \| no: set after scoring, see note>
+Agreed before scoring: {yes \| no: set after scoring, see note}
 
 | Weight | Value | Agreed by | Date |
 | --- | --- | --- | --- |
@@ -47,14 +47,14 @@ Agreed before scoring: <yes \| no: set after scoring, see note>
 
 ## 6. Result
 
-| Band | Rank | ID | Title | Score | Tie |
+| Band | Rank | Item | Title | Score | Tie |
 | --- | --- | --- | --- | --- | --- |
 
 Reading the result: scores rest on ordinal judgments, so read the bands, not the decimals. Items marked `tie, do not over-interpret` are equal for this decision.
 
 ## Disputed items
 
-| ID | Criterion | Scores (stakeholder) | Conflict | Status |
+| Item | Criterion | Scores (stakeholder) | Conflict | Status |
 | --- | --- | --- | --- | --- |
 
 ## Decision
@@ -64,7 +64,7 @@ Reading the result: scores rest on ordinal judgments, so read the bands, not the
 | Cut line | |
 | Decided by | |
 | Date | |
-| Priority attribute updated | <IDs and new values, or "no"> |
+| Priority attribute updated | {IDs and new values, or "no"} |
 
 ## Open questions
 

@@ -22,7 +22,7 @@ requirements/
     flow-<name>.md             process-flow         Mermaid flowchart with swimlanes
     state-<entity>.md          state-model          Mermaid stateDiagram-v2 + completeness check
   elicitation/
-    questions-<topic>.md       clarifying-questions Question batches and answers (I-nn when recorded as an interview)
+    questions-<topic>.md       clarifying-questions Question batches, answers with person and date, assumptions
     interview-<role>.md        interview-guide      Guide, capture sheet, summary
     workshop-<slug>.md         elicitation-workshop Plan, agenda, capture template
     questionnaire-<slug>/      questionnaire-builder questionnaire.md, form-import.csv, analysis.csv/xlsx
@@ -67,6 +67,8 @@ CSV registers have a fixed header. The owning skill's `assets/` holds the templa
 | `verification.csv` | `ID,Text,Method,Criterion,Test idea,Level,Verifiable,Question,Basis` |
 | `priorities.csv` (Wiegers) | `ID,Title,Benefit,Penalty,Cost,Risk,Score,Rank,Tie` (WSJF and ad hoc variants in the `prioritization` assets) |
 | `trace/trace.csv` | `From,FromType,To,ToType,Relation,Evidence` |
+
+**Shared vocabulary.** `Technique` in `sources.csv` (planned) and `candidates.csv` (used) takes the same values: `interview`, `workshop`, `questionnaire`, `observation`, `document-analysis`, `system-archaeology`, `feedback-analysis`; `sources.csv` also allows `apprenticing` and `reuse`, whose candidates are recorded as `observation` and `document-analysis`. Several planned techniques are joined with `; `.
 
 **Key columns in Markdown work products.** Only registers (`requirements.csv`, and CSV detail registers keyed by requirement ID) use a column named `ID` for requirement IDs. Markdown reports and models refer to requirements in a column named `Requirement` (or `R-ID` in model tables), so `re-lint` does not mistake a report table for a register. `re-lint check` also skips `changes/`, `decisions/` and `reviews/` by default.
 

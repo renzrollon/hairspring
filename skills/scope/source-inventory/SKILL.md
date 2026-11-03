@@ -54,9 +54,9 @@ A requirement whose source nobody recorded cannot be checked, defended or change
 
 1. **Read the workspace.** Load `schema.json` (defaults if missing), `sources.csv`, `stakeholders.md`, `context.md`, and the `Source` column of `requirements.csv` and `candidates.csv`. Existing rows keep their ID; never renumber, never delete (set Status `retired` with the reason in Notes).
 2. **Collect candidate sources.** One per: stakeholder row in `stakeholders.md` with a named representative or proxy; document named in the inputs or in `context.md` (laws, policies, contracts, terms, specifications, runbooks, exports); system in operation (the system being replaced, neighboring systems with documentation, competitor products); free-text sources cited by requirements or candidates ("Grace Lim 2026-10-20", a file path).
-3. **Keep only identifiable sources.** A source is a named person, a document with a title, or a named system, and someone can find it again. "The internet", "best practice", "common sense", a search result or an assistant's answer are not sources: ask for the document, person or system behind them, and register that instead, or nothing. Stakeholders with representative `TBD` get no row yet; list them in the final message.
+3. **Keep only identifiable sources** (`references/technique-selection.md` section 7). A source is a named person, a document with a title, or a named system, and someone can find it again. "The internet", "best practice", "common sense", a search result or an assistant's answer are not sources: ask for the document, person or system behind them, and register that instead, or nothing. Stakeholders with representative `TBD` get no row yet; list them in the final message.
 4. **Deduplicate.** One row per document version in use, per stakeholder, per system. A person who is a stakeholder and also wrote a document gets two rows (different kinds).
-5. **Plan the technique.** Read `references/technique-selection.md`. Choose from the fixed list (`interview`, `workshop`, `questionnaire`, `observation`, `apprenticing`, `document analysis`, `system archaeology`, `feedback analysis`, `reuse`), several joined with `; ` when needed, by kind of source, kind of knowledge and availability.
+5. **Plan the technique.** Read `references/technique-selection.md`. Choose from the fixed list (`interview`, `workshop`, `questionnaire`, `observation`, `apprenticing`, `document-analysis`, `system-archaeology`, `feedback-analysis`, `reuse`; the same tokens `candidates.csv` uses), several joined with `; ` when needed, by kind of source, kind of knowledge and availability.
 6. **Fill the attributes.** `Category`, `Version`, `Location`, `Contact` from the inputs; unknown values are `TBD`, never a guess (no invented version numbers, paths or owners). `Relevance` by the rule in the reference. `Status=planned` unless a work product shows the source was elicited (an `I-nn` record, rows citing it): then `elicited`, with the evidence in Notes.
 7. **Allocate IDs.** Use `re-ids` (kind `source`) or `re-lint ids next --kind source`. The next ID is above the highest S-number found anywhere in the workspace, including IDs cited but not registered. A cited-but-unregistered ID (`S-05` in `requirements.csv`, missing from `sources.csv`) is registered under that same ID only when its owner confirms what it refers to; otherwise it is an open question.
 8. **Check coverage.** List: S-IDs cited in requirements or candidates but not registered; sources with Status `elicited` that no requirement or candidate cites; `high` relevance sources still `planned`. Report these in the final message; do not edit other skills' registers.
@@ -74,7 +74,7 @@ A requirement whose source nobody recorded cannot be checked, defended or change
 
 ## Hand-offs
 
-- **Next:** `artifact-mining` for rows planned as document analysis, system archaeology, feedback analysis or reuse; suggest `/interview-guide`, `/elicitation-workshop`, `/questionnaire-builder` or `/observation-protocol` for the other techniques; `traceability-matrix` reads the register for backward trace.
+- **Next:** `artifact-mining` for rows planned as `document-analysis`, `system-archaeology`, `feedback-analysis` or `reuse`; suggest `/interview-guide`, `/elicitation-workshop`, `/questionnaire-builder` or `/observation-protocol` for the other techniques; `traceability-matrix` reads the register for backward trace.
 - **Feeds back to:** suggest `/stakeholder-map` when a source needs a stakeholder who is not mapped; `requirement-linter` re-checks `unregistered-source`.
 
 ## Non-interactive mode
@@ -83,6 +83,6 @@ Register only identifiable sources, keep every unknown attribute `TBD`, keep `St
 
 ## References
 
-- `references/technique-selection.md`: technique by source and knowledge type, category, relevance and status vocabularies, what is not a source. Read it before step 3.
+- `references/technique-selection.md`: column values, technique by source and knowledge type, category, relevance and status vocabularies, what is not a source. Read it before step 3.
 - `references/ireb-anchor.md`: handbook sections and glossary terms this skill applies.
 - `examples/`: the loyalty-points kick-off sources and stakeholder map, and the register they produce.

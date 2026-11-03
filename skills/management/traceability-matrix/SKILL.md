@@ -2,16 +2,16 @@
 name: traceability-matrix
 description: >-
   Builds and refreshes the requirements trace matrix (source → requirement → decision/ADR → code →
-  test) by running the bundled tracer, which reads requirement IDs from registers, decision records,
-  code annotations, test names and commit messages. Writes requirements/trace/trace.csv and
-  trace/trace.md: coverage counts, a Mermaid graph and a gap report (requirements without tests,
-  tests or code citing unknown or withdrawn IDs, agreed requirements with no implementation, tests
-  and code citing no requirement). Use when someone asks "which requirements have no tests",
-  "build the trace matrix", "what covers R-041", "traceability for the audit", before a release,
-  audit or design review, after a batch of requirement changes, to set up a nightly trace job or
-  release gate in CI, or when a team needs the conventions for citing requirement IDs in commits
-  and tests. Not for scoping one change request (use change-impact), adding verification methods
-  (testability-check), or pushing issues to a tracker (issue-sync).
+  test) by running the bundled tracer, which reads requirement IDs from registers, decision
+  records, code annotations, test names and commit messages. Writes requirements/trace/trace.csv
+  and trace/trace.md: coverage counts, a Mermaid graph and a gap report (requirements without
+  tests, tests or code citing unknown or withdrawn IDs, agreed requirements with no
+  implementation), and lists tests and code that cite no requirement. Use when someone asks "which
+  requirements have no tests", "build the trace matrix", "what covers R-041", "traceability for
+  the audit", before a release, audit or design review, after a batch of requirement changes, to
+  set up a nightly trace job or release gate in CI, or for the conventions for citing requirement
+  IDs in commits and tests. Not for scoping one change request (use change-impact), adding
+  verification methods (testability-check), or pushing issues to a tracker (issue-sync).
 license: MIT
 compatibility: Python 3.9+ optional for scripts/trace_matrix.py; works without it.
 metadata:
@@ -59,9 +59,9 @@ Trace links answer what an auditor and a tester both ask: where did this require
 ## Procedure
 
 1. **Read the workspace.** Locate `requirements/` (or the `workspace` in `requirements/schema.json`). Read `schema.json` → `trace` (`code_globs`, `test_globs`, `adr_dirs`, `scan_git_log`); if it is missing, the defaults apply, and you say so in the final message. List the repo's top-level folders. If code or tests sit outside the globs (`web/__tests__/`, `modules/`), note the extra globs for step 2.
-2. **Build.** Run `python3 <skill-dir>/scripts/trace_matrix.py build` (or `re-lint trace build`). For extra folders from step 1, pass `--code-glob` / `--test-glob`. These replace the `schema.json` globs for the run, so list the existing globs too, and propose adding the new ones to `schema.json` → `trace` so CI sees them. Add `--since <rev>` only to limit the commit-message scan on a very long history. Exit code 2 means a usage or parse error: fix the cause and run again. Never hand-edit `trace.csv` after a script run; change the inputs and rebuild.
+2. **Build.** Run `re-lint trace build` if the package is installed, else `python3 <skill-dir>/scripts/trace_matrix.py build` (same flags). For extra folders from step 1, pass `--code-glob` / `--test-glob`. These replace the `schema.json` globs for the run, so list the existing globs too, and propose adding the new ones to `schema.json` → `trace` so CI sees them. Add `--since <rev>` only to limit the commit-message scan on a very long history. Exit code 2 means a usage or parse error: fix the cause and run again. Never hand-edit `trace.csv` after a script run; change the inputs and rebuild.
    Without Python: search the repository for the ID forms in `references/citation-conventions.md`, then fill `assets/trace.csv` and `assets/trace.md` by hand, and write "built manually" in the trace.md header.
-3. **Read the gaps.** Run `python3 <skill-dir>/scripts/trace_matrix.py gaps --format json` and read the coverage summary in `trace/trace.md`. The gap kinds and their meaning are in `references/trace-format.md`.
+3. **Read the gaps.** Run `re-lint trace gaps --format json` (or `trace_matrix.py gaps --format json`) and read the coverage summary in `trace/trace.md`. The gap kinds and their meaning are in `references/trace-format.md`.
 4. **Triage.** Sort every gap into one of these, using the requirement's `Status` and `Verification`:
    - **Fix first:** an `implemented` or `verified` requirement with no test. Its status claims more than the evidence shows.
    - **Real gap:** an `agreed` requirement with verification `test` (or empty) and no test, or with no implementation reference.

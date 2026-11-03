@@ -1,7 +1,7 @@
 # Requirement release notes: v1.0-contract -> v1.1
 
-- From: `v1.0-contract` (2026-10-15T08:30:00Z, 13a30be2771a) - Requirements agreed for the TillPoint integration contract, signed by Mei Tan (SH-01) 2026-10-15
-- To: `v1.1` (2026-11-03T10:00:00Z, 1f5327f2352e) - January release scope, approved by Mei Tan (SH-01) 2026-11-03
+- From: `v1.0-contract` (2026-10-15T08:30:00Z, git 13a30be2771a) - Requirements agreed for the TillPoint integration contract, signed by Mei Tan (SH-01) 2026-10-15
+- To: `v1.1` (2026-11-03T10:00:00Z, git 1f5327f2352e) - January release scope, approved by Mei Tan (SH-01) 2026-11-03
 
 Summary: 1 added, 2 changed, 1 status changed, 1 withdrawn, 0 removed.
 
@@ -22,7 +22,7 @@ Summary: 1 added, 2 changed, 1 status changed, 1 withdrawn, 0 removed.
 
 - **R-063** IF a support agent submits an adjustment above 5,000 points, THEN the admin console shall require approval by a second support agent before posting the adjustment. (F, must): Status agreed -> withdrawn. Rationale: Replaced by R-064 (RDR-003). Decision: RDR-003
 
-<!-- Everything above is written by `re-lint baseline notes`. The review below is added by the baseline skill. -->
+<!-- Everything above is written by `re-lint baseline notes`; sections with no entries are left out. The review below is added by the baseline skill. -->
 
 ## Review: decision links found in changes/ and decisions/
 

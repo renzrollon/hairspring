@@ -4,9 +4,10 @@ description: >-
   The questioning primitive behind every re-skills skill that asks people things: one question at a
   time (or one prioritized batch), W-questions, a recommended answer, paraphrase to confirm, and the
   answer recorded with its source. Use whenever a re-skills skill needs information from a person
-  (clarifying-questions, interview-guide, system-context, quality-requirements, conflict-to-decision,
-  and others), or when running without a human and questions must be logged instead of guessed.
-  Not for preparing a live stakeholder interview (use interview-guide).
+  (clarifying-questions, interview-guide, system-context, stakeholder-map, quality-requirements,
+  conflict-to-decision, and others), or when running without a human and questions must be logged
+  instead of guessed. Not for deciding which questions a task needs before implementing it (use
+  clarifying-questions) or for preparing a live stakeholder interview (use interview-guide).
 license: MIT
 user-invocable: false
 metadata:
@@ -45,11 +46,11 @@ Questions are expensive for the person answering them. Ask only what changes the
 ## Procedure
 
 1. **Filter.** Keep a question only if a different answer would change a requirement, a boundary, a priority or the design. Drop the rest or note them as assumptions.
-2. **Shape each question.** One topic per question; a W-word (who, what, when, where, why, how, how much, how often); closed where the options are known, open where they are not. Offer a recommended answer and the reason, so the person can say "yes" in one word.
+2. **Shape each question.** One topic per question; a W-word (who, what, when, where, why, how, how much, how often); closed where the options are known, open where they are not. Offer a recommended answer and the reason, so the person can say "yes" in one word. A number in a recommended answer must come from the task, the repo or a cited source; otherwise write "no recommendation: needs a business value".
 3. **Order.** Boundary and scope first, then functional behavior, then quality (performance, security, availability, usability...), then constraints. Within a group, highest impact first.
 4. **Ask.** Default: one question at a time, wait, then the next. When the calling skill says *batch*, send one numbered batch of at most 7 questions grouped by the order above.
 5. **Confirm.** Paraphrase the answer in one sentence with the glossary's terms ("So: exports run asynchronously and the file is kept 7 days. Right?"). Record the confirmed version.
-6. **Record.** Every answer carries who answered and when: `PO 2026-11-03`, a stakeholder ID (`SH-02`) or an interview ID (`I-03`). Write it where the calling skill says (usually a new or updated row via `re-ids`).
+6. **Record.** Every answer carries who answered and when: `Mei Tan (SH-01) 2026-11-03`, `PO 2026-11-03` if only the role is known, or an interview ID (`I-03`). "ok" to a recommended answer is recorded as that person's answer; a recommended answer nobody accepted is never recorded as an answer. Write it where the calling skill says (usually a new or updated row via `re-ids`).
 7. **Stop.** Stop when the remaining questions would not change the work product, or the person asks to stop. List what is still open.
 
 ## Quality checks

@@ -57,7 +57,7 @@ Rules:
 - **End** every extension with one of: `resume at step N`, `use case ends in success`, `use case ends in failure`.
 - **Alternative or exception:** if the goal is still reached, it is an alternative; if not, an exception, and the minimal guarantee must hold at its end.
 - **Find them** by asking at every step: invalid or missing input? the supporting actor says no, or does not answer? the thing is already used, expired or unknown? the actor cancels or goes away? the system cannot reach another system?
-- **Unknown response:** write the condition and `TBD (Qn)` under Exceptions until the answer says otherwise (without an answer the goal cannot be reached safely). A known condition with an unknown response is still a finding worth recording.
+- **Unknown response:** write the condition under Exceptions with the action `TBD (Qn); use case ends in failure` until the answer says otherwise (without an answer the goal cannot be reached safely). A known condition with an unknown response is still a finding worth recording.
 
 ## Requirement links
 
@@ -66,6 +66,7 @@ Rules:
 | System step in the main scenario | `WHEN <trigger>, the <system> shall <response>.` | WHEN the fraud engine returns no hold for a redemption, the loyalty service shall issue a single-use voucher to the member. |
 | System step in an exception | `IF <condition>, THEN the <system> shall <response>.` | IF the fraud engine places a hold on a redemption, THEN the loyalty service shall leave the member's points balance unchanged without issuing a voucher. |
 | System check | Often already covered by a business-rule requirement; link it | R-040 (minimum 500 points) |
-| Actor step | none | `none: actor step` |
+| Actor step (primary or supporting actor) | none | `none: actor step` |
+| System step whose response is `TBD` | none yet | `none until Qn` |
 
 One requirement per sentence and one `shall`. If a step needs two requirements, link both.

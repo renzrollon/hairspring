@@ -25,8 +25,8 @@ Use at step 3. Each candidate gets one **kind** (what you observed). The **type*
 | Looks like | Why it is not | What to write |
 | --- | --- | --- |
 | Two durations near each other (points expire after 12 months; records kept 7 years) | Different subjects (points validity vs record retention) | "Different subjects: points validity vs record retention" |
-| Two values for different scopes (Gold tier vs standard) | Both hold at once; scope is explicit | "Different scopes: <scope A> / <scope B>" |
-| A refinement that its owner already agreed to | One row details the other with consent | "R-065 refines R-064; confirmed by <owner, date>" |
+| Two values for different scopes (Gold tier vs standard) | Both hold at once; scope is explicit | "Different scopes: {scope A} / {scope B}" |
+| A refinement that its owner already agreed to | One row details the other with consent | "R-065 refines R-064; confirmed by {owner, date}" |
 | A wording defect only | Nobody disagrees; the text is unclear | Recommend `requirement-linter` or `requirement-phrasing` |
 
 ## Evidence to capture for each conflict

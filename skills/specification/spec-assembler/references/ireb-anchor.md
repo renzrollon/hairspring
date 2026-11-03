@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §3.6 Documentation structures; §6.5 Views |
-| CPRE FL Syllabus 3.2 | Chapter 3 (Work products and documentation practices); Chapter 6 (Practices for requirements management) |
+| CPRE FL Syllabus 3.2 | Chapter 3 (Work products and documentation practices); Chapter 6 (Management practices for requirements) |
 | IREB Glossary 2.2 terms | Requirements document; Requirements specification; Glossary; Traceability; View |
 | Quality criteria touched | conformant, traceable, modifiable, complete (set); understandable (single requirement) |
 | Other standards | ISO/IEC/IEEE 29148:2018, the software requirements specification example outline (clause titles only); arc42, sections "Introduction and Goals", "Architecture Constraints", "Context and Scope", "Quality Requirements", "Glossary" (titles only; arc42 by Hruschka and Starke, CC BY-SA 4.0); Volere Requirements Specification Template (structure option only, licensed, not reproduced) |

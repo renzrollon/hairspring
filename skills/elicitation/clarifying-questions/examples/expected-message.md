@@ -23,7 +23,7 @@
 
 ## Step 8: the final message after recording the answers
 
-> Recorded Daniel Ng's answers (2026-11-03) and appended R-030 to R-035 (draft) to `requirements/requirements.csv`; `re-lint check --only-ids R-030,R-031,R-032,R-033,R-034,R-035` reports no errors and one `open-tbd` on R-033.
+> Recorded Daniel Ng's answers (2026-11-03) and appended R-030 to R-035 (draft) to `requirements/requirements.csv`; `re-lint check --only-ids R-030,R-031,R-032,R-033,R-034,R-035` reports no errors or warnings; its `open-tbd` notes are the TBD seconds in R-033 and the priorities nobody stated for R-033 to R-035.
 >
 > Still open:
 > - Q5 (blocking, owner Farid Osman, SH-04): personal data in the file. Until answered I build assumption A1: member ID and history columns only.

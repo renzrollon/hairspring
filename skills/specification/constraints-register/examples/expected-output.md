@@ -31,7 +31,7 @@ Rows written: `requirements/requirements.csv` (see `expected-requirements.csv`) 
 
 ## Open questions
 
-| Row | Question | Owner |
+| Requirement | Question | Owner |
 | --- | --- | --- |
 | R-100 | When does TillPoint v2.2 go live, and does v2.1 stay supported after the upgrade? | SH-09 |
 | R-101 | Which written security policy states this rule, does it have an end or review date, and can it be waived? | SH-05 Lena Koh |
@@ -39,7 +39,7 @@ Rows written: `requirements/requirements.csv` (see `expected-requirements.csv`) 
 | R-103 | Does the rule also cover backups and copies held by the notification provider, can the DPO grant exceptions, and when is DRP-2024 next reviewed or replaced? | SH-04 Farid Osman |
 | R-104 | Where is the platform standard written down, does it continue after 2026, and what happens to a service that does not comply? | SH-08 Wei Jie Chua |
 | R-105 | What is the go/no-go date for the cut-over, and can the contract be registered as a source? | SH-03 Grace Lim |
-| (7) | Does the platform standard mandate an event transport such as Kafka? | SH-08 Wei Jie Chua |
+| statement 7 (Kafka) | Does the platform standard mandate an event transport such as Kafka? | SH-08 Wei Jie Chua |
 
 ## Lint
 

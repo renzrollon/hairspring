@@ -4,7 +4,7 @@
 | --- | --- |
 | Scope | full set \| IDs: R-nnn, R-nnn \| diff: `git diff <base> -- requirements/` ({n} rows added, {n} changed, {n} deleted) |
 | Requirements reviewed | {n}: R-nnn to R-nnn |
-| Set checks against | requirements/requirements.csv ({n} rows)<, other registers> |
+| Set checks against | requirements/requirements.csv ({n} rows){, other registers read} |
 | Requested by | {name or role} |
 | Schema | requirements/schema.json \| defaults (no schema.json found) |
 | Lint | `<command>`: exit {n}; `<summary line>` \| manual |
@@ -42,7 +42,7 @@ Adequacy and understandability are graded first. A row with a blocker or major f
 
 | ID | Severity | Criterion | Location | Finding | Proposed fix | Found by | Resolution |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| F-nn | blocker \| major \| minor | {one of the twelve criteria} | R-nnn ({file}:{line}) | {what is wrong and why it matters} | <rewrite or action; TBD plus a question for unknown values> | lint:{rule} \| user \| architect \| tester \| set check | open |
+| F-nn | blocker \| major \| minor | {one of the twelve criteria} | R-nnn ({file}:{line}) | {what is wrong and why it matters} | {rewrite or action; TBD plus a question for unknown values} | lint:{rule} \| user \| architect \| tester \| set check | open |
 
 ## Open questions
 

@@ -59,7 +59,7 @@ A requirement set with no conflicts usually means nobody compared the rows. A co
 4. **Confirm.** A candidate is a conflict only if the statements cannot all be satisfied for the same scope and time, or named stakeholders hold different positions on it. When the call depends on a fact you do not have ("does R-061 apply only to Gold members?"), ask one question with `re-interview` (with a recommended answer) or log it as an open question. Candidates that fail the test go to "Checked, not a conflict" with the reason.
 5. **Name the positions.** For each conflict, list every stakeholder involved (SH-ID, name, role) and their position in one line, with its source. Unknown owner: `TBD` plus an open question; suggest `/stakeholder-map` when a role is missing.
 6. **Classify.** Ask the root-cause questions in `references/conflict-types.md` in order; the first "yes" is the type. Write the reason in one clause. Never classify from the requirement text alone when a stakeholder statement says otherwise.
-7. **Recommend and route.** Take the technique and analysis aid from the technique table in `references/conflict-types.md`. Relationship and structural conflicts: Route `escalate to <role>` (sponsor, the parties' common manager, steering group), Technique `none (escalation)`; the requirements engineer does not resolve them. All other types: Route `/conflict-to-decision CF-nn` with the decision-makers (default: the role in `schema.json` `process.change_authority`). Do not propose the winning option or a compromise value.
+7. **Recommend and route.** Take the technique and analysis aid from the technique table in `references/conflict-types.md`. Relationship and structural conflicts: Route `escalate to <role>` (sponsor, the parties' common manager, steering group), Technique `none (escalation)`, Status `escalated`; the requirements engineer does not resolve them. All other types: Route `/conflict-to-decision CF-nn` with the decision-makers (default: the role in `schema.json` `process.change_authority`), Status `open`. Do not propose the winning option or a compromise value.
 8. **Allocate IDs.** New conflicts get the next `CF-` IDs from `re-ids` (kind `conflict`; or `re-lint ids next --kind conflict`). Never renumber or reuse one.
 9. **Show, then write.** Show the register table first. After confirmation, or directly in non-interactive mode, write `requirements/conflicts.md` from `assets/conflicts.md`: one register row plus one detail block per conflict. Update existing entries in place; never delete one (set Status `not-a-conflict` with the reason instead).
 
@@ -75,7 +75,7 @@ A requirement set with no conflicts usually means nobody compared the rows. A co
 ## Hand-offs
 
 - **Next:** suggest the user runs `/conflict-to-decision CF-nn` for each `open` conflict, starting with the one on the highest-priority requirement.
-- **Feeds back to:** `glossary` when the root cause is one term used in two senses; `stakeholder-map` when a position has no owner; `requirement-phrasing` when a data conflict is settled by correcting a row (only after its owner confirms).
+- **Feeds back to:** `glossary` when the root cause is one term used in two senses; suggest `/stakeholder-map` when a position has no owner; `requirement-phrasing` when a data conflict is settled by correcting a row (only after its owner confirms).
 
 ## Non-interactive mode
 

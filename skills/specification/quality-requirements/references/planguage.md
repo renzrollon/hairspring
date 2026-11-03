@@ -6,7 +6,7 @@ Planguage is Tom Gilb's specification language for quality requirements (*Compet
 
 | Keyword | Meaning | Maps to the table column |
 | --- | --- | --- |
-| Tag | The requirement ID | ID |
+| Tag | The requirement ID | Requirement |
 | Gist | One-line summary in plain words | (none) |
 | Scale | The scale of measure, with unit and statistic | Metric |
 | Meter | How and when the value is measured | Measurement method |

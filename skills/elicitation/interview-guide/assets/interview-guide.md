@@ -5,8 +5,8 @@
 | Interview ID | {I-nn} |
 | Interviewee | {name (SH-nn), role} |
 | Interviewer / note-taker | {name} / {name} |
-| Date, duration, format | {YYYY-MM-DD}, {n} min, <in person \| call \| video> |
-| Consent | <notes only \| audio recording agreed \| TBD: ask in block 1> |
+| Date, duration, format | {YYYY-MM-DD}, {n} min, {in person \| call \| video} |
+| Consent | {notes only \| audio recording agreed \| TBD: ask in block 1} |
 | Status | planned \| held \| summarized |
 
 ## Goals
@@ -30,7 +30,7 @@ Out of scope: {topics this interview will not cover}
 | 1 Warm-up | {n} | Consent, role, a normal day |
 | 2 Open | {n} | Goals, pains, last time it went wrong |
 | 3 Narrow and closed | {n} | Scenarios, exceptions, volumes; confirm the register |
-| 4 Quality | {n} | <3 to 5 characteristics for the role> |
+| 4 Quality | {n} | {3 to 5 characteristics for the role} |
 | 5 Constraints | {n} | {categories that apply} |
 | 6 Confirm | {n} | Read back the main points |
 | 7 Close | {n} | What we missed, who else, documents, follow-up |
@@ -82,13 +82,13 @@ Read back the summary rows marked for confirmation; correct the capture sheet li
 
 | # | Block | Statement (speaker's words) | Kind | Follow-up |
 | --- | --- | --- | --- | --- |
-| C1 | <1-7> | {what was said} | <need \| rule \| quality \| constraint \| fact \| solution \| problem \| term> | {question to ask later, or empty} |
+| C1 | {block: 1 to 7, or 3b} | {what was said} | {need \| rule \| quality \| constraint \| fact \| solution \| problem \| term} | {question to ask later, or empty} |
 
 ## Summary
 
 | Ref | Statement | Kind guess | From | Confirmed | Open question | Candidate |
 | --- | --- | --- | --- | --- | --- | --- |
-| S1 | {statement in glossary terms} | <F \| Q \| C \| fact \| solution \| term> | {C-rows} | <yes \| no> | {question, or empty} | {CAN-nnn, or empty for facts and terms} |
+| S1 | {statement in glossary terms} | {F \| Q \| C \| fact \| solution \| term} | {C-rows} | {yes \| no} | {question, or empty} | {CAN-nnn; R-nnn (existing) when it confirms a register row; empty for facts and terms} |
 
 ## Open questions
 

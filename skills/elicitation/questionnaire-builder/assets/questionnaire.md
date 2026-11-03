@@ -7,7 +7,7 @@
 | Purpose | validate \| quantify \| explore |
 | Based on | {I-nn, CAN-nnn, R-nnn, S-nn the hypotheses come from} |
 | Population | {who can answer} |
-| Sample and recruitment | <who is invited, how, how many; TBD if unknown> |
+| Sample and recruitment | {who is invited, how, how many; TBD if unknown} |
 | Channel | Google Forms \| Microsoft Forms \| paper \| other |
 | Field period | {YYYY-MM-DD to YYYY-MM-DD, or TBD} |
 | Status | draft \| piloted \| fielded \| analyzed |
@@ -22,7 +22,7 @@
 
 | ID | H | Kind | Type | Question | Options or scale | Required |
 | --- | --- | --- | --- | --- | --- | --- |
-| Q01 | H1 | closed | scale | {one concept, neutral wording} | <1 = label, 5 = label> | <yes \| no> |
+| Q01 | H1 | closed | scale | {one concept, neutral wording} | {1 = label, 5 = label; options; or free text} | {yes \| no} |
 
 Kind: `closed` or `open`. Type: as in `form-import.csv` (`section`, `scale`, `single`, `multi`, `dropdown`, `short`, `paragraph`).
 Form definition: `form-import.csv`. Analysis plan and results: `analysis.csv`.
@@ -57,7 +57,7 @@ Form definition: `form-import.csv`. Analysis plan and results: `analysis.csv`.
 
 | H | Items | Result | Evidence | What changes |
 | --- | --- | --- | --- | --- |
-| H1 | {Q-IDs} | <supported \| not supported \| inconclusive> | {value, N, from analysis.csv} | {candidate or requirement to update, or none} |
+| H1 | {Q-IDs} | {supported \| not supported \| inconclusive \| manual} | {value, N and cut-off, from analysis.csv} | {candidate or requirement to update, or none} |
 
 ## Open questions
 

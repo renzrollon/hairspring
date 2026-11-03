@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | CPRE FL Handbook 1.2 | §1.2 Kinds of requirements (constraints); §4.2 Elicitation of requirements (restrictions of the solution space) |
-| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for elaborating requirements) |
+| CPRE FL Syllabus 3.2 | Chapter 1 (Introduction and overview of requirements engineering); Chapter 4 (Practices for requirements elaboration) |
 | IREB Glossary 2.2 terms | Constraint; Requirement; Requirements source; Stakeholder |
 | Quality criteria touched | adequate, necessary, traceable (single requirement); consistent, complete (set) |
 | Other standards | arc42, section "Architecture Constraints" (title only; arc42 by Hruschka and Starke, CC BY-SA 4.0); architecture decision records (Michael Nygard, 2011) |
