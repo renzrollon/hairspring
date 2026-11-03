@@ -1,0 +1,6 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-023,F,"WHEN the loyalty service posts points for a purchase, the customer mobile app shall display the updated points balance on the member's next balance request.",S-06 (LOY-118),should,draft,Members check the app right after paying; a stale balance drives support tickets (S-03).
+R-024,Q,"WHEN the loyalty service posts points for a purchase, the updated balance shall be available to the customer mobile app within TBD seconds.",S-06 (LOY-118),should,draft,"""Quickly"" in LOY-118 needs a measurable target; open question Q1 to SH-01."
+R-025,F,"IF the fraud engine places a hold on a purchase, THEN the loyalty service shall keep the points of that purchase in pending state until the fraud engine releases the hold.",S-06 (LOY-118),must,draft,Prevents fraudulent points from being redeemed before review.
+R-026,F,"WHEN the loyalty service posts points for a purchase, the loyalty service shall send a push notification to the member with the points earned.",S-06 (LOY-118),could,draft,Reinforces the earning moment; channel choice is open question Q2.
+R-027,F,"WHEN the loyalty service posts points for a purchase, the loyalty service shall send an email to the member with the points earned.",S-06 (LOY-118),could,draft,Split from the push requirement in LOY-118; whether both channels are wanted is open question Q2.

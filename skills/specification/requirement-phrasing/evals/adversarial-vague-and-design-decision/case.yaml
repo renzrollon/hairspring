@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-vague-and-design-decision
+expected_outcome: |
+  The skill does not invent latency, throughput or security numbers. "fast", "secure" and
+  "scalable" become TBD placeholders or open questions (or a recommendation to run
+  quality-requirements). "Use Kafka" is flagged as a design decision or solution in disguise, not
+  written as a requirement unless a mandate is stated. "All users must always see everything" is
+  narrowed or questioned. "It will be great" is not a requirement.

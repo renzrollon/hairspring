@@ -1,0 +1,7 @@
+schema_version: "1.1"
+name: ticket-to-ears-rows
+expected_outcome: |
+  requirements/requirements.csv exists with the header ID,Type,Text,Source,Priority,Status,Rationale
+  and new rows phrased in EARS form with "shall". The fraud-hold sentence becomes an IF ... THEN
+  requirement, push and email are split into separate requirements, "quickly" is replaced by TBD
+  with an open question rather than an invented number, and every row cites S-06 and is draft.
