@@ -1,0 +1,8 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-002,F,"WHEN 24 hours have passed since a purchase without a return, the loyalty service shall post the pending points of that purchase.",S-01,must,agreed,Return window from the programme terms.
+R-003,F,"WHEN a member asks the app for a voucher, the loyalty service shall issue the voucher only if the member has at least 500 posted points.",S-01,must,draft,Minimum redemption rule.
+R-080,Q,"WHEN the POS sends a voucher validation request, the loyalty service shall return the validation result within TBD ms for 95% of requests.",S-07,must,agreed,Checkout must not get slower (SH-02).
+R-086,Q,The loyalty service shall reject API requests from the POS and the customer mobile app that do not carry valid client credentials.,SH-05 2026-11-03,must,agreed,Every call must be authenticated (SH-05).
+R-087,Q,The loyalty service shall encrypt member personal data in transit on its interfaces with the POS and the customer mobile app.,SH-05 2026-11-03,must,proposed,Member data is encrypted on the wire (SH-05).
+R-104,C,The loyalty service shall run on the shared Kubernetes platform.,SH-08 2026-11-03,must,agreed,Platform team standard for every new service.

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: kickoff-roster
+expected_outcome: |
+  requirements/stakeholders.md lists every roster person as a stakeholder SH-nn with the fixed
+  nine columns, ratings derived from the sign-off and daily-work columns, and the matching
+  engagement. The Mermaid quadrantChart plots every fully rated stakeholder in the right quadrant.
+  The gap check flags the missing fraud role (points convert to vouchers), adds it with
+  representative TBD, and names nobody who is not in the roster.
+context:
+  scaffold_script: place-files.sh

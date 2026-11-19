@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: homonym-account-update
+expected_outcome: |
+  The existing agreed Member row keeps its definition, owner and status. "Account" is recognized
+  as a homonym with at least two senses (member app sign-in, staff sign-in, finance ledger), each
+  sense named separately or listed in a homonym finding with file:line evidence. "Customer" and
+  "account holder" are treated as synonyms of Member rather than new terms.
+context:
+  scaffold_script: place-files.sh

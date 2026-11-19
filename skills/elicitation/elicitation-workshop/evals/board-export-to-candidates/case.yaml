@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: board-export-to-candidates
+expected_outcome: |
+  The capture table lists the board's ideas in the participants' words with votes and the Kano tag
+  agreed in the room (TBD where none). The two family-sharing notes are merged. "Points never
+  expire" goes to the parking lot because it contradicts R-063, and the out-of-scope birthday and
+  online-order notes are parked too; the joke note is not captured. Each remaining idea becomes a
+  candidate from CAN-015 on with Technique workshop, a #W<n> location, its Kano tag, Disposition
+  confirm and Mei Tan as owner. The Apple Wallet note becomes the need behind it.
+context:
+  scaffold_script: place-files.sh

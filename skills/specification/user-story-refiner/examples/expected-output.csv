@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-040,F,"As a member, I want to spend 500 of my posted points as an SGD 5 voucher at the till, so that my points reduce what I pay.",S-06 (LOY-210),must,draft,"First end-to-end slice of epic LOY-210 (workflow steps, one fixed voucher value); must-have for launch per SH-01."
+R-041,F,"As a member, I want to choose how many of my posted points to turn into a voucher, so that I can use more of my balance in one purchase.",S-06 (LOY-210),could,draft,Business rule variation split from epic LOY-210; SH-01 rated it could for launch.
+R-042,F,"As a support agent, I want to cancel a member's unused voucher, so that the member gets the points back without a manual points adjustment.",S-06 (LOY-210),should,draft,Workflow step split from epic LOY-210 so support can resolve voucher complaints; SH-01 rated it should.

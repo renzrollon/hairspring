@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: srs-for-procurement
+expected_outcome: |
+  requirements/spec/spec.md follows the 29148 SRS outline with every section present in order.
+  Each of the ten in-scope requirements appears once as a "#### R-nnn" block with its text copied
+  verbatim; the withdrawn R-026 is left out. Stories carry their acceptance criteria, quality
+  requirements sit under performance or system attributes, constraints under design constraints
+  or standards compliance. Missing stakeholders, domain model, verification and trace matrix are
+  gap lines naming the producing skill and appear as open issues. requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

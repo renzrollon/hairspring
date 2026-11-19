@@ -1,0 +1,12 @@
+Subject: Loyalty-points kick-off
+Organizer: Mei Tan <mei.tan@harbourline.example> (Head of Loyalty)
+Required: Arjun Pillai <arjun.pillai@harbourline.example> (Store operations)
+Required: Grace Lim <grace.lim@harbourline.example> (Finance)
+Optional: Grace Lim <glim.finance@harbourline.example> (Month-end owner)
+Required: Lena <lena.koh@harbourline.example> (security?)
+Optional: Daniel Ng <daniel.ng@harbourline.example> (Support)
+Optional: tillpoint-integration@tillpoint.example (POS vendor)
+Required: Wei Jie Chua <weijie.chua@harbourline.example> (Platform)
+
+Agenda: scope, interfaces, rollout.
+Note from Mei: members' personal data will be in scope (PDPA). Points convert to vouchers worth SGD.

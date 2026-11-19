@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-manage-points-crud-and-tech
+expected_outcome: |
+  The skill does not write a "Manage points" use case made of create, read, update and delete
+  steps. It explains that "manage points" is not one actor goal and lists candidate user-goal
+  use cases (for example adjust member points, review a member's points history) instead of
+  picking one. React, Postgres and the REST endpoint are named as design decisions, not
+  scenario steps, and "fast" gets no invented number.

@@ -1,0 +1,7 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Verification
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,verified,Core earning flow.,test
+R-002,F,"WHEN the loyalty service creates a pending points transaction, the loyalty service shall award 1 point per SGD 1 of the purchase amount, rounded down per transaction.",S-01,must,implemented,Earning rule in the programme terms.,test
+R-003,F,"WHEN 24 hours have passed since the purchase, the loyalty service shall post the pending points to the member's balance.",S-01,must,agreed,Return window before points become usable.,test
+R-005,F,"IF the POS reports a return within 24 hours of the purchase, THEN the loyalty service shall reverse the pending points of the original transaction.",S-01,must,agreed,Points must not survive a returned purchase.,test
+R-022,F,"WHEN the loyalty service posts points, the loyalty service shall send the member an SMS with the new balance.",S-06,could,withdrawn,Replaced by the push notification (RDR-002).,
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.,test

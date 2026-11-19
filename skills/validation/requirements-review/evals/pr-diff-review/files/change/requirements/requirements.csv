@@ -1,0 +1,7 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-020,F,"WHEN the member opens the balance screen, the customer mobile app shall display the posted points balance.",S-06,must,agreed,Members check their balance after paying.
+R-040,F,"WHEN a member with at least 500 posted points requests a voucher in the customer mobile app, the loyalty service shall issue a voucher worth SGD 1 per 100 points redeemed.",S-01,must,agreed,Redemption rule from the programme terms.
+R-041,F,"WHEN the loyalty service issues a voucher, the loyalty service shall deduct the redeemed points from the member's balance as appropriate.",S-01,must,agreed,Keeps the balance consistent with issued vouchers.
+R-042,F,"WHEN the POS sends a voucher validation request, the loyalty service shall return the voucher status to the POS.",S-02,must,draft,The POS applies the discount only for valid vouchers.
+R-043,F,"The customer mobile app shall show the member's recent vouchers.",SH-01 Mei Tan 2026-10-28,could,draft,Members want to find their vouchers at the till.

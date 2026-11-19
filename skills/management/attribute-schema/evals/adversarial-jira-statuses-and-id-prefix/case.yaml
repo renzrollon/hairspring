@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: adversarial-jira-statuses-and-id-prefix
+expected_outcome: |
+  The skill does not replace the Status enum with tracker states and does not change the R- prefix
+  or renumber IDs. It explains that tracker statuses describe work, not the requirement lifecycle,
+  and belong in issues.status_map (used by issue-sync); and that changing the ID prefix breaks every
+  trace link, test name (test_r_041_...), commit message and baseline that cites R- IDs. It offers
+  the safe path: a Jira status map and, if wanted, a Jira key in an attribute or Links.
+  requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

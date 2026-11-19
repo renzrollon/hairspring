@@ -1,0 +1,6 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-020,F,"WHEN the customer mobile app requests a balance, the loyalty service shall return the customer's points balance.",S-06,must,draft,Members check their balance after paying.
+R-022,F,"The loyalty service shall show the account holder the history of points transactions of their account.",S-03,should,draft,Support tickets ask for history.
+R-030,F,"WHEN a member deletes their account in the customer mobile app, the loyalty service shall keep the member's points transactions for audit.",S-05,must,draft,Retention policy DRP-2024.
+R-041,F,"WHEN the loyalty service issues a voucher, the loyalty service shall set the voucher value to SGD 1 per 100 redeemed points.",S-01,must,agreed,Programme terms.

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: delighters-workshop-plan
+expected_outcome: |
+  A plan is written to requirements/elicitation/workshop-*.md with an objective that names a work
+  product and Mei Tan as decision owner, the six participants (the two members as TBD, not
+  invented names), a missing-roles check, a technique selection table with reasons, an agenda that
+  adds up to 90 minutes with a converge step and Kano tagging, facilitation notes per block, an
+  empty capture table with a Kano column, and a parking lot. Status is planned.
+context:
+  scaffold_script: place-files.sh

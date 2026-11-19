@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: mobile-app-planguage
+expected_outcome: |
+  The walkthrough uses the mobile-app tailoring: interaction capability, performance efficiency
+  (resource utilization) and flexibility (adaptability) are worked as core. Each quality
+  requirement also has a Planguage block with Scale, Meter and Must (and Plan), with Must TBD where
+  no value was given. "Old phones" becomes an adaptability requirement whose device or OS range is
+  TBD, battery drain becomes resource utilization with S-03 as source, and poor eyesight becomes
+  inclusivity measured against a named accessibility guideline with the level TBD unless stated.

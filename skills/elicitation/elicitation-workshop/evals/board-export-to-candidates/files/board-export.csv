@@ -1,0 +1,16 @@
+technique,round,note,cluster,dots,kano
+paradox,-,"voucher only works in the store where it was issued",Where it works,2,dissatisfier
+paradox,-,"make people print the voucher at a kiosk first",At the till,3,dissatisfier
+paradox,-,"hide how many points you still need",Progress,1,satisfier
+paradox,-,"cashier has to type a 16-digit code",At the till,0,
+635,sheet1-r1,"pay part of the bill with points right at checkout, no voucher",At the till,5,delighter
+635,sheet2-r1,"donate points to a charity",Giving,2,delighter
+635,sheet2-r3,"birthday bonus surprise",Earning,3,
+635,sheet3-r2,"share points with my family",Family,6,delighter
+635,sheet5-r4,"family pool: partner and kids add to one balance",Family,0,delighter
+635,sheet4-r2,"vouchers in steps of 100 points instead of 500",Flexibility,1,satisfier
+635,sheet4-r5,"pay with points for online orders",Online,1,
+635,sheet6-r2,"tell me before my voucher expires",Progress,2,satisfier
+635,sheet6-r4,"points never expire!!",Progress,3,delighter
+635,sheet1-r6,"put the voucher in Apple Wallet",At the till,1,satisfier
+635,sheet3-r6,"free unicorn rides lol",-,0,

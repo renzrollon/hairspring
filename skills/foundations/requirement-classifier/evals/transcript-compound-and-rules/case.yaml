@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: transcript-compound-and-rules
+expected_outcome: |
+  Every row cites interview I-02 (or Arjun Pillai / SH-02). The QR, manual entry and receipt
+  sentence is split or flagged compound. "Checkout must not get slower" is a quality requirement
+  flagged as vague or missing a value, with no number invented. The POS upgrade is a fact flagged
+  will, the scratched cards are a current-state fact, the union agreement is a constraint, and the
+  customer-display celebration is a functional requirement guessed as a delighter.
+context:
+  scaffold_script: place-files.sh

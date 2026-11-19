@@ -1,0 +1,320 @@
+{
+  "name": "v0.1-sample",
+  "created": "2026-11-03T17:25:12Z",
+  "git_commit": "14fa842ed781d9f74b4f040e7dfd9dc7b131a52b",
+  "message": "Sample loop baseline after the first full pass (scope, elicit, specify, validate, trace, change), 2026-11-03. Not approved by a stakeholder: 5 rows agreed by Mei Tan (SH-01) per the fictional scenario script, 34 draft. Cut before the coordinator committed the register, so git_commit points at the previous checkpoint.",
+  "requirements": [
+    {
+      "ID": "R-001",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "90ad8b9f501c533caec84374dd182c263e8f111c00992c801ec7b49c027e2c4b"
+    },
+    {
+      "ID": "R-002",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "743ef31589268b4997b17ed27f8f2428ee165812f71989a6e15c58b7897c3941"
+    },
+    {
+      "ID": "R-003",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "7a83009a98fd57e11b540acbeae39ec827988e66f8e5b868575f1491bff87a3d"
+    },
+    {
+      "ID": "R-004",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "81391803212beb6bda1d4fb8d54cae94f6b775a1e76c4d196ddccfcf8ac4f236"
+    },
+    {
+      "ID": "R-005",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "20651a05919049b3629eb9addbeaeeb1962b6b39d291814ce58959ade680e06e"
+    },
+    {
+      "ID": "R-006",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "935452e60ee8ae0e0c9632d7a71b0c303a65dff7245249c955475b80c5f613b1"
+    },
+    {
+      "ID": "R-007",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "17a7d7bd918a55d0855425145b3b8c122c6e31bf28c98d4655f2542bd8d516cc"
+    },
+    {
+      "ID": "R-008",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "80faaa12bb646feb3f56b662fb0c20112b2cf920140124c92f6f45a4222070c3"
+    },
+    {
+      "ID": "R-009",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "4901b77e60a03f4213b41de6ec5d880bd88497e5270cc2d2e26c9d447873c710"
+    },
+    {
+      "ID": "R-010",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "should",
+      "text_sha256": "df256a1e295b75cc9b624163e33d74b7eeabf7b4937d8b84cdefd752e79a95fc"
+    },
+    {
+      "ID": "R-011",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "should",
+      "text_sha256": "9d2f4e33635b74bb0dbf27da845a6b3e36cf4e4b6b4e8b824669a1c9e8403ecb"
+    },
+    {
+      "ID": "R-012",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "should",
+      "text_sha256": "87da970b4e978c4e98ef3e3ceb4aa99137b88a3d04cd5568f7de97a970f07014"
+    },
+    {
+      "ID": "R-013",
+      "Version": "",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "374349c5cab47ab7f9d618c3832df52b77e80348b5d805331ca716fb4623a3a2"
+    },
+    {
+      "ID": "R-014",
+      "Version": "",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "4e852e12237ac7af6b21abe2082213c9d7b5067829439d00629585d351a67c4f"
+    },
+    {
+      "ID": "R-015",
+      "Version": "",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "c3982da18ba28e2af3ed729e3ee12cf9b04cc510a7ccc89c3245db7ee250ca2e"
+    },
+    {
+      "ID": "R-016",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "18287d95e2c8614a577c84eebad88256219f9a151f1c2301b8175024574e03e0"
+    },
+    {
+      "ID": "R-017",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "26fccf13e312348f1d35145979a3e08efa8b3f5599c5385b805a41c8d1f1c1c2"
+    },
+    {
+      "ID": "R-018",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "d7d3b6bdcd59117e6818643caee7f477e091a88a8dcdaa3879fce95a8f1d835a"
+    },
+    {
+      "ID": "R-019",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "c75a85c4552d0f5d55236b0c5ceae32bc5d1366382c05bac454eacb3ed192ec0"
+    },
+    {
+      "ID": "R-020",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "244e2cf243e4c20adae96705c10515d264a661ce642d037f7776245ace15a113"
+    },
+    {
+      "ID": "R-021",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "ea422698549c7a1f623e32ce9ec5eb91f011665a90b66b5f678cd881b5aefba0"
+    },
+    {
+      "ID": "R-022",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "491e502018543c6c75f5f417fe2c49834b4e4bbdcc118ec1919be95ce6d9f0b6"
+    },
+    {
+      "ID": "R-023",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "138b1f2817a0377f38f7f0326e0e6bf960723682a7ff46df592f2ca7391508c9"
+    },
+    {
+      "ID": "R-024",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "1e75cfb6bc8a901eaff14deea6f1e45031d329e7febc8a1caf30177c7a56c1c1"
+    },
+    {
+      "ID": "R-025",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "c12102a0c5444f36ef8462cb826bb7d2027656fdf8b31f43f4beb27ebefdaef0"
+    },
+    {
+      "ID": "R-026",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "should",
+      "text_sha256": "f8cb1e6cf21f3c451e4fa7cbc366c076c1418e9c22b11d3a8b243e52350c7368"
+    },
+    {
+      "ID": "R-027",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "must",
+      "text_sha256": "1a18ac3467099485525b8b96669cded834a215c3a4e9b23d808714af970443f7"
+    },
+    {
+      "ID": "R-028",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "should",
+      "text_sha256": "38d6c191def062971c5261a5078f1be91322eb650becd44f62da3e9f8bdab92e"
+    },
+    {
+      "ID": "R-029",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "must",
+      "text_sha256": "49a7ac48834fd73f66254bf802be89ca20a3086514fc600235f30117f29af138"
+    },
+    {
+      "ID": "R-030",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "must",
+      "text_sha256": "8c9e1114e20cb81939a8fd1b311b3ea3391de9ea802fd079e63193a2711be40e"
+    },
+    {
+      "ID": "R-031",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "TBD",
+      "text_sha256": "66e8e19cba9516519e0db9907701b333b6b61102d82091f3ab7f044164a0efdc"
+    },
+    {
+      "ID": "R-032",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "TBD",
+      "text_sha256": "f8afe86b7767304610e13630c49e28e77a1c892abba20e125ff271d3c5b82348"
+    },
+    {
+      "ID": "R-033",
+      "Version": "",
+      "Status": "draft",
+      "Type": "Q",
+      "Priority": "TBD",
+      "text_sha256": "061dc9e526aecf81779643712385cf4e00447c4663b11947e91adaeea50fb305"
+    },
+    {
+      "ID": "R-034",
+      "Version": "",
+      "Status": "draft",
+      "Type": "F",
+      "Priority": "TBD",
+      "text_sha256": "def356e873bf8b2672c07c6c2085727ac1dc206547e41423267e8c1364688ec6"
+    },
+    {
+      "ID": "R-035",
+      "Version": "",
+      "Status": "draft",
+      "Type": "C",
+      "Priority": "TBD",
+      "text_sha256": "f735cc5616253f4a044da9f4e3ffd3697ccfa0ae7ee752adfe5af777523fbeb1"
+    },
+    {
+      "ID": "R-036",
+      "Version": "",
+      "Status": "draft",
+      "Type": "C",
+      "Priority": "must",
+      "text_sha256": "df6890cb26eb271c89c1943c24d58cf75b33b2e1f554661feda44fc886fc4717"
+    },
+    {
+      "ID": "R-037",
+      "Version": "",
+      "Status": "draft",
+      "Type": "C",
+      "Priority": "must",
+      "text_sha256": "7ed47b425d83ba8e993d71f403f1fbc71977f86fafde0250ab9d0ad203702520"
+    },
+    {
+      "ID": "R-038",
+      "Version": "",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "c2876b4ec362faa3a3d413ff31b6dc39e65f3546b368c016fb8074f22d577cc5"
+    },
+    {
+      "ID": "R-039",
+      "Version": "",
+      "Status": "agreed",
+      "Type": "F",
+      "Priority": "must",
+      "text_sha256": "62b01872d1d8750e6d4f8383c57aad3fe51462b0bca459260ec12d2253bb94cf"
+    }
+  ]
+}

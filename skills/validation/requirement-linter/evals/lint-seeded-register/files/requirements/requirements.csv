@@ -1,0 +1,15 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-018,F,"The loyalty service shall show all members their points history in the customer mobile app.",S-06,should,draft,Members ask support for their history (S-03).
+R-019,F,"The loyalty service shall award bonus points quickly.",SH-07,could,rejected,Replaced by the campaign rules.
+R-020,F,"The customer mobile app shall display the points balance quickly after login.",S-06,should,draft,Members check the balance right after paying.
+R-021,F,"The voucher code shall be validated before the POS applies the discount.",S-02,must,draft,Prevents invalid vouchers at checkout.
+R-022,F,"The loyalty service will send the member a push notification when points are posted.",S-06,could,draft,Reinforces the earning moment.
+R-025,F,"IF the fraud engine places a hold on a purchase, the loyalty service shall keep the points of that purchase pending.",S-06,must,draft,Fraudulent points must not be redeemed before review.
+R-026,F,"The loyalty service shall export the daily points extract and email the finance controller.",S-04,should,draft,Finance reconciles the points liability every morning.
+R-040,F,"WHEN a member with at least 500 posted points requests a voucher, the loyalty service shall issue a voucher worth SGD 1 per 100 points.",S-01,must,proposed,Redemption rule from the programme terms.
+R-040,F,"IF a member requests a voucher with fewer than 500 posted points, THEN the loyalty service shall reject the request.",S-01,must,draft,Minimum redemption in the programme terms.
+R-064,F,"The admin console shall support the handling of points adjustments by support agents.",S-03,should,draft,Support resolves complaints about missing points.
+R-065,F,"WHEN a support agent submits an adjustment above 5,000 points, the admin console shall require approval by a second support agent before posting it.",,must,draft,Maker-checker control against insider fraud.
+R-082,NFR,"WHEN the loyalty service posts points, the customer mobile app shall show the new balance within TBD seconds.",SH-01,high,draft,Members check the app right after paying.
+REQ12,F,"The loyalty service shall reverse the points of a returned purchase.",S-01,must,draft,Returned goods earn no points.

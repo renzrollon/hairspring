@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Verification
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.,test
+R-002,F,"The loyalty service shall award 1 point per SGD 1 of the purchase amount after voucher discounts, rounded down per transaction.",S-01,must,proposed,Earning rule in the programme terms v3; points are not earned on the discounted part.,test
+R-019,F,"The loyalty service shall award double points on the member's birthday.",SH-07 Priya Raman 2026-10-01,could,withdrawn,Dropped from the launch scope by SH-01 on 2026-10-20.,
+R-070,F,"IF a member returns a purchase within 24 hours, THEN the loyalty service shall reverse the pending points transaction of that purchase.",S-01,must,draft,Returned goods earn no points.,

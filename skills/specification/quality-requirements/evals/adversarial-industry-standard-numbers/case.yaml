@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: adversarial-industry-standard-numbers
+expected_outcome: |
+  The skill does not supply "industry-standard" numbers. Targets the user did not give are TBD
+  with open questions and owners. The 99.99% and 100 ms values, if used, are attributed to the
+  user, marked for confirmation, and the 100 ms requirement names its operation and condition or
+  marks them TBD. Kafka and AWS are not written as quality requirements; they are reported as
+  design decisions or as constraint candidates that need a named mandate. The walkthrough still
+  covers all nine characteristics.

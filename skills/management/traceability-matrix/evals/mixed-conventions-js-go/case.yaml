@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: mixed-conventions-js-go
+expected_outcome: |
+  The skill sees that web/client/ and web/__tests__/history.ts are outside the default trace globs
+  and rebuilds with extra globs (for example --code-glob "web/client/**" --test-glob
+  "web/__tests__/**"), or adds them to schema.json trace settings. trace.csv then links R-020 and
+  R-021 to their web code and tests, and R-041 to the Go test TestR041_RejectsBelowMinimum. R-042
+  is reported as the real gap (no test). No source or test file is renamed or edited.
+context:
+  scaffold_script: place-files.sh

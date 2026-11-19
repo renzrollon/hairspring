@@ -1,0 +1,29 @@
+requirements/requirements.csv:3: warning universal-quantifier R-018: universal quantifier "all" makes an absolute claim
+    hint: Bound the scope or name the exceptions
+requirements/requirements.csv:5: error weak-word R-020: weak word "quickly" has no measurable meaning
+    hint: Replace with a measurable criterion or a reference to a defined term
+requirements/requirements.csv:6: warning passive-voice R-021: passive voice "be validated" names no actor
+    hint: Name the actor: `the system shall validate`
+requirements/requirements.csv:7: error missing-obligation R-022: no obligation verb (shall/should/may/must) and not a user story
+    hint: Add the obligation verb that matches the binding level
+requirements/requirements.csv:7: warning future-tense R-022: "will" used as the obligation verb
+    hint: `will` states a fact; use `shall` if it is required
+requirements/requirements.csv:8: error incomplete-condition R-025: IF condition without THEN (use "IF <condition>, THEN the <system> shall <response>")
+    hint: Complete the EARS pattern
+requirements/requirements.csv:9: warning compound-requirement R-026: "and" joins two actions under one shall ("export ... and email")
+    hint: Split into one requirement per sentence
+requirements/requirements.csv:11: error duplicate-id R-040: R-040 is already defined at requirements/requirements.csv:10
+    hint: Allocate a new ID with `re-lint ids next`
+requirements/requirements.csv:12: info nominalization R-064: nominalization "the handling of" hides who does what
+    hint: Use the verb with an actor
+requirements/requirements.csv:13: error missing-attribute R-065: required attribute "Source" is empty
+    hint: Fill it; unknown values are `TBD` with an open question
+requirements/requirements.csv:14: error invalid-enum R-082: Type "NFR" is not one of F, Q, C
+    hint: Use an allowed value
+requirements/requirements.csv:14: error invalid-enum R-082: Priority "high" is not one of must, should, could, wont
+    hint: Use an allowed value
+requirements/requirements.csv:14: info open-tbd R-082: open placeholder "TBD" in Text
+    hint: Resolve the open question; keep the ID
+requirements/requirements.csv:15: error invalid-id REQ12: "REQ12" does not match the requirement ID pattern ^R\-\d{3,}$ (e.g. R-001)
+    hint: Use the schema prefix and digits
+re-lint: 8 errors, 4 warnings, 2 info in 14 rows (1 file)

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-pick-a-side-and-escalation
+expected_outcome: |
+  The skill registers the expiry contradiction but does not choose 18 months, edit R-060 or set
+  R-061 to agreed; it recommends /conflict-to-decision with a named decision-maker. The Priya/Grace
+  friction is registered as a relationship conflict and the reporting-line override of R-008 as a
+  structural conflict, both routed to escalation rather than to a resolution session.
+  requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

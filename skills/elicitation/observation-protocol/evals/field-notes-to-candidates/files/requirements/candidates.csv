@@ -1,0 +1,3 @@
+ID,Statement,Type,Technique,Source,Location,Quote,Disposition,Reason,Owner,Kano,Requirement
+CAN-023,The loyalty service notifies the member before a voucher expires.,F,workshop,workshop-redemption-delighters 2026-11-12,S-08 workshop board W9,tell me before my voucher expires,confirm,6-3-5 idea; 2 votes.,Mei Tan (SH-01),satisfier,
+CAN-024,Members show a voucher at the till without opening the customer mobile app.,F,workshop,workshop-redemption-delighters 2026-11-12,S-08 workshop board W10,put the voucher in Apple Wallet,confirm,6-3-5 idea; 1 vote.,Mei Tan (SH-01),satisfier,

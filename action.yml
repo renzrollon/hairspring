@@ -1,0 +1,111 @@
+name: re-lint requirements check
+description: >-
+  Lint requirement registers (weak words, EARS conditions, obligation verbs, IDs, attributes) with
+  re-lint and annotate the pull request. Optionally report traceability gaps.
+author: Carl Rollon
+branding:
+  icon: check-square
+  color: blue
+
+inputs:
+  paths:
+    description: >-
+      Files or folders to lint, separated by spaces or newlines. Default: the workspace registers
+      (requirements/requirements.csv plus Markdown tables with requirement IDs).
+    required: false
+    default: ""
+  fail-on:
+    description: "Fail the step on findings of this severity or higher: error, warning or info."
+    required: false
+    default: error
+  format:
+    description: >-
+      Output format: github (annotations on the PR diff), text, json or sarif. With sarif the
+      report is written to re-lint.sarif (see the sarif-file output).
+    required: false
+    default: github
+  schema:
+    description: "schema.json to use. Default: requirements/schema.json."
+    required: false
+    default: ""
+  changed-only:
+    description: >-
+      Base ref (for example origin/main) to lint only rows changed versus it. Needs the base
+      fetched: actions/checkout with fetch-depth: 0. Falls back to all rows if git cannot answer.
+    required: false
+    default: ""
+  trace-gaps:
+    description: '"true" also runs `re-lint trace build` and `re-lint trace gaps --fail-on-gaps`.'
+    required: false
+    default: "false"
+
+outputs:
+  sarif-file:
+    description: Path of the SARIF report when format is sarif.
+    value: ${{ steps.check.outputs.sarif-file }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install re-lint
+      shell: bash
+      run: |
+        set -euo pipefail
+        PY="$(command -v python3 || command -v python || true)"
+        if [ -z "$PY" ]; then
+          echo "::error title=re-lint::Python 3.9+ is required; add actions/setup-python before this action"
+          exit 2
+        fi
+        "$PY" -c 'import sys; sys.exit(0 if sys.version_info >= (3, 9) else 1)' || {
+          echo "::error title=re-lint::Python 3.9+ is required (found $("$PY" --version 2>&1))"
+          exit 2
+        }
+        VENV="${RUNNER_TEMP:-/tmp}/re-lint-venv"
+        "$PY" -m venv "$VENV"
+        if [ -x "$VENV/bin/python" ]; then BIN="$VENV/bin"; else BIN="$VENV/Scripts"; fi
+        "$BIN/python" -m pip install --quiet --disable-pip-version-check "$GITHUB_ACTION_PATH/packages/re-lint"
+        echo "RE_LINT_BIN=$BIN" >> "$GITHUB_ENV"
+        "$BIN/re-lint" --version
+
+    - name: Lint requirements
+      id: check
+      shell: bash
+      env:
+        INPUT_PATHS: ${{ inputs.paths }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_SCHEMA: ${{ inputs.schema }}
+        INPUT_CHANGED_ONLY: ${{ inputs.changed-only }}
+        INPUT_TRACE_GAPS: ${{ inputs.trace-gaps }}
+      run: |
+        set -o pipefail
+        RE_LINT="$RE_LINT_BIN/re-lint"
+        args=(check --format "$INPUT_FORMAT" --fail-on "$INPUT_FAIL_ON")
+        if [ -n "$INPUT_SCHEMA" ]; then args+=(--schema "$INPUT_SCHEMA"); fi
+        if [ -n "$INPUT_CHANGED_ONLY" ]; then args+=(--changed-only "$INPUT_CHANGED_ONLY"); fi
+        # Paths are split on whitespace (spaces or newlines); globs are expanded by the shell.
+        # shellcheck disable=SC2206
+        paths=($INPUT_PATHS)
+        if [ "${#paths[@]}" -gt 0 ]; then args+=("${paths[@]}"); fi
+
+        if [ "$INPUT_FORMAT" = "sarif" ]; then
+          "$RE_LINT" "${args[@]}" > re-lint.sarif
+          status=$?
+          echo "sarif-file=re-lint.sarif" >> "$GITHUB_OUTPUT"
+          echo "re-lint: SARIF report written to re-lint.sarif"
+        else
+          "$RE_LINT" "${args[@]}"
+          status=$?
+        fi
+
+        if [ "$INPUT_TRACE_GAPS" = "true" ]; then
+          gap_format=text
+          if [ "$INPUT_FORMAT" = "github" ]; then gap_format=github; fi
+          trace_args=()
+          if [ -n "$INPUT_SCHEMA" ]; then trace_args+=(--schema "$INPUT_SCHEMA"); fi
+          "$RE_LINT" trace build "${trace_args[@]}" || status=$(( status > 0 ? status : 2 ))
+          "$RE_LINT" trace gaps --format "$gap_format" --fail-on-gaps "${trace_args[@]}"
+          gaps=$?
+          if [ "$gaps" -gt "$status" ]; then status=$gaps; fi
+        fi
+        exit "$status"

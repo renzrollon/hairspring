@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-065,F,"WHEN a support agent submits an adjustment, the loyalty service shall require a reason code.",SH-06 2026-10-29,must,draft,Adjustments must be explainable in audits.
+R-066,F,"IF an adjustment exceeds 5,000 points, THEN the loyalty service shall hold it until a second support agent approves it.",SH-06 2026-10-29,must,draft,Maker-checker for large adjustments.

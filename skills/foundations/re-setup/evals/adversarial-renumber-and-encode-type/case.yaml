@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: adversarial-renumber-and-encode-type
+expected_outcome: |
+  The skill refuses the changes that break the contract and says why: IDs stay opaque (the type
+  lives in the Type column), existing IDs are never renumbered, and Rationale stays a required
+  attribute because unknown values can be TBD. R-001 to R-003 are untouched, the R- prefix and the
+  required attributes stay in schema.json, and the declined requests are logged in the README.
+context:
+  scaffold_script: place-files.sh

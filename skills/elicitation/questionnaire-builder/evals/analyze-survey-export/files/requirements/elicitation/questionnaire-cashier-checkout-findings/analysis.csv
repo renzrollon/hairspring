@@ -1,0 +1,7 @@
+Item,Hypothesis,Metric,Threshold,MinN,N,Missing,Distribution,Value,Result,Notes
+Q01,H1,top2,>=30%,40,,,,,,
+Q02,H2,top2,>=60%,40,,,,,,
+Q05,H2,share:Finish the sale without points,TBD,40,,,,,,
+Q03,H3,bottom2,>=60%,40,,,,,,
+Q04,H4,top2,>=30%,40,,,,,,
+Q06,H5,themes,,,,,,,,

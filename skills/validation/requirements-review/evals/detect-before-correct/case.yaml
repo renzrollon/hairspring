@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: detect-before-correct
+expected_outcome: |
+  Detection and correction stay separate. The skill writes the review file with findings (weak word
+  'in a timely manner' on R-062, IF without THEN and the undefined 'handle' on R-063, missing
+  reason code or approval on R-064) and every Resolution open. It does not edit
+  requirements/requirements.csv; instead it asks the author to accept, reject or defer each finding
+  by F-ID before any fix is applied, and the correction log stays empty.
+context:
+  scaffold_script: place-files.sh

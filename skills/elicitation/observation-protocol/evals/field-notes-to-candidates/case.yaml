@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: field-notes-to-candidates
+expected_outcome: |
+  The capture table gets one row per kind of episode (dim-screen scans, the receipt notepad,
+  rejected vouchers, the network drop, the points-timing question) with observed counts taken
+  from the notes and reported frequencies taken only from the debrief. The member's name and phone
+  number in the notes appear nowhere in the file or the candidates, and the paper notepad of phone
+  numbers is raised as a data protection question. Each workaround leads to a dissatisfier
+  candidate from CAN-025 on, Technique observation, a #O<n> location, Disposition confirm with an
+  owner such as Arjun Pillai.
+context:
+  scaffold_script: place-files.sh

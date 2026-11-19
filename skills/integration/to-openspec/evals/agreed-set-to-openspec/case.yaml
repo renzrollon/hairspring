@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: agreed-set-to-openspec
+expected_outcome: |
+  openspec/changes/add-voucher-redemption/ holds proposal.md, tasks.md and a delta spec under
+  specs/<capability>/spec.md. The agreed functional requirements R-040, R-041 and R-042 become
+  "### Requirement:" blocks with their R-ID in the heading, SHALL text and at least one
+  "#### Scenario:" each, using the acceptance criteria where they exist. The quality requirement
+  R-085 and the constraint R-100 are in the proposal, the draft R-043 is not handed off, and every
+  task cites its R-IDs.
+context:
+  scaffold_script: place-files.sh

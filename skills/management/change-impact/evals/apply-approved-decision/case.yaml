@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: apply-approved-decision
+expected_outcome: |
+  The CR-001 decision section records approved, option A, Mei Tan (SH-01), 2026-11-04, and the CR
+  status becomes approved or applied. R-041 in requirements.csv now says 300 posted points, its
+  Version goes from 1 to 2, its Status moves from implemented to agreed (to be re-implemented and
+  re-verified), and its Links contains CR-001. No row is deleted. The final message lists the code
+  and tests to update (src/loyalty/redeem.py, tests/test_redeem.py).
+context:
+  scaffold_script: place-files.sh

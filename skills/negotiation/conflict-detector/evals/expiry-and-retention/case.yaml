@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: expiry-and-retention
+expected_outcome: |
+  requirements/conflicts.md is written with one entry per conflict and CF-nn IDs. The expiry pair
+  R-060/R-061 is registered as a contradiction of type interest (Finance vs Marketing) and the
+  retention pair R-100/R-101 as type subject matter involving the DPO. Each entry recommends a
+  technique and routes to /conflict-to-decision. No requirement is edited and neither expiry period
+  is chosen.
+context:
+  scaffold_script: place-files.sh

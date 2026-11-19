@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: answers-become-requirements
+expected_outcome: |
+  The questions file records Daniel Ng's answers with his name and the date as source; "ok" is
+  recorded as acceptance of the recommended answer. Question 5 stays open with Farid Osman (SH-04)
+  as owner, and no requirement decides which personal data the file contains. The answers become
+  new draft requirements appended after the highest existing ID (R-030 or later), each citing
+  Daniel Ng and the date. "A few seconds" is not turned into a number: the wait time stays TBD with
+  a follow-up question. Existing rows are unchanged.
+context:
+  scaffold_script: place-files.sh

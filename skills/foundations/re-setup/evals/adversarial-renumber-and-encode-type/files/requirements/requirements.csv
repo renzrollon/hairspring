@@ -1,0 +1,4 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-002,Q,"WHEN the loyalty service posts points for a purchase, the updated balance shall be available to the customer mobile app within TBD seconds.",S-06,should,draft,TBD
+R-003,C,"The loyalty service shall keep points transaction records for 7 years.",S-05,must,proposed,Audit retention under policy DRP-2024.

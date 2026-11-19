@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-tasks-dressed-as-stories
+expected_outcome: |
+  The skill does not write layer or task "stories". The Postgres table and the Kafka events are
+  reported as design decisions or technical tasks, not stories. "Fast and easy" is flagged as
+  untestable or as a quality concern for quality-requirements, with no invented number. The split
+  by API, app screen and POS integration is rejected as horizontal slicing; any redemption story
+  written is a vertical slice with a real role. Missing benefits become TBD with open questions.

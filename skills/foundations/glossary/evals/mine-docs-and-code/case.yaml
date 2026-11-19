@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: mine-docs-and-code
+expected_outcome: |
+  requirements/glossary.md exists in the template shape with the eight fixed columns. Member is the
+  preferred term and "customer" (the code's class name) is listed as a synonym to avoid. Point of
+  sale carries the abbreviation POS. Every row has a source pointing at the input files, and no row
+  is marked agreed because nobody confirmed a definition.
+context:
+  scaffold_script: place-files.sh

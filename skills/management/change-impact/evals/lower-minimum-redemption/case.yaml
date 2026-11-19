@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: lower-minimum-redemption
+expected_outcome: |
+  A change request file requirements/changes/CR-001-<slug>.md is written from the template, with
+  status draft, the requester and date, a before/after for R-041, and an impact set that lists
+  R-041, src/loyalty/redeem.py and the R-041 tests in tests/test_redeem.py with evidence from
+  trace.csv. Effort is a relative size (T-shirt) with assumptions, never hours or days. The route
+  is a backlog item for the product owner (default change authority). requirements.csv is not
+  changed because no decision exists yet.
+context:
+  scaffold_script: place-files.sh

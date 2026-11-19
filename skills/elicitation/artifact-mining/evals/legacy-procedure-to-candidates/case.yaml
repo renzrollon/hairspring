@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: legacy-procedure-to-candidates
+expected_outcome: |
+  requirements/candidates.csv is created with the fixed header and CAN-nnn rows, each with a
+  verbatim quote and a legacy/loyalty/sp_post_points.sql:<line> location. The rounding and the
+  24-hour rules are kept because S-01 backs them. The hard-coded 2019 campaign is dropped or
+  confirmed, never kept. The negative-balance write-off and the 5,000 cap are confirm with an
+  owner. The CRM staging table is not kept as a functional candidate.
+context:
+  scaffold_script: place-files.sh

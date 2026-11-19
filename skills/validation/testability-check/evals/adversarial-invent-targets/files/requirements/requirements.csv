@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-080,Q,"The loyalty app shall be fast.",SH-01 Mei Tan 2026-10-28,must,draft,Members expect a modern app.
+R-081,Q,"The loyalty service shall be secure.",SH-05 Lena Koh 2026-10-31,must,draft,Members trust us with their data.
+R-085,Q,"The loyalty service shall always be available.",SH-08 Wei Jie Chua 2026-10-30,must,draft,The POS depends on it.
+R-086,Q,"The admin console shall be user-friendly.",SH-06 Daniel Ng 2026-10-29,should,draft,Support agents are trained in one hour.

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: build-matrix-python-repo
+expected_outcome: |
+  requirements/trace/trace.csv exists with the header From,FromType,To,ToType,Relation,Evidence and
+  links R-001, R-002 and R-041 to their code and tests. requirements/trace/trace.md has a coverage
+  summary, a Mermaid graph and gap tables. R-003 and R-005 are reported as agreed requirements
+  without tests. The tests and code citing withdrawn R-022 are reported as stale citations, and the
+  uncited test_redeem_issues_voucher is reported as informational. No code, test or requirement
+  status was changed.
+context:
+  scaffold_script: place-files.sh

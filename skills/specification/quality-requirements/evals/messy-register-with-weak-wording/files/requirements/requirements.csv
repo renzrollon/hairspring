@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a voucher validation request, the loyalty service shall return whether the voucher can be applied.",S-02,must,agreed,Redemption at the till.
+R-002,Q,The system shall be fast and scalable.,SH-08 2026-10-20,must,draft,From the platform kick-off.
+R-003,Q,The admin console should be user-friendly.,SH-06 2026-10-21,should,draft,Support complaints about the legacy screens.
+R-004,C,The loyalty service shall run on the shared Kubernetes platform.,SH-08 2026-10-20,must,agreed,Platform team standard for all new services.

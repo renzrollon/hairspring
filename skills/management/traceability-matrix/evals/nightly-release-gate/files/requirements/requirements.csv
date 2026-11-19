@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Verification
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,verified,Core earning flow.,test
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.,test

@@ -1,0 +1,8 @@
+{
+  "process": {
+    "lifecycle": "linear",
+    "approach": "prescriptive",
+    "target": "customer-specific",
+    "change_authority": "ccb"
+  }
+}

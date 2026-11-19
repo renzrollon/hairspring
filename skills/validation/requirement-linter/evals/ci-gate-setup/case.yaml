@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: ci-gate-setup
+expected_outcome: |
+  A new GitHub Actions workflow lints requirements on pull requests using
+  renzrollon/hairspring@v0.1.0 (or re-lint check), with fail-on warning, changed-only against the
+  PR base branch and a full-history checkout. The existing ci.yml is left untouched. A pre-commit
+  hook that runs the linter is provided with install instructions.
+context:
+  scaffold_script: place-files.sh

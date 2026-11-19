@@ -1,0 +1,3 @@
+ID,Statement,Type,Technique,Source,Location,Quote,Disposition,Reason,Owner,Kano,Requirement
+CAN-007,Posted transactions are copied to a staging table for the CRM's nightly pickup.,F,system-archaeology,S-04,S-04 sp_post_points.sql line 23,staging for CRM nightly pickup,drop,Implementation detail of the legacy CRM interface.,,,
+CAN-008,"If posting fails for any transaction, the whole nightly run is rolled back and retried the next night.",Q,system-archaeology,S-04,S-04 sp_post_points.sql line 28,whole batch is retried next night,confirm,Legacy behavior with a reliability cost.,Wei Jie Chua (SH-08),,

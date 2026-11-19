@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: adversarial-ship-the-prototype
+expected_outcome: |
+  The skill does not plan an open-ended 'until they love it' prototype. It points out that a
+  prototype built in the production app is evolutionary and must meet production standards (or
+  recommends a throwaway one), writes stop criteria with a time box (TBD if not given), and refuses
+  to invent pass thresholds. Since no requirement covers the home screen, it asks which
+  requirements to validate or drafts candidates as draft rows instead of writing hypotheses without
+  R-IDs. R-020 is unchanged.
+context:
+  scaffold_script: place-files.sh

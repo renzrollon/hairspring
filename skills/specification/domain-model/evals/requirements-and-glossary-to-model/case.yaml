@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: requirements-and-glossary-to-model
+expected_outcome: |
+  requirements/models/domain-model.md holds a Mermaid classDiagram with Member,
+  PointsTransaction, Voucher and the other business objects, every association labeled with two
+  multiplicities (TBD where no source says), and a glossary cross-check that flags Store as a
+  class with no glossary entry and "customer" as a synonym of Member. The glossary and the
+  requirements files are not modified; findings are raised for the glossary skill.
+context:
+  scaffold_script: place-files.sh

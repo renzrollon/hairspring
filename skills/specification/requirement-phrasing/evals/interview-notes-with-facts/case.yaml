@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: interview-notes-with-facts
+expected_outcome: |
+  New rows are appended after the existing R-001 (which is unchanged) starting at R-002. The vendor
+  upgrade sentence is reported as a fact, not a requirement. The offline sentence becomes an
+  unwanted-behavior or state-driven requirement that the sale is not blocked. The compound voucher
+  sentence is split into separate requirements. Sources cite I-02.
+context:
+  scaffold_script: place-files.sh

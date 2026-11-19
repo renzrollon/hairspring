@@ -1,0 +1,66 @@
+name: release re-lint
+
+# Push a tag such as re-lint-v0.1.0 to build packages/re-lint and publish it to PyPI.
+# PyPI trusted publishing: register this repository, workflow (release.yml) and environment (pypi)
+# as a trusted publisher for the re-lint project on pypi.org; no API token is stored here.
+
+on:
+  push:
+    tags: ["re-lint-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build sdist and wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tag matches the package version
+        run: |
+          tag="${GITHUB_REF_NAME#re-lint-v}"
+          version="$(python -c 'import re, pathlib; t = pathlib.Path("packages/re-lint/pyproject.toml").read_text(); print(re.search(r"^version\s*=\s*\"([^\"]+)\"", t, re.M).group(1))')"
+          if [ "$tag" != "$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match packages/re-lint/pyproject.toml version $version"
+            exit 1
+          fi
+
+      - name: Test
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "packages/re-lint[dev]"
+          pytest packages/re-lint/tests
+
+      - name: Build
+        run: |
+          pip install build
+          python -m build packages/re-lint --outdir dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: re-lint-dist
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/re-lint
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: re-lint-dist
+          path: dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1

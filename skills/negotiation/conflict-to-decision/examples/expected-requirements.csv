@@ -1,0 +1,3 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Links
+R-060,F,"The loyalty service shall expire posted points 12 months after posting.",S-01,must,agreed,Limits the points liability on the balance sheet (SH-03).,RDR-001 CF-01
+R-061,F,"The loyalty service shall expire posted points 18 months after posting.",SH-07 Priya Raman 2026-10-29,must,rejected,Occasional shoppers lose points before they reach the redemption minimum.,RDR-001 CF-01

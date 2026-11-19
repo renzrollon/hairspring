@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: support-lead-guide
+expected_outcome: |
+  A guide is written to requirements/elicitation/interview-*.md with interview ID I-03 (I-01 and
+  I-02 are taken in sources.csv), at most three goals, time boxes adding up to 30 minutes, open
+  questions before closed ones, closed questions that confirm R-061 and R-062 by ID, three to five
+  quality probes named after ISO/IEC 25010 characteristics, constraint probes, a confirmation
+  block, a close, and an empty capture sheet and summary. Status is planned.
+context:
+  scaffold_script: place-files.sh

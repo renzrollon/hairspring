@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: record-results-messy-notes
+expected_outcome: |
+  The Results are scored against the thresholds agreed before the sessions: H1 changed (2 of 6
+  without help, fixed values wanted), H2 not validated (4 of 6, below the agreed 5 of 6; the later
+  'good enough' remark is noted but does not move the threshold), H3 validated, H4 dropped (0 of
+  6). Participants appear only as codes. The flow back proposes the R-049 rewrite and R-051
+  rejected with Applied no, and requirements.csv is unchanged because nothing was confirmed.
+context:
+  scaffold_script: place-files.sh

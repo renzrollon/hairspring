@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: messy-register-with-weak-wording
+expected_outcome: |
+  R-002 and R-003 are rewritten under their own IDs (or kept and superseded with a clear link),
+  without "fast", "scalable" or "user-friendly". The 3-second POS timeout from the notes is used
+  with its source as a condition or upper bound, and no other latency number is invented. The
+  admin console is treated as an internal tool, so interaction capability is walked for support
+  agents, with the two-week onboarding time as a baseline. The Kubernetes constraint stays Type C.
+  New IDs start at R-005.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: messy-ddl-er-request
+expected_outcome: |
+  requirements/models/domain-model.md uses an erDiagram because the user asked for one, with
+  business entity names from the glossary (not table names like points_txn) and business
+  attributes only: no surrogate keys, foreign keys or audit columns. The technical tables
+  (outbox_events, flyway_schema_history) are left out and the output says so. The numeric
+  status codes are not presented as business states; their meaning is an open question.
+context:
+  scaffold_script: place-files.sh

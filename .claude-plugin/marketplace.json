@@ -1,0 +1,30 @@
+{
+  "name": "hairspring",
+  "owner": {
+    "name": "Carl Rollon"
+  },
+  "description": "re-skills: requirements engineering skills for AI-assisted engineering teams.",
+  "plugins": [
+    {
+      "name": "re-skills",
+      "source": "./",
+      "description": "Requirements engineering for engineering teams, aligned with the IREB CPRE Foundation Level: 35 skills that scope, elicit, specify, validate, trace and manage requirements as reviewable files (EARS requirements, context diagrams, review findings, trace matrices), plus deterministic linters for CI.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "keywords": [
+        "requirements",
+        "requirements-engineering",
+        "ireb",
+        "cpre",
+        "ears",
+        "user-stories",
+        "traceability",
+        "nfr",
+        "quality-requirements",
+        "spec-driven-development",
+        "openspec"
+      ],
+      "category": "development"
+    }
+  ]
+}

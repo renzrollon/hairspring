@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-tech-mandates-and-vague
+expected_outcome: |
+  Go, microservices and Kafka are classified as solutions in disguise and routed to an architect
+  with a question about the need behind them; none of them is written to requirements.csv.
+  PostgreSQL is a constraint because platform policy PLT-7 mandates it. "World-class" and "will be
+  great" are not classified as requirements. The skill explains that requirements.csv rows are
+  written by requirement-phrasing, not by the classifier.

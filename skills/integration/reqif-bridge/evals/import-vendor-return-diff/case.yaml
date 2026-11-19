@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: import-vendor-return-diff
+expected_outcome: |
+  The skill builds a requirement-level diff and saves it under requirements/exports/. It reports the
+  R-041 text change (expiry date added) as a change to an agreed requirement that needs a decision
+  or change request, R-085's Status "Accepted" as an invalid value that is not written, the
+  vendor's new requirement as a new object needing a decision and a fresh ID, R-040 as missing from
+  the file but not deleted, the Vendor comment attribute as not imported, and the XHTML text as
+  flattened. Nothing outside the reviewed decisions is written to requirements.csv.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: loyalty-api-walkthrough
+expected_outcome: |
+  requirements/quality-requirements.md walks all nine ISO/IEC 25010:2023 characteristics with a
+  decision and reason each, and holds measurable quality requirements with metric, target,
+  condition and measurement method. Targets nobody gave are TBD with open questions and owners;
+  the 9,000 purchases per minute figure is a baseline in the condition, not the target. Some
+  requirements are tagged as architecture drivers. requirements/requirements.csv gets matching
+  Type Q draft rows.

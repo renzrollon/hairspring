@@ -1,0 +1,94 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install re-lint
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "packages/re-lint[dev]"
+
+      - name: Unit tests
+        run: pytest packages/re-lint/tests tests/
+
+      - name: Vendored scripts are in sync
+        run: python tools/vendor_scripts.py --check --strict
+
+      - name: Catalogue follows the authoring guide
+        run: python tools/validate_catalogue.py
+
+      - name: Generated catalogue docs are current
+        run: python tools/validate_catalogue.py --check-docs
+
+      - name: Sample project passes its own gates
+        run: |
+          re-lint check --workspace examples/loyalty-points/requirements --fail-on error --format github
+          pytest -q examples/loyalty-points/tests
+          re-lint trace build --repo examples/loyalty-points --workspace examples/loyalty-points/requirements --no-git --out "$RUNNER_TEMP/trace"
+          re-lint trace gaps --workspace examples/loyalty-points/requirements --trace "$RUNNER_TEMP/trace/trace.csv"
+
+  packaging:
+    name: Packaging and spec conformance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Codex sidecar files are current
+        run: python tools/gen_agent_files.py --check
+
+      - name: Skills conform to the agentskills.io spec (extension keys stripped)
+        run: |
+          pip install "git+https://github.com/agentskills/agentskills.git#subdirectory=skills-ref"
+          python tools/build_dist.py --validate --require-validator
+
+      - name: Installer works for every agent
+        run: |
+          tmp="$(mktemp -d)"
+          python install.py --agent all --project "$tmp"
+          for d in .claude/skills .agents/skills .github/skills .cursor/skills; do
+            test -f "$tmp/$d/requirement-phrasing/SKILL.md"
+            test ! -d "$tmp/$d/requirement-phrasing/evals"
+          done
+          python install.py --agent all --project "$tmp" --uninstall
+          test -z "$(ls -A "$tmp/.claude/skills")"
+
+      - name: Plugin manifests are valid JSON and list existing folders
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          for p in [".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+                    ".cursor-plugin/plugin.json", ".cursor-plugin/marketplace.json"]:
+              data = json.loads(pathlib.Path(p).read_text())
+              for s in data.get("skills", []):
+                  assert pathlib.Path(s).is_dir(), f"{p}: {s} does not exist"
+          print("manifests ok")
+          PY

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: pr-diff-review
+expected_outcome: |
+  The review scope is the diff against HEAD: R-041 (changed), R-042 and R-043 (added) and the
+  deleted R-003. It flags the weak word added to agreed R-041, the missing error case in R-042, the
+  ambiguous 'recent' in R-043, and the deletion of R-003 as a traceability finding (rows are
+  withdrawn, not deleted). Unchanged rows R-001, R-020 and R-040 get no single-requirement
+  findings. No requirement is edited.
+context:
+  scaffold_script: place-files.sh

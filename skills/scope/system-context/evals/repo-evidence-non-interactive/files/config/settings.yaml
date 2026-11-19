@@ -1,0 +1,12 @@
+pos:
+  purchase_topic: tillpoint.purchases.v2
+crm:
+  base_url: https://crm.relay.example/api
+fraud:
+  score_url: https://fraud.internal.example/score
+  decisions_topic: fraud.decisions
+notify:
+  provider_url: https://notify.example/v1/messages
+warehouse:
+  sftp_host: dwh-sftp.internal.example
+  export_path: /finance/points-liability/

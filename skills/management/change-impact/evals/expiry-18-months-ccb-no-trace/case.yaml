@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: expiry-18-months-ccb-no-trace
+expected_outcome: |
+  There is no trace matrix, so the skill searches the repository (IDs and terms such as expiry, 12,
+  EXPIRY_MONTHS), finds src/loyalty/expiry.py and tests/test_expiry.py, and states that coverage
+  is search-based and lower. The CR is addressed to the Change Control Board named in README.md
+  and schema.json. It flags that Finance (SH-03 Grace Lim) requires 12 months, registers or
+  recommends registering the conflict (conflict-detector) and recommends conflict-to-decision. No
+  hours are invented. requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

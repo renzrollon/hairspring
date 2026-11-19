@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-046,Q,"WHEN the POS sends a voucher validation request, the loyalty service shall respond within TBD ms.",I-02 (Arjun Pillai SH-02),must,agreed,Checkout must not get slower (SH-02); target value is open question Q4 to SH-02.
+R-047,F,"WHEN the POS reports that a voucher was applied, the loyalty service shall quickly mark the voucher as Applied.",S-02 (TillPoint interface spec v2.1),must,agreed,A voucher must not be applied twice.
+R-048,F,"WHEN a support agent cancels a voucher in the admin console, the loyalty service shall return the voucher points to the member's posted balance.",SH-06 Daniel Ng 2026-10-29,should,draft,Support needs a way to undo a voucher issued by mistake.
+R-049,F,"WHEN the loyalty service receives a voucher validation request for a voucher in state Expired, the loyalty service shall return the reason Expired to the POS.",S-02 (TillPoint interface spec v2.1),must,agreed,Cashiers need to tell the member why a voucher was refused.

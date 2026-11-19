@@ -1,0 +1,5 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-062,F,"WHILE a points transaction is Pending, WHEN the POS sends a return for its purchase, the loyalty service shall reverse the transaction without changing the member's redeemable balance.",S-01,TBD,draft,Returns reverse the original points.
+R-063,F,"WHILE a points transaction is Posted, WHEN the POS sends a return for its purchase, the loyalty service shall deduct the transaction's points from the member's redeemable balance.",S-01,TBD,draft,Returns reverse the original points.
+R-065,F,"WHEN a support agent submits an adjustment, the loyalty service shall require a reason code.",SH-06 2026-10-29,must,draft,Adjustments must be explainable in audits.
+R-066,F,"IF an adjustment exceeds 5,000 points, THEN the loyalty service shall hold it until a second support agent approves it.",SH-06 2026-10-29,must,draft,Maker-checker for large adjustments.

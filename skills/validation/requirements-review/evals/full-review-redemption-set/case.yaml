@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: full-review-redemption-set
+expected_outcome: |
+  A review file requirements/reviews/review-<date>.md is written from the template: lint result in
+  the header, three perspectives named, adequacy and understandability graded for every row,
+  set-level checks, and findings F-nn with criterion, severity, location and proposed fix. It finds
+  the R-045/R-040 inconsistency, the weak word in R-043 (fix with TBD, no invented number), the
+  PostgreSQL design decision in R-046 and the incomplete R-047. requirements/requirements.csv is
+  unchanged.
+context:
+  scaffold_script: place-files.sh

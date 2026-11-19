@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: messy-chargeback-one-diagram
+expected_outcome: |
+  The skill writes a flow file whose main flow respects the readability rule (at most 15 action
+  and decision nodes, at most 3 decisions) by moving long exception paths into separate
+  exception flows, and explains this against the one-diagram request (or records the deliberate
+  overrun in the readability check). The card chargeback becomes its own exception flow. Values
+  missing from the notes, such as how long the POS queues returns offline, are TBD with open
+  questions.
+context:
+  scaffold_script: place-files.sh

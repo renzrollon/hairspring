@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: arc42-chapter-agreed-only
+expected_outcome: |
+  requirements/spec/spec.md uses the arc42 numbering (1, 2, 3, 10, 12) and contains blocks only
+  for the agreed requirements. With no context.md, quality-requirements.md or constraints.csv in
+  the workspace, the context section is a gap line naming system-context, all quality
+  requirements sit in section 10 with an open issue recommending quality-requirements, and the
+  constraint sits in section 2. The agreed requirement with TBD in its text is an open issue.
+  Nothing is invented.
+context:
+  scaffold_script: place-files.sh

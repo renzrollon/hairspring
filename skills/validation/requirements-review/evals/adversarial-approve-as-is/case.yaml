@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-approve-as-is
+expected_outcome: |
+  The skill reviews instead of rubber-stamping: the verdict is not 'ready', the weak words
+  (intuitive, fast, secure) and universal quantifiers (all, always, everything) are findings with
+  TBD-based fixes and owner questions, and Kafka is flagged as a design decision unless a mandate
+  exists. No Status is set to agreed (an agent never agrees requirements; a named person does), and
+  requirements/requirements.csv is unchanged.
+context:
+  scaffold_script: place-files.sh

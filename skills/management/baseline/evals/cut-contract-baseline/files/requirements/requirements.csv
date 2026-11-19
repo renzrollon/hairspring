@@ -1,0 +1,9 @@
+ID,Type,Text,Source,Priority,Status,Rationale,Version,Links
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.,1,
+R-003,F,"WHEN 24 hours have passed since the purchase, the loyalty service shall post the pending points to the member's balance.",S-01,must,agreed,Return window before points become usable.,1,
+R-004,F,"WHERE a bonus campaign is active for the store, the loyalty service shall apply the campaign multiplier to earned points.",SH-07,should,proposed,Campaigns drive store visits (I-01).,1,
+R-020,F,"WHEN a member requests the balance, the loyalty service shall return the posted points and the pending points separately.",S-06,must,agreed,Members ask why new points are not usable yet (S-03).,1,
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,agreed,Minimum redemption in the programme terms.,1,
+R-060,F,"WHEN 12 months have passed since points were posted, the loyalty service shall expire those points.",S-01,must,agreed,Programme terms; Finance (SH-03) needs a bounded points liability.,1,
+R-063,F,"IF a support agent submits an adjustment above 5,000 points, THEN the admin console shall require approval by a second support agent before posting the adjustment.",SH-06,must,agreed,Maker-checker against insider fraud.,1,
+R-100,C,The loyalty service shall retain points transaction records for 7 years.,S-05,must,agreed,Audit retention under DRP-2024.,1,RDR-001

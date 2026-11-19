@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: voucher-draft-with-defects
+expected_outcome: |
+  The skill reports that Reissued cannot be reached and that Suspended is a dead end, and does
+  not silently delete either: each gets a sourced fix or an open question. The void-sale
+  transition from Applied back to Issued is added with I-02 as its source. The file ends with a
+  state x event matrix covering every state and a recorded completeness check.
+context:
+  scaffold_script: place-files.sh

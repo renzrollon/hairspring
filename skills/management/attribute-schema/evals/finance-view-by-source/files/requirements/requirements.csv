@@ -1,0 +1,10 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-002,F,"WHEN the loyalty service creates a pending points transaction, the loyalty service shall award 1 point per SGD 1 of the purchase amount, rounded down per transaction.",S-01,must,implemented,Earning rule in the programme terms.
+R-020,F,"WHEN a member requests the balance, the loyalty service shall return the posted points and the pending points separately.",S-06,must,agreed,Members ask why new points are not usable yet (S-03).
+R-041,F,"IF a member requests a redemption of fewer than 500 posted points, THEN the loyalty service shall reject the redemption with the reason ""below minimum"".",S-01,must,implemented,Minimum redemption in the programme terms.
+R-060,F,"WHEN 12 months have passed since points were posted, the loyalty service shall expire those points.",S-01,must,agreed,Programme terms; Finance needs a bounded points liability.
+R-061,F,"WHEN posted points are within TBD days of expiry, the loyalty service shall send the member an expiry reminder through the notification provider.","SH-07, S-01",should,proposed,Reminders reduce complaints about lost points (S-03).
+R-062,F,"WHEN a support agent adjusts points, the admin console shall require a reason code.",S-03,must,agreed,Adjustments without reasons cannot be audited.
+R-064,F,The loyalty service shall let members transfer expired points back to their balance.,S-01,could,withdrawn,Contradicts the expiry rule (RDR-004).
+R-100,C,The loyalty service shall retain points transaction records for 7 years.,S-05,must,agreed,Audit retention under DRP-2024.
+R-103,C,The loyalty service shall pseudonymise member identifiers in transaction records older than TBD months.,S-05 (DRP-2024 §4.2),must,proposed,PDPA minimisation while keeping the 7-year audit trail (RDR-001).

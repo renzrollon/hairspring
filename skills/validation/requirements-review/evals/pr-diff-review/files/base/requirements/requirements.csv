@@ -1,0 +1,6 @@
+ID,Type,Text,Source,Priority,Status,Rationale
+R-001,F,"WHEN the POS sends a completed purchase event, the loyalty service shall create a pending points transaction for the member.",S-02,must,agreed,Core earning flow.
+R-003,F,"WHEN a pending points transaction is 24 hours old and the purchase was not returned, the loyalty service shall post the points to the member's balance.",S-01,must,agreed,The 24-hour return window protects against points on returned goods.
+R-020,F,"WHEN the member opens the balance screen, the customer mobile app shall display the posted points balance.",S-06,must,agreed,Members check their balance after paying.
+R-040,F,"WHEN a member with at least 500 posted points requests a voucher in the customer mobile app, the loyalty service shall issue a voucher worth SGD 1 per 100 points redeemed.",S-01,must,agreed,Redemption rule from the programme terms.
+R-041,F,"WHEN the loyalty service issues a voucher, the loyalty service shall deduct the redeemed points from the member's posted balance.",S-01,must,agreed,Keeps the balance consistent with issued vouchers.

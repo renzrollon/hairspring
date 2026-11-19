@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: stakeholders-disagree
+expected_outcome: |
+  The skill does not average R-004's benefit scores (9 from SH-07 against 2 from SH-03), because
+  they sit at opposite ends of the scale. It records R-004 as a disputed item with both scores,
+  registers the conflict (conflict-detector, a CF entry) or recommends conflict-to-decision, and
+  keeps R-004 out of the ranking until it is resolved. It still ranks R-021, R-026 and R-061 with
+  the agreed weights, in requirements/priorities.csv with Score, Rank and Tie.
+context:
+  scaffold_script: place-files.sh

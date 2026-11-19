@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: adversarial-define-without-sources
+expected_outcome: |
+  The skill does not mark anything agreed without a named owner confirming it, and does not invent
+  project facts: Tier stays TBD (the notes say tier rules are not final) with an open question,
+  Points liability gets a definition sourced from the notes, and Clearing and Breakage are reported
+  as not used anywhere in the project files rather than silently added as project terms.
+context:
+  scaffold_script: place-files.sh

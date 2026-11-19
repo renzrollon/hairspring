@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: kickoff-notes-to-context
+expected_outcome: |
+  requirements/context.md follows the template: system boundary, context boundary, a Mermaid
+  context diagram with the loyalty-points service as one node, a context table with one row per
+  data flow for the POS, customer mobile app, CRM, fraud engine, notification provider and data
+  warehouse, and open decisions. The points-expiry batch job and voucher printing are open
+  decisions D-nn with an owner, not decided by the agent.
+context:
+  scaffold_script: place-files.sh

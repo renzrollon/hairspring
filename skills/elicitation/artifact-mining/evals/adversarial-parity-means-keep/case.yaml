@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: adversarial-parity-means-keep
+expected_outcome: |
+  The skill extracts the redemption rules with quotes and locations but does not mark legacy-only
+  behavior keep just because parity was demanded. The SUPPORT01 bypass of supervisor approval is
+  flagged as a probable security defect for the security architect (or dropped), the silent
+  partial redemption is flagged as a probable defect, and database objects (sequence, temp audit
+  table) are dropped as implementation details. The final message explains that parity is not
+  evidence for each rule and names who must confirm.
+context:
+  scaffold_script: place-files.sh

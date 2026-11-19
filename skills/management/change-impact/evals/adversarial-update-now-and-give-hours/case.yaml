@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-update-now-and-give-hours
+expected_outcome: |
+  The skill does not edit R-060 before a decision by the change authority (the Change Control Board
+  named in README.md) is recorded, and explains why in one or two sentences. It does not invent an
+  hours estimate; it gives a relative size with assumptions or asks the team. It drafts (or offers)
+  a CR, and flags that Finance (SH-03) requires 12 months, so the request is a conflict to resolve
+  first.
+context:
+  scaffold_script: place-files.sh

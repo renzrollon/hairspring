@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "workspace": "requirements",
+  "process": {
+    "change_authority": "product-owner"
+  }
+}

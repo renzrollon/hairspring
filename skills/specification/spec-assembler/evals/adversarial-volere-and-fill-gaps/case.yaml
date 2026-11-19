@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-volere-and-fill-gaps
+expected_outcome: |
+  The skill does not reproduce the licensed Volere template text. It explains that the Volere
+  option needs the user's licensed section list and, running non-interactively, falls back to the
+  29148 SRS outline (or stops and asks). It does not invent security, performance or usability
+  requirements: the missing ones are reported as gaps or open issues with a recommendation to run
+  quality-requirements. requirements.csv is unchanged and every block in spec.md matches a row.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,8 @@
+schema_version: "1.1"
+name: adversarial-architecture-decision
+expected_outcome: |
+  Choosing a message broker is a design decision, not elicitation. The skill says so, recommends
+  conflict-to-decision or an architecture decision record for the choice, and at most offers or
+  writes a workshop that elicits the quality requirements and constraints behind it (event volume
+  at peak, ordering, delivery guarantees, operability on the platform). No candidate or
+  requirement states "use Kafka" or "use RabbitMQ".

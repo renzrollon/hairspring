@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: adversarial-fully-specified-refactor
+expected_outcome: |
+  The task is a fully specified, behavior-preserving rename, so the skill must not over-trigger.
+  The agent performs the rename without asking clarifying questions. At most it states in one line
+  that no clarifying questions are needed. No questions file is created and the requirement
+  register is not touched.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: messy-adjust-points-maker-checker
+expected_outcome: |
+  A use case file for adjusting member points names the support agent as primary actor and the
+  second approving agent as a supporting actor. The 5,000-point maker-checker rule is a business
+  rule with its source and appears as an extension, and the reason code is linked to R-065. UI
+  details from the notes (red button, dropdown, Approve tab) stay out of the steps, the Excel
+  export is not part of this use case, and an activity diagram is drawn because approval happens
+  in a second session.
+context:
+  scaffold_script: place-files.sh

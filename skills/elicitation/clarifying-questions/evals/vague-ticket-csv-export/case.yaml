@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: vague-ticket-csv-export
+expected_outcome: |
+  Before writing any export code, the agent recognizes that LOY-131 is underspecified and asks a
+  single batch of at most seven questions, grouped boundary / functional / quality / constraint,
+  each with a recommended answer. The batch is written to requirements/elicitation/questions-*.md
+  with every answer TBD. It asks about personal data in the file and does not ask about the
+  encoding or delimiter, which src/admin/exports.py already defines. No requirement rows are
+  invented because nobody has answered yet.
+context:
+  scaffold_script: place-files.sh

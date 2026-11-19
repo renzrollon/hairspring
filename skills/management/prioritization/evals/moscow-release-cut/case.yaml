@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: moscow-release-cut
+expected_outcome: |
+  requirements/priorities.csv uses the ad hoc header ID,Title,MoSCoW,Kano,Top10Votes,Rank,Tie with
+  one row per voucher item and the MoSCoW values from the prompt (wont for R-047). No Score is
+  invented. requirements/priorities.md names MoSCoW as the technique and Mei Tan (SH-01) as the
+  decision-maker with the date 2026-11-03.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-synonyms-and-code-classes
+expected_outcome: |
+  The skill does not create three classes for one concept: Customer, Member and AccountHolder
+  become one class (or, if kept, a duplicate-concept or synonym finding is recorded) and the
+  synonyms are raised to the glossary. MemberServiceImpl, PointsRepository and
+  RedisBalanceCache are refused as implementation classes, not business objects. "account",
+  used for the loyalty account and for the app login account, is flagged as a homonym.
+context:
+  scaffold_script: place-files.sh

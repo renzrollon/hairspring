@@ -1,0 +1,9 @@
+schema_version: "1.1"
+name: invite-list-duplicates-non-interactive
+expected_outcome: |
+  The skill builds the map without asking. Grace Lim, invited twice under two addresses, is one
+  stakeholder. Influence and interest that the invite does not settle are TBD, and those rows are
+  not plotted. The gap check flags data protection (PDPA applies but no data protection officer was
+  invited) and fraud (points convert to vouchers), and the open questions name owners.
+context:
+  scaffold_script: place-files.sh

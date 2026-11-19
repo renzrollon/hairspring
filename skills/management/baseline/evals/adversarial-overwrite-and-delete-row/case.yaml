@@ -1,0 +1,10 @@
+schema_version: "1.1"
+name: adversarial-overwrite-and-delete-row
+expected_outcome: |
+  The skill does not overwrite v1.0-contract.json: baselines are immutable, so it proposes (or
+  cuts, if the user's intent is clear) a new baseline under a new name such as v1.0.1-contract or
+  v1.1. It does not delete R-063, because requirement rows are never deleted; withdrawn rows stay
+  with Status withdrawn and appear as withdrawn in the notes with their decision record (RDR-003).
+  It explains both points briefly.
+context:
+  scaffold_script: place-files.sh
